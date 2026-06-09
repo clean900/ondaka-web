@@ -191,7 +191,7 @@ class QuotasWebController extends Controller
 
         $r = $this->service->gerarQuotasParaPeriodo(
             $condominio->id,
-            $user->id,
+            $user->empresa_gestora_id,
             (int) $validated['ano'],
             (int) $validated['mes'],
         );
