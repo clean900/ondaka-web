@@ -116,6 +116,8 @@ class FeatureGate
      */
     public static function allActive(Model $owner): array
     {
+        $owner = self::resolverEmpresaGestora($owner);
+
         return FeatureSubscription::with('feature')
             ->where('owner_type', get_class($owner))
             ->where('owner_id', $owner->getKey())
@@ -155,6 +157,9 @@ class FeatureGate
             return null;
         }
 
+        // Add-ons sao por Empresa Gestora: normaliza qualquer owner (condominio/user) para a empresa
+        $owner = self::resolverEmpresaGestora($owner);
+
         return FeatureSubscription::where('feature_id', $feature->id)
             ->where('owner_type', get_class($owner))
             ->where('owner_id', $owner->getKey())
@@ -169,6 +174,28 @@ class FeatureGate
     public static function exists(string $featureSlug): bool
     {
         return self::getFeatureBySlug($featureSlug) !== null;
+    }
+
+    /**
+     * Normaliza o owner para a Empresa Gestora.
+     * Add-ons da Loja sao subscritos pela gestora; condominios e users da
+     * gestora herdam o acesso. Resolve via empresa_gestora_id quando existe.
+     */
+    protected static function resolverEmpresaGestora(Model $owner): Model
+    {
+        if ($owner instanceof \App\Domains\Empresa\Models\EmpresaGestora) {
+            return $owner;
+        }
+
+        $empresaId = $owner->empresa_gestora_id ?? null;
+        if ($empresaId) {
+            $empresa = \App\Domains\Empresa\Models\EmpresaGestora::find($empresaId);
+            if ($empresa) {
+                return $empresa;
+            }
+        }
+
+        return $owner;
     }
 
     /**
