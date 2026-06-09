@@ -8,6 +8,7 @@ use App\Domains\Condominio\Models\Condominio;
 use App\Domains\Facturacao\Models\CondominioFacturacaoConfig;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
+use App\Domains\Financas\Services\SincronizarContaBancariaService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -98,6 +99,9 @@ class FacturacaoConfigController extends Controller
             ['empresa_gestora_id' => $condominio->empresa_gestora_id]
         );
         $config->update($validated);
+
+        // Sincroniza para contas_bancarias (fonte unica web+mobile) automaticamente
+        app(SincronizarContaBancariaService::class)->sincronizarDeConfig($config->fresh());
 
         return back()->with('flash.success', 'Coordenadas bancárias actualizadas.');
     }

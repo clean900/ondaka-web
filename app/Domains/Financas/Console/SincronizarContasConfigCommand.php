@@ -14,7 +14,7 @@ class SincronizarContasConfigCommand extends Command
 
     protected $description = 'Sincroniza os dados bancarios de condominio_facturacao_config para contas_bancarias (fonte unica para web e mobile).';
 
-    public function handle(): int
+    public function handle(\App\Domains\Financas\Services\SincronizarContaBancariaService $service): int
     {
         $dryRun = (bool) $this->option('dry-run');
         $configs = CondominioFacturacaoConfig::query()
@@ -23,65 +23,37 @@ class SincronizarContasConfigCommand extends Command
             ->get();
 
         $criadas = 0;
-        $jaExistiam = 0;
+        $completadas = 0;
+        $inalteradas = 0;
         $semDados = 0;
 
         foreach ($configs as $config) {
-            $banco = trim((string) $config->banco_nome);
-            $iban = trim((string) $config->iban);
-            if ($banco === '' || $iban === '') {
-                $semDados++;
+            if ($dryRun) {
+                $this->line("  Condominio {$config->condominio_id}: avaliaria (IBAN {$config->iban}) [DRY-RUN]");
                 continue;
             }
 
-            $numeroConta = trim((string) $config->numero_conta);
-            $ibanNorm = $this->normalizarIban($iban);
-            $existe = ContaBancaria::where('condominio_id', $config->condominio_id)
-                ->get()
-                ->first(fn ($c) => $this->normalizarIban((string) $c->iban) === $ibanNorm);
-
-            if ($existe) {
-                // Completar dados em falta (ex.: numero_conta) sem duplicar
-                if (($existe->numero_conta === null || $existe->numero_conta === '') && $numeroConta !== '') {
-                    $this->line("  Condominio {$config->condominio_id}: completar numero_conta na conta #{$existe->id}".($dryRun ? ' [DRY-RUN]' : ''));
-                    if (! $dryRun) {
-                        $existe->numero_conta = $numeroConta;
-                        $existe->save();
-                    }
-                    $jaExistiam++;
-                } else {
-                    $jaExistiam++;
-                    $this->line("  Condominio {$config->condominio_id}: ja tem conta (#{$existe->id}) completa para IBAN {$iban}");
-                }
-                continue;
-            }
-
-            $this->line("  Condominio {$config->condominio_id}: criar conta '{$banco}' / {$iban}".($dryRun ? ' [DRY-RUN]' : ''));
-
-            if (! $dryRun) {
-                ContaBancaria::create([
-                    'condominio_id' => $config->condominio_id,
-                    'nome' => $config->titular_conta ?: 'Conta do condominio',
-                    'banco' => $banco,
-                    'iban' => $iban,
-                    'numero_conta' => $numeroConta !== '' ? $numeroConta : null,
-                    'tipo' => 'corrente',
-                    'moeda' => 'AOA',
-                    'activa' => true,
-                    'principal' => true,
-                    'aceita_manual' => true,
-                    'aceita_proxypay' => false,
-                ]);
-                $criadas++;
+            $resultado = $service->sincronizarDeConfig($config);
+            switch ($resultado) {
+                case 'criada':
+                    $criadas++;
+                    $this->line("  Condominio {$config->condominio_id}: conta criada");
+                    break;
+                case 'completada':
+                    $completadas++;
+                    $this->line("  Condominio {$config->condominio_id}: conta completada (numero_conta)");
+                    break;
+                case 'inalterada':
+                    $inalteradas++;
+                    $this->line("  Condominio {$config->condominio_id}: ja completa");
+                    break;
+                default:
+                    $semDados++;
             }
         }
 
-        $this->info("Concluido. Criadas: {$criadas} | Ja existiam: {$jaExistiam} | Config sem dados: {$semDados}");
+        $this->info("Concluido. Criadas: {$criadas} | Completadas: {$completadas} | Inalteradas: {$inalteradas} | Sem dados: {$semDados}");
 
         return self::SUCCESS;
-    }
-    private function normalizarIban(string $iban): string
-    {
-        return strtoupper(preg_replace('/[^A-Za-z0-9]/', '', $iban) ?? '');
     }
 }
