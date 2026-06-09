@@ -79,3 +79,7 @@ PYEOF
 /public/build_*
 *.bak.*
 **/*.bak.*
+error_log
+
+APP-OLD/
+APP-OLD/
