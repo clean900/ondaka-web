@@ -376,6 +376,18 @@ class PagamentoCondominoApiController extends Controller
         $config = \App\Domains\Facturacao\Models\CondominioFacturacaoConfig::where('condominio_id', $fraccao->condominio_id)
             ->first();
 
+        // Fallback: sem contas na tabela mas config tem dados bancarios -> usar a config
+        if ($contas->isEmpty() && $config && $config->iban) {
+            $contas = collect([[
+                'id' => null,
+                'nome' => $config->titular_conta ?: 'Conta do condominio',
+                'banco' => $config->banco_nome,
+                'iban' => $config->iban,
+                'instrucoes_pagamento' => null,
+                'principal' => true,
+            ]])->values();
+        }
+
         return response()->json([
             'data' => [
                 'contas' => $contas,
