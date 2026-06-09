@@ -21,6 +21,7 @@ class ContaBancaria extends Model
         'nome',
         'banco',
         'iban',
+        'numero_conta',
         'tipo',
         'moeda',
         'saldo_inicial',

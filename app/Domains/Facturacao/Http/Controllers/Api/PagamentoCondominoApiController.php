@@ -361,12 +361,13 @@ class PagamentoCondominoApiController extends Controller
             ->where('aceita_manual', true)
             ->orderByDesc('principal')
             ->orderBy('id')
-            ->get(['id', 'nome', 'banco', 'iban', 'instrucoes_pagamento', 'principal'])
+            ->get(['id', 'nome', 'banco', 'iban', 'numero_conta', 'instrucoes_pagamento', 'principal'])
             ->map(fn ($c) => [
                 'id' => $c->id,
                 'nome' => $c->nome,
                 'banco' => $c->banco,
                 'iban' => $c->iban,
+                'numero_conta' => $c->numero_conta,
                 'instrucoes_pagamento' => $c->instrucoes_pagamento,
                 'principal' => (bool) $c->principal,
             ])

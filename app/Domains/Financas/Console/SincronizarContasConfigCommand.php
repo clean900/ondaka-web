@@ -34,14 +34,25 @@ class SincronizarContasConfigCommand extends Command
                 continue;
             }
 
+            $numeroConta = trim((string) $config->numero_conta);
             $ibanNorm = $this->normalizarIban($iban);
             $existe = ContaBancaria::where('condominio_id', $config->condominio_id)
                 ->get()
                 ->first(fn ($c) => $this->normalizarIban((string) $c->iban) === $ibanNorm);
 
             if ($existe) {
-                $jaExistiam++;
-                $this->line("  Condominio {$config->condominio_id}: ja tem conta (#{$existe->id}) para IBAN {$iban}");
+                // Completar dados em falta (ex.: numero_conta) sem duplicar
+                if (($existe->numero_conta === null || $existe->numero_conta === '') && $numeroConta !== '') {
+                    $this->line("  Condominio {$config->condominio_id}: completar numero_conta na conta #{$existe->id}".($dryRun ? ' [DRY-RUN]' : ''));
+                    if (! $dryRun) {
+                        $existe->numero_conta = $numeroConta;
+                        $existe->save();
+                    }
+                    $jaExistiam++;
+                } else {
+                    $jaExistiam++;
+                    $this->line("  Condominio {$config->condominio_id}: ja tem conta (#{$existe->id}) completa para IBAN {$iban}");
+                }
                 continue;
             }
 
@@ -53,6 +64,7 @@ class SincronizarContasConfigCommand extends Command
                     'nome' => $config->titular_conta ?: 'Conta do condominio',
                     'banco' => $banco,
                     'iban' => $iban,
+                    'numero_conta' => $numeroConta !== '' ? $numeroConta : null,
                     'tipo' => 'corrente',
                     'moeda' => 'AOA',
                     'activa' => true,
