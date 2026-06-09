@@ -416,6 +416,7 @@ Route::middleware(['auth', 'verified', '2fa'])->group(function () {
             Route::get('/', [\App\Domains\Facturacao\Http\Controllers\Web\PagamentosWebController::class, 'index'])->name('index');
             Route::get('/{id}', [\App\Domains\Facturacao\Http\Controllers\Web\PagamentosWebController::class, 'show'])->whereNumber('id')->name('show');
             Route::get('/{id}/confirmacao-pdf', [\App\Domains\Facturacao\Http\Controllers\Web\PagamentosWebController::class, 'confirmacaoPdf'])->whereNumber('id')->name('confirmacao-pdf');
+            Route::get('/{id}/comprovativo', [\App\Domains\Facturacao\Http\Controllers\Web\PagamentosWebController::class, 'comprovativo'])->whereNumber('id')->name('ver-comprovativo');
             Route::post('/{id}/confirmar', [\App\Domains\Facturacao\Http\Controllers\Web\PagamentosWebController::class, 'confirmar'])->whereNumber('id')->name('confirmar');
             Route::post('/{id}/rejeitar', [\App\Domains\Facturacao\Http\Controllers\Web\PagamentosWebController::class, 'rejeitar'])->whereNumber('id')->name('rejeitar');
             Route::post('/{id}/devolver', [\App\Domains\Facturacao\Http\Controllers\Web\PagamentosWebController::class, 'devolver'])->whereNumber('id')->name('devolver');
