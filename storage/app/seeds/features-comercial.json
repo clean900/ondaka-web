@@ -1,0 +1,165 @@
+{
+  "sms_sender_id": {
+    "tagline": "SMS com a identidade do condomínio, não do operador.",
+    "problema": "Quando o condomínio envia SMS aos condóminos — avisos, lembretes de quotas, notificações de assembleia — o nome que aparece no telemóvel é genérico ou comercial. Esta falta de identidade reduz a taxa de abertura, gera desconfiança nos destinatários, e enfraquece a comunicação institucional do condomínio.",
+    "solucao": "Configure um Sender ID personalizado de até 11 caracteres com o nome do condomínio. Todos os SMS enviados pela plataforma passam a aparecer com essa identidade, transmitindo profissionalismo e aumentando a credibilidade da comunicação.",
+    "beneficios": [
+      {"icone": "shield-check", "titulo": "Identidade profissional", "descricao": "Os condóminos reconhecem imediatamente que o SMS vem do condomínio, não de um número desconhecido."},
+      {"icone": "trending-up", "titulo": "Maior taxa de leitura", "descricao": "SMS com identidade clara são lidos com muito mais frequência do que mensagens de remetentes genéricos."},
+      {"icone": "ban", "titulo": "Combate à fraude", "descricao": "Reduz drasticamente o risco de condóminos confundirem comunicações oficiais com tentativas de phishing."},
+      {"icone": "settings", "titulo": "Configuração única", "descricao": "Configure uma vez ao nível da empresa gestora. Todos os SMS futuros usam automaticamente este identificador."}
+    ],
+    "demo_passos": [
+      {"icone": "edit", "label_curto": "Configurar", "label_longo": "Defina o nome em /admin/sms/config"},
+      {"icone": "send", "label_curto": "Enviar SMS", "label_longo": "Plataforma envia comunicação ao condómino"},
+      {"icone": "smartphone", "label_curto": "Chega identificado", "label_longo": "Condómino recebe com o nome do condomínio"}
+    ],
+    "testemunho": {
+      "texto": "A taxa de resposta às nossas comunicações aumentou significativamente desde que passámos a usar um Sender ID personalizado. Os condóminos sabem imediatamente que a mensagem é oficial.",
+      "autor": "Administrador de condomínio, Talatona"
+    },
+    "faq": [
+      {"pergunta": "Quantos caracteres pode ter o Sender ID?", "resposta": "Até 11 caracteres alfanuméricos. Recomendamos usar uma abreviação clara do nome do condomínio (ex: \"RES TALATONA\")."},
+      {"pergunta": "Posso alterar o Sender ID depois de configurado?", "resposta": "Sim. A alteração é imediata para todos os SMS enviados após a mudança. SMS já enviados mantêm o identificador anterior."},
+      {"pergunta": "Esta funcionalidade tem custo adicional?", "resposta": "Não. O Sender ID personalizado está incluído na plataforma sem custo extra. Cada SMS continua a ser cobrado ao preço habitual."},
+      {"pergunta": "É preciso aprovação prévia?", "resposta": "A equipa ONDAKA valida o Sender ID antes de ser activado, para garantir conformidade com as regras das operadoras angolanas. Aprovação típica em 24-48 horas."}
+    ]
+  },
+  "sms_pack_extra": {
+    "tagline": "Saldo adicional de SMS quando precisar de comunicar mais.",
+    "problema": "Há meses em que a comunicação por SMS dispara: convocatórias de assembleia, lembretes de quotas em atraso, avisos de obras, alertas de emergência. Quando o saldo mensal incluído na subscrição se esgota, as comunicações urgentes ficam comprometidas, e o condomínio perde a capacidade de informar a tempo.",
+    "solucao": "Adquira pacotes extra de SMS sempre que necessário, com créditos que não expiram e ficam disponíveis para uso imediato. Pague apenas pelos pacotes que comprar, sem compromisso de renovação automática.",
+    "beneficios": [
+      {"icone": "package", "titulo": "Pacotes flexíveis", "descricao": "Escolha o tamanho do pacote conforme a necessidade do mês — de pacotes pequenos para emergências a pacotes grandes para campanhas."},
+      {"icone": "clock", "titulo": "Créditos sem prazo", "descricao": "Os SMS comprados não expiram. Acumulam-se ao saldo existente e ficam disponíveis para uso futuro."},
+      {"icone": "zap", "titulo": "Activação imediata", "descricao": "Após pagamento ProxyPay confirmado, o saldo é creditado automaticamente. Sem espera, sem intervenção manual."},
+      {"icone": "chart-bar", "titulo": "Histórico transparente", "descricao": "Consulte todos os pacotes comprados, datas, valores pagos e SMS utilizados a partir do painel de administração."},
+      {"icone": "shield-check", "titulo": "Pagamento seguro", "descricao": "Compra via ProxyPay (Multicaixa Express ou Referência), com factura emitida automaticamente para o condomínio."}
+    ],
+    "demo_passos": [
+      {"icone": "store", "label_curto": "Escolher pacote", "label_longo": "Selecione o tamanho do pacote em /admin/sms"},
+      {"icone": "credit-card", "label_curto": "Pagar", "label_longo": "Pagamento imediato via ProxyPay"},
+      {"icone": "check-circle", "label_curto": "Saldo creditado", "label_longo": "SMS disponíveis para uso imediato"}
+    ],
+    "testemunho": {
+      "texto": "Durante a época das assembleias gerais, o consumo de SMS triplica. Os pacotes extra permitem-nos garantir que todas as convocatórias chegam sem interrupções.",
+      "autor": "Administrador de condomínio, Luanda"
+    },
+    "faq": [
+      {"pergunta": "Os SMS comprados expiram?", "resposta": "Não. Os créditos comprados em pacotes extra não têm prazo de validade e ficam acumulados na conta do condomínio."},
+      {"pergunta": "Como sei quantos SMS me restam?", "resposta": "O saldo actualizado aparece a qualquer momento no painel /admin/sms, incluindo histórico de envios e detalhe de pacotes comprados."},
+      {"pergunta": "O pacote renova automaticamente?", "resposta": "Não. Cada pacote é uma compra única. Só compra novo pacote quando decidir, sem cobranças automáticas."},
+      {"pergunta": "Posso pedir factura formal?", "resposta": "Sim. Após cada compra é emitida automaticamente uma factura digital com o NIF do condomínio, disponível para download em PDF."}
+    ]
+  },
+  "chatbot_faq": {
+    "tagline": "Respostas imediatas para os condóminos, 24 horas por dia.",
+    "problema": "Os condóminos têm dúvidas constantes: quando devem pagar a quota, como participar na assembleia, o que fazer se a encomenda chegou e não estão em casa. Cada dúvida torna-se um telefonema, um SMS, ou uma mensagem ao administrador, ocupando tempo precioso e gerando frustração quando a resposta demora.",
+    "solucao": "Disponibilize um chatbot inteligente acessível a partir do Web e da aplicação móvel, com mais de 150 respostas pré-configuradas e capacidade de adicionar FAQs específicas do condomínio. O chatbot responde imediatamente, em qualquer hora do dia, em linguagem clara e completa.",
+    "beneficios": [
+      {"icone": "clock", "titulo": "Disponível 24/7", "descricao": "Os condóminos obtêm respostas a qualquer hora, sem depender da disponibilidade do administrador."},
+      {"icone": "trending-down", "titulo": "Reduz solicitações", "descricao": "Diminui drasticamente o número de chamadas e mensagens repetitivas para questões já documentadas."},
+      {"icone": "edit", "titulo": "FAQs personalizadas", "descricao": "Adicione perguntas específicas do condomínio (horários da piscina, regras de obras, contactos de emergência) com editor visual completo."},
+      {"icone": "search", "titulo": "Pesquisa inteligente", "descricao": "Algoritmo de scoring identifica a melhor resposta com base em palavras-chave, mesmo quando a pergunta não é literal."},
+      {"icone": "smartphone", "titulo": "Web e Mobile", "descricao": "Mesmo conteúdo disponível no painel web (botão flutuante) e na aplicação móvel dos condóminos."},
+      {"icone": "tag", "titulo": "Sempre actualizado", "descricao": "150 perguntas base mantidas pela ONDAKA, em formato Markdown rico, constantemente revistas."}
+    ],
+    "demo_passos": [
+      {"icone": "message-square", "label_curto": "Pergunta", "label_longo": "Condómino abre o chatbot e escreve a dúvida"},
+      {"icone": "zap", "label_curto": "Resposta", "label_longo": "Chatbot responde com texto formatado e sugestões relacionadas"},
+      {"icone": "check-circle", "label_curto": "Dúvida resolvida", "label_longo": "Sem chamada ao administrador, sem espera"}
+    ],
+    "testemunho": {
+      "texto": "Reduzimos em mais de metade as chamadas dos condóminos com dúvidas frequentes. O administrador agora pode dedicar tempo às questões realmente complexas que exigem intervenção humana.",
+      "autor": "Empresa gestora de condomínios, Talatona"
+    },
+    "faq": [
+      {"pergunta": "Posso adicionar perguntas específicas do condomínio?", "resposta": "Sim. O administrador pode criar, editar e ordenar FAQs personalizadas com editor Markdown. As FAQs do condomínio aparecem com prioridade nas respostas."},
+      {"pergunta": "Quais as 150 perguntas pré-configuradas?", "resposta": "Cobrem 12 categorias: pagamentos, imóveis, pedidos, visitantes, encomendas, assembleias, avisos, conta, configuração, empresa, legal e geral. Cobrem as dúvidas mais frequentes em condomínios em Angola."},
+      {"pergunta": "E se o chatbot não souber responder?", "resposta": "Quando a pergunta não tem correspondência clara, o chatbot direcciona o condómino para os canais de suporte habituais."},
+      {"pergunta": "O chatbot está disponível na aplicação móvel?", "resposta": "Sim. Está integrado tanto no painel web (botão flutuante) como na aplicação móvel dos condóminos."},
+      {"pergunta": "Posso desactivar FAQs específicas?", "resposta": "Sim. Cada FAQ tem um toggle on/off, permitindo desactivar temporariamente perguntas sem as eliminar."}
+    ]
+  },
+  "passe_visitante_branding": {
+    "tagline": "Passes de visitante com a identidade visual do condomínio.",
+    "problema": "Os visitantes recebem um passe digital genérico, sem qualquer ligação visual ao condomínio que vão visitar. Esta falta de identidade transmite uma imagem de informalidade, dificulta o reconhecimento por parte dos guardas, e perde-se uma oportunidade de reforçar a presença institucional do condomínio.",
+    "solucao": "Active o passe de visitante personalizado para ter o logo do condomínio, cores próprias e identidade visual em todos os passes gerados — partilhados via SMS, WhatsApp ou apresentados directamente na portaria.",
+    "beneficios": [
+      {"icone": "shield-check", "titulo": "Identidade institucional", "descricao": "Cada passe transmite imediatamente o profissionalismo e identidade do condomínio ao visitante."},
+      {"icone": "users", "titulo": "Reconhecimento na portaria", "descricao": "Os guardas identificam visualmente que o passe é do condomínio correcto, reduzindo confusões."},
+      {"icone": "ban", "titulo": "Combate à fraude", "descricao": "Passes com identidade clara são mais difíceis de falsificar e mais fáceis de validar pela portaria."},
+      {"icone": "edit", "titulo": "Configuração simples", "descricao": "Upload do logo e selecção das cores principais ao nível do condomínio. Configuração única."}
+    ],
+    "demo_passos": [
+      {"icone": "upload", "label_curto": "Configurar", "label_longo": "Upload logo e definição de cores no painel"},
+      {"icone": "send", "label_curto": "Convidar visitante", "label_longo": "Condómino gera passe e partilha via SMS ou WhatsApp"},
+      {"icone": "qrcode", "label_curto": "Validar na portaria", "label_longo": "Guarda identifica visualmente e valida o passe"}
+    ],
+    "testemunho": {
+      "texto": "A diferença é imediata — os visitantes percebem que o passe é oficial do condomínio. Reduzimos o número de visitantes que chegam confusos ou sem perceber o procedimento.",
+      "autor": "Administrador de condomínio, Talatona"
+    },
+    "faq": [
+      {"pergunta": "Que formatos de logo são aceites?", "resposta": "PNG, JPG ou SVG. Recomendamos PNG ou SVG com fundo transparente para melhor integração visual no passe."},
+      {"pergunta": "Posso ter logos diferentes por condomínio?", "resposta": "Sim. Cada condomínio gerido pela empresa tem o seu próprio logo e cores, configurados independentemente."},
+      {"pergunta": "O passe continua a funcionar como antes?", "resposta": "Sim. Toda a funcionalidade existente (QR, partilha via SMS, validade temporal) mantém-se. Só muda o aspecto visual."},
+      {"pergunta": "Posso voltar ao passe genérico se cancelar?", "resposta": "Sim. Se o add-on for cancelado, os passes voltam ao layout genérico ONDAKA sem perda de funcionalidade."}
+    ]
+  },
+  "ocr_contadores": {
+    "tagline": "Leitura de contadores por fotografia, sem erros de transcrição.",
+    "problema": "A leitura manual dos contadores está sujeita a erros: dígitos confusos, transcrições incorrectas, números esquecidos. Estes erros geram disputas com os condóminos, ajustes de facturação posteriores e tempo perdido em correcções administrativas.",
+    "solucao": "O condómino aponta a câmara do telemóvel para o contador e a aplicação móvel lê o número automaticamente, eliminando erros de transcrição. A fotografia fica guardada como prova visual, e o valor é submetido directamente para o sistema do condomínio.",
+    "beneficios": [
+      {"icone": "camera", "titulo": "Leitura automática", "descricao": "Tecnologia OCR (reconhecimento óptico) lê o número do contador directamente da fotografia, sem digitação manual."},
+      {"icone": "shield-check", "titulo": "Prova fotográfica", "descricao": "Cada leitura fica acompanhada da fotografia do contador, eliminando disputas sobre valores."},
+      {"icone": "trending-down", "titulo": "Menos erros", "descricao": "Elimina erros típicos de leitura manual: dígitos trocados, números invertidos, leituras parciais."},
+      {"icone": "smartphone", "titulo": "Tudo no telemóvel", "descricao": "O condómino faz a leitura directamente da aplicação móvel ONDAKA, sem necessidade de equipamento adicional."}
+    ],
+    "demo_passos": [
+      {"icone": "camera", "label_curto": "Fotografar", "label_longo": "Condómino aponta câmara para o contador"},
+      {"icone": "scan", "label_curto": "OCR lê", "label_longo": "Sistema identifica automaticamente o número"},
+      {"icone": "check-circle", "label_curto": "Submeter", "label_longo": "Leitura validada e enviada com fotografia"}
+    ],
+    "testemunho": {
+      "texto": "Acabaram as disputas mensais sobre se a leitura do contador estava correcta. A fotografia automática é a prova definitiva e os condóminos sentem-se mais seguros.",
+      "autor": "Administrador de condomínio, Luanda"
+    },
+    "faq": [
+      {"pergunta": "Funciona com qualquer tipo de contador?", "resposta": "Funciona com contadores digitais e analógicos de água, electricidade e gás. Para contadores muito antigos ou em mau estado, recomenda-se boa iluminação ao tirar a fotografia."},
+      {"pergunta": "E se a leitura estiver errada?", "resposta": "O condómino pode sempre corrigir manualmente o valor antes de submeter, mantendo a fotografia como referência."},
+      {"pergunta": "A fotografia fica guardada?", "resposta": "Sim. Todas as fotografias ficam guardadas no histórico, permitindo consulta posterior em caso de dúvida."},
+      {"pergunta": "Esta funcionalidade tem custo adicional?", "resposta": "Não. O OCR de contadores está incluído na plataforma ONDAKA sem custo extra."}
+    ]
+  },
+  "assembleia_virtual": {
+    "tagline": "Assembleias gerais online com validade legal, sem deslocações.",
+    "problema": "Organizar uma assembleia geral presencial é cada vez mais difícil: encontrar data que sirva a todos, espaço físico adequado, condóminos que vivem fora ou viajam frequentemente. O resultado são assembleias sem quórum, decisões adiadas, e o condomínio paralisado em questões importantes.",
+    "solucao": "Realize assembleias gerais totalmente online com videoconferência integrada, votação digital segura e geração automática de acta com validade legal de acordo com o Decreto Presidencial 141/15. Cada condómino participa de onde estiver, com identidade verificada e voto registado.",
+    "beneficios": [
+      {"icone": "video", "titulo": "Videoconferência integrada", "descricao": "Sessão de assembleia em videoconferência sem necessidade de instalar software adicional, directamente do navegador ou aplicação móvel."},
+      {"icone": "check-circle", "titulo": "Votação digital segura", "descricao": "Cada condómino vota com identidade verificada. Os votos são registados com data, hora e quota proporcional aplicada automaticamente."},
+      {"icone": "file-text", "titulo": "Acta automática", "descricao": "Acta gerada automaticamente com pontos da ordem do dia, resultados das votações, e lista de presenças. Pronta para assinatura digital."},
+      {"icone": "shield-check", "titulo": "Conformidade DP 141/15", "descricao": "Processo desenhado para cumprir todos os requisitos legais do Decreto Presidencial 141/15 de 29 de Junho de 2015."},
+      {"icone": "users", "titulo": "Quórum facilitado", "descricao": "Aumenta significativamente a participação ao remover barreiras geográficas e logísticas."},
+      {"icone": "history", "titulo": "Gravação completa", "descricao": "A sessão fica gravada e disponível para consulta posterior, permitindo a condóminos ausentes acompanharem as decisões."}
+    ],
+    "demo_passos": [
+      {"icone": "calendar", "label_curto": "Agendar", "label_longo": "Administrador agenda assembleia e envia convocatórias"},
+      {"icone": "video", "label_curto": "Reunir online", "label_longo": "Condóminos entram em videoconferência no dia"},
+      {"icone": "check-circle", "label_curto": "Votar e concluir", "label_longo": "Votações em tempo real, acta gerada automaticamente"}
+    ],
+    "testemunho": {
+      "texto": "Pela primeira vez em anos tivemos quórum em todas as assembleias do ano. Condóminos que vivem no estrangeiro ou viajam frequentemente passaram a participar activamente nas decisões do condomínio.",
+      "autor": "Administrador de condomínio, Talatona"
+    },
+    "faq": [
+      {"pergunta": "A assembleia online tem a mesma validade legal que a presencial?", "resposta": "Sim. O processo está desenhado para cumprir os requisitos do Decreto Presidencial 141/15, com identidade verificada dos participantes, votação registada e acta com elementos legais obrigatórios."},
+      {"pergunta": "Como é verificada a identidade dos participantes?", "resposta": "Cada condómino entra com as credenciais da sua conta ONDAKA, que está associada à fracção e ao registo legal no condomínio. A entrada na sala é registada com data e hora."},
+      {"pergunta": "Os votos têm em conta a quota proporcional?", "resposta": "Sim. O sistema aplica automaticamente a quota proporcional de cada fracção ao calcular os resultados, conforme estabelecido no regulamento do condomínio."},
+      {"pergunta": "Posso combinar assembleia online e presencial?", "resposta": "Sim. O modo híbrido é suportado — alguns condóminos podem participar fisicamente e outros online, todos com voto igualmente válido."},
+      {"pergunta": "A gravação é obrigatória?", "resposta": "Não é obrigatória, mas recomendamos vivamente a gravação. Permite consulta posterior, transparência total, e prova em caso de contestação de uma decisão."}
+    ]
+  }
+}

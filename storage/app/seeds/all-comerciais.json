@@ -1,0 +1,3118 @@
+{
+  "contas_bancarias": {
+    "tagline": "Centralize as contas bancárias do condomínio com movimentos automáticos e reconciliação simples.",
+    "problema": "A gestão bancária do condomínio é fragmentada: extractos em PDF do BAI, BFA ou BIC; saldos confusos entre conta operacional, fundo de reserva e emergência; reconciliação manual mensal que consome horas. Quando há auditoria, é difícil provar onde está cada kwanza e qual o saldo real do fundo de reserva exigido pelo DP 141/15.",
+    "solucao": "Cadastre todas as contas bancárias do condomínio (operacional, fundo de reserva, emergência) num único painel. A plataforma credita automaticamente quando um condómino paga uma taxa, debita quando paga um fornecedor, e permite importar o extracto bancário para reconciliação rápida.",
+    "beneficios": [
+      {
+        "icone": "wallet",
+        "titulo": "Multi-conta organizado",
+        "descricao": "Conta operacional, fundo de reserva (10% DP 141/15) e emergência num só painel, com saldos sempre actualizados."
+      },
+      {
+        "icone": "arrow-right-left",
+        "titulo": "Movimentos automáticos",
+        "descricao": "Pagamentos de taxas creditam automaticamente; pagamentos a fornecedores debitam. Sem trabalho manual."
+      },
+      {
+        "icone": "file-check",
+        "titulo": "Reconciliação simplificada",
+        "descricao": "Importe o extracto bancário em PDF ou CSV e compare com os movimentos do sistema em minutos."
+      },
+      {
+        "icone": "shield-check",
+        "titulo": "Conformidade DP 141/15",
+        "descricao": "Saldo do fundo de reserva sempre visível e auditável. Pronto para inspecções."
+      },
+      {
+        "icone": "trending-up",
+        "titulo": "Histórico transparente",
+        "descricao": "Cada movimento bancário ligado à transacção que o originou. Auditoria em segundos, não horas."
+      },
+      {
+        "icone": "calculator",
+        "titulo": "Saldo consolidado",
+        "descricao": "Veja o saldo total do condomínio (todas as contas) ou drill-down em cada conta individualmente."
+      }
+    ],
+    "demo_passos": [
+      {
+        "icone": "plus-circle",
+        "label_curto": "Adicionar conta",
+        "label_longo": "Cadastre conta bancária com banco, NIB, tipo (operacional/reserva/emergência)"
+      },
+      {
+        "icone": "link",
+        "label_curto": "Configurar regras",
+        "label_longo": "Defina que movimentos creditam/debitam em cada conta"
+      },
+      {
+        "icone": "upload",
+        "label_curto": "Reconciliar mensalmente",
+        "label_longo": "Importe extracto bancário e confirme correspondência com sistema"
+      }
+    ],
+    "testemunho": {
+      "texto": "Antes passávamos dois dias por mês a reconciliar contas. Agora é meia tarde. E nunca mais discutimos com a assembleia sobre o saldo real do fundo de reserva.",
+      "autor": "Empresa gestora, Luanda"
+    },
+    "faq": [
+      {
+        "pergunta": "Suporta quais bancos angolanos?",
+        "resposta": "Todos os bancos comerciais angolanos (BAI, BFA, BIC, Standard Bank, BPC, BNI, etc.) podem ser cadastrados manualmente. A importação de extracto funciona com PDFs e CSVs padrão."
+      },
+      {
+        "pergunta": "Como funciona a reconciliação bancária?",
+        "resposta": "Importe o extracto do banco (PDF ou CSV) e a plataforma cruza com os movimentos registados no sistema, mostrando o que bate e o que precisa investigação."
+      },
+      {
+        "pergunta": "Posso ter mais que uma conta por condomínio?",
+        "resposta": "Sim. Recomendamos pelo menos três: operacional (despesas correntes), fundo de reserva (DP 141/15) e emergência (imprevistos)."
+      },
+      {
+        "pergunta": "O saldo é actualizado em tempo real?",
+        "resposta": "Sim. Quando um condómino paga uma taxa por ProxyPay, o saldo da conta operacional é creditado imediatamente. Pagamentos a fornecedores debitam ao confirmar a saída."
+      }
+    ]
+  },
+  "cadastro_despesas": {
+    "tagline": "Registe todas as despesas do condomínio de forma estruturada e auditável.",
+    "problema": "As despesas do condomínio acumulam-se em facturas soltas, conversas de WhatsApp e tabelas Excel desorganizadas. Quando chega a hora da assembleia ou de prestar contas aos condóminos, ninguém sabe quanto se gastou em limpeza este ano, quem foi o fornecedor que cobrou mais, ou onde está a factura daquela manutenção do elevador.",
+    "solucao": "Cadastre cada despesa do condomínio num formulário simples: data, valor, fornecedor, categoria e comprovativo anexado. A plataforma organiza tudo cronologicamente e por categoria, pronto para relatórios e auditoria.",
+    "beneficios": [
+      {
+        "icone": "file-plus",
+        "titulo": "Registo estruturado",
+        "descricao": "Cada despesa com data, valor, fornecedor e categoria. Adeus Excel descontrolado."
+      },
+      {
+        "icone": "paperclip",
+        "titulo": "Comprovativos anexados",
+        "descricao": "Upload de factura ou recibo (PDF/foto) ligado a cada despesa. Tudo num só lugar."
+      },
+      {
+        "icone": "search",
+        "titulo": "Pesquisa rápida",
+        "descricao": "Encontre qualquer despesa em segundos por data, fornecedor, categoria ou valor."
+      },
+      {
+        "icone": "list-checks",
+        "titulo": "Workflow de aprovação",
+        "descricao": "Despesas grandes podem requerer aprovação prévia antes do pagamento."
+      },
+      {
+        "icone": "calendar",
+        "titulo": "Histórico completo",
+        "descricao": "Veja todas as despesas do mês, trimestre ou ano com filtros e exportação."
+      },
+      {
+        "icone": "users",
+        "titulo": "Transparência total",
+        "descricao": "Gestores e admins vêem em tempo real o que está a ser gasto. Prestação de contas sem surpresas."
+      }
+    ],
+    "demo_passos": [
+      {
+        "icone": "edit",
+        "label_curto": "Registar despesa",
+        "label_longo": "Preencha data, valor, fornecedor e categoria"
+      },
+      {
+        "icone": "upload",
+        "label_curto": "Anexar comprovativo",
+        "label_longo": "Faça upload da factura ou recibo em PDF/foto"
+      },
+      {
+        "icone": "check-circle",
+        "label_curto": "Confirmar",
+        "label_longo": "Despesa fica registada e ligada à conta bancária correspondente"
+      }
+    ],
+    "testemunho": {
+      "texto": "Acabou aquela confusão de procurar facturas em pastas e WhatsApp. Tudo está no sistema com comprovativo. Quando o condómino pergunta sobre uma despesa, mostro em 10 segundos.",
+      "autor": "Gestora de condomínio, Talatona"
+    },
+    "faq": [
+      {
+        "pergunta": "Posso anexar mais que um comprovativo por despesa?",
+        "resposta": "Sim. Pode anexar a factura, o comprovativo de pagamento e outros documentos relacionados na mesma despesa."
+      },
+      {
+        "pergunta": "Que formatos de ficheiro são aceites?",
+        "resposta": "PDF, JPG, PNG e WEBP até 10 MB por ficheiro."
+      },
+      {
+        "pergunta": "As despesas aparecem nos relatórios automaticamente?",
+        "resposta": "Sim. Assim que registadas, integram-se nos relatórios financeiros e no Dashboard BI (se activado)."
+      },
+      {
+        "pergunta": "Posso editar uma despesa depois de criada?",
+        "resposta": "Sim, mas todas as alterações ficam no histórico de auditoria para garantir transparência."
+      }
+    ]
+  },
+  "categorizacao_despesas": {
+    "tagline": "Classifique despesas por categoria para análise financeira clara e relatórios profissionais.",
+    "problema": "Sem categorização, todas as despesas parecem iguais. É impossível responder a perguntas básicas: 'Quanto gastamos em limpeza este ano?', 'A manutenção do elevador é cara comparada com outros condomínios?', 'Onde podemos cortar custos?'. A categorização manual em Excel é inconsistente e dá erro.",
+    "solucao": "Defina uma vez as categorias do seu condomínio (Limpeza, Segurança, Manutenção, Energia, Água, Administração, etc.) e classifique cada despesa ao registá-la. Os relatórios passam a mostrar onde o dinheiro vai.",
+    "beneficios": [
+      {
+        "icone": "tags",
+        "titulo": "Categorias personalizáveis",
+        "descricao": "Crie as suas categorias e subcategorias conforme as necessidades do condomínio."
+      },
+      {
+        "icone": "pie-chart",
+        "titulo": "Distribuição visual",
+        "descricao": "Gráficos mostram percentagem de gasto por categoria, ajudando decisões."
+      },
+      {
+        "icone": "trending-down",
+        "titulo": "Identificar excessos",
+        "descricao": "Detecte rapidamente quando uma categoria está acima do orçamento previsto."
+      },
+      {
+        "icone": "git-compare",
+        "titulo": "Comparação temporal",
+        "descricao": "Compare categorias entre meses ou anos para perceber tendências."
+      },
+      {
+        "icone": "filter",
+        "titulo": "Filtros poderosos",
+        "descricao": "Filtre histórico de despesas por categoria, fornecedor e período em simultâneo."
+      },
+      {
+        "icone": "file-text",
+        "titulo": "Relatórios profissionais",
+        "descricao": "Exporte relatórios de despesas categorizadas para apresentar em assembleia."
+      }
+    ],
+    "demo_passos": [
+      {
+        "icone": "settings",
+        "label_curto": "Definir categorias",
+        "label_longo": "Crie a estrutura de categorias do condomínio"
+      },
+      {
+        "icone": "tag",
+        "label_curto": "Categorizar despesas",
+        "label_longo": "Ao registar despesa, selecione a categoria correspondente"
+      },
+      {
+        "icone": "bar-chart",
+        "label_curto": "Analisar",
+        "label_longo": "Veja relatórios com distribuição de gastos por categoria"
+      }
+    ],
+    "testemunho": {
+      "texto": "Descobrimos que gastávamos 35% do orçamento em segurança quando o normal é 25%. Renegociamos o contrato e poupamos 800 mil kwanzas por ano.",
+      "autor": "Administrador, Edifício Talatona Premium"
+    },
+    "faq": [
+      {
+        "pergunta": "Posso ter subcategorias?",
+        "resposta": "Sim. Por exemplo: Manutenção > Elevador > Inspecção mensal. Quanto detalhe quiser."
+      },
+      {
+        "pergunta": "Há categorias pré-configuradas?",
+        "resposta": "Sim. A plataforma vem com categorias standard para condomínios angolanos, que pode aceitar, modificar ou substituir pelas suas."
+      },
+      {
+        "pergunta": "Posso recategorizar despesas antigas?",
+        "resposta": "Sim. Pode alterar a categoria de qualquer despesa, com histórico de auditoria."
+      },
+      {
+        "pergunta": "As categorias funcionam para receitas também?",
+        "resposta": "Sim. Pode categorizar tipos de receita (taxas mensais, multas, juros) para análise completa."
+      }
+    ]
+  },
+  "comprovativos_upload": {
+    "tagline": "Cada despesa com a sua factura anexada, organizada e pesquisável.",
+    "problema": "As facturas e recibos do condomínio vivem em pastas físicas, e-mails, WhatsApp e dispersos pelo escritório do gestor. Quando há auditoria ou um condómino pede prova de uma despesa, perde-se uma manhã a procurar o documento. Pior: alguns acabam por se perder de vez.",
+    "solucao": "Faça upload da factura ou recibo (PDF, foto) directamente ligado à despesa registada. O documento fica guardado de forma segura, pesquisável e acessível a qualquer momento.",
+    "beneficios": [
+      {
+        "icone": "cloud-upload",
+        "titulo": "Upload directo",
+        "descricao": "Anexe PDF, foto da factura ou recibo ao registar a despesa. Em segundos."
+      },
+      {
+        "icone": "search",
+        "titulo": "Pesquisa rápida",
+        "descricao": "Encontre qualquer comprovativo por data, fornecedor, valor ou categoria."
+      },
+      {
+        "icone": "shield",
+        "titulo": "Backup seguro",
+        "descricao": "Documentos guardados com redundância. Nunca mais perde uma factura."
+      },
+      {
+        "icone": "smartphone",
+        "titulo": "Tire foto e envie",
+        "descricao": "Da app móvel, tire foto da factura e anexe directamente à despesa."
+      },
+      {
+        "icone": "download",
+        "titulo": "Exportação fácil",
+        "descricao": "Descarregue todos os comprovativos de um período em ZIP para auditoria."
+      },
+      {
+        "icone": "users",
+        "titulo": "Acesso controlado",
+        "descricao": "Quem tem permissão vê os documentos; condóminos vêem só o que devem ver."
+      }
+    ],
+    "demo_passos": [
+      {
+        "icone": "edit",
+        "label_curto": "Registar despesa",
+        "label_longo": "Crie a despesa no sistema"
+      },
+      {
+        "icone": "upload",
+        "label_curto": "Anexar comprovativo",
+        "label_longo": "Faça upload do PDF ou foto"
+      },
+      {
+        "icone": "check",
+        "label_curto": "Pronto",
+        "label_longo": "Documento guardado e acessível para sempre"
+      }
+    ],
+    "testemunho": {
+      "texto": "Na última auditoria, o auditor pediu 30 comprovativos. Em 10 minutos tinha tudo descarregado em ZIP. Antes seria um dia inteiro a procurar nas pastas.",
+      "autor": "Empresa gestora, Benguela"
+    },
+    "faq": [
+      {
+        "pergunta": "Que formatos aceita?",
+        "resposta": "PDF, JPG, PNG e WEBP. Até 10 MB por ficheiro."
+      },
+      {
+        "pergunta": "Por quanto tempo os documentos ficam guardados?",
+        "resposta": "Indefinidamente, enquanto a subscrição ONDAKA estiver activa. Recomendamos manter conforme prazos legais angolanos (5 anos para documentos fiscais)."
+      },
+      {
+        "pergunta": "Os comprovativos estão protegidos?",
+        "resposta": "Sim. Armazenamento encriptado e acesso apenas a utilizadores autorizados do condomínio."
+      },
+      {
+        "pergunta": "Posso anexar vários documentos à mesma despesa?",
+        "resposta": "Sim. Factura, comprovativo de pagamento, contrato relacionado — tudo pode ser ligado à mesma despesa."
+      }
+    ]
+  },
+  "pagamento_fornecedores": {
+    "tagline": "Controle todos os pagamentos a fornecedores num único painel, sem perder nenhum.",
+    "problema": "Os pagamentos a fornecedores são desorganizados: alguns são pagos por transferência bancária, outros em dinheiro, outros ainda esquecidos. Quando há atrasos, fornecedores reclamam ou suspendem serviços. Quando o gestor sai de férias, ninguém sabe o que está pendente.",
+    "solucao": "Registe cada pagamento agendado a fornecedor com data limite, valor e método. A plataforma alerta quando o vencimento se aproxima, e regista quando o pagamento é efectuado. Histórico completo, sem surpresas.",
+    "beneficios": [
+      {
+        "icone": "users",
+        "titulo": "Lista de fornecedores",
+        "descricao": "Cadastre fornecedores com NIF, contactos e histórico de transacções."
+      },
+      {
+        "icone": "calendar-clock",
+        "titulo": "Vencimentos visíveis",
+        "descricao": "Veja todos os pagamentos pendentes ordenados por data limite."
+      },
+      {
+        "icone": "bell",
+        "titulo": "Alertas automáticos",
+        "descricao": "Notificação quando o vencimento se aproxima. Nunca mais paga atrasado."
+      },
+      {
+        "icone": "credit-card",
+        "titulo": "Múltiplos métodos",
+        "descricao": "Registe pagamentos por transferência, cheque, multicaixa ou dinheiro."
+      },
+      {
+        "icone": "history",
+        "titulo": "Histórico por fornecedor",
+        "descricao": "Veja todos os pagamentos feitos a cada fornecedor ao longo do tempo."
+      },
+      {
+        "icone": "link",
+        "titulo": "Ligado às despesas",
+        "descricao": "Cada pagamento liga-se à despesa que o originou. Rastreio completo."
+      }
+    ],
+    "demo_passos": [
+      {
+        "icone": "user-plus",
+        "label_curto": "Cadastrar fornecedor",
+        "label_longo": "Adicione fornecedor com NIF e contactos"
+      },
+      {
+        "icone": "clock",
+        "label_curto": "Agendar pagamento",
+        "label_longo": "Registe data limite, valor e método de pagamento"
+      },
+      {
+        "icone": "check-circle",
+        "label_curto": "Confirmar pagamento",
+        "label_longo": "Marque como pago e anexe comprovativo da transferência"
+      }
+    ],
+    "testemunho": {
+      "texto": "Tínhamos um fornecedor de limpeza que ameaçava suspender o serviço por atrasos. Desde que usamos o módulo, nunca mais houve atrasos. O sistema avisa duas semanas antes do vencimento.",
+      "autor": "Administrador, Condomínio Vista Mar"
+    },
+    "faq": [
+      {
+        "pergunta": "O sistema paga automaticamente?",
+        "resposta": "Não. A ONDAKA não tem integração com bancos para débito automático. O sistema agenda, lembra e regista, mas o pagamento efectivo é feito por si no banco."
+      },
+      {
+        "pergunta": "Posso pagar despesas recorrentes (mensalidades fixas)?",
+        "resposta": "Sim. Configure pagamentos recorrentes (limpeza, segurança, electricidade) e o sistema gera as entradas automaticamente todos os meses."
+      },
+      {
+        "pergunta": "Como funciona com a conta bancária do condomínio?",
+        "resposta": "Quando confirma um pagamento, o saldo da conta bancária associada é debitado automaticamente (se tiver o módulo Contas Bancárias activo)."
+      },
+      {
+        "pergunta": "Posso ter aprovações antes do pagamento?",
+        "resposta": "Sim. Pagamentos acima de um valor configurado podem requerer aprovação do administrador do condomínio."
+      }
+    ]
+  },
+  "multicaixa_express": {
+    "tagline": "Pague taxas de condomínio directamente da app, sem sair da casa.",
+    "problema": "Pagar a taxa de condomínio em Angola exige ir ao banco ou Multicaixa, decorar uma referência longa, digitar valores manualmente e esperar dias para o gestor confirmar. Esquecimentos são frequentes, atrasos geram juros, e há fricção desnecessária num pagamento que devia ser simples.",
+    "solucao": "Pague directamente pela app móvel ONDAKA usando Multicaixa Express. Selecciona a taxa, autoriza o pagamento e fica feito em segundos. O gestor recebe a confirmação automática e o seu saldo é actualizado em tempo real.",
+    "beneficios": [
+      {
+        "icone": "smartphone",
+        "titulo": "Pagar na app",
+        "descricao": "Sem ir ao banco, sem decorar referências. Tudo no telemóvel."
+      },
+      {
+        "icone": "zap",
+        "titulo": "Confirmação imediata",
+        "descricao": "Pagamento confirmado em segundos. Gestor vê a entrada na hora."
+      },
+      {
+        "icone": "calendar-check",
+        "titulo": "Nunca atrase pagamentos",
+        "descricao": "Pague na altura certa, mesmo se estiver fora de casa ou ocupado."
+      },
+      {
+        "icone": "shield-check",
+        "titulo": "Seguro e regulamentado",
+        "descricao": "Multicaixa Express é a plataforma oficial de pagamentos digitais em Angola."
+      },
+      {
+        "icone": "history",
+        "titulo": "Histórico completo",
+        "descricao": "Cada pagamento registado com comprovativo digital, sempre acessível."
+      },
+      {
+        "icone": "moon",
+        "titulo": "24/7 disponível",
+        "descricao": "Pague a qualquer hora, mesmo fora do horário bancário."
+      }
+    ],
+    "demo_passos": [
+      {
+        "icone": "list",
+        "label_curto": "Ver taxas pendentes",
+        "label_longo": "Abra a app e veja todas as taxas a pagar"
+      },
+      {
+        "icone": "credit-card",
+        "label_curto": "Seleccionar Multicaixa Express",
+        "label_longo": "Escolha o método e autorize o pagamento"
+      },
+      {
+        "icone": "check-circle",
+        "label_curto": "Confirmado",
+        "label_longo": "Pagamento processado, gestor notificado, saldo actualizado"
+      }
+    ],
+    "testemunho": {
+      "texto": "Antes ia ao multicaixa todo mês com a referência. Agora pago da cama no domingo à noite. Mudou a minha vida.",
+      "autor": "Condómino, Bairro Maianga"
+    },
+    "faq": [
+      {
+        "pergunta": "Tem custo extra para o condómino?",
+        "resposta": "Não. O Multicaixa Express tem as mesmas taxas que pagar no terminal físico. Não há sobretaxa por usar a app."
+      },
+      {
+        "pergunta": "Posso pagar várias taxas de uma vez?",
+        "resposta": "Sim, se tiver o add-on 'Pagar Tudo Multicaixa' activo. Caso contrário, paga uma taxa de cada vez."
+      },
+      {
+        "pergunta": "Funciona com qualquer banco angolano?",
+        "resposta": "Sim. O Multicaixa Express funciona com qualquer cartão Multicaixa angolano."
+      },
+      {
+        "pergunta": "E se o pagamento falhar?",
+        "resposta": "Recebe notificação imediata. Pode tentar novamente sem perder a referência."
+      }
+    ]
+  },
+  "proxypay_dds": {
+    "tagline": "Configure débito directo e nunca mais se preocupe com pagamentos atrasados.",
+    "problema": "Lembrar de pagar a taxa de condomínio todos os meses é uma carga mental desnecessária. Pagamentos atrasados geram juros, conversas embaraçosas com o administrador, e em casos extremos, problemas legais. Mas configurar débito directo no banco é burocrático e raramente disponível para condomínios.",
+    "solucao": "Active o débito directo via ProxyPay DDS e autorize a ONDAKA a debitar automaticamente a sua taxa mensal directamente da conta bancária. Sem esquecimentos, sem juros, sem stress.",
+    "beneficios": [
+      {
+        "icone": "repeat",
+        "titulo": "Pagamento automático mensal",
+        "descricao": "A taxa é debitada na mesma data todos os meses, sem precisar de fazer nada."
+      },
+      {
+        "icone": "shield-check",
+        "titulo": "Regulamentado BNA",
+        "descricao": "ProxyPay DDS é um serviço oficial aprovado pelo Banco Nacional de Angola."
+      },
+      {
+        "icone": "calendar-x",
+        "titulo": "Adeus atrasos",
+        "descricao": "Pagamento garantido na data certa, sempre. Nunca mais juros por esquecimento."
+      },
+      {
+        "icone": "x-circle",
+        "titulo": "Cancele a qualquer momento",
+        "descricao": "Pode desactivar o débito directo quando quiser, sem penalizações."
+      },
+      {
+        "icone": "bell",
+        "titulo": "Aviso antes do débito",
+        "descricao": "SMS ou push 3 dias antes a confirmar o débito previsto."
+      },
+      {
+        "icone": "trending-up",
+        "titulo": "Para o gestor: previsibilidade",
+        "descricao": "Receita mensal previsível, sem cobrança manual. Mais tempo para gerir."
+      }
+    ],
+    "demo_passos": [
+      {
+        "icone": "edit",
+        "label_curto": "Autorizar débito",
+        "label_longo": "Assine autorização de débito directo (uma vez)"
+      },
+      {
+        "icone": "calendar",
+        "label_curto": "Definir data",
+        "label_longo": "Escolha a data do mês em que prefere o débito"
+      },
+      {
+        "icone": "check",
+        "label_curto": "Pronto",
+        "label_longo": "A partir do mês seguinte, paga automaticamente"
+      }
+    ],
+    "testemunho": {
+      "texto": "Configurei uma vez há um ano e nunca mais pensei nisso. A taxa sai do banco no dia 5 e fica feito. Recomendo a todos os condóminos.",
+      "autor": "Condómino, Edifício Sky Bay"
+    },
+    "faq": [
+      {
+        "pergunta": "Que bancos suportam DDS?",
+        "resposta": "BAI, BFA, BIC, Standard Bank, BPC, BNI e outros bancos comerciais angolanos integrados com ProxyPay."
+      },
+      {
+        "pergunta": "E se a minha conta não tiver saldo?",
+        "resposta": "O débito falha e recebe notificação para regularizar. Não fica com dívida na ONDAKA — fica como pagamento pendente normal."
+      },
+      {
+        "pergunta": "Tem custo para o condómino?",
+        "resposta": "Sim, uma pequena taxa do banco (geralmente entre 100-300 Kz por débito). Verifique com o seu banco."
+      },
+      {
+        "pergunta": "Posso ter DDS em mais que um condomínio?",
+        "resposta": "Sim. Pode configurar débito directo para várias taxas e várias propriedades."
+      }
+    ]
+  },
+  "whatsapp_business": {
+    "tagline": "Receba e envie comunicações do condomínio directamente no WhatsApp, o canal que todos usam.",
+    "problema": "Email é ignorado. SMS tem limite de caracteres. App mobile nem todos instalam. Mas WhatsApp tem 95% de adopção em Angola — todos têm, todos usam, todos abrem mensagens em minutos. Porém integrar WhatsApp Business com o sistema de gestão é tecnicamente complexo.",
+    "solucao": "A ONDAKA integra com WhatsApp Business API oficial: comunicados, lembretes de pagamento, alertas de visitantes, suporte ao condómino — tudo via WhatsApp, automaticamente, com a identidade do condomínio.",
+    "beneficios": [
+      {
+        "icone": "message-circle",
+        "titulo": "95% de taxa de leitura",
+        "descricao": "WhatsApp tem leitura quase imediata, ao contrário de email ou SMS."
+      },
+      {
+        "icone": "bell-ring",
+        "titulo": "Notificações imediatas",
+        "descricao": "Comunicados urgentes chegam em segundos, não horas."
+      },
+      {
+        "icone": "bot",
+        "titulo": "Respostas automáticas",
+        "descricao": "Configure menus de auto-atendimento para perguntas comuns dos condóminos."
+      },
+      {
+        "icone": "headphones",
+        "titulo": "Suporte conversacional",
+        "descricao": "Condóminos abrem ticket via WhatsApp, gestor responde directamente do painel."
+      },
+      {
+        "icone": "shield-check",
+        "titulo": "API Oficial",
+        "descricao": "Integração com WhatsApp Business API oficial Meta. Sem risco de banimento."
+      },
+      {
+        "icone": "globe",
+        "titulo": "Multilíngue",
+        "descricao": "Comunique em Português, mas também em inglês ou francês se necessário."
+      }
+    ],
+    "demo_passos": [
+      {
+        "icone": "phone",
+        "label_curto": "Verificar número",
+        "label_longo": "Verificação WhatsApp Business pela ONDAKA"
+      },
+      {
+        "icone": "settings",
+        "label_curto": "Configurar templates",
+        "label_longo": "Escolha que comunicações vão pelo WhatsApp"
+      },
+      {
+        "icone": "send",
+        "label_curto": "Enviar e receber",
+        "label_longo": "Condóminos passam a receber e responder pelo WhatsApp"
+      }
+    ],
+    "testemunho": {
+      "texto": "A taxa de leitura dos comunicados subiu de 30% (email) para 92% (WhatsApp). Os condóminos agora estão verdadeiramente informados.",
+      "autor": "Empresa gestora, Luanda"
+    },
+    "faq": [
+      {
+        "pergunta": "Tem custo de envio de mensagens?",
+        "resposta": "Sim, há taxas da Meta por mensagem enviada (geralmente 10-30 Kz). Detalhes na configuração."
+      },
+      {
+        "pergunta": "Preciso de número WhatsApp separado?",
+        "resposta": "Recomendamos um número dedicado ao condomínio (não o pessoal do gestor). A ONDAKA ajuda no setup."
+      },
+      {
+        "pergunta": "Os condóminos podem recusar receber por WhatsApp?",
+        "resposta": "Sim. Cada condómino pode escolher os seus canais preferidos: WhatsApp, SMS, email, push."
+      },
+      {
+        "pergunta": "Funciona com WhatsApp pessoal ou só Business?",
+        "resposta": "Só WhatsApp Business API oficial. Não usamos contas pessoais (proibido pela Meta)."
+      }
+    ]
+  },
+  "modulo_rh_completo": {
+    "tagline": "Gestão completa de recursos humanos do condomínio: cadastro, turnos, presença e relatórios num só add-on.",
+    "problema": "Gerir os funcionários do condomínio (porteiros, jardineiros, equipa de limpeza, guardas) é trabalho de RH em pequena escala mas com a mesma complexidade: contratos, turnos rotativos, marcação de presenças, horas extras, faltas, relatórios para a empresa gestora. Fazer isto em papel ou Excel é fonte de conflitos e erros.",
+    "solucao": "O Módulo de RH Completo agrupa tudo numa solução integrada: cadastro de funcionários com contratos, criação de modelos de turnos, escalas semanais, marcação de presença com cronómetro live, e relatórios automáticos de horas trabalhadas e custos.",
+    "beneficios": [
+      {
+        "icone": "users",
+        "titulo": "Cadastro completo de funcionários",
+        "descricao": "BI, contrato, contactos, função, salário, fotografia. Tudo organizado."
+      },
+      {
+        "icone": "calendar",
+        "titulo": "Modelos e escalas de turnos",
+        "descricao": "Crie templates de turnos (rotativo, fixo, nocturno) e aplique a uma equipa inteira."
+      },
+      {
+        "icone": "timer",
+        "titulo": "Presença com cronómetro live",
+        "descricao": "Funcionário marca entrada/saída pela app; horas calculadas automaticamente."
+      },
+      {
+        "icone": "alert-triangle",
+        "titulo": "Detectar atrasos e ausências",
+        "descricao": "Alertas automáticos quando um funcionário não marca presença no horário previsto."
+      },
+      {
+        "icone": "file-text",
+        "titulo": "Relatórios profissionais",
+        "descricao": "Horas trabalhadas, extraordinário, faltas — pronto para folha de pagamento."
+      },
+      {
+        "icone": "trending-up",
+        "titulo": "Análise de custos de RH",
+        "descricao": "Veja custo de pessoal por função, por turno, por mês. Optimize a equipa."
+      }
+    ],
+    "demo_passos": [
+      {
+        "icone": "user-plus",
+        "label_curto": "Cadastrar equipa",
+        "label_longo": "Adicione funcionários com contratos e funções"
+      },
+      {
+        "icone": "calendar-clock",
+        "label_curto": "Criar escala",
+        "label_longo": "Defina turnos semanais por funcionário"
+      },
+      {
+        "icone": "play",
+        "label_curto": "Operar diariamente",
+        "label_longo": "Funcionários marcam presença; relatórios geram automaticamente"
+      }
+    ],
+    "testemunho": {
+      "texto": "Tínhamos sempre conflitos de quem trabalhou que horas e disputas sobre horas extras. Agora está tudo no sistema. Cada um vê o seu mapa de horas. Acabou.",
+      "autor": "Gestor de condomínio, Lobito"
+    },
+    "faq": [
+      {
+        "pergunta": "Suporta turnos nocturnos e fins-de-semana?",
+        "resposta": "Sim. Pode definir adicionais por turno nocturno, fim-de-semana ou feriado, e o sistema calcula automaticamente."
+      },
+      {
+        "pergunta": "Liga-se ao Reconhecimento Facial ZKTeco?",
+        "resposta": "Sim. Se tiver o add-on ZKTeco, a presença é marcada por reconhecimento facial em vez de manual."
+      },
+      {
+        "pergunta": "Posso ter mais que um modelo de turno?",
+        "resposta": "Sim. Crie modelos diferentes (turno A, turno B, fim-de-semana) e aplique conforme necessário."
+      },
+      {
+        "pergunta": "Os relatórios são compatíveis com folha de pagamento?",
+        "resposta": "Sim. Exporta em PDF e Excel com horas normais, extras, nocturnas e faltas, prontos para integração com folha de pagamento."
+      }
+    ]
+  },
+  "encomendas_avancado": {
+    "tagline": "Gestão profissional de encomendas com dimensões, fotos, e notificações inteligentes.",
+    "problema": "O guarda recebe uma encomenda mas não consegue identificar para quem é. O condómino pergunta 'chegou alguma coisa?'. Encomendas perdidas ou trocadas geram conflitos. A gestão básica de encomendas resolve o registo, mas falta visibilidade real do que está em armazém.",
+    "solucao": "Active funcionalidades avançadas: foto da encomenda ao chegar, dimensões registadas, classificação por tipo (correio, supermercado, electrónico), notificação imediata ao condómino com foto, e tempo limite para recolha.",
+    "beneficios": [
+      {
+        "icone": "camera",
+        "titulo": "Foto ao chegar",
+        "descricao": "Guarda tira foto da encomenda; condómino recebe foto na notificação."
+      },
+      {
+        "icone": "ruler",
+        "titulo": "Dimensões registadas",
+        "descricao": "Tamanho e peso para gestão de espaço no armazém."
+      },
+      {
+        "icone": "tags",
+        "titulo": "Classificação",
+        "descricao": "Categorize por tipo: documento, correio, electrónico, supermercado, etc."
+      },
+      {
+        "icone": "bell",
+        "titulo": "Notificação rica",
+        "descricao": "Condómino vê foto, dimensões e prazo para recolha numa só notificação."
+      },
+      {
+        "icone": "clock",
+        "titulo": "Prazo de recolha",
+        "descricao": "Defina prazo (ex: 7 dias) com lembretes automáticos antes do vencimento."
+      },
+      {
+        "icone": "package",
+        "titulo": "Inventário visível",
+        "descricao": "Painel mostra todas as encomendas pendentes com fotos e proprietários."
+      }
+    ],
+    "demo_passos": [
+      {
+        "icone": "camera",
+        "label_curto": "Guarda regista",
+        "label_longo": "Foto, dimensões e tipo da encomenda na app"
+      },
+      {
+        "icone": "send",
+        "label_curto": "Condómino notificado",
+        "label_longo": "Push, SMS ou WhatsApp com foto da encomenda"
+      },
+      {
+        "icone": "check",
+        "label_curto": "Recolha confirmada",
+        "label_longo": "Condómino assina digital ao recolher; encomenda fechada"
+      }
+    ],
+    "testemunho": {
+      "texto": "Antes não sabíamos para quem era metade das encomendas. Agora cada uma tem foto, dimensões, e o condómino sabe imediatamente que chegou.",
+      "autor": "Empresa gestora, Viana"
+    },
+    "faq": [
+      {
+        "pergunta": "É necessário hardware especial?",
+        "resposta": "Não. Apenas o smartphone do guarda (já existente) com a app ONDAKA."
+      },
+      {
+        "pergunta": "Funciona se o guarda for substituído?",
+        "resposta": "Sim. Qualquer guarda autorizado pode registar encomendas; o sistema mostra quem registou cada uma."
+      },
+      {
+        "pergunta": "Posso ver histórico de encomendas antigas?",
+        "resposta": "Sim. Todo o histórico fica disponível por até 12 meses, com fotos incluídas."
+      },
+      {
+        "pergunta": "E se o condómino não recolhe a tempo?",
+        "resposta": "Sistema alerta gestor e condómino. Define-se procedimento (devolução, taxa de armazenamento, etc)."
+      }
+    ]
+  },
+  "reservas_avancado": {
+    "tagline": "Reservas de áreas comuns com regras automáticas, limites por condómino e cobrança integrada.",
+    "problema": "As áreas comuns (salão de festas, churrasqueira, piscina, sala de reuniões) são fontes de conflito: condóminos reservam dias seguidos, ninguém respeita horários, cobranças manuais são caóticas. Sem regras automáticas, a gestão consome muito tempo do administrador.",
+    "solucao": "Configure regras automáticas: limite de horas por condómino por mês, dias da semana permitidos, antecedência mínima, depósito de caução, cobrança automática por uso. O sistema aplica as regras e dispensa o gestor de mediação manual.",
+    "beneficios": [
+      {
+        "icone": "calendar-check",
+        "titulo": "Calendário interactivo",
+        "descricao": "Condómino vê disponibilidade em tempo real e reserva em segundos."
+      },
+      {
+        "icone": "shield",
+        "titulo": "Regras automáticas",
+        "descricao": "Limite de horas, antecedência mínima, dias permitidos — tudo configurável."
+      },
+      {
+        "icone": "credit-card",
+        "titulo": "Cobrança integrada",
+        "descricao": "Taxa de uso e caução debitados automaticamente via Multicaixa Express."
+      },
+      {
+        "icone": "alert-circle",
+        "titulo": "Sem conflitos",
+        "descricao": "Sistema impede sobreposições e excesso de uso por um condómino."
+      },
+      {
+        "icone": "history",
+        "titulo": "Histórico de uso",
+        "descricao": "Veja quem reservou o quê e quando. Para auditoria ou disputas."
+      },
+      {
+        "icone": "settings",
+        "titulo": "Multi-área",
+        "descricao": "Configure regras diferentes para cada área: salão, churrasqueira, piscina, etc."
+      }
+    ],
+    "demo_passos": [
+      {
+        "icone": "settings",
+        "label_curto": "Configurar áreas",
+        "label_longo": "Defina cada área com regras (limite horas, taxa, antecedência)"
+      },
+      {
+        "icone": "calendar",
+        "label_curto": "Condómino reserva",
+        "label_longo": "Escolhe área, data e hora; sistema valida regras"
+      },
+      {
+        "icone": "check-circle",
+        "label_curto": "Pagamento e confirmação",
+        "label_longo": "Taxa é cobrada; reserva fica confirmada"
+      }
+    ],
+    "testemunho": {
+      "texto": "Antes eu mediava todas as reservas e cobrava manualmente. Era um inferno. Agora os condóminos reservam sozinhos e a taxa é cobrada automaticamente. Liberta-me 5h por semana.",
+      "autor": "Administrador, Condomínio Verde Mar"
+    },
+    "faq": [
+      {
+        "pergunta": "Posso configurar diferentes taxas por horário?",
+        "resposta": "Sim. Taxa diferente para fim-de-semana, noite, feriados — totalmente configurável."
+      },
+      {
+        "pergunta": "E se um condómino cancelar?",
+        "resposta": "Configurável: política de cancelamento (até 24h antes, 48h, sem reembolso) automatizada."
+      },
+      {
+        "pergunta": "Como funciona a caução?",
+        "resposta": "Valor reservado no momento da reserva; libertado automaticamente após uso ou retido se houver dano."
+      },
+      {
+        "pergunta": "Suporta múltiplas áreas comuns?",
+        "resposta": "Sim. Quantas áreas o condomínio tiver, cada uma com regras próprias."
+      }
+    ]
+  },
+  "manutencao_preventiva": {
+    "tagline": "Planeie manutenções preventivas com calendário visual e informe os condóminos com antecedência.",
+    "problema": "A manutenção do condomínio é quase sempre reactiva: avaria, queixa, conserto. Mas o que está organizado em calendário (inspecção do elevador, limpeza dos depósitos, manutenção dos jardins) salta entre o calendário do administrador, e-mails e WhatsApp. Condóminos são apanhados de surpresa quando há corte de água ou luz.",
+    "solucao": "Cadastre todas as manutenções preventivas num calendário visual: data, área afectada, fornecedor, descrição. Os condóminos vêem o calendário (web ou mobile), recebem aviso com antecedência, e podem sugerir manutenções necessárias.",
+    "beneficios": [
+      {
+        "icone": "calendar",
+        "titulo": "Calendário visual",
+        "descricao": "Veja todas as manutenções planeadas para a semana, mês ou ano."
+      },
+      {
+        "icone": "users",
+        "titulo": "Condómino informado",
+        "descricao": "Antes de qualquer manutenção, condóminos recebem aviso (push, SMS ou WhatsApp)."
+      },
+      {
+        "icone": "message-square",
+        "titulo": "Sugestões dos condóminos",
+        "descricao": "Condómino que detecta problema (rachadura, infiltração) sugere manutenção pela app."
+      },
+      {
+        "icone": "repeat",
+        "titulo": "Manutenções recorrentes",
+        "descricao": "Configure recorrência (mensal, trimestral, anual) e o sistema agenda automaticamente."
+      },
+      {
+        "icone": "check-square",
+        "titulo": "Histórico técnico",
+        "descricao": "Cada manutenção fica registada com fornecedor, custo e fotos antes/depois."
+      },
+      {
+        "icone": "trending-up",
+        "titulo": "Reduz custos a longo prazo",
+        "descricao": "Manutenção preventiva é 3-5x mais barata que reactiva."
+      }
+    ],
+    "demo_passos": [
+      {
+        "icone": "plus",
+        "label_curto": "Agendar manutenção",
+        "label_longo": "Defina data, área, fornecedor e descrição"
+      },
+      {
+        "icone": "bell",
+        "label_curto": "Condóminos avisados",
+        "label_longo": "Sistema notifica afectados 48-72h antes"
+      },
+      {
+        "icone": "check",
+        "label_curto": "Executar e registar",
+        "label_longo": "Marque como concluído com fotos e factura"
+      }
+    ],
+    "testemunho": {
+      "texto": "Antes os condóminos reclamavam por cortes de água sem aviso. Agora sabem com 72h de antecedência e o ambiente mudou completamente.",
+      "autor": "Administrador, Edifício Costa Norte"
+    },
+    "faq": [
+      {
+        "pergunta": "Os condóminos podem ver o calendário completo?",
+        "resposta": "Sim, na app mobile. Vêem todas as manutenções previstas que os afectem."
+      },
+      {
+        "pergunta": "E as sugestões dos condóminos?",
+        "resposta": "Aparecem no painel do gestor para análise. Gestor decide se transforma em manutenção agendada."
+      },
+      {
+        "pergunta": "Posso ter manutenções confidenciais?",
+        "resposta": "Sim. Algumas manutenções (ex: limpeza de zonas técnicas) podem ser ocultas dos condóminos."
+      },
+      {
+        "pergunta": "Liga-se aos fornecedores certificados?",
+        "resposta": "Sim. Pode atribuir manutenções a fornecedores do seu cadastro com histórico e avaliações."
+      }
+    ]
+  },
+  "checklist_inspeccao": {
+    "tagline": "Inspecções diárias estruturadas para funcionários, com fotos e relatórios automáticos.",
+    "problema": "As inspecções diárias dos funcionários (porteiros, equipa de limpeza, guardas) são informais ou em papel. Não há prova do que foi inspeccionado, em que estado estava, ou se houve anomalia. Quando há um problema, ninguém sabe se foi detectado e ignorado, ou se passou despercebido.",
+    "solucao": "Crie checklists digitais para cada turno e função: 'verificar elevador', 'limpar lobby', 'inspeccionar piscina'. Funcionário marca cada item, anexa foto se necessário, e relatório vai automaticamente ao gestor.",
+    "beneficios": [
+      {
+        "icone": "list-checks",
+        "titulo": "Checklists personalizadas",
+        "descricao": "Crie checklists por turno, função ou área. Quantos quiser."
+      },
+      {
+        "icone": "camera",
+        "titulo": "Foto por item",
+        "descricao": "Funcionário anexa foto a qualquer item da checklist. Prova visual."
+      },
+      {
+        "icone": "smartphone",
+        "titulo": "Tudo na app mobile",
+        "descricao": "Funcionário faz inspecção pela app, sem papelada."
+      },
+      {
+        "icone": "alert-triangle",
+        "titulo": "Alertas de anomalia",
+        "descricao": "Se funcionário marca anomalia, gestor é notificado em tempo real."
+      },
+      {
+        "icone": "history",
+        "titulo": "Auditoria total",
+        "descricao": "Histórico completo do que foi inspeccionado, quando, por quem, com que resultado."
+      },
+      {
+        "icone": "chart-bar",
+        "titulo": "KPIs operacionais",
+        "descricao": "Veja taxa de conclusão de inspecções, anomalias por área, tempo médio."
+      }
+    ],
+    "demo_passos": [
+      {
+        "icone": "edit",
+        "label_curto": "Criar checklist",
+        "label_longo": "Defina items a inspeccionar para cada função/turno"
+      },
+      {
+        "icone": "smartphone",
+        "label_curto": "Funcionário executa",
+        "label_longo": "App mostra checklist; funcionário marca e fotografa"
+      },
+      {
+        "icone": "file-text",
+        "label_curto": "Relatório automático",
+        "label_longo": "Gestor recebe relatório com resultados e anomalias"
+      }
+    ],
+    "testemunho": {
+      "texto": "Detectamos uma fuga de água no parking que poderia ter sido catastrófica. Foi um funcionário a fazer a checklist diária que marcou anomalia. Sem o sistema, ninguém saberia.",
+      "autor": "Empresa gestora, Cabinda"
+    },
+    "faq": [
+      {
+        "pergunta": "Quantas checklists posso criar?",
+        "resposta": "Ilimitadas. Por turno, por função, por área, por dia da semana — como precisar."
+      },
+      {
+        "pergunta": "Funciona offline?",
+        "resposta": "Sim. Funcionário pode fazer inspecções sem internet; sincroniza quando voltar a ter sinal."
+      },
+      {
+        "pergunta": "Os condóminos vêem as inspecções?",
+        "resposta": "Não por padrão. Mas pode partilhar relatórios mensais com a assembleia se quiser."
+      },
+      {
+        "pergunta": "Liga-se ao Módulo RH?",
+        "resposta": "Sim. Funcionários cadastrados no RH executam as suas próprias checklists."
+      }
+    ]
+  },
+  "fornecedores_certificados": {
+    "tagline": "Marketplace interno de fornecedores verificados pela ONDAKA, prontos para servir o seu condomínio.",
+    "problema": "Encontrar bons fornecedores em Angola é difícil: as referências passam por amigos, qualidade varia, alguns desaparecem após o pagamento. Quando precisa de uma empresa de limpeza, segurança ou manutenção urgente, a procura consome dias.",
+    "solucao": "Aceda a uma lista curada de fornecedores certificados pela ONDAKA: empresas verificadas (NIF, alvará, seguros), com histórico de trabalho em condomínios, avaliações reais de outros gestores e preços de referência.",
+    "beneficios": [
+      {
+        "icone": "shield-check",
+        "titulo": "Fornecedores verificados",
+        "descricao": "Cada empresa passa por verificação: NIF, alvará, seguros e referências."
+      },
+      {
+        "icone": "star",
+        "titulo": "Avaliações reais",
+        "descricao": "Veja como outros gestores avaliaram o fornecedor antes de contratar."
+      },
+      {
+        "icone": "tags",
+        "titulo": "Por categoria",
+        "descricao": "Limpeza, segurança, jardinagem, manutenção, elevadores — encontre o que precisa."
+      },
+      {
+        "icone": "phone",
+        "titulo": "Contacto directo",
+        "descricao": "Peça orçamentos directamente da plataforma; resposta em 24-48h."
+      },
+      {
+        "icone": "trending-up",
+        "titulo": "Preços de referência",
+        "descricao": "Veja faixa de preços por categoria para negociar com conhecimento."
+      },
+      {
+        "icone": "users",
+        "titulo": "Histórico no condomínio",
+        "descricao": "Saiba se o fornecedor já trabalhou no seu condomínio e como correu."
+      }
+    ],
+    "demo_passos": [
+      {
+        "icone": "search",
+        "label_curto": "Pesquisar fornecedor",
+        "label_longo": "Filtre por categoria, localização e avaliação"
+      },
+      {
+        "icone": "phone",
+        "label_curto": "Pedir orçamento",
+        "label_longo": "Solicite proposta directamente da plataforma"
+      },
+      {
+        "icone": "star",
+        "label_curto": "Avaliar após serviço",
+        "label_longo": "Deixe avaliação para ajudar outros gestores"
+      }
+    ],
+    "testemunho": {
+      "texto": "Encontrei uma empresa de manutenção de elevadores na ONDAKA. Avaliação de 4.8 estrelas em 23 condomínios. Excelente serviço, preço justo. Nunca teria descoberto sozinho.",
+      "autor": "Empresa gestora, Luanda"
+    },
+    "faq": [
+      {
+        "pergunta": "Como um fornecedor entra no marketplace?",
+        "resposta": "A ONDAKA verifica documentos (NIF, alvará, seguros) e avalia antes de listar. Não é entrada automática."
+      },
+      {
+        "pergunta": "Há comissão para a ONDAKA?",
+        "resposta": "Sim, uma pequena comissão sobre o primeiro contrato (não recorrente). Os condomínios não pagam por usar o marketplace."
+      },
+      {
+        "pergunta": "Posso continuar a usar fornecedores fora do marketplace?",
+        "resposta": "Sim, completamente. O marketplace é uma opção adicional, não obrigatória."
+      },
+      {
+        "pergunta": "Funciona em todas as cidades de Angola?",
+        "resposta": "Foco inicial em Luanda, Talatona, Viana, Benguela e Lobito. Outras cidades à medida que adicionamos fornecedores verificados."
+      }
+    ]
+  },
+  "layout_pdf_acta_profissional": {
+    "tagline": "Actas em PDF com layout profissional, logo do condomínio e formatação legal apropriada.",
+    "problema": "A acta da assembleia é um documento legal com força executiva (DP 141/15), mas geralmente sai em formato pobre: Word genérico, sem logo, fonte sans-serif, sem numeração de páginas, sem rodapé com NIF. Quando se apresenta a um tribunal, o aspecto amador prejudica a percepção de seriedade.",
+    "solucao": "Active o layout profissional: PDF com logo do condomínio no topo, fonte serif para corpo do texto (mais formal), numeração de páginas, rodapé com NIF e dados oficiais, espaços para assinaturas. Pronto para uso legal.",
+    "beneficios": [
+      {
+        "icone": "image",
+        "titulo": "Logo do condomínio",
+        "descricao": "Logo no topo de cada página, identidade visual profissional."
+      },
+      {
+        "icone": "type",
+        "titulo": "Fonte serif formal",
+        "descricao": "Tipografia tradicional usada em documentos legais."
+      },
+      {
+        "icone": "hash",
+        "titulo": "Numeração de páginas",
+        "descricao": "Cada página numerada (1 de N), padrão para documentos oficiais."
+      },
+      {
+        "icone": "info",
+        "titulo": "Rodapé com dados oficiais",
+        "descricao": "NIF, morada, contactos do condomínio em cada página."
+      },
+      {
+        "icone": "edit",
+        "titulo": "Espaços para assinaturas",
+        "descricao": "Layout reservado no final para assinatura do presidente e secretário."
+      },
+      {
+        "icone": "shield",
+        "titulo": "Conformidade DP 141/15",
+        "descricao": "Estrutura conforme exigências legais para actas de assembleia."
+      }
+    ],
+    "demo_passos": [
+      {
+        "icone": "upload",
+        "label_curto": "Upload logo",
+        "label_longo": "Faça upload do logo do condomínio (uma vez)"
+      },
+      {
+        "icone": "edit",
+        "label_curto": "Configurar rodapé",
+        "label_longo": "Defina NIF, morada e contactos do condomínio"
+      },
+      {
+        "icone": "file-text",
+        "label_curto": "Gerar acta",
+        "label_longo": "Após cada assembleia, acta sai com layout profissional"
+      }
+    ],
+    "testemunho": {
+      "texto": "Apresentei uma acta em tribunal para cobrança judicial. O juiz comentou positivamente a apresentação do documento. Antes era um Word triste, agora é um documento profissional.",
+      "autor": "Administrador, Edifício Atlântico"
+    },
+    "faq": [
+      {
+        "pergunta": "Posso personalizar cores além do logo?",
+        "resposta": "Sim. Cor primária do condomínio aplicada em títulos e cabeçalhos. Resto mantém-se neutro para legibilidade."
+      },
+      {
+        "pergunta": "Formato é compatível com cartório?",
+        "resposta": "Sim. PDF/A com metadados, pronto para registo em cartório se necessário."
+      },
+      {
+        "pergunta": "Funciona com Assembleia Virtual?",
+        "resposta": "Sim. Independente do tipo de assembleia (presencial, virtual, mista), a acta sai com este layout."
+      },
+      {
+        "pergunta": "Posso usar para outros documentos?",
+        "resposta": "Versão actual cobre só actas. Versões futuras incluirão regulamentos, contratos e outros documentos."
+      }
+    ]
+  },
+  "votacao_online_vinculativa": {
+    "tagline": "Votação online com força legal, quórum verificado e assinatura digital — sem precisar reunir todos fisicamente.",
+    "problema": "Muitas deliberações simples ficam paradas porque é difícil reunir o quórum legal em assembleia presencial. Mas a votação por WhatsApp ou email não tem força legal — qualquer condómino pode contestar. Sem mecanismo formal de votação remota, decisões importantes atrasam-se meses.",
+    "solucao": "Active votação online com validade legal: convocatória oficial, verificação de quórum em tempo real, voto secreto com assinatura digital, e acta automática conforme DP 141/15. Decisões aprovadas online têm a mesma força que assembleia presencial.",
+    "beneficios": [
+      {
+        "icone": "shield-check",
+        "titulo": "Validade legal",
+        "descricao": "Conforme DP 141/15. Mesma força executiva que assembleia presencial."
+      },
+      {
+        "icone": "users",
+        "titulo": "Quórum em tempo real",
+        "descricao": "Veja quantos votaram, quantos faltam para quórum, percentagem de aprovação."
+      },
+      {
+        "icone": "lock",
+        "titulo": "Voto secreto",
+        "descricao": "Cada voto é anónimo (excepto para auditoria interna). Liberdade plena."
+      },
+      {
+        "icone": "fingerprint",
+        "titulo": "Assinatura digital",
+        "descricao": "Voto assinado digitalmente com identificação do condómino e timestamp."
+      },
+      {
+        "icone": "smartphone",
+        "titulo": "Vota da app",
+        "descricao": "Condómino vota em segundos pela app mobile, em qualquer lugar."
+      },
+      {
+        "icone": "file-text",
+        "titulo": "Acta automática",
+        "descricao": "Após votação encerrada, acta gera automaticamente com resultados detalhados."
+      }
+    ],
+    "demo_passos": [
+      {
+        "icone": "edit",
+        "label_curto": "Criar votação",
+        "label_longo": "Defina pergunta, opções, quórum mínimo e prazo"
+      },
+      {
+        "icone": "send",
+        "label_curto": "Enviar convocatória",
+        "label_longo": "Condóminos recebem por push, SMS e WhatsApp"
+      },
+      {
+        "icone": "check-circle",
+        "label_curto": "Resultado oficial",
+        "label_longo": "Após prazo, acta sai com resultado final"
+      }
+    ],
+    "testemunho": {
+      "texto": "Aprovámos uma derrama de 12 milhões de kwanzas para obras urgentes em 48h. Antes teria sido 3 meses de tentativas de reunir presencial.",
+      "autor": "Administrador, Condomínio Marítimo"
+    },
+    "faq": [
+      {
+        "pergunta": "É juridicamente válido em Angola?",
+        "resposta": "Sim, com Lei 22/11 (Lei das Comunicações Electrónicas) e DP 141/15. Empresa gestora deve aprovar previamente este método em assembleia presencial inicial."
+      },
+      {
+        "pergunta": "E se um condómino não tiver telemóvel?",
+        "resposta": "Pode votar pelo painel web ou solicitar ajuda à administração para registar voto presencialmente."
+      },
+      {
+        "pergunta": "Procuração é aceite?",
+        "resposta": "Sim, se tiver o add-on Procuração Digital activo. Caso contrário, só voto directo."
+      },
+      {
+        "pergunta": "Como se garante que não há fraude?",
+        "resposta": "Identificação única do condómino, timestamp do voto, IP registado, e auditoria completa disponível para qualquer condómino."
+      }
+    ]
+  },
+  "procuracao_digital": {
+    "tagline": "Delegue o seu voto digitalmente, com segurança e validade legal.",
+    "problema": "Quando um condómino não pode estar presente numa assembleia, a procuração tradicional exige documento físico assinado, reconhecido em cartório, entregue ao representante. É burocrático, caro e desencoraja a participação remota. Resultado: assembleias frequentemente não atingem quórum.",
+    "solucao": "Crie procurações digitais pela app: escolha o representante, defina o âmbito (todos os pontos ou pontos específicos), assine digitalmente, e fica activo na próxima assembleia. Sem cartório, sem papelada.",
+    "beneficios": [
+      {
+        "icone": "user-check",
+        "titulo": "Escolher representante",
+        "descricao": "Delegue voto a outro condómino que confia. Não precisa ser familiar."
+      },
+      {
+        "icone": "list",
+        "titulo": "Âmbito flexível",
+        "descricao": "Procuração para toda a assembleia ou só para pontos específicos."
+      },
+      {
+        "icone": "fingerprint",
+        "titulo": "Assinatura digital segura",
+        "descricao": "Identidade verificada por SMS/biometria. Sem possibilidade de falsificação."
+      },
+      {
+        "icone": "clock",
+        "titulo": "Validade limitada",
+        "descricao": "Procuração válida só para a assembleia escolhida (ou período definido)."
+      },
+      {
+        "icone": "x-circle",
+        "titulo": "Cancelamento fácil",
+        "descricao": "Pode cancelar a procuração a qualquer momento antes do voto."
+      },
+      {
+        "icone": "shield",
+        "titulo": "Conformidade legal",
+        "descricao": "Reconhecida nos termos de DP 141/15 e Lei das Comunicações Electrónicas."
+      }
+    ],
+    "demo_passos": [
+      {
+        "icone": "user-plus",
+        "label_curto": "Escolher representante",
+        "label_longo": "Seleccione outro condómino da lista"
+      },
+      {
+        "icone": "check-square",
+        "label_curto": "Definir âmbito",
+        "label_longo": "Toda a assembleia ou só pontos específicos"
+      },
+      {
+        "icone": "fingerprint",
+        "label_curto": "Assinar e confirmar",
+        "label_longo": "Assinatura digital com verificação SMS"
+      }
+    ],
+    "testemunho": {
+      "texto": "Estava no estrangeiro durante a assembleia. Pela app, deleguei o voto à minha mãe que mora no mesmo condomínio. Em 2 minutos. Antes seria impossível.",
+      "autor": "Condómino, Edifício Vista do Mar"
+    },
+    "faq": [
+      {
+        "pergunta": "Posso delegar a qualquer pessoa?",
+        "resposta": "Só a outro condómino do mesmo condomínio. Procuradores externos requerem documento legal tradicional."
+      },
+      {
+        "pergunta": "Quantas procurações um condómino pode receber?",
+        "resposta": "Por padrão, máximo 2 procurações por condómino-representante (regra DP 141/15)."
+      },
+      {
+        "pergunta": "E se mudar de ideias após delegar?",
+        "resposta": "Pode cancelar a procuração até ao início da votação. Após isso, o voto do representante é definitivo."
+      },
+      {
+        "pergunta": "Funciona para votações online vinculativas?",
+        "resposta": "Sim, integrado com o add-on Votação Online Vinculativa."
+      }
+    ]
+  },
+  "chatbot_ia_avancado": {
+    "tagline": "Chatbot com inteligência artificial generativa em português de Angola, responde a qualquer pergunta dos condóminos.",
+    "problema": "O Chatbot FAQ standard responde a 150 perguntas pré-configuradas, mas os condóminos perguntam de mil maneiras diferentes. Quando a pergunta não bate exactamente, o chatbot falha. O administrador acaba a responder pessoalmente perguntas básicas, perdendo tempo precioso.",
+    "solucao": "Active o Chatbot IA Avançado: usa inteligência artificial generativa treinada em português de Angola para entender qualquer pergunta dos condóminos, mesmo as mais variadas. Aprende com o contexto específico do seu condomínio.",
+    "beneficios": [
+      {
+        "icone": "sparkles",
+        "titulo": "IA generativa",
+        "descricao": "Responde a perguntas livres, não só FAQs pré-configuradas."
+      },
+      {
+        "icone": "globe",
+        "titulo": "Português de Angola",
+        "descricao": "Treinado em terminologia angolana (DP 141/15, kwanza, comuna)."
+      },
+      {
+        "icone": "brain",
+        "titulo": "Aprende com contexto",
+        "descricao": "Conhece regras específicas do seu condomínio, fundo de reserva, regulamentos."
+      },
+      {
+        "icone": "trending-up",
+        "titulo": "85%+ resolução automática",
+        "descricao": "Reduz drasticamente perguntas que chegam ao administrador."
+      },
+      {
+        "icone": "moon",
+        "titulo": "24/7 disponível",
+        "descricao": "Condóminos têm resposta a qualquer hora, fim-de-semana e feriados incluídos."
+      },
+      {
+        "icone": "headphones",
+        "titulo": "Escalação inteligente",
+        "descricao": "Quando não sabe, transfere conversa para o administrador automaticamente."
+      }
+    ],
+    "demo_passos": [
+      {
+        "icone": "upload",
+        "label_curto": "Carregar documentos",
+        "label_longo": "Suba regulamento, actas e documentos do condomínio"
+      },
+      {
+        "icone": "settings",
+        "label_curto": "Treinar IA",
+        "label_longo": "IA aprende com os documentos em horas"
+      },
+      {
+        "icone": "message-circle",
+        "label_curto": "Condóminos perguntam",
+        "label_longo": "IA responde de forma contextualizada e precisa"
+      }
+    ],
+    "testemunho": {
+      "texto": "Antes eu respondia a 30-40 mensagens de condóminos por dia. Agora a IA resolve 90%. Só me chegam as questões realmente complexas.",
+      "autor": "Administrador, Condomínio Solar Sul"
+    },
+    "faq": [
+      {
+        "pergunta": "Qual a diferença para o Chatbot FAQ standard?",
+        "resposta": "O FAQ standard tem 150 respostas pré-escritas e bate exactamente. O IA Avançado entende qualquer pergunta e gera resposta contextualizada com base nos documentos do condomínio."
+      },
+      {
+        "pergunta": "Funciona em outras línguas?",
+        "resposta": "Foco principal é português de Angola. Suporta também português brasileiro/europeu, inglês e francês básico."
+      },
+      {
+        "pergunta": "Há limite de perguntas por mês?",
+        "resposta": "Sim, dependendo do plano. Plano standard inclui 1000 perguntas/mês. Adicionais a 5 Kz por pergunta."
+      },
+      {
+        "pergunta": "A IA pode dar resposta errada?",
+        "resposta": "Pode. Por isso configuramos escalação automática: questões complexas ou de baixo confiança são transferidas ao administrador para validar."
+      }
+    ]
+  },
+  "email_marketing": {
+    "tagline": "Campanhas de email profissionais para condóminos, newsletters mensais e comunicação dirigida.",
+    "problema": "Comunicar com os condóminos por email comum (gmail/outlook do gestor) é amador: sem identidade visual do condomínio, sem tracking de abertura, sem segmentação, sem botões de acção. Newsletters mensais ficam por fazer porque dão trabalho. Comunicados importantes são ignorados.",
+    "solucao": "Use o módulo de Email Marketing para criar campanhas profissionais: templates visuais com o branding do condomínio, segmentação (todos, bloco A, devedores), tracking de leitura, e relatórios de engagement.",
+    "beneficios": [
+      {
+        "icone": "palette",
+        "titulo": "Templates profissionais",
+        "descricao": "Modelos prontos: newsletter mensal, comunicado urgente, prestação de contas."
+      },
+      {
+        "icone": "users",
+        "titulo": "Segmentação avançada",
+        "descricao": "Envie só para bloco A, só para devedores, só para arrendatários."
+      },
+      {
+        "icone": "bar-chart",
+        "titulo": "Tracking completo",
+        "descricao": "Veja quem abriu, quem clicou em que ligação, quem ignorou."
+      },
+      {
+        "icone": "image",
+        "titulo": "Branding consistente",
+        "descricao": "Logo, cores e fontes do condomínio em todas as comunicações."
+      },
+      {
+        "icone": "calendar",
+        "titulo": "Agendamento de envios",
+        "descricao": "Crie hoje e envie automaticamente na hora certa (ex: sexta 17h)."
+      },
+      {
+        "icone": "smartphone",
+        "titulo": "Responsive mobile",
+        "descricao": "Emails lêem-se bem no telemóvel, computador e tablet."
+      }
+    ],
+    "demo_passos": [
+      {
+        "icone": "edit",
+        "label_curto": "Criar campanha",
+        "label_longo": "Escolha template, segmento e mensagem"
+      },
+      {
+        "icone": "eye",
+        "label_curto": "Pré-visualizar",
+        "label_longo": "Veja como vai aparecer no email do condómino"
+      },
+      {
+        "icone": "send",
+        "label_curto": "Enviar ou agendar",
+        "label_longo": "Envio imediato ou agendado para data/hora"
+      }
+    ],
+    "testemunho": {
+      "texto": "Adoptamos a newsletter mensal. Taxa de abertura é 78%, antes era impossível medir. Os condóminos sentem-se mais informados e participativos.",
+      "autor": "Empresa gestora, Sumbe"
+    },
+    "faq": [
+      {
+        "pergunta": "Quantos emails posso enviar por mês?",
+        "resposta": "Depende do plano: standard inclui 5.000 envios/mês. Pacotes extras disponíveis."
+      },
+      {
+        "pergunta": "Os condóminos podem cancelar subscrição?",
+        "resposta": "Sim. Cada email tem link de unsubscribe conforme regulamentação. Comunicados legais obrigatórios continuam a chegar mesmo após unsubscribe."
+      },
+      {
+        "pergunta": "Diferença vs email transaccional (notificações)?",
+        "resposta": "Email transaccional (factura, lembrete pagamento) é gratuito e ilimitado. Email Marketing é para campanhas e newsletters."
+      },
+      {
+        "pergunta": "Tem editor visual?",
+        "resposta": "Sim. Editor drag-and-drop tipo Mailchimp, com blocos pré-feitos (texto, imagem, botão, divisor)."
+      }
+    ]
+  },
+  "realtime_pusher": {
+    "tagline": "Notificações instantâneas em tempo real para uma experiência moderna e fluida.",
+    "problema": "Notificações em sistemas tradicionais demoram 30 segundos a 5 minutos a chegar (polling). Para situações urgentes — emergência SOS, visitante na portaria, pedido de aprovação — isto é demasiado. Os condóminos perdem confiança no sistema quando avisos chegam tarde.",
+    "solucao": "Active Realtime Pusher: tecnologia WebSocket que entrega notificações em menos de 1 segundo. SOS, chegada de encomenda, aprovação de visitante — tudo em tempo real, como WhatsApp.",
+    "beneficios": [
+      {
+        "icone": "zap",
+        "titulo": "Latência <1 segundo",
+        "descricao": "Notificações instantâneas, não esperas de minutos."
+      },
+      {
+        "icone": "wifi",
+        "titulo": "WebSocket persistente",
+        "descricao": "Conexão permanente, sem necessidade de refrescar."
+      },
+      {
+        "icone": "battery",
+        "titulo": "Eficiência de bateria",
+        "descricao": "Push em vez de polling = menos consumo do telemóvel."
+      },
+      {
+        "icone": "alert-triangle",
+        "titulo": "Emergências eficazes",
+        "descricao": "SOS chegam em segundos, não minutos. Pode salvar vidas."
+      },
+      {
+        "icone": "users",
+        "titulo": "Múltiplos dispositivos",
+        "descricao": "Notificação chega em simultâneo no telemóvel, tablet e PC do condómino."
+      },
+      {
+        "icone": "shield",
+        "titulo": "Encriptação ponta-a-ponta",
+        "descricao": "Notificações encriptadas; só destinatário lê."
+      }
+    ],
+    "demo_passos": [
+      {
+        "icone": "wifi",
+        "label_curto": "Conexão estabelecida",
+        "label_longo": "App conecta-se ao servidor automaticamente"
+      },
+      {
+        "icone": "bell-ring",
+        "label_curto": "Evento ocorre",
+        "label_longo": "Visitante na portaria, SOS, novo pedido"
+      },
+      {
+        "icone": "smartphone",
+        "label_curto": "Notificação imediata",
+        "label_longo": "Chega ao condómino em <1 segundo"
+      }
+    ],
+    "testemunho": {
+      "texto": "Tivemos uma emergência de incêndio. O SOS chegou aos condóminos em 800 milissegundos. Evacuação foi rápida e ordeira. Antes seriam 2-3 minutos.",
+      "autor": "Administrador, Edifício Sky Tower"
+    },
+    "faq": [
+      {
+        "pergunta": "Funciona se a app estiver fechada?",
+        "resposta": "Sim, integra com Firebase Cloud Messaging (FCM) que entrega notificações mesmo com app fechada."
+      },
+      {
+        "pergunta": "Consome muito dados móveis?",
+        "resposta": "Mínimo. WebSocket é eficiente: <1KB por notificação. Mesmo com 100 notificações por mês, são <100KB."
+      },
+      {
+        "pergunta": "Funciona em redes 3G/4G fracas?",
+        "resposta": "Sim, embora a latência possa subir para 2-3 segundos em redes muito fracas. Ainda assim, muito mais rápido que polling."
+      },
+      {
+        "pergunta": "Posso desligar Realtime para algumas notificações?",
+        "resposta": "Sim. Cada utilizador escolhe quais tipos quer em tempo real e quais aceita polling normal."
+      }
+    ]
+  },
+  "pagar_tudo_multicaixa": {
+    "tagline": "Pague todas as quotas pendentes (atrasadas + actuais) numa única transacção Multicaixa.",
+    "problema": "Condómino acumula 3 meses de quotas atrasadas. Para regularizar, tem de fazer 4 transacções Multicaixa separadas (3 atrasadas + actual). Cada uma com taxa de operação. Burocrático e caro. Resultado: muitos adiam ainda mais.",
+    "solucao": "Com o add-on Pagar Tudo Multicaixa, o condómino vê todas as taxas pendentes no app e paga TUDO numa única transacção. Sistema gera uma referência consolidada; condómino paga uma vez; sistema divide internamente.",
+    "beneficios": [
+      {
+        "icone": "credit-card",
+        "titulo": "Uma transacção",
+        "descricao": "Pague 3, 6 ou 12 quotas atrasadas numa só transferência Multicaixa."
+      },
+      {
+        "icone": "trending-down",
+        "titulo": "Menos taxas bancárias",
+        "descricao": "Uma transacção = uma taxa. Poupa em comissões de operação."
+      },
+      {
+        "icone": "calendar-check",
+        "titulo": "Regularização rápida",
+        "descricao": "Fique em dia em segundos, não em vários dias de transacções separadas."
+      },
+      {
+        "icone": "list",
+        "titulo": "Discriminação clara",
+        "descricao": "Comprovativo lista quais quotas foram pagas e respectivos meses."
+      },
+      {
+        "icone": "shield-check",
+        "titulo": "Pagamentos correctamente alocados",
+        "descricao": "Sistema divide internamente pelas quotas certas (mais antigas primeiro)."
+      },
+      {
+        "icone": "smartphone",
+        "titulo": "Tudo no telemóvel",
+        "descricao": "Veja saldo total devido e pague directamente da app."
+      }
+    ],
+    "demo_passos": [
+      {
+        "icone": "list",
+        "label_curto": "Ver saldo devido",
+        "label_longo": "App mostra todas as quotas pendentes"
+      },
+      {
+        "icone": "check-square",
+        "label_curto": "Seleccionar quais pagar",
+        "label_longo": "Marque todas ou só algumas das pendentes"
+      },
+      {
+        "icone": "send",
+        "label_curto": "Pagar tudo",
+        "label_longo": "Uma transacção Multicaixa cobre o total"
+      }
+    ],
+    "testemunho": {
+      "texto": "Tinha 5 meses atrasados. Em vez de 5 idas ao banco, paguei tudo da app em 30 segundos. Custou 5x menos em taxas bancárias.",
+      "autor": "Condómino, Residencial Talatona"
+    },
+    "faq": [
+      {
+        "pergunta": "Funciona com qualquer banco?",
+        "resposta": "Sim, com qualquer cartão Multicaixa angolano."
+      },
+      {
+        "pergunta": "Posso escolher só algumas quotas?",
+        "resposta": "Sim. Pode marcar 2 ou 3 das 5 pendentes e pagar só essas."
+      },
+      {
+        "pergunta": "Há limite de valor por transacção?",
+        "resposta": "Sim, o limite é o do seu cartão Multicaixa Express (geralmente 500.000 Kz/dia). Para valores superiores, transferência bancária tradicional."
+      },
+      {
+        "pergunta": "Os juros de mora são incluídos?",
+        "resposta": "Sim, se o condomínio tem juros activos. Sistema calcula juros sobre quotas atrasadas e inclui no total."
+      }
+    ]
+  },
+  "sistema_creditos": {
+    "tagline": "Carteira pré-paga para condóminos: deposite saldo e gaste em taxas, reservas e serviços do condomínio.",
+    "problema": "Cada interacção financeira do condómino com o condomínio é uma transacção isolada: pagar quota, pagar reserva do salão, pagar serviço de marketplace. Múltiplas transacções, múltiplas referências, múltiplas taxas. Sem visão consolidada de saldo do condómino.",
+    "solucao": "Active o Sistema de Créditos: condómino pode depositar saldo (carteira pré-paga) na sua conta no condomínio. À medida que paga quotas, faz reservas ou compra serviços, o saldo é debitado. Pode também ser usado para devoluções (créditos por excesso pago).",
+    "beneficios": [
+      {
+        "icone": "wallet",
+        "titulo": "Carteira do condómino",
+        "descricao": "Cada condómino tem uma carteira com saldo visível, debitado conforme uso."
+      },
+      {
+        "icone": "trending-up",
+        "titulo": "Recarga única",
+        "descricao": "Deposite 50.000 Kz e gaste ao longo do ano em taxas, reservas, etc."
+      },
+      {
+        "icone": "gift",
+        "titulo": "Bónus de recarga",
+        "descricao": "Recargas grandes (acima de 100.000 Kz) podem ter bónus configurável."
+      },
+      {
+        "icone": "refresh-cw",
+        "titulo": "Devoluções automáticas",
+        "descricao": "Crédito por pagamento em excesso volta à carteira, sem burocracia."
+      },
+      {
+        "icone": "history",
+        "titulo": "Histórico transparente",
+        "descricao": "Cada entrada e saída no saldo registada e visível."
+      },
+      {
+        "icone": "trending-down",
+        "titulo": "Reduz inadimplência",
+        "descricao": "Condóminos com saldo pré-pago não atrasam quotas — o sistema debita automaticamente."
+      }
+    ],
+    "demo_passos": [
+      {
+        "icone": "plus",
+        "label_curto": "Carregar saldo",
+        "label_longo": "Condómino transfere valor para a carteira"
+      },
+      {
+        "icone": "shopping-cart",
+        "label_curto": "Usar no condomínio",
+        "label_longo": "Pagar quotas, reservas, serviços — debitado da carteira"
+      },
+      {
+        "icone": "eye",
+        "label_curto": "Ver saldo sempre",
+        "label_longo": "Dashboard mostra saldo restante em tempo real"
+      }
+    ],
+    "testemunho": {
+      "texto": "Carrego 30.000 Kz por trimestre. Não preciso pensar em quotas mensais — sai automaticamente do saldo. É mais simples que pagar mensalmente.",
+      "autor": "Condómino, Condomínio Premium"
+    },
+    "faq": [
+      {
+        "pergunta": "Posso levantar o saldo se quiser?",
+        "resposta": "Sim, mas com prazo (geralmente 30 dias) e possíveis taxas administrativas, conforme regulamento do condomínio."
+      },
+      {
+        "pergunta": "O saldo expira?",
+        "resposta": "Não. Saldo é do condómino para sempre, enquanto for proprietário."
+      },
+      {
+        "pergunta": "Funciona para reservas de áreas comuns?",
+        "resposta": "Sim, totalmente integrado. Reserva debita saldo automaticamente."
+      },
+      {
+        "pergunta": "E se vender o imóvel?",
+        "resposta": "O saldo é restituído ao condómino que saiu, com aplicação das regras de levantamento."
+      }
+    ]
+  },
+  "cobranca_judicial": {
+    "tagline": "Geração automática de processos de cobrança judicial para condóminos em incumprimento prolongado.",
+    "problema": "Quando um condómino acumula 6, 12 ou mais meses de quotas em atraso, a cobrança extrajudicial deixa de funcionar. A via judicial é necessária mas demorada: documentação, procurador, deslocações ao tribunal. Muitos condomínios desistem por falta de tempo ou conhecimento, perdendo receita.",
+    "solucao": "O add-on Cobrança Judicial Automática prepara toda a documentação necessária: histórico de incumprimento, cálculo de juros e multas, modelo de petição inicial, e ligação com parceiros jurídicos da ONDAKA. Reduz drasticamente o tempo e custo de iniciar processo.",
+    "beneficios": [
+      {
+        "icone": "file-text",
+        "titulo": "Documentação automática",
+        "descricao": "Histórico financeiro, conta-corrente assinada digitalmente, comprovativos."
+      },
+      {
+        "icone": "calculator",
+        "titulo": "Cálculo de juros e multas",
+        "descricao": "Sistema calcula automaticamente juros legais, multas e taxas judiciais previstas."
+      },
+      {
+        "icone": "scale",
+        "titulo": "Modelos jurídicos validados",
+        "descricao": "Petições iniciais conforme legislação angolana, validadas por escritórios parceiros."
+      },
+      {
+        "icone": "users",
+        "titulo": "Parceiros jurídicos",
+        "descricao": "Indicação de advogados parceiros ONDAKA com experiência em cobrança condominial."
+      },
+      {
+        "icone": "clock",
+        "titulo": "Reduz tempo de processo",
+        "descricao": "Preparação de processo cai de semanas para horas."
+      },
+      {
+        "icone": "shield",
+        "titulo": "Conformidade DP 141/15",
+        "descricao": "Acta da assembleia que autorizou cobrança é título executivo conforme decreto."
+      }
+    ],
+    "demo_passos": [
+      {
+        "icone": "user-x",
+        "label_curto": "Identificar incumpridor",
+        "label_longo": "Sistema sinaliza condóminos com >6 meses de atraso"
+      },
+      {
+        "icone": "file-text",
+        "label_curto": "Gerar dossier",
+        "label_longo": "Toda a documentação compilada num clique"
+      },
+      {
+        "icone": "send",
+        "label_curto": "Enviar a advogado",
+        "label_longo": "Encaminhar para parceiro jurídico ou advogado do condomínio"
+      }
+    ],
+    "testemunho": {
+      "texto": "Recuperamos 4.5 milhões de kwanzas em 18 meses de processos judiciais. Sem o add-on, teríamos desistido após o primeiro caso pela burocracia.",
+      "autor": "Empresa gestora, Luanda"
+    },
+    "faq": [
+      {
+        "pergunta": "A ONDAKA é o advogado?",
+        "resposta": "Não. A ONDAKA prepara documentação. O processo é conduzido por advogado (parceiro indicado ou da escolha do condomínio)."
+      },
+      {
+        "pergunta": "Qual o custo dos honorários do advogado?",
+        "resposta": "Varia. Parceiros ONDAKA têm acordos preferenciais (geralmente 10-15% do valor recuperado, sem custo inicial)."
+      },
+      {
+        "pergunta": "Funciona com inquilinos (não proprietários)?",
+        "resposta": "Cobrança judicial só aplica a proprietários. Para inquilinos, dirige-se ao senhorio."
+      },
+      {
+        "pergunta": "Quanto tempo demora o processo?",
+        "resposta": "Varia muito: 6 meses a 2 anos em Angola. O add-on reduz preparação inicial; tribunal mantém seu prazo."
+      }
+    ]
+  },
+  "lista_negra_visitantes": {
+    "tagline": "Banir visitantes problemáticos do condomínio com base em BI/passaporte, validado automaticamente na portaria.",
+    "problema": "Visitante causou problemas no condomínio (assédio, furto, comportamento agressivo). A assembleia decide banir essa pessoa. Mas o guarda novo, ou o guarda do turno noturno, não sabe quem está banido. Pessoa volta a entrar como visitante normal. Decisões da assembleia não se cumprem.",
+    "solucao": "Cadastre BIs ou passaportes na lista negra do condomínio. Quando guarda regista chegada de visitante, sistema verifica automaticamente. Se está banido, alerta visual + sonoro impede entrada com justificação clara.",
+    "beneficios": [
+      {
+        "icone": "user-x",
+        "titulo": "Banimento permanente",
+        "descricao": "Adicione BI/passaporte com data e razão do banimento."
+      },
+      {
+        "icone": "alert-triangle",
+        "titulo": "Alerta automático",
+        "descricao": "Guarda recebe alerta visual e sonoro quando tentativa de entrada."
+      },
+      {
+        "icone": "file-text",
+        "titulo": "Justificação documentada",
+        "descricao": "Cada banimento com razão e referência à acta da assembleia."
+      },
+      {
+        "icone": "clock",
+        "titulo": "Banimento temporário",
+        "descricao": "Pode definir prazo (ex: 1 ano) ou permanente."
+      },
+      {
+        "icone": "history",
+        "titulo": "Tentativas registadas",
+        "descricao": "Cada vez que pessoa banida tenta entrar fica registado."
+      },
+      {
+        "icone": "users",
+        "titulo": "Decisões cumpridas",
+        "descricao": "Não depende da memória do guarda — sistema obriga ao cumprimento."
+      }
+    ],
+    "demo_passos": [
+      {
+        "icone": "user-x",
+        "label_curto": "Adicionar à lista",
+        "label_longo": "BI/passaporte com razão e prazo"
+      },
+      {
+        "icone": "shield",
+        "label_curto": "Verificação automática",
+        "label_longo": "Cada chegada de visitante verifica lista"
+      },
+      {
+        "icone": "alert",
+        "label_curto": "Bloquear entrada",
+        "label_longo": "Se banido, alerta + impedimento de entrada"
+      }
+    ],
+    "testemunho": {
+      "texto": "Banimos um ex-funcionário que ameaçava condóminos. Tentou entrar 3 vezes; sistema bloqueou as 3. Sem lista negra, teria entrado.",
+      "autor": "Administrador, Condomínio Atlântico"
+    },
+    "faq": [
+      {
+        "pergunta": "Quem pode adicionar à lista negra?",
+        "resposta": "Apenas administrador ou super-admin, com referência à acta da assembleia que autorizou."
+      },
+      {
+        "pergunta": "Há protecção de dados?",
+        "resposta": "Sim. Acesso restrito; conformidade com RGPD; razões documentadas; banimento pode ser contestado."
+      },
+      {
+        "pergunta": "Funciona com cartões de identidade estrangeiros?",
+        "resposta": "Sim. Passaportes e qualquer documento de identificação aceite na portaria."
+      },
+      {
+        "pergunta": "Como remover da lista?",
+        "resposta": "Mesma autoridade (administrador) com justificação. Audit trail completo de remoções."
+      }
+    ]
+  },
+  "anpr_hikvision": {
+    "tagline": "Reconhecimento automático de matrículas dos veículos com câmaras Hikvision: entrada/saída sem barreiras.",
+    "problema": "A entrada de veículos no parking do condomínio é gerida manualmente: comando à distância, guarda a abrir portão, ou autocolante na pára-brisas. Lento, propenso a erros, e qualquer visitante pode aproveitar para entrar atrás de um carro autorizado.",
+    "solucao": "Instale câmaras Hikvision com ANPR (Automatic Number Plate Recognition) integradas com ONDAKA. Cada matrícula é lida na chegada, comparada com lista de autorizadas, e portão abre automaticamente. Visitantes pré-registados também podem entrar sem intervenção do guarda.",
+    "beneficios": [
+      {
+        "icone": "camera",
+        "titulo": "Reconhecimento em segundos",
+        "descricao": "Câmara lê matrícula em 1-2 segundos com >95% de precisão."
+      },
+      {
+        "icone": "shield-check",
+        "titulo": "Lista branca automática",
+        "descricao": "Veículos cadastrados entram sem intervenção. Sem comandos perdidos."
+      },
+      {
+        "icone": "user-plus",
+        "titulo": "Visitantes pré-autorizados",
+        "descricao": "Condómino regista visitante com matrícula; entrada automática na hora marcada."
+      },
+      {
+        "icone": "alert-circle",
+        "titulo": "Veículos não autorizados",
+        "descricao": "Alerta automático ao guarda quando matrícula não consta da lista."
+      },
+      {
+        "icone": "history",
+        "titulo": "Histórico completo",
+        "descricao": "Cada entrada/saída registada com foto, hora e duração da estadia."
+      },
+      {
+        "icone": "trending-up",
+        "titulo": "Reduz fila no portão",
+        "descricao": "Múltiplos veículos por minuto vs. 1 a cada 15-30 segundos manual."
+      }
+    ],
+    "demo_passos": [
+      {
+        "icone": "settings",
+        "label_curto": "Instalar hardware",
+        "label_longo": "Câmara Hikvision na entrada (instalação MiRO Distribution)"
+      },
+      {
+        "icone": "list",
+        "label_curto": "Cadastrar matrículas",
+        "label_longo": "Adicione veículos dos condóminos à lista branca"
+      },
+      {
+        "icone": "check",
+        "label_curto": "Operar automaticamente",
+        "label_longo": "Sistema reconhece e abre portão; alerta se anomalia"
+      }
+    ],
+    "testemunho": {
+      "texto": "Antes tínhamos fila de carros à entrada nos picos. Agora os veículos passam sem parar. Reduzimos o tempo de espera em 90%.",
+      "autor": "Administrador, Condomínio Sky Park"
+    },
+    "faq": [
+      {
+        "pergunta": "Que câmara Hikvision é necessária?",
+        "resposta": "Modelos compatíveis: iDS-2CD7A46G0/P-IZHS, DS-2CD7026G0-IZS e similares com ANPR. A ONDAKA indica modelos exactos."
+      },
+      {
+        "pergunta": "Quem instala?",
+        "resposta": "Parceiro hardware ONDAKA (MiRO Distribution) faz instalação chave-na-mão. Inclui câmara, infraestrutura e configuração."
+      },
+      {
+        "pergunta": "Funciona à noite?",
+        "resposta": "Sim. Câmaras ANPR Hikvision têm iluminação infravermelha; funcionam 24/7."
+      },
+      {
+        "pergunta": "Custo do hardware?",
+        "resposta": "Hardware vendido separadamente pelo parceiro MiRO (~3.500-5.000 USD instalação completa). Add-on ONDAKA é a integração software (10.000 Kz/mês)."
+      }
+    ]
+  },
+  "zkteco": {
+    "tagline": "Reconhecimento facial ZKTeco para controlo de acessos e marcação de presença sem cartões ou códigos.",
+    "problema": "Marcação de presença com cartão ou impressão digital tem problemas: cartões partilham-se, dedos sujos não reconhecem bem, queries de funcionários sobre 'esqueci-me de marcar'. Para acesso a zonas restritas (escritórios, salas técnicas), chaves ou códigos são facilmente partilhados.",
+    "solucao": "Instale dispositivos ZKTeco com reconhecimento facial nos pontos críticos: portarias, entrada de funcionários, zonas restritas. Cada pessoa identificada em <1 segundo pela cara. Integrado com Módulo RH para presença automática.",
+    "beneficios": [
+      {
+        "icone": "scan-face",
+        "titulo": "Reconhecimento facial",
+        "descricao": "Identifica pessoa em <1 segundo, mesmo com máscara (modelos pós-2020)."
+      },
+      {
+        "icone": "timer",
+        "titulo": "Marcação automática",
+        "descricao": "Funcionário marca presença ao passar; sem cartão, sem código."
+      },
+      {
+        "icone": "shield-check",
+        "titulo": "Sem fraude possível",
+        "descricao": "Não pode partilhar a sua cara. Acesso e presença genuínos."
+      },
+      {
+        "icone": "lock",
+        "titulo": "Zonas restritas",
+        "descricao": "Defina quem tem acesso a que áreas; sistema controla automaticamente."
+      },
+      {
+        "icone": "users",
+        "titulo": "Múltiplos perfis",
+        "descricao": "Funcionários, prestadores frequentes, visitantes recorrentes — todos cadastrados."
+      },
+      {
+        "icone": "smartphone",
+        "titulo": "Gestão pela app",
+        "descricao": "Adicione/remova pessoas pela app ONDAKA; sincronizado em segundos."
+      }
+    ],
+    "demo_passos": [
+      {
+        "icone": "settings",
+        "label_curto": "Instalar hardware",
+        "label_longo": "Dispositivo ZKTeco (SpeedFace-V5L, G4, etc.) em ponto crítico"
+      },
+      {
+        "icone": "user-plus",
+        "label_curto": "Cadastrar pessoas",
+        "label_longo": "Foto da cara + dados; sincroniza com plataforma"
+      },
+      {
+        "icone": "check",
+        "label_curto": "Operar diariamente",
+        "label_longo": "Pessoa passa; sistema identifica e regista"
+      }
+    ],
+    "testemunho": {
+      "texto": "Tínhamos uma fraude crónica de funcionários a marcarem ponto uns pelos outros. Desde que instalámos ZKTeco, esse problema desapareceu completamente.",
+      "autor": "Empresa gestora, Talatona"
+    },
+    "faq": [
+      {
+        "pergunta": "Funciona com máscara?",
+        "resposta": "Modelos pós-2020 (SpeedFace-V5L, ProFace X) sim. Modelos mais antigos podem ter dificuldade."
+      },
+      {
+        "pergunta": "E óculos de sol?",
+        "resposta": "Não. Sistema requer rosto visível com olhos. Óculos transparentes OK."
+      },
+      {
+        "pergunta": "Privacidade dos dados biométricos?",
+        "resposta": "Foto/template biométrico armazenado encriptado, conforme RGPD. Apenas dados necessários; podem ser apagados a qualquer momento."
+      },
+      {
+        "pergunta": "Custo do hardware ZKTeco?",
+        "resposta": "Varia conforme modelo (~600-1.500 USD por dispositivo). Adquirido via parceiro MiRO Distribution."
+      }
+    ]
+  },
+  "exports_csv_excel": {
+    "tagline": "Exporte qualquer listagem em CSV ou Excel para análise externa e arquivo.",
+    "problema": "Os dados do condomínio estão na ONDAKA, mas há situações em que precisa de Excel: análise externa, prestação de contas em formato standard, envio a contabilista, cumprimento de exigências bancárias ou fiscais. Sem export, a alternativa é copiar-colar — sujeito a erros.",
+    "solucao": "Exporte qualquer listagem (condóminos, pagamentos, despesas, visitantes, ocorrências) em CSV ou Excel formatado, com filtros aplicados e cabeçalhos legíveis. Ficheiro pronto para análise ou envio.",
+    "beneficios": [
+      {
+        "icone": "download",
+        "titulo": "Export em 1 clique",
+        "descricao": "Lista filtrada na plataforma vira ficheiro Excel/CSV num clique."
+      },
+      {
+        "icone": "filter",
+        "titulo": "Respeita filtros",
+        "descricao": "Se filtrou por mês, ou por estado de pagamento, export inclui só esses registos."
+      },
+      {
+        "icone": "type",
+        "titulo": "Cabeçalhos legíveis",
+        "descricao": "Colunas com nomes claros, não códigos técnicos."
+      },
+      {
+        "icone": "table",
+        "titulo": "Formato Excel",
+        "descricao": "XLSX com formatação básica: datas, moeda, números."
+      },
+      {
+        "icone": "shield",
+        "titulo": "Conforme LGPD/RGPD",
+        "descricao": "Auditoria de exports; quem exportou, quando, que dados."
+      },
+      {
+        "icone": "users",
+        "titulo": "Para qualquer perfil",
+        "descricao": "Gestor, admin, super-admin — todos podem exportar (com respectivas permissões)."
+      }
+    ],
+    "demo_passos": [
+      {
+        "icone": "filter",
+        "label_curto": "Aplicar filtros",
+        "label_longo": "Filtre lista por critérios desejados"
+      },
+      {
+        "icone": "download",
+        "label_curto": "Exportar",
+        "label_longo": "Botão 'Exportar' → escolher CSV ou Excel"
+      },
+      {
+        "icone": "file",
+        "label_curto": "Receber ficheiro",
+        "label_longo": "Download imediato do ficheiro formatado"
+      }
+    ],
+    "testemunho": {
+      "texto": "O contabilista pedia sempre listagens em Excel. Antes copiava-colava do sistema, demorava horas e havia erros. Agora exporto em 5 segundos.",
+      "autor": "Empresa gestora, Benguela"
+    },
+    "faq": [
+      {
+        "pergunta": "Há limite de registos por export?",
+        "resposta": "Limite de 50.000 linhas por export. Acima disso, gera-se em background e envia por email."
+      },
+      {
+        "pergunta": "Posso agendar exports automáticos?",
+        "resposta": "Funcionalidade em roadmap. Por enquanto, export manual a pedido."
+      },
+      {
+        "pergunta": "Os dados sensíveis (BIs, contactos) saem?",
+        "resposta": "Conforme permissões. Super-admin vê tudo; gestor vê só dados operacionais."
+      },
+      {
+        "pergunta": "Que listagens posso exportar?",
+        "resposta": "Condóminos, pagamentos, despesas, visitantes, ocorrências, multas. Praticamente toda a tabela é exportável."
+      }
+    ]
+  },
+  "anomaly_detection_ml": {
+    "tagline": "Inteligência artificial detecta padrões anormais em despesas, pagamentos e visitantes — antes que se tornem problema.",
+    "problema": "Em condomínios com centenas de transacções mensais, é impossível para o gestor humano detectar todas as anomalias: factura duplicada do fornecedor, despesa de electricidade 40% acima do normal, condómino que normalmente paga em dia mas atrasa por 3 meses (sinal de problema), visitante a entrar 5x na mesma semana (suspeito).",
+    "solucao": "Active o Anomaly Detection ML: algoritmos de machine learning analisam continuamente os dados do condomínio e sinalizam padrões anormais. Recebe alerta no painel quando algo merece a sua atenção, sem precisar olhar manualmente.",
+    "beneficios": [
+      {
+        "icone": "brain",
+        "titulo": "ML treinado para condomínios",
+        "descricao": "Modelos específicos para padrões financeiros e operacionais de condomínios."
+      },
+      {
+        "icone": "alert-triangle",
+        "titulo": "Alertas em tempo real",
+        "descricao": "Sistema notifica imediatamente quando detecta anomalia significativa."
+      },
+      {
+        "icone": "dollar-sign",
+        "titulo": "Detecção financeira",
+        "descricao": "Despesas anormalmente altas, facturas duplicadas, condóminos com padrão alterado."
+      },
+      {
+        "icone": "users",
+        "titulo": "Padrões de visitantes",
+        "descricao": "Frequências invulgares, tentativas em horários estranhos."
+      },
+      {
+        "icone": "trending-up",
+        "titulo": "Aprende com o seu condomínio",
+        "descricao": "Modelos adaptam-se aos padrões específicos de cada condomínio."
+      },
+      {
+        "icone": "shield-check",
+        "titulo": "Reduz fraudes",
+        "descricao": "Identifica antes que erros ou fraudes se tornem grandes prejuízos."
+      }
+    ],
+    "demo_passos": [
+      {
+        "icone": "play",
+        "label_curto": "Activar",
+        "label_longo": "Sistema começa a aprender padrões do condomínio"
+      },
+      {
+        "icone": "clock",
+        "label_curto": "Aprender (30 dias)",
+        "label_longo": "Período inicial de aprendizagem com dados existentes"
+      },
+      {
+        "icone": "bell-ring",
+        "label_curto": "Receber alertas",
+        "label_longo": "A partir do mês 2, alertas em tempo real"
+      }
+    ],
+    "testemunho": {
+      "texto": "O sistema detectou que estávamos a pagar duas vezes a mesma factura do fornecedor de jardim por engano. Poupou-nos 240 mil kwanzas só nesse caso.",
+      "autor": "Empresa gestora, Lobito"
+    },
+    "faq": [
+      {
+        "pergunta": "Quantos dados são necessários?",
+        "resposta": "Mínimo 3 meses de histórico. Quanto mais dados, melhor a detecção."
+      },
+      {
+        "pergunta": "Há falsos positivos?",
+        "resposta": "Sim, especialmente nos primeiros 2-3 meses. Marque alertas como 'não é anomalia' e modelo aprende a ajustar."
+      },
+      {
+        "pergunta": "Os meus dados são partilhados para treinar?",
+        "resposta": "Não. Cada condomínio tem modelo próprio, treinado só com os seus dados. Privacidade total."
+      },
+      {
+        "pergunta": "Funciona offline?",
+        "resposta": "Não. Requer ligação aos servidores ML da ONDAKA para processamento."
+      }
+    ]
+  },
+  "relatorios_personalizados": {
+    "tagline": "Crie relatórios personalizados com os dados que precisa, no formato que escolher.",
+    "problema": "Os relatórios padrão da plataforma cobrem 80% das necessidades. Mas há sempre casos específicos: 'quero ver receitas vs despesas de 2024 por bloco, agrupado por trimestre, com gráfico de barras'. Sem builder personalizado, depende de pedir ao suporte ou exportar para Excel e fazer manualmente.",
+    "solucao": "Use o Builder de Relatórios Personalizados: drag-and-drop de campos, filtros, agrupamentos e visualizações. Crie o relatório uma vez, guarda como template, e gera novamente quando precisar.",
+    "beneficios": [
+      {
+        "icone": "layers",
+        "titulo": "Drag-and-drop",
+        "descricao": "Construa relatório arrastando campos para colunas, filtros e gráficos."
+      },
+      {
+        "icone": "filter",
+        "titulo": "Filtros avançados",
+        "descricao": "Múltiplos filtros combinados (AND/OR), com qualquer campo."
+      },
+      {
+        "icone": "bar-chart-3",
+        "titulo": "Visualizações ricas",
+        "descricao": "Tabelas, gráficos de barras, linhas, pizza, área — escolha conforme dados."
+      },
+      {
+        "icone": "save",
+        "titulo": "Templates guardados",
+        "descricao": "Guarde relatórios; gere de novo quando precisar com 1 clique."
+      },
+      {
+        "icone": "share-2",
+        "titulo": "Partilhar com equipa",
+        "descricao": "Outros gestores e admins podem usar os mesmos templates."
+      },
+      {
+        "icone": "download",
+        "titulo": "Múltiplos formatos",
+        "descricao": "Exporte para PDF, Excel, CSV ou imagem (gráficos)."
+      }
+    ],
+    "demo_passos": [
+      {
+        "icone": "edit",
+        "label_curto": "Definir dados",
+        "label_longo": "Escolha entidade base (pagamentos, despesas, etc.) e período"
+      },
+      {
+        "icone": "filter",
+        "label_curto": "Aplicar filtros",
+        "label_longo": "Restrinja por bloco, fornecedor, categoria, etc."
+      },
+      {
+        "icone": "bar-chart",
+        "label_curto": "Visualizar",
+        "label_longo": "Escolha gráfico ou tabela; exporte ou guarde"
+      }
+    ],
+    "testemunho": {
+      "texto": "Criamos um relatório de KPIs operacionais que mostra à assembleia em cada reunião: receitas, despesas por categoria, satisfação dos condóminos. Profissional e impressionante.",
+      "autor": "Administrador, Condomínio Marítimo"
+    },
+    "faq": [
+      {
+        "pergunta": "Posso cruzar dados de várias entidades?",
+        "resposta": "Sim, em versão limitada. Pagamentos × Condóminos, Despesas × Fornecedores. Cruzamentos complexos em roadmap."
+      },
+      {
+        "pergunta": "Como aprendo a usar?",
+        "resposta": "Editor é intuitivo. Vídeos tutoriais incluídos. Equipa ONDAKA disponível para sessão de demonstração."
+      },
+      {
+        "pergunta": "Tem templates pré-feitos?",
+        "resposta": "Sim. 15+ templates standard: Receitas mensais, Despesas por categoria, Top 10 devedores, Inadimplência por bloco, etc."
+      },
+      {
+        "pergunta": "Posso agendar geração automática?",
+        "resposta": "Sim. 'Enviar todo dia 5 do mês relatório XYZ por email para admins'."
+      }
+    ]
+  },
+  "relatorios_financeiros_condominos": {
+    "tagline": "Cada condómino recebe periodicamente o seu próprio relatório financeiro: saldo, receitas e despesas que o afectam.",
+    "problema": "Os condóminos têm direito à transparência financeira mas raramente a recebem proactivamente. Quando perguntam, o gestor envia algo manualmente, com atraso e formato inconsistente. Em assembleia, condóminos sentem-se mal informados e questionam tudo. Falta confiança gera conflito.",
+    "solucao": "Active o add-on Relatórios Financeiros para Condóminos: gestor configura uma vez (frequência, formato, conteúdo); cada condómino recebe automaticamente o seu relatório personalizado (saldo, suas quotas, despesas do condomínio do período). 8.000 Kz/mês para o condomínio.",
+    "beneficios": [
+      {
+        "icone": "user-check",
+        "titulo": "Personalizado por condómino",
+        "descricao": "Cada um vê suas quotas, seu saldo, e dados gerais do condomínio."
+      },
+      {
+        "icone": "calendar",
+        "titulo": "Periodicidade configurável",
+        "descricao": "Mensal, trimestral ou semestral — gestor escolhe."
+      },
+      {
+        "icone": "palette",
+        "titulo": "Branding do condomínio",
+        "descricao": "Logo, cores e identidade visual aplicados ao relatório."
+      },
+      {
+        "icone": "smartphone",
+        "titulo": "Recebe na app + email",
+        "descricao": "Condómino recebe push na app e cópia por email."
+      },
+      {
+        "icone": "shield-check",
+        "titulo": "Transparência gera confiança",
+        "descricao": "Condóminos informados questionam menos e participam mais construtivamente."
+      },
+      {
+        "icone": "trending-down",
+        "titulo": "Reduz pedidos manuais",
+        "descricao": "Gestor recebe muito menos pedidos individuais de informação financeira."
+      }
+    ],
+    "demo_passos": [
+      {
+        "icone": "settings",
+        "label_curto": "Configurar template",
+        "label_longo": "Escolher dados a incluir, frequência, formato"
+      },
+      {
+        "icone": "users",
+        "label_curto": "Seleccionar destinatários",
+        "label_longo": "Todos ou apenas alguns condóminos"
+      },
+      {
+        "icone": "send",
+        "label_curto": "Envio automático",
+        "label_longo": "Sistema envia conforme periodicidade definida"
+      }
+    ],
+    "testemunho": {
+      "texto": "Antes a assembleia anual era uma 'caça às bruxas' financeira. Agora os condóminos chegam informados. As discussões são produtivas, não acusatórias.",
+      "autor": "Administrador, Condomínio Garden View"
+    },
+    "faq": [
+      {
+        "pergunta": "Os condóminos podem desactivar?",
+        "resposta": "Não. Direito à informação. Mas podem escolher canal preferido (só email, só app, etc.)."
+      },
+      {
+        "pergunta": "Dados privados de outros condóminos são partilhados?",
+        "resposta": "Não. Cada condómino vê só os seus dados pessoais. Dados gerais do condomínio são agregados (totais, sem identificação)."
+      },
+      {
+        "pergunta": "Posso enviar adicional para condóminos específicos?",
+        "resposta": "Sim. Pode enviar relatórios pontuais a condóminos específicos a qualquer momento."
+      },
+      {
+        "pergunta": "Funciona com várias línguas?",
+        "resposta": "Português (padrão). Outras línguas em roadmap."
+      }
+    ]
+  },
+  "audit_log_centralizado": {
+    "tagline": "Histórico completo e centralizado de todas as acções críticas, com quem, quando e o que mudou.",
+    "problema": "Quando algo dá errado no condomínio, a pergunta é sempre 'quem fez isto?': quem alterou a quota daquele condómino, quem aprovou aquela despesa, quem cancelou aquela multa, quem deu acesso àquele visitante. Sem audit log centralizado, descobrir é difícil ou impossível.",
+    "solucao": "Audit Log Centralizado regista todas as acções críticas: utilizador, data/hora, IP, dispositivo, o que mudou (valor antigo vs. novo). Painel pesquisável e exportável. Acesso restrito a admins.",
+    "beneficios": [
+      {
+        "icone": "list",
+        "titulo": "Todas as acções registadas",
+        "descricao": "Criar, editar, eliminar — qualquer mudança crítica capturada."
+      },
+      {
+        "icone": "user-check",
+        "titulo": "Identificação completa",
+        "descricao": "Utilizador, perfil, IP e dispositivo de origem."
+      },
+      {
+        "icone": "diff",
+        "titulo": "Antes vs. depois",
+        "descricao": "Veja exactamente o que mudou: valor antigo → novo."
+      },
+      {
+        "icone": "search",
+        "titulo": "Pesquisa avançada",
+        "descricao": "Filtre por utilizador, entidade, tipo de acção, intervalo de datas."
+      },
+      {
+        "icone": "shield",
+        "titulo": "Apenas admins vêem",
+        "descricao": "Acesso restrito por permissão. Logs não podem ser editados nem apagados."
+      },
+      {
+        "icone": "download",
+        "titulo": "Exportável para auditoria",
+        "descricao": "Export em PDF/Excel para auditorias externas ou disputas legais."
+      }
+    ],
+    "demo_passos": [
+      {
+        "icone": "play",
+        "label_curto": "Activar add-on",
+        "label_longo": "Começa a registar a partir desse momento"
+      },
+      {
+        "icone": "search",
+        "label_curto": "Pesquisar quando precisar",
+        "label_longo": "Filtre logs por utilizador, acção ou data"
+      },
+      {
+        "icone": "file-text",
+        "label_curto": "Exportar para evidência",
+        "label_longo": "Gerar PDF ou Excel para auditoria"
+      }
+    ],
+    "testemunho": {
+      "texto": "Tivemos um conflito sobre quem alterou uma quota. Em 30 segundos vi no audit log: foi o sub-administrador, na manhã anterior. Resolveu a discussão imediatamente.",
+      "autor": "Administrador, Condomínio Premium"
+    },
+    "faq": [
+      {
+        "pergunta": "Por quanto tempo são guardados os logs?",
+        "resposta": "Indefinidamente enquanto subscrição ONDAKA estiver activa. Recomendamos pelo menos 5 anos por conformidade legal."
+      },
+      {
+        "pergunta": "Posso eliminar logs?",
+        "resposta": "Não. Logs são imutáveis (write-once). Apenas exportar é permitido."
+      },
+      {
+        "pergunta": "Que acções são auditadas?",
+        "resposta": "Tudo o que altera estado financeiro, permissões, dados de condóminos, configurações, e acções de admin/super-admin."
+      },
+      {
+        "pergunta": "Diferença vs. Histórico de Alterações?",
+        "resposta": "Histórico de Alterações cobre só edits a entidades específicas. Audit Log cobre TUDO, incluindo logins, exports, configurações de sistema."
+      }
+    ]
+  },
+  "historico_alteracoes": {
+    "tagline": "Veja o histórico de alterações de qualquer entidade: quem mudou o quê, e quando.",
+    "problema": "Edita-se um condómino, altera-se uma multa, ajusta-se uma quota — e depois ninguém se lembra do estado original. Quando há disputa ('isto não estava assim antes!'), não há prova. Trabalho perde-se em discussões evitáveis.",
+    "solucao": "Active o Histórico de Alterações: para cada entidade (condómino, fracção, multa, pagamento), veja todas as alterações: o que foi mudado, por quem, quando, e qual era o valor anterior.",
+    "beneficios": [
+      {
+        "icone": "history",
+        "titulo": "Linha temporal por entidade",
+        "descricao": "Ver evolução de qualquer registo ao longo do tempo."
+      },
+      {
+        "icone": "diff",
+        "titulo": "Antes vs. depois",
+        "descricao": "Cada alteração mostra valor original e novo lado a lado."
+      },
+      {
+        "icone": "user",
+        "titulo": "Quem alterou",
+        "descricao": "Identificação clara do utilizador responsável."
+      },
+      {
+        "icone": "rotate-ccw",
+        "titulo": "Reverter se necessário",
+        "descricao": "Admins podem reverter alterações específicas (com nova entrada de auditoria)."
+      },
+      {
+        "icone": "shield-check",
+        "titulo": "Prova em disputas",
+        "descricao": "Em caso de conflito, mostra-se o histórico imediato."
+      },
+      {
+        "icone": "eye",
+        "titulo": "Visualização clara",
+        "descricao": "Interface limpa, fácil de entender mesmo para não-técnicos."
+      }
+    ],
+    "demo_passos": [
+      {
+        "icone": "play",
+        "label_curto": "Activar",
+        "label_longo": "Começa a registar alterações"
+      },
+      {
+        "icone": "user",
+        "label_curto": "Ver entidade",
+        "label_longo": "Abra qualquer condómino, multa, etc."
+      },
+      {
+        "icone": "history",
+        "label_curto": "Aba histórico",
+        "label_longo": "Veja todas as alterações em ordem cronológica"
+      }
+    ],
+    "testemunho": {
+      "texto": "Um condómino reclamou que a sua quota tinha sido aumentada sem aviso. Mostrei o histórico: era ele próprio que tinha submetido alteração de dados, e isso recalculara automaticamente. Conflito resolvido em 2 minutos.",
+      "autor": "Administrador, Edifício Sky"
+    },
+    "faq": [
+      {
+        "pergunta": "Diferença vs. Audit Log Centralizado?",
+        "resposta": "Histórico de Alterações foca-se nas mudanças a entidades (condóminos, multas, etc.). Audit Log inclui também logins, exports, configurações — é mais abrangente."
+      },
+      {
+        "pergunta": "Posso reverter alterações?",
+        "resposta": "Sim, admins podem reverter. Cada reversão cria nova entrada de histórico, mantendo trilha completa."
+      },
+      {
+        "pergunta": "Cobre eliminações?",
+        "resposta": "Sim. Registos eliminados ficam marcados como tal, com possibilidade de recuperar (até 30 dias)."
+      },
+      {
+        "pergunta": "Funciona para entidades antigas (anteriores à activação)?",
+        "resposta": "Não. Histórico começa a registar a partir da activação do add-on."
+      }
+    ]
+  },
+  "rgpd_avancado": {
+    "tagline": "Conformidade total com RGPD e Lei 22/11 de Angola: export de dados, eliminação e gestão de consentimentos.",
+    "problema": "RGPD (Europa) e Lei 22/11 (Angola) exigem que utilizadores possam aceder, exportar e eliminar os seus dados. Cumprir manualmente é trabalho enorme: receber pedido, identificar dados em múltiplas tabelas, exportar tudo, anonimizar referências, enviar ao requerente — em prazo legal.",
+    "solucao": "RGPD & Privacidade Avançada automatiza todo o ciclo: condómino faz pedido pela app (export, anonimização, eliminação), sistema processa em minutos, envia ficheiro encriptado, e gestor recebe relatório de conformidade.",
+    "beneficios": [
+      {
+        "icone": "download",
+        "titulo": "Export de dados",
+        "descricao": "Condómino pede; sistema gera ZIP com todos os dados pessoais em formato standard."
+      },
+      {
+        "icone": "user-x",
+        "titulo": "Direito ao esquecimento",
+        "descricao": "Anonimização completa: dados pessoais substituídos, registos financeiros preservados (obrigação legal)."
+      },
+      {
+        "icone": "check-square",
+        "titulo": "Gestão de consentimentos",
+        "descricao": "Cada condómino dá/retira consentimento para usos específicos (newsletter, partilha com terceiros)."
+      },
+      {
+        "icone": "file-text",
+        "titulo": "Relatórios de conformidade",
+        "descricao": "Para auditores: prove que cumpre RGPD com relatório detalhado."
+      },
+      {
+        "icone": "shield",
+        "titulo": "Encriptação ponta-a-ponta",
+        "descricao": "Dados sensíveis encriptados em repouso e em trânsito."
+      },
+      {
+        "icone": "alarm-clock",
+        "titulo": "Prazos automáticos",
+        "descricao": "Sistema processa pedidos em <72h conforme exigência legal."
+      }
+    ],
+    "demo_passos": [
+      {
+        "icone": "user",
+        "label_curto": "Condómino pede",
+        "label_longo": "Pela app: 'Quero todos os meus dados' ou 'Quero ser esquecido'"
+      },
+      {
+        "icone": "settings",
+        "label_curto": "Sistema processa",
+        "label_longo": "Automático em minutos; gestor é notificado"
+      },
+      {
+        "icone": "mail",
+        "label_curto": "Resposta ao condómino",
+        "label_longo": "Recebe ficheiro ou confirmação por email"
+      }
+    ],
+    "testemunho": {
+      "texto": "Tivemos 3 pedidos RGPD em 2 anos. Sem o add-on, cada um demoraria 2-3 dias de trabalho. Com o add-on, 5 minutos. E temos certeza que cumprimos a lei.",
+      "autor": "Empresa gestora, Luanda"
+    },
+    "faq": [
+      {
+        "pergunta": "Apaga TUDO mesmo?",
+        "resposta": "Não. Dados pessoais são anonimizados, mas registos financeiros (pagamentos, despesas) preservados por obrigação legal de retenção contabilística."
+      },
+      {
+        "pergunta": "Conforme Lei 22/11 de Angola?",
+        "resposta": "Sim. A nossa implementação cumpre simultaneamente RGPD (Europa) e Lei 22/11 (Angola), os requisitos mais exigentes."
+      },
+      {
+        "pergunta": "Há custos por pedido?",
+        "resposta": "Não. Add-on é mensalidade fixa; pedidos ilimitados incluídos."
+      },
+      {
+        "pergunta": "Posso recusar pedido de eliminação?",
+        "resposta": "Em casos específicos sim (ex: disputas judiciais em curso). Sistema permite gestor justificar recusa com base legal."
+      }
+    ]
+  },
+  "livro_reclamacoes_electronico": {
+    "tagline": "Livro de Reclamações Electrónico conforme legislação angolana, acessível 24/7 pela app.",
+    "problema": "O Livro de Reclamações físico tem problemas: condóminos receiam usar (visível, social), preencher manualmente é desencorajante, gestor demora a saber que existe reclamação, e arquivo físico perde-se. Cumprimento da legislação angolana de defesa do consumidor fica simbólico.",
+    "solucao": "Livro de Reclamações Electrónico: condómino abre reclamação pela app em segundos, gestor é notificado imediatamente, prazo de resposta é monitorizado pelo sistema, e arquivo permanente fica seguro na cloud. Cumprimento real, não simbólico.",
+    "beneficios": [
+      {
+        "icone": "smartphone",
+        "titulo": "Acesso 24/7 pela app",
+        "descricao": "Condómino reclama de casa, sem constrangimento."
+      },
+      {
+        "icone": "lock",
+        "titulo": "Confidencial",
+        "descricao": "Reclamações privadas; só gestor e condómino vêem."
+      },
+      {
+        "icone": "clock",
+        "titulo": "Prazos monitorizados",
+        "descricao": "Sistema alerta gestor antes do vencimento legal de resposta."
+      },
+      {
+        "icone": "file-text",
+        "titulo": "Histórico permanente",
+        "descricao": "Arquivo digital seguro, nunca se perde."
+      },
+      {
+        "icone": "shield-check",
+        "titulo": "Conformidade INACOPS",
+        "descricao": "Estrutura conforme exigências da legislação angolana de defesa do consumidor."
+      },
+      {
+        "icone": "trending-up",
+        "titulo": "Melhoria contínua",
+        "descricao": "Análise de reclamações ajuda a melhorar gestão do condomínio."
+      }
+    ],
+    "demo_passos": [
+      {
+        "icone": "edit",
+        "label_curto": "Condómino abre reclamação",
+        "label_longo": "Formulário simples na app: motivo, descrição"
+      },
+      {
+        "icone": "bell",
+        "label_curto": "Gestor notificado",
+        "label_longo": "Push, email e SMS imediatos"
+      },
+      {
+        "icone": "message-square",
+        "label_curto": "Resolução e resposta",
+        "label_longo": "Gestor responde dentro do prazo legal"
+      }
+    ],
+    "testemunho": {
+      "texto": "Antes tinhamos 1-2 reclamações por ano no livro físico. Agora temos 8-10, todas resolvidas atempadamente. Não é mais reclamações — é mais comunicação saudável.",
+      "autor": "Administrador, Condomínio Sky Bay"
+    },
+    "faq": [
+      {
+        "pergunta": "Os condóminos podem ver reclamações de outros?",
+        "resposta": "Não, por padrão. Confidencialidade total. Mas pode haver versão anonimizada partilhada em assembleia se aprovado."
+      },
+      {
+        "pergunta": "Qual o prazo legal para resposta?",
+        "resposta": "15 dias úteis em Angola. Sistema alerta gestor a partir de dia 10."
+      },
+      {
+        "pergunta": "Substitui o Livro físico?",
+        "resposta": "Em situações onde a legislação permite versão electrónica, sim. Recomendamos manter livro físico em paralelo por agora, até a legislação angolana clarificar."
+      },
+      {
+        "pergunta": "Posso exportar para fiscalização?",
+        "resposta": "Sim. PDF assinado digitalmente, válido para apresentar a INACOPS ou outras autoridades."
+      }
+    ]
+  },
+  "importacao_massiva": {
+    "tagline": "Importe centenas de condóminos, fracções ou históricos de pagamentos em minutos a partir de Excel.",
+    "problema": "Iniciar um novo condomínio na ONDAKA, ou migrar de sistema anterior, requer cadastrar dezenas/centenas de registos: fracções, condóminos, históricos de pagamento. Manualmente são semanas de trabalho.",
+    "solucao": "Use a Importação Massiva Avançada: descarregue template Excel, preencha com os dados, faça upload. Sistema valida, mostra erros, e importa tudo numa transacção. Cadastrar 200 condóminos em 5 minutos.",
+    "beneficios": [
+      {
+        "icone": "download",
+        "titulo": "Templates Excel",
+        "descricao": "Templates específicos: condóminos, fracções, histórico de pagamentos."
+      },
+      {
+        "icone": "check-circle",
+        "titulo": "Validação prévia",
+        "descricao": "Sistema valida dados antes de importar; mostra erros linha a linha."
+      },
+      {
+        "icone": "zap",
+        "titulo": "Importação rápida",
+        "descricao": "200-500 registos em poucos minutos. 1000+ em background."
+      },
+      {
+        "icone": "rotate-ccw",
+        "titulo": "Rollback se erro",
+        "descricao": "Se algo der mau, reverter completamente. Sem inconsistências."
+      },
+      {
+        "icone": "search",
+        "titulo": "Detectar duplicados",
+        "descricao": "Sistema identifica BIs ou NIFs duplicados antes de criar."
+      },
+      {
+        "icone": "users",
+        "titulo": "Útil para gestoras grandes",
+        "descricao": "Empresas com vários condomínios fazem onboarding rápido."
+      }
+    ],
+    "demo_passos": [
+      {
+        "icone": "download",
+        "label_curto": "Descarregar template",
+        "label_longo": "Excel com colunas correctas e validações"
+      },
+      {
+        "icone": "edit",
+        "label_curto": "Preencher dados",
+        "label_longo": "Em Excel, pelo gestor ou contabilista"
+      },
+      {
+        "icone": "upload",
+        "label_curto": "Upload e importar",
+        "label_longo": "Sistema valida e importa; relatório final"
+      }
+    ],
+    "testemunho": {
+      "texto": "Migramos 7 condomínios da ferramenta anterior em uma semana. Sem o add-on, teriam sido meses de cadastro manual.",
+      "autor": "Empresa gestora, Luanda"
+    },
+    "faq": [
+      {
+        "pergunta": "Que tipos de dados posso importar?",
+        "resposta": "Fracções, condóminos, histórico de pagamentos, despesas, fornecedores, prestadores."
+      },
+      {
+        "pergunta": "E se o Excel tem erros?",
+        "resposta": "Sistema mostra cada erro com linha e descrição. Corrige no Excel e tenta novamente."
+      },
+      {
+        "pergunta": "Tem limite de registos por importação?",
+        "resposta": "Recomendado max 5000 registos por ficheiro. Acima disso, processamento em background com notificação."
+      },
+      {
+        "pergunta": "Posso desfazer uma importação?",
+        "resposta": "Sim, em até 24h após a importação. Reverte todos os registos criados nessa transacção."
+      }
+    ]
+  },
+  "white_label": {
+    "tagline": "Plataforma 100% com a sua marca: logo, cores, domínio próprio. Os condóminos veem a sua empresa, não a ONDAKA.",
+    "problema": "Quando uma empresa gestora usa a ONDAKA, os condóminos veem o branding ONDAKA em todo o lado: emails, app, painel web. Isto enfraquece a marca da empresa gestora. Concorrentes maiores têm soluções próprias com identidade visual completa.",
+    "solucao": "Active White-label: substitua logo ONDAKA pelo seu, configure cores da sua marca, e até use domínio próprio (ex: app.suaempresa.ao). Para os condóminos, parece que tem plataforma proprietária.",
+    "beneficios": [
+      {
+        "icone": "image",
+        "titulo": "Logo da sua empresa",
+        "descricao": "Substitua logo ONDAKA em web, app, emails e PDFs."
+      },
+      {
+        "icone": "palette",
+        "titulo": "Cores da sua marca",
+        "descricao": "Configure cor primária e secundária para alinhar com identidade visual."
+      },
+      {
+        "icone": "globe",
+        "titulo": "Domínio próprio",
+        "descricao": "Acesso via app.suaempresa.ao em vez de ondaka.ao."
+      },
+      {
+        "icone": "shield",
+        "titulo": "Suporte com a sua marca",
+        "descricao": "Emails de suporte saem da sua empresa, não da ONDAKA."
+      },
+      {
+        "icone": "trending-up",
+        "titulo": "Diferencia da concorrência",
+        "descricao": "Aparenta ter plataforma proprietária; eleva percepção da empresa."
+      },
+      {
+        "icone": "users",
+        "titulo": "Setup técnico incluído",
+        "descricao": "Equipa ONDAKA configura DNS, certificados e branding."
+      }
+    ],
+    "demo_passos": [
+      {
+        "icone": "upload",
+        "label_curto": "Upload assets",
+        "label_longo": "Envie logo, cores e indique domínio desejado"
+      },
+      {
+        "icone": "settings",
+        "label_curto": "ONDAKA configura",
+        "label_longo": "Equipa técnica faz setup completo (3-5 dias úteis)"
+      },
+      {
+        "icone": "check-circle",
+        "label_curto": "White-label activo",
+        "label_longo": "Condóminos passam a ver a sua marca"
+      }
+    ],
+    "testemunho": {
+      "texto": "Desde que activámos white-label, conquistamos 3 novos contratos. Os clientes acham que temos plataforma proprietária. Diferencial competitivo enorme.",
+      "autor": "Empresa gestora, Luanda"
+    },
+    "faq": [
+      {
+        "pergunta": "Tem custo de setup?",
+        "resposta": "Não. Setup inicial incluído na mensalidade. Domínio próprio é custo do cliente (registo + renovação)."
+      },
+      {
+        "pergunta": "Posso reverter se mudar de ideia?",
+        "resposta": "Sim. White-label pode ser desactivado a qualquer momento, voltando ao branding ONDAKA."
+      },
+      {
+        "pergunta": "Funciona na app móvel?",
+        "resposta": "Sim, mas requer build separado da app na Play Store (com pequeno custo adicional). Web app funciona imediatamente."
+      },
+      {
+        "pergunta": "Posso ter diferentes brandings para condomínios diferentes?",
+        "resposta": "Por agora não. White-label é por empresa gestora, aplicado a todos os condomínios. Em roadmap: branding por condomínio."
+      }
+    ]
+  },
+  "integracao_contabilidade": {
+    "tagline": "Exportação automática de dados financeiros para PHC, Primavera e outros sistemas de contabilidade.",
+    "problema": "Os dados financeiros do condomínio estão na ONDAKA, mas a contabilidade externa usa PHC, Primavera ou similares. Mensalmente, o contabilista pede listagens; o gestor exporta Excel; contabilista copia para o sistema. Trabalho duplicado, erros, atrasos.",
+    "solucao": "Active a Integração com Contabilidade: dados financeiros (receitas, despesas, pagamentos) são exportados em formato compatível com o sistema do contabilista, automaticamente, no fim de cada mês. Sem trabalho manual.",
+    "beneficios": [
+      {
+        "icone": "git-merge",
+        "titulo": "Exportação automática",
+        "descricao": "No fim de cada mês, dados vão automaticamente para o sistema do contabilista."
+      },
+      {
+        "icone": "file-text",
+        "titulo": "Formato compatível",
+        "descricao": "SAFT-AO (Angola), PHC, Primavera, outros sistemas standard."
+      },
+      {
+        "icone": "trending-down",
+        "titulo": "Reduz erros",
+        "descricao": "Sem digitação manual = sem erros de transcrição."
+      },
+      {
+        "icone": "clock",
+        "titulo": "Tempo poupado",
+        "descricao": "Contabilista recebe dados prontos, foca em análise."
+      },
+      {
+        "icone": "shield-check",
+        "titulo": "Conformidade fiscal",
+        "descricao": "SAFT-AO exigido pela Administração Geral Tributária (AGT)."
+      },
+      {
+        "icone": "settings",
+        "titulo": "Mapeamento personalizado",
+        "descricao": "Configure como categorias da ONDAKA mapeiam para plano de contas do contabilista."
+      }
+    ],
+    "demo_passos": [
+      {
+        "icone": "settings",
+        "label_curto": "Configurar mapeamento",
+        "label_longo": "Uma vez: definir como categorias se mapeiam ao plano de contas"
+      },
+      {
+        "icone": "calendar",
+        "label_curto": "Agendar exportação",
+        "label_longo": "Mensal automático ou manual sob demanda"
+      },
+      {
+        "icone": "send",
+        "label_curto": "Receber ficheiro",
+        "label_longo": "Contabilista recebe SAFT-AO ou formato configurado"
+      }
+    ],
+    "testemunho": {
+      "texto": "O contabilista costumava pedir dados toda quinta-feira de cada mês. Agora recebe automaticamente no dia 1. Profissionalizou completamente.",
+      "autor": "Empresa gestora, Luanda"
+    },
+    "faq": [
+      {
+        "pergunta": "Que sistemas de contabilidade são suportados?",
+        "resposta": "PHC, Primavera, Sage, e qualquer um que aceite SAFT-AO. Outros sob demanda."
+      },
+      {
+        "pergunta": "É obrigatório SAFT-AO em Angola?",
+        "resposta": "Sim, para empresas comerciais. Empresas gestoras de condomínios devem reportar SAFT-AO à AGT."
+      },
+      {
+        "pergunta": "Posso fazer integração bidireccional?",
+        "resposta": "Por agora não. Exportação unidireccional ONDAKA → Contabilidade. Importação para futuras versões."
+      },
+      {
+        "pergunta": "Tem implementação técnica?",
+        "resposta": "Inicial requer 2-3h com equipa ONDAKA + contabilista para mapeamento. Depois, automático."
+      }
+    ]
+  },
+  "api_publica": {
+    "tagline": "API pública e Webhooks para desenvolvedores integrarem a ONDAKA com outros sistemas.",
+    "problema": "Empresas gestoras maiores ou com sistemas próprios (CRM, ERP, sistemas customizados) precisam que esses comuniquem com a ONDAKA. Sem API pública, é impossível: dados ficam isolados, trabalho de sincronização manual, ou contratam-se exportações manuais frustrantes.",
+    "solucao": "Acesso à API REST da ONDAKA: ler dados (condóminos, pagamentos, despesas), criar registos (lançar despesas externamente), e receber Webhooks quando eventos ocorrem (pagamento confirmado, SOS activado, visitante registado).",
+    "beneficios": [
+      {
+        "icone": "code",
+        "titulo": "API REST documentada",
+        "descricao": "Endpoints documentados em OpenAPI/Swagger; fácil para programadores."
+      },
+      {
+        "icone": "webhook",
+        "titulo": "Webhooks em tempo real",
+        "descricao": "Receba notificações HTTP quando eventos ocorrem."
+      },
+      {
+        "icone": "key",
+        "titulo": "Autenticação OAuth",
+        "descricao": "Tokens seguros, com permissões granulares por escopo."
+      },
+      {
+        "icone": "shield",
+        "titulo": "Rate limiting",
+        "descricao": "Protecção contra abuso; limites configuráveis por plano."
+      },
+      {
+        "icone": "git-branch",
+        "titulo": "Versionamento",
+        "descricao": "Versão estável da API mantida; mudanças com aviso prévio."
+      },
+      {
+        "icone": "users",
+        "titulo": "Suporte técnico",
+        "descricao": "Equipa ONDAKA disponível para ajudar programadores nas integrações."
+      }
+    ],
+    "demo_passos": [
+      {
+        "icone": "key",
+        "label_curto": "Gerar API key",
+        "label_longo": "No painel super-admin, criar credencial OAuth"
+      },
+      {
+        "icone": "code",
+        "label_curto": "Ler documentação",
+        "label_longo": "Endpoints, parâmetros e exemplos disponíveis"
+      },
+      {
+        "icone": "play",
+        "label_curto": "Integrar e testar",
+        "label_longo": "Programador conecta sistema externo à ONDAKA"
+      }
+    ],
+    "testemunho": {
+      "texto": "Integramos a ONDAKA com o nosso CRM interno. Quando um novo cliente entra no CRM, automaticamente é criado o condomínio na ONDAKA. Zero trabalho duplicado.",
+      "autor": "CTO, Empresa gestora grande, Luanda"
+    },
+    "faq": [
+      {
+        "pergunta": "É necessário programador?",
+        "resposta": "Sim. API destinada a desenvolvimento. Para empresas sem programador, soluções pré-construídas via add-ons específicos (Contabilidade, etc.)."
+      },
+      {
+        "pergunta": "Há limite de chamadas?",
+        "resposta": "Sim, conforme plano. Standard: 10.000 chamadas/mês. Pacotes maiores disponíveis."
+      },
+      {
+        "pergunta": "A API permite tudo?",
+        "resposta": "Não. Operações destrutivas (eliminar condomínios) requerem confirmação manual no painel. Por segurança."
+      },
+      {
+        "pergunta": "Existem SDKs?",
+        "resposta": "Em roadmap: PHP, Node.js, Python. Por agora, API REST directa com qualquer linguagem."
+      }
+    ]
+  },
+  "gestao_documentos": {
+    "tagline": "Gestão completa de documentos do condomínio e por imóvel: contratos, escrituras, plantas, certificados.",
+    "problema": "Documentos do condomínio (escritura, regulamento, contratos com fornecedores) e por fracção (cópias de escrituras dos condóminos, contratos de arrendamento) vivem em pastas físicas no escritório do administrador. Quando alguém pede, perdem-se horas a procurar. Quando há mudança de gestão, alguns documentos desaparecem.",
+    "solucao": "Active a Gestão de Documentos: upload de qualquer documento (PDF, foto, Word), categorização por tipo, ligação a fracção ou condómino quando aplicável, e controlo de quem acede a quê.",
+    "beneficios": [
+      {
+        "icone": "folder-tree",
+        "titulo": "Organização estruturada",
+        "descricao": "Pastas por tipo: contratos, escrituras, regulamentos, certificados."
+      },
+      {
+        "icone": "search",
+        "titulo": "Pesquisa rápida",
+        "descricao": "Encontre qualquer documento por nome, condómino ou data."
+      },
+      {
+        "icone": "users",
+        "titulo": "Acessos diferenciados",
+        "descricao": "Documentos públicos (regulamento) visíveis a todos; privados só ao administrador."
+      },
+      {
+        "icone": "link",
+        "titulo": "Ligado a entidades",
+        "descricao": "Documento de contrato de fornecedor ligado ao seu cadastro."
+      },
+      {
+        "icone": "history",
+        "titulo": "Versionamento",
+        "descricao": "Quando regulamento é actualizado, versão anterior fica no histórico."
+      },
+      {
+        "icone": "shield",
+        "titulo": "Backup seguro",
+        "descricao": "Cópia encriptada na cloud. Nunca mais documentos perdidos."
+      }
+    ],
+    "demo_passos": [
+      {
+        "icone": "upload",
+        "label_curto": "Upload documentos",
+        "label_longo": "Subir PDFs, fotos ou Word existentes"
+      },
+      {
+        "icone": "folder",
+        "label_curto": "Categorizar",
+        "label_longo": "Atribuir tipo e, se aplicável, condómino/fracção"
+      },
+      {
+        "icone": "search",
+        "label_curto": "Pesquisar quando precisar",
+        "label_longo": "Encontrar em segundos por filtros ou texto"
+      }
+    ],
+    "testemunho": {
+      "texto": "Quando assumi a gestão deste condomínio, recebi caixotes de papéis. Em um mês, digitalizamos tudo e organizamos no sistema. Encontro qualquer documento em segundos.",
+      "autor": "Administrador, Condomínio Histórico"
+    },
+    "faq": [
+      {
+        "pergunta": "Qual o limite de armazenamento?",
+        "resposta": "10 GB incluídos por condomínio. Pacotes adicionais disponíveis."
+      },
+      {
+        "pergunta": "Os condóminos vêem todos os documentos?",
+        "resposta": "Não. Cada documento tem permissão: público (todos vêem), privado (só admin), ou personalizado."
+      },
+      {
+        "pergunta": "Funciona com documentos antigos?",
+        "resposta": "Sim. Pode digitalizar (scan) documentos físicos antigos e fazer upload."
+      },
+      {
+        "pergunta": "Posso assinar digitalmente documentos?",
+        "resposta": "Em roadmap (Q3/2026). Por agora, faz upload de documentos já assinados."
+      }
+    ]
+  },
+  "marketplace": {
+    "tagline": "Marketplace de serviços locais verificados pela ONDAKA, acessível directamente da app do condómino.",
+    "problema": "O condómino precisa de uma empresa para fazer limpeza profunda da casa, manutenção do ar condicionado, ou um técnico de reparação rápida. Procurar em Angola é difícil: empresas confiáveis são escassas e descobertas por boca-em-boca. Resultado: serviços contratados às cegas, qualidade variável, preços inflacionados para quem desconhece.",
+    "solucao": "Aceda ao Marketplace ONDAKA pela app: prestadores de serviços verificados pela ONDAKA com NIF, alvará e avaliações reais. Peça orçamento, contacte directamente, pague pela app via Multicaixa Express. Tudo num só lugar, tudo seguro.",
+    "beneficios": [
+      {
+        "icone": "shield-check",
+        "titulo": "Prestadores verificados",
+        "descricao": "Cada empresa passa por verificação ONDAKA: NIF, alvará, seguros."
+      },
+      {
+        "icone": "star",
+        "titulo": "Avaliações reais",
+        "descricao": "Veja como outros condóminos avaliaram o prestador antes de contratar."
+      },
+      {
+        "icone": "tags",
+        "titulo": "Múltiplas categorias",
+        "descricao": "Limpeza, manutenção, reparações, eletricista, canalizador, jardineiro."
+      },
+      {
+        "icone": "message-square",
+        "titulo": "Pedido directo pela app",
+        "descricao": "Peça orçamento ou marque serviço sem sair da app."
+      },
+      {
+        "icone": "credit-card",
+        "titulo": "Pagamento integrado",
+        "descricao": "Pague pela app via Multicaixa Express, com factura digital."
+      },
+      {
+        "icone": "users",
+        "titulo": "Suporte ONDAKA",
+        "descricao": "Em caso de problema, ONDAKA medeia entre condómino e prestador."
+      }
+    ],
+    "demo_passos": [
+      {
+        "icone": "search",
+        "label_curto": "Procurar serviço",
+        "label_longo": "Filtre por categoria, localização, avaliação"
+      },
+      {
+        "icone": "message-circle",
+        "label_curto": "Pedir orçamento",
+        "label_longo": "Receba propostas em 24-48h"
+      },
+      {
+        "icone": "check",
+        "label_curto": "Contratar e pagar",
+        "label_longo": "Confirme serviço; pague após conclusão"
+      }
+    ],
+    "testemunho": {
+      "texto": "Encontrei um eletricista no Marketplace. Veio em 2h, fez bom trabalho, paguei pela app. Tudo simples e seguro. Já não procuro fora.",
+      "autor": "Condómino, Edifício Sky Bay"
+    },
+    "faq": [
+      {
+        "pergunta": "Como um prestador entra no Marketplace?",
+        "resposta": "Candidatura na ONDAKA, verificação de documentos (NIF, alvará, seguros), entrevista. Não é entrada automática."
+      },
+      {
+        "pergunta": "A ONDAKA cobra comissão?",
+        "resposta": "Sim, comissão sobre transacções aos prestadores. Condóminos não pagam por usar o marketplace."
+      },
+      {
+        "pergunta": "E se o serviço for mau?",
+        "resposta": "Sistema de avaliações + suporte ONDAKA media disputas. Prestadores com avaliações consistentemente baixas são removidos."
+      },
+      {
+        "pergunta": "Funciona em todas as cidades?",
+        "resposta": "Foco inicial em Luanda, Talatona, Viana, Benguela e Lobito. Outras cidades à medida que adicionamos prestadores."
+      }
+    ]
+  },
+  "sugestoes_feedback_nps": {
+    "tagline": "Caixa de sugestões digital e medição de satisfação dos condóminos com NPS automático.",
+    "problema": "Os condóminos têm ideias e frustrações que não chegam ao gestor: a luz do parking que pisca há semanas, a sugestão de pôr cesto de papel ao lado do elevador, a opinião sobre a empresa de limpeza. Sem canal estruturado, este feedback perde-se ou só aparece (negativamente) em assembleia.",
+    "solucao": "Active Sugestões + Feedback NPS: condóminos enviam sugestões pela app a qualquer momento; gestor categoriza e responde; medições periódicas de satisfação (NPS) mostram evolução. Cultura de melhoria contínua, sem assembleias inflamadas.",
+    "beneficios": [
+      {
+        "icone": "lightbulb",
+        "titulo": "Caixa de sugestões 24/7",
+        "descricao": "Condóminos enviam ideias pela app a qualquer hora, sem barreiras."
+      },
+      {
+        "icone": "trending-up",
+        "titulo": "NPS automático",
+        "descricao": "Pesquisas periódicas medem satisfação (Net Promoter Score)."
+      },
+      {
+        "icone": "tag",
+        "titulo": "Categorização",
+        "descricao": "Sugestões agrupadas por tema: limpeza, segurança, áreas comuns."
+      },
+      {
+        "icone": "message-square",
+        "titulo": "Resposta do gestor",
+        "descricao": "Cada sugestão recebe resposta visível; condómino sente-se ouvido."
+      },
+      {
+        "icone": "thumbs-up",
+        "titulo": "Votar em sugestões",
+        "descricao": "Outros condóminos podem apoiar sugestões; mais votadas ganham prioridade."
+      },
+      {
+        "icone": "bar-chart",
+        "titulo": "Tendências ao longo do tempo",
+        "descricao": "Veja se satisfação está a subir ou descer e onde focar atenção."
+      }
+    ],
+    "demo_passos": [
+      {
+        "icone": "edit",
+        "label_curto": "Condómino sugere",
+        "label_longo": "Formulário simples na app, com opção anónima"
+      },
+      {
+        "icone": "user",
+        "label_curto": "Gestor responde",
+        "label_longo": "Categoriza, comenta, define acção"
+      },
+      {
+        "icone": "thumbs-up",
+        "label_curto": "Comunidade vota",
+        "label_longo": "Outros condóminos apoiam sugestões"
+      }
+    ],
+    "testemunho": {
+      "texto": "Recebemos 47 sugestões em 6 meses. Implementamos 18 delas. NPS subiu de 32 para 68. Os condóminos sentem-se parte do condomínio.",
+      "autor": "Administrador, Condomínio Garden"
+    },
+    "faq": [
+      {
+        "pergunta": "Sugestões podem ser anónimas?",
+        "resposta": "Sim, opção do condómino. Gestor pode ainda assim categorizar e responder publicamente."
+      },
+      {
+        "pergunta": "Como funciona o NPS?",
+        "resposta": "Pesquisa de 1 pergunta ('Recomendaria este condomínio a um amigo?', escala 0-10) enviada trimestralmente. Resultado: NPS = Promotores% - Detratores%."
+      },
+      {
+        "pergunta": "Posso esconder sugestões dos outros?",
+        "resposta": "Sim. Cada sugestão pode ser pública ou só-gestor. Por padrão, sugestões importantes ficam visíveis após resposta do gestor."
+      },
+      {
+        "pergunta": "Há limite de sugestões?",
+        "resposta": "Não. Condóminos podem enviar quantas quiserem. Sistema detecta spam automaticamente."
+      }
+    ]
+  }
+}

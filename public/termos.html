@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="pt-AO">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Termos e Condições de Utilização da plataforma ONDAKA — Soluções Simples, Lda, em conformidade com a legislação angolana.">
+    <title>Termos e Condições — ONDAKA</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2300D4FF'/%3E%3Ctext x='16' y='22' font-family='Arial' font-size='18' font-weight='bold' fill='white' text-anchor='middle'%3EO%3C/text%3E%3C/svg%3E">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #0A0A1A;
+            color: rgba(255, 255, 255, 0.85);
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+        header {
+            background: #070715;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            backdrop-filter: blur(8px);
+            background: rgba(7, 7, 21, 0.95);
+        }
+        .header-inner {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .logo {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #00D4FF 0%, #A855F7 60%, #EC4899 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+        .brand {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #fff;
+            letter-spacing: 0.5px;
+        }
+        .brand-sub {
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.4);
+            margin-left: auto;
+        }
+        main {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 3rem 1.5rem 6rem;
+        }
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #00D4FF 0%, #A855F7 60%, #EC4899 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+        h2 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #fff;
+            margin: 2.5rem 0 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        h2:first-of-type { border-top: none; padding-top: 0; margin-top: 2rem; }
+        h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.95);
+            margin: 1.5rem 0 0.75rem;
+        }
+        p {
+            margin-bottom: 1rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        strong { color: #fff; font-weight: 600; }
+        em { color: rgba(255, 255, 255, 0.7); font-style: italic; }
+        ul, ol {
+            margin: 1rem 0 1.5rem 1.5rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        li { margin-bottom: 0.4rem; }
+        a {
+            color: #00D4FF;
+            text-decoration: none;
+            border-bottom: 1px dotted rgba(0, 212, 255, 0.4);
+            transition: color 0.2s;
+        }
+        a:hover { color: #A855F7; border-bottom-color: rgba(168, 85, 247, 0.6); }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 8px;
+            overflow: hidden;
+            font-size: 0.95rem;
+        }
+        th, td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        th {
+            background: rgba(168, 85, 247, 0.08);
+            color: #fff;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        td { color: rgba(255, 255, 255, 0.8); }
+        tr:last-child td { border-bottom: none; }
+        code {
+            background: rgba(255, 255, 255, 0.06);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-family: 'SF Mono', Monaco, Consolas, monospace;
+            font-size: 0.9em;
+            color: #00D4FF;
+        }
+        pre {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            padding: 1rem;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+        }
+        pre code { background: transparent; padding: 0; color: rgba(255, 255, 255, 0.85); }
+        hr {
+            border: none;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.08);
+            margin: 2rem 0;
+        }
+        blockquote {
+            border-left: 3px solid #A855F7;
+            padding: 0.5rem 0 0.5rem 1.5rem;
+            margin: 1.5rem 0;
+            color: rgba(255, 255, 255, 0.7);
+            font-style: italic;
+        }
+        footer {
+            background: #070715;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 2rem 1.5rem;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.85rem;
+            margin-top: 3rem;
+        }
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.6);
+            border-bottom: none;
+        }
+        .footer-links a:hover { color: #00D4FF; }
+        .meta-info {
+            background: rgba(0, 212, 255, 0.05);
+            border-left: 3px solid #00D4FF;
+            padding: 1rem 1.25rem;
+            border-radius: 0 8px 8px 0;
+            margin: 1.5rem 0 2.5rem;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        @media (max-width: 640px) {
+            main { padding: 2rem 1rem 4rem; }
+            h1 { font-size: 1.6rem; }
+            h2 { font-size: 1.2rem; }
+            table { font-size: 0.85rem; }
+            th, td { padding: 0.5rem 0.75rem; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-inner">
+            <a href="https://ondaka.ao" style="display: flex; align-items: center; gap: 0.75rem; text-decoration: none; border-bottom: none;">
+                <div class="logo">O</div>
+                <div class="brand">ONDAKA</div>
+            </a>
+            <span class="brand-sub">Soluções Simples, Lda</span>
+        </div>
+    </header>
+    <main>
+<h1>Termos e Condições de Utilização — ONDAKA</h1>
+<div class="meta-info"><strong>Última actualização:</strong> 19 de Maio de 2026</div>
+<p>Os presentes Termos e Condições ("Termos") regulam a utilização da plataforma <strong>ONDAKA</strong> ("plataforma", "serviço"), disponibilizada pela <strong>Soluções Simples, Lda</strong> ("Soluções Simples", "nós"), através do website https://ondaka.ao e das aplicações móveis para Android e iOS.</p>
+<p>Ao registar-se ou utilizar a ONDAKA, o utilizador declara ter lido, compreendido e aceite integralmente estes Termos. Caso não concorde com algum dos termos, deve abster-se de utilizar o serviço.</p>
+<hr />
+<h2>1. Identificação do Prestador do Serviço</h2>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Informação</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Designação social</td>
+<td>Soluções Simples, Lda</td>
+</tr>
+<tr>
+<td>NIF</td>
+<td>5417658413</td>
+</tr>
+<tr>
+<td>Sede</td>
+<td>Urbanização Boa Vida, Centro de Escritórios, Luanda, Angola</td>
+</tr>
+<tr>
+<td>Email</td>
+<td>comercial@ondaka.ao</td>
+</tr>
+<tr>
+<td>WhatsApp de suporte</td>
+<td>+244 922 772 177</td>
+</tr>
+<tr>
+<td>Website</td>
+<td>https://ondaka.ao</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>2. Definições</h2>
+<p>Para efeitos destes Termos, entende-se por:</p>
+<ul>
+<li><strong>Plataforma / ONDAKA</strong> — sistema SaaS (Software as a Service) de gestão de condomínios disponibilizado pela Soluções Simples através de interfaces web e móvel.</li>
+<li><strong>Utilizador</strong> — qualquer pessoa singular ou colectiva que aceda ou utilize a plataforma.</li>
+<li><strong>Empresa Gestora</strong> — pessoa colectiva ou administrador independente que contrata a subscrição B2B para gerir um ou mais condomínios.</li>
+<li><strong>Administrador de Condomínio</strong> — utilizador designado pela empresa gestora para administrar um condomínio específico.</li>
+<li><strong>Gestor</strong> — utilizador da empresa gestora com acesso operacional à plataforma.</li>
+<li><strong>Condómino</strong> — proprietário, arrendatário ou ocupante autorizado de uma fracção, com acesso à app móvel para consulta e interacção.</li>
+<li><strong>Funcionário</strong> — colaborador do condomínio (porteiro, jardineiro, limpeza, segurança) com acesso operacional limitado.</li>
+<li><strong>Prestador</strong> — empresa ou profissional externo que presta serviços ao condomínio através da plataforma.</li>
+<li><strong>Guarda</strong> — funcionário de segurança com acesso específico a portaria e controlo de visitantes.</li>
+<li><strong>Add-on</strong> — funcionalidade opcional cobrada à parte do plano de subscrição base.</li>
+<li><strong>Funcionalidade MACRO</strong> — funcionalidade incluída no plano de subscrição base sem custo adicional.</li>
+<li><strong>DP 141/15</strong> — Decreto Presidencial n.º 141/15, de 29 de Junho, que estabelece o regime jurídico da propriedade horizontal e gestão de condomínios em Angola.</li>
+</ul>
+<hr />
+<h2>3. Natureza do Serviço</h2>
+<p>A Soluções Simples é uma <strong>plataforma facilitadora</strong> de SaaS. <strong>Não é uma empresa gestora de condomínios</strong> e <strong>não presta serviços de gestão de condomínio</strong>.</p>
+<p>A plataforma é uma ferramenta tecnológica que apoia empresas gestoras e administradores independentes na execução das suas obrigações legais, designadamente as previstas no DP 141/15. A responsabilidade pela gestão efectiva do condomínio, incluindo decisões administrativas, financeiras e legais, é exclusiva da empresa gestora ou administrador independente contratado pelo condomínio.</p>
+<hr />
+<h2>4. Registo e Conta</h2>
+<h3>4.1 Elegibilidade</h3>
+<p>Apenas pessoas maiores de 18 anos podem registar-se na plataforma. Empresas devem ser representadas por mandatário legalmente habilitado.</p>
+<h3>4.2 Veracidade dos dados</h3>
+<p>O utilizador obriga-se a fornecer informações verdadeiras, completas e actualizadas, sendo o único responsável pelas declarações que prestar.</p>
+<h3>4.3 Credenciais de acesso</h3>
+<ul>
+<li>A palavra-passe é confidencial e pessoal.</li>
+<li>O utilizador é responsável por todas as actividades realizadas com as suas credenciais.</li>
+<li>Em caso de suspeita de acesso não autorizado, deve notificar imediatamente a Soluções Simples e alterar a palavra-passe.</li>
+</ul>
+<h3>4.4 Verificação em duas etapas (2FA)</h3>
+<p>A Soluções Simples poderá exigir verificação por SMS para acções críticas (pagamentos, alterações sensíveis), através do "serviço SMS ONDAKA".</p>
+<h3>4.5 Encerramento de conta</h3>
+<p>O utilizador pode encerrar a sua conta a qualquer momento, sem prejuízo das obrigações financeiras pendentes e dos prazos legais de retenção de dados.</p>
+<hr />
+<h2>5. Modelo Comercial</h2>
+<h3>5.1 Acesso gratuito para condóminos</h3>
+<p>A utilização da plataforma pelos <strong>condóminos é gratuita</strong>. Os condóminos não pagam para aceder à app móvel, consultar pagamentos, receber comunicados ou interagir com a gestão do seu condomínio.</p>
+<h3>5.2 Subscrição B2B</h3>
+<p>A subscrição é contratada pela <strong>empresa gestora</strong> ou <strong>administrador independente</strong>, podendo ser:
+- <strong>Mensal</strong> (renovação automática mensal)
+- <strong>Anual</strong> (com possível desconto)</p>
+<p>O preço é calculado de acordo com:
+- Tipo de cliente (empresa gestora vs administrador independente)
+- Número de imóveis sob gestão
+- Período (mensal ou anual)
+- Descontos por quantidade e por período</p>
+<p>A fórmula aplicada é:</p>
+<pre><code>SUBTOTAL = Nº imóveis × Preço base × Meses × (1 − Desc Quantidade) × (1 − Desc Período)
+TOTAL = SUBTOTAL × (1 + Imposto IPC 6,5%)
+</code></pre>
+<h3>5.3 Período de teste (trial)</h3>
+<p>Novos clientes B2B beneficiam de um <strong>período de teste gratuito de 30 dias</strong>, sem necessidade de cartão de crédito.</p>
+<h3>5.4 Add-ons</h3>
+<p>Funcionalidades adicionais (add-ons) podem ser activadas pela empresa gestora e cobradas em separado, conforme o modelo de cobrança de cada add-on:
+- <strong>Subscription</strong> — mensalidade fixa adicional
+- <strong>Consumable</strong> — pagamento por uso (ex: SMS a 35 Kz/SMS)
+- <strong>One-time</strong> — pagamento único</p>
+<p>Alguns add-ons exigem <strong>aprovação manual</strong> ou <strong>hardware específico</strong> (ex: ZKTeco para reconhecimento facial, Hikvision para ANPR).</p>
+<h3>5.5 Imposto</h3>
+<p>Todos os preços apresentados não incluem o Imposto sobre o Consumo (IPC) à taxa legal vigente, <strong>excepto quando expressamente indicado</strong>.</p>
+<h3>5.6 Pagamentos</h3>
+<p>Os pagamentos são processados através de:
+- <strong>ProxyPay</strong> (referência RPS ou débito directo DDS) — entidade regulamentada pelo Banco Nacional de Angola
+- <strong>Multicaixa Express</strong> (quando aplicável)
+- <strong>Outros métodos</strong> disponibilizados na plataforma</p>
+<p>A Soluções Simples não armazena dados de cartões. O processamento é assegurado pelas entidades terceiras autorizadas pelo BNA.</p>
+<h3>5.7 Facturação</h3>
+<p>A empresa gestora recebe factura electrónica para cada cobrança, em conformidade com a legislação fiscal angolana, incluindo número de contribuinte (NIF) válido.</p>
+<hr />
+<h2>6. Cancelamento e Alteração de Plano</h2>
+<h3>6.1 Cancelamento de subscrição</h3>
+<p>A empresa gestora pode cancelar a subscrição a qualquer momento, através da própria plataforma, indicando um dos motivos pré-definidos. O cancelamento produz efeitos:
+- <strong>No fim do período já pago</strong> (sem reembolso pro-rata, salvo exigência legal em contrário)</p>
+<h3>6.2 Reactivação</h3>
+<p>Uma subscrição cancelada pode ser <strong>reactivada</strong> durante um período determinado, mantendo o histórico de dados.</p>
+<h3>6.3 Mudança de plano</h3>
+<ul>
+<li><strong>Upgrade</strong> (passar a plano superior) — efeito imediato, com cobrança pro-rata ("Acréscimo")</li>
+<li><strong>Downgrade</strong> (passar a plano inferior) — efeito ao fim do período actual, sem reembolso pro-rata</li>
+</ul>
+<hr />
+<h2>7. Obrigações do Utilizador</h2>
+<p>O utilizador compromete-se a:</p>
+<ol>
+<li>Utilizar a plataforma exclusivamente para finalidades lícitas e em conformidade com a legislação angolana aplicável.</li>
+<li>Não introduzir dados falsos, ofensivos, fraudulentos ou que violem direitos de terceiros.</li>
+<li>Não tentar aceder a áreas restritas da plataforma sem autorização.</li>
+<li>Não realizar engenharia inversa, descompilação ou tentativa de extracção do código fonte.</li>
+<li>Não utilizar a plataforma para envio de spam, malware ou conteúdo abusivo.</li>
+<li>Não interferir com o funcionamento técnico da plataforma (ataques DDoS, injecção de código, etc.).</li>
+<li>Respeitar a privacidade e os direitos dos outros utilizadores (em especial, dos outros condóminos).</li>
+<li>Manter os seus dados de contacto actualizados.</li>
+<li>Cumprir as obrigações decorrentes do DP 141/15 que lhe sejam aplicáveis (no caso de empresas gestoras, administradores e condóminos).</li>
+</ol>
+<hr />
+<h2>8. Conteúdos e Propriedade Intelectual</h2>
+<h3>8.1 Conteúdos da plataforma</h3>
+<p>Todos os elementos da plataforma (logótipos, marcas, código fonte, interfaces, textos, gráficos, documentação) são propriedade exclusiva da Soluções Simples ou dos seus licenciadores, protegidos pela legislação angolana e internacional de propriedade intelectual.</p>
+<h3>8.2 Conteúdos do utilizador</h3>
+<p>O utilizador mantém todos os direitos sobre os conteúdos que carregue na plataforma (documentos, fotografias, mensagens). Ao carregá-los, concede à Soluções Simples uma <strong>licença limitada, não exclusiva e revogável</strong> para:
+- Armazenar, processar e exibir esses conteúdos aos destinatários apropriados
+- Realizar cópias de segurança
+- Cumprir obrigações legais</p>
+<h3>8.3 Marca ONDAKA</h3>
+<p>A marca "ONDAKA" e o logótipo associado são propriedade da Soluções Simples. A sua utilização por terceiros está sujeita a autorização prévia escrita.</p>
+<hr />
+<h2>9. Disponibilidade e Manutenção</h2>
+<h3>9.1 Esforço de disponibilidade</h3>
+<p>A Soluções Simples envida os melhores esforços para garantir a <strong>disponibilidade contínua</strong> da plataforma, com <strong>objectivo de 99,5% de uptime mensal</strong>.</p>
+<h3>9.2 Manutenções programadas</h3>
+<p>Manutenções programadas serão comunicadas com <strong>antecedência mínima de 24 horas</strong> e realizadas, sempre que possível, em horários de baixa utilização.</p>
+<h3>9.3 Interrupções não programadas</h3>
+<p>Em caso de avaria ou falha técnica imprevista, a Soluções Simples actuará de imediato para restabelecer o serviço, sem que tal possa ser invocado como fundamento de indemnização, salvo nos termos legais aplicáveis.</p>
+<h3>9.4 Limitações de responsabilidade técnica</h3>
+<p>A Soluções Simples não pode ser responsabilizada por:
+- Interrupções decorrentes de actos de terceiros (ISP, fornecedores de hosting, ProxyPay, operadores móveis)
+- Eventos de força maior (catástrofes naturais, cortes generalizados de electricidade, decisões governamentais)
+- Falhas no equipamento ou rede do utilizador</p>
+<hr />
+<h2>10. Conteúdo Gerado por Terceiros</h2>
+<p>A plataforma pode incluir conteúdos gerados por outros utilizadores (mensagens, comunicados, reclamações, ficheiros). A Soluções Simples <strong>não revê previamente</strong> estes conteúdos e <strong>não se responsabiliza</strong> por eles. O utilizador autor é o único responsável pelo que publica.</p>
+<p>A Soluções Simples reserva-se o direito de remover, sem aviso prévio, conteúdos manifestamente ilegais, ofensivos, fraudulentos ou que violem estes Termos.</p>
+<hr />
+<h2>11. Limitação de Responsabilidade</h2>
+<p>Sem prejuízo das normas legais imperativas, a responsabilidade da Soluções Simples está limitada a:</p>
+<h3>11.1 Exclusão de danos indirectos</h3>
+<p>A Soluções Simples não responde por danos indirectos, lucros cessantes, perda de oportunidade, perda de dados (salvo dolo ou negligência grave da nossa parte), nem por consequências de decisões tomadas pelo utilizador com base em informação da plataforma.</p>
+<h3>11.2 Limite quantitativo</h3>
+<p>A responsabilidade total da Soluções Simples perante um cliente B2B em qualquer período de 12 meses <strong>não pode exceder o valor total pago por esse cliente</strong> nos 12 meses anteriores ao facto gerador.</p>
+<h3>11.3 Excepções</h3>
+<p>As limitações acima <strong>não se aplicam</strong> em caso de dolo ou negligência grave, nem prejudicam direitos imperativos do consumidor previstos na legislação angolana.</p>
+<hr />
+<h2>12. Suspensão e Encerramento</h2>
+<h3>12.1 Suspensão por incumprimento</h3>
+<p>A Soluções Simples pode suspender o acesso de um utilizador em caso de:
+- Falta de pagamento de cobrança devida (após aviso prévio)
+- Violação grave destes Termos
+- Suspeita fundada de utilização fraudulenta ou ilegal
+- Decisão judicial ou administrativa</p>
+<h3>12.2 Encerramento de conta</h3>
+<p>O encerramento da conta implica:
+- Cessação do acesso à plataforma
+- Conservação dos dados pelos prazos legais aplicáveis
+- Possibilidade de exportação dos dados pelo titular, antes do encerramento definitivo</p>
+<h3>12.3 Direitos do utilizador</h3>
+<p>Em caso de suspensão ou encerramento, o utilizador será notificado e terá direito a:
+- Conhecer os motivos
+- Apresentar defesa
+- Recuperar os seus dados pessoais (nos termos da Política de Privacidade)</p>
+<hr />
+<h2>13. Modificação dos Termos</h2>
+<p>A Soluções Simples poderá actualizar estes Termos para reflectir alterações legais, técnicas, comerciais ou de prestação do serviço. As alterações entram em vigor na data indicada no topo.</p>
+<p>Alterações materiais serão comunicadas com antecedência mínima de <strong>30 dias</strong>, por:
+- Notificação na plataforma e nas aplicações móveis
+- E-mail aos clientes B2B</p>
+<p>A utilização continuada após a entrada em vigor das alterações constitui aceitação. Caso o utilizador não concorde com as novas condições, pode encerrar a conta nos termos do <strong>n.º 6.1</strong>.</p>
+<hr />
+<h2>14. Confidencialidade</h2>
+<p>A Soluções Simples e os seus colaboradores ficam obrigados a guardar confidencialidade sobre toda a informação que tenham conhecimento no âmbito da prestação do serviço, salvo quando legalmente obrigada a divulgação.</p>
+<hr />
+<h2>15. Cessão de Posição Contratual</h2>
+<p>O utilizador não pode ceder a sua posição nestes Termos sem autorização prévia escrita da Soluções Simples.</p>
+<p>A Soluções Simples pode ceder a sua posição contratual a outra entidade do mesmo grupo económico, ou a entidade que adquira a totalidade ou parte substancial dos seus activos, mediante comunicação prévia ao utilizador.</p>
+<hr />
+<h2>16. Lei Aplicável e Foro Competente</h2>
+<h3>16.1 Lei aplicável</h3>
+<p>Estes Termos regem-se pela lei angolana, designadamente pelo regime jurídico do DP 141/15, Lei 22/11, Lei 23/11 e legislação comercial vigente.</p>
+<h3>16.2 Resolução amigável</h3>
+<p>Em caso de litígio, as partes comprometem-se a tentar uma resolução amigável no prazo de <strong>30 dias</strong>, através de contacto directo, antes de recorrer à via judicial.</p>
+<h3>16.3 Foro</h3>
+<p>Para questões emergentes destes Termos, é competente o <strong>Tribunal Provincial de Luanda</strong>, com expressa renúncia a qualquer outro.</p>
+<hr />
+<h2>17. Disposições Finais</h2>
+<h3>17.1 Integração</h3>
+<p>Estes Termos, em conjunto com a Política de Privacidade, constituem o acordo integral entre as partes, prevalecendo sobre quaisquer comunicações ou acordos anteriores sobre o mesmo objecto.</p>
+<h3>17.2 Invalidade parcial</h3>
+<p>Se alguma cláusula destes Termos for declarada inválida ou inexequível por decisão judicial, as restantes mantêm-se em vigor.</p>
+<h3>17.3 Tolerância</h3>
+<p>A não exigência, em determinado momento, do cumprimento de uma cláusula não implica renúncia ao direito de a exigir em momento posterior.</p>
+<h3>17.4 Comunicações</h3>
+<p>Todas as comunicações entre as partes devem ser feitas por escrito, através dos contactos indicados no n.º 1.</p>
+<hr />
+<h2>18. Contactos</h2>
+<ul>
+<li><strong>E-mail:</strong> comercial@ondaka.ao</li>
+<li><strong>WhatsApp:</strong> +244 922 772 177</li>
+<li><strong>Morada:</strong> Urbanização Boa Vida, Centro de Escritórios, Luanda, Angola</li>
+<li><strong>Website:</strong> https://ondaka.ao</li>
+</ul>
+<hr />
+<p><em>Documento elaborado em conformidade com a legislação angolana vigente. Em caso de dúvida sobre a interpretação dos seus termos, prevalece a versão em língua portuguesa.</em></p>
+<p><strong>Soluções Simples, Lda — Todos os direitos reservados.</strong></p>
+    </main>
+    <footer>
+        <div class="footer-links">
+            <a href="https://ondaka.ao">Início</a>
+            <a href="/privacidade">Privacidade</a>
+            <a href="/termos">Termos</a>
+            <a href="https://wa.me/244922772177">Suporte</a>
+        </div>
+        <div>© 2026 Soluções Simples, Lda · Todos os direitos reservados</div>
+    </footer>
+</body>
+</html>

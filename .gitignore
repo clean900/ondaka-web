@@ -1,0 +1,81 @@
+/node_modules
+/public/hot
+/public/storage
+/storage/*.key
+/storage/pail
+/vendor
+.env
+.env.backup
+.env.production
+.phpactor.json
+.phpunit.result.cache
+Homestead.json
+Homestead.yaml
+auth.json
+npm-debug.log
+yarn-error.log
+/.fleet
+/.idea
+/.nova
+/.vscode
+/.zed
+_ide_helper.php
+_ide_helper_models.php
+.phpstorm.meta.php
+
+# Logs do Laravel
+/storage/logs/*.log
+
+# Cache do Laravel
+/storage/framework/cache/data/*
+/storage/framework/sessions/*
+/storage/framework/views/*
+/storage/framework/testing/*
+
+# Base de dados local (SQLite)
+/database/*.sqlite
+/database/*.sqlite-journal
+
+# Uploads — devem ir para cPanel directamente, não para git
+/storage/app/public/*
+/storage/app/private/*
+!/storage/app/.gitkeep
+!/storage/app/public/.gitkeep
+
+# ============================================================
+# IMPORTANTE: /public/build NÃO está no .gitignore
+# Os assets compilados (JS, CSS) SÃO commitados porque o
+# servidor cPanel não tem Node/npm para os compilar.
+# Fluxo: npm run build localmente → commit → git pull no servidor
+# ============================================================
+
+# ============================================================
+# Backups manuais (.bak/.save) — ficam no servidor, fora do git
+# ============================================================
+*.bak
+*.bak-*
+*.save
+**/*.bak
+**/*.bak-*
+**/*.save
+# Pastas de backup do Chatbot (e similares)
+app/Domains/*.bak-*/
+**/*.bak-pre-*/
+
+# Config de produção (cPanel) — NÃO versionar
+/.htaccess
+
+# Lixo geral
+*.zip
+.DS_Store
+**/.DS_Store
+PYEOF
+*.PYEOF
+
+# Builds antigos em public/ (snapshots de deploys) — NUNCA versionar
+# (preserva apenas /public/build, o build real)
+/public/build.*
+/public/build-*
+/public/build_*
+*.bak.*
+**/*.bak.*

@@ -1,0 +1,28 @@
+{
+  "tagline": "Comunique com os condóminos por SMS sem mensalidade fixa — pague apenas pelo que enviar.",
+  "problema": "A comunicação por SMS é essencial — convocatórias de assembleia, lembretes de pagamento, alertas de visitantes, avisos de emergência. Mas os planos tradicionais cobram mensalidades fixas, com saldos que expiram ou não são suficientes em meses de maior actividade. Resultado: condomínios pagam por SMS que não enviam, ou ficam sem créditos quando mais precisam.",
+  "solucao": "Active o SMS Unificado e pague apenas pelos SMS que enviar — 35 Kz por SMS, com o Sender ID do condomínio configurável. Sem mensalidade, sem créditos que expiram, sem surpresas. Todos os SMS da plataforma (lembretes, avisos, alertas de visitante) usam este saldo único.",
+  "beneficios": [
+    {"icone": "credit-card", "titulo": "Sem mensalidade", "descricao": "Pague apenas pelos SMS que enviar. Sem custos fixos, sem compromisso de volume mínimo."},
+    {"icone": "clock", "titulo": "Créditos sem prazo", "descricao": "Os SMS comprados não expiram. Acumulam-se ao saldo e ficam disponíveis para uso futuro."},
+    {"icone": "shield-check", "titulo": "Sender ID personalizado", "descricao": "Configure até 11 caracteres com o nome do condomínio. Os SMS chegam identificados como oficiais."},
+    {"icone": "trending-up", "titulo": "Maior taxa de leitura", "descricao": "SMS com identidade clara são lidos com muito mais frequência do que mensagens de remetentes genéricos."},
+    {"icone": "zap", "titulo": "Activação imediata", "descricao": "Após pagamento ProxyPay confirmado, o saldo é creditado automaticamente. Sem espera, sem intervenção manual."},
+    {"icone": "chart-bar", "titulo": "Histórico transparente", "descricao": "Consulte todos os pacotes comprados, datas, valores pagos e SMS utilizados no painel de administração."}
+  ],
+  "demo_passos": [
+    {"icone": "store", "label_curto": "Comprar saldo", "label_longo": "Compre o pacote de SMS no painel /admin/sms"},
+    {"icone": "edit", "label_curto": "Configurar Sender ID", "label_longo": "Defina o nome do condomínio (até 11 caracteres)"},
+    {"icone": "send", "label_curto": "Enviar SMS", "label_longo": "A plataforma envia, condómino recebe identificado"}
+  ],
+  "testemunho": {
+    "texto": "Reduzimos o custo da comunicação por SMS para menos de metade desde que passámos ao pay-per-use. Antes pagávamos por créditos que sobravam todos os meses; agora pagamos só o que usamos.",
+    "autor": "Empresa gestora de condomínios, Talatona"
+  },
+  "faq": [
+    {"pergunta": "Quanto custa cada SMS?", "resposta": "35 Kz por SMS enviado, com facturação por uso real. Sem mensalidade, sem custos fixos."},
+    {"pergunta": "Os SMS comprados expiram?", "resposta": "Não. Os créditos comprados não têm prazo de validade e ficam acumulados na conta do condomínio até serem usados."},
+    {"pergunta": "Posso configurar um Sender ID com o nome do condomínio?", "resposta": "Sim, até 11 caracteres alfanuméricos. Recomendamos uma abreviação clara (ex: 'RES TALATONA'). A equipa ONDAKA valida o Sender ID em 24-48 horas para garantir conformidade com as operadoras angolanas."},
+    {"pergunta": "Como sei quantos SMS me restam?", "resposta": "O saldo actualizado aparece em /admin/sms, com histórico completo de envios e detalhe de cada pacote comprado."}
+  ]
+}

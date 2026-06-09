@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Formulário de Registo de Condómino · ONDAKA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #06b6d4;
+  --purple: #a855f7;
+  --text: #1a1a2e;
+  --text-muted: #525266;
+  --text-light: #7a7a8c;
+  --border: #d0d0e0;
+  --border-light: #e8e8f0;
+  --bg: #ffffff;
+  --bg-soft: #f8f8fb;
+  --grad: linear-gradient(135deg, #06b6d4 0%, #a855f7 50%, #ec4899 100%);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg-soft);
+  color: var(--text);
+  font-family: 'Inter', -apple-system, sans-serif;
+  line-height: 1.5;
+  padding: 24px 16px;
+}
+
+/* Toolbar não imprimível */
+.toolbar {
+  position: sticky; top: 0; z-index: 100;
+  background: #0a0a14; color: #e8e8f0;
+  padding: 12px 20px; border-radius: 12px;
+  max-width: 21cm; margin: 0 auto 20px;
+  display: flex; gap: 10px; flex-wrap: wrap; align-items: center;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+.toolbar h2 { font-size: 14px; flex: 1; min-width: 200px; }
+.toolbar h2 span { background: var(--grad); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; font-weight: 800; }
+.toolbar button {
+  background: rgba(255,255,255,0.1); color: #e8e8f0;
+  border: 1px solid rgba(255,255,255,0.15); border-radius: 8px;
+  padding: 7px 14px; font-size: 12px; font-weight: 600;
+  cursor: pointer; font-family: inherit; transition: all 0.15s;
+}
+.toolbar button:hover { background: rgba(255,255,255,0.15); }
+.toolbar button.primary { background: var(--grad); border-color: transparent; font-weight: 700; }
+.toolbar button.primary:hover { opacity: 0.9; }
+.toolbar .hint { font-size: 11px; color: rgba(255,255,255,0.6); width: 100%; margin-top: 4px; }
+
+/* Page A4 */
+.page {
+  max-width: 21cm; min-height: 29.7cm;
+  margin: 0 auto 20px;
+  background: var(--bg);
+  padding: 1.8cm 1.6cm;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  position: relative;
+}
+
+/* Header */
+.form-header { display: flex; align-items: center; gap: 16px; padding-bottom: 14px; border-bottom: 2px solid var(--text); margin-bottom: 16px; }
+.form-logo {
+  width: 56px; height: 56px; border-radius: 12px;
+  background: var(--grad); flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 24px; color: #fff;
+}
+.form-header-text { flex: 1; }
+.form-header-text h1 { font-size: 18px; font-weight: 800; letter-spacing: -0.01em; }
+.form-header-text p { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+.form-no {
+  text-align: right; font-size: 10px; color: var(--text-light);
+  font-family: monospace;
+}
+.form-no .big { font-size: 14px; color: var(--text); font-weight: 700; }
+
+/* Seções */
+.section { margin-bottom: 18px; }
+.section-title {
+  font-size: 11px; font-weight: 800; text-transform: uppercase;
+  letter-spacing: 0.08em; color: var(--text); padding: 6px 10px;
+  background: linear-gradient(90deg, rgba(6,182,212,0.08), rgba(168,85,247,0.04) 80%, transparent);
+  border-left: 3px solid var(--primary); border-radius: 4px;
+  margin-bottom: 10px;
+}
+.section-title .helper {
+  font-size: 9px; font-weight: 500; color: var(--text-light);
+  text-transform: none; letter-spacing: 0; margin-left: 8px;
+}
+
+/* Grid e Campos */
+.row { display: grid; gap: 10px; margin-bottom: 10px; }
+.row.cols-2 { grid-template-columns: 1fr 1fr; }
+.row.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+.row.cols-4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+.row.cols-2-1 { grid-template-columns: 2fr 1fr; }
+
+.field { display: flex; flex-direction: column; }
+.field label {
+  font-size: 9px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.05em; color: var(--text-muted);
+  margin-bottom: 3px;
+}
+.field label .req { color: #dc2626; margin-left: 2px; }
+.field-value {
+  border: none; border-bottom: 1px solid var(--text);
+  padding: 6px 4px 4px; min-height: 24px;
+  font-size: 12px; color: var(--text); background: transparent;
+  font-family: inherit; outline: none;
+  transition: background 0.15s;
+}
+.field-value:focus { background: rgba(6,182,212,0.05); }
+.field-value[contenteditable]:focus {
+  background: rgba(6,182,212,0.05);
+  outline: 1px solid var(--primary); outline-offset: 2px;
+  border-radius: 3px;
+}
+
+/* Checkboxes */
+.checks { display: flex; gap: 14px; flex-wrap: wrap; padding: 4px 0; }
+.check { display: flex; align-items: center; gap: 6px; cursor: pointer; font-size: 11px; }
+.check .box {
+  width: 14px; height: 14px; border: 1.5px solid var(--text);
+  border-radius: 2px; flex-shrink: 0; transition: background 0.15s;
+}
+.check.on .box { background: var(--text); position: relative; }
+.check.on .box::after {
+  content: '✓'; position: absolute; color: #fff;
+  font-size: 11px; font-weight: 800; line-height: 1;
+  top: 0; left: 1px;
+}
+
+/* Tabela */
+table.lines {
+  width: 100%; border-collapse: collapse;
+  font-size: 11px;
+}
+table.lines th {
+  font-size: 9px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.05em; color: var(--text-muted);
+  padding: 6px 4px; border-bottom: 1.5px solid var(--text);
+  text-align: left;
+}
+table.lines td {
+  padding: 8px 4px; border-bottom: 1px dashed var(--border);
+  min-height: 22px;
+}
+table.lines td[contenteditable]:focus { background: rgba(6,182,212,0.05); outline: 1px solid var(--primary); }
+
+/* Consentimentos */
+.consents {
+  background: rgba(245,158,11,0.04); border-left: 3px solid #f59e0b;
+  padding: 10px 14px; border-radius: 4px; margin-top: 10px;
+  font-size: 11px;
+}
+.consents h4 { font-size: 11px; font-weight: 700; margin-bottom: 6px; }
+.consents .check { display: flex; align-items: start; gap: 8px; padding: 3px 0; }
+.consents .check .box { margin-top: 2px; }
+.consents .check span { color: var(--text-muted); line-height: 1.4; }
+
+/* Signatures */
+.signatures {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+  margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border);
+}
+.sig-block {
+  border-bottom: 1px solid var(--text);
+  padding-top: 30px; padding-bottom: 4px;
+  text-align: center;
+  font-size: 10px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.05em; color: var(--text-muted);
+}
+.sig-date {
+  font-size: 10px; color: var(--text-light); text-align: center; margin-top: 4px;
+}
+
+/* Footer */
+.form-footer {
+  margin-top: 18px; padding-top: 12px; border-top: 1px solid var(--border-light);
+  font-size: 9px; color: var(--text-light); display: flex;
+  justify-content: space-between; gap: 10px; flex-wrap: wrap;
+}
+.form-footer b { color: var(--text-muted); }
+
+/* Edit mode visual */
+[contenteditable="true"] { cursor: text; }
+[contenteditable="true"]:hover { background: rgba(168,85,247,0.05); border-radius: 3px; }
+
+/* Print */
+@media print {
+  body { background: #fff; padding: 0; }
+  .toolbar { display: none; }
+  .page { box-shadow: none; margin: 0; padding: 1.5cm 1.3cm; min-height: auto; }
+  .field-value, table.lines td { background: transparent !important; }
+  @page { size: A4; margin: 0; }
+}
+
+@media (max-width: 600px) {
+  .row.cols-2, .row.cols-3, .row.cols-4, .row.cols-2-1 { grid-template-columns: 1fr; }
+  .signatures { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <h2><span>ONDAKA</span> · Formulário de Registo de Condómino</h2>
+  <button onclick="toggleEdit()" id="editBtn">✏️ Modo Edição</button>
+  <button class="primary" onclick="window.print()">🖨️ Imprimir / PDF</button>
+  <button onclick="resetForm()">🔄 Limpar</button>
+  <div class="hint">💡 No "Modo Edição" o administrador pode preencher dados padrão do condomínio antes de imprimir. Clica em qualquer campo cinzento para editar.</div>
+</div>
+
+<div class="page">
+
+  <!-- Header -->
+  <div class="form-header">
+    <div class="form-logo">O</div>
+    <div class="form-header-text">
+      <h1>Formulário de Registo de Condómino</h1>
+      <p>Plataforma ONDAKA · Decreto Presidencial n.º 141/15 de 29 de Junho · Conformidade RGPD</p>
+    </div>
+    <div class="form-no">
+      Formulário Nº<br>
+      <span class="big" contenteditable="true">REG-______</span><br>
+      <span contenteditable="true">__/__/____</span>
+    </div>
+  </div>
+
+  <!-- 1. Identificação do Condomínio (preenchido pelo administrador) -->
+  <div class="section">
+    <div class="section-title">
+      1. Identificação do Condomínio
+      <span class="helper">(preenchido previamente pela administração)</span>
+    </div>
+    <div class="row cols-2">
+      <div class="field">
+        <label>Nome do Condomínio <span class="req">*</span></label>
+        <div class="field-value" contenteditable="true">_____________________________________</div>
+      </div>
+      <div class="field">
+        <label>Empresa Gestora / Administrador</label>
+        <div class="field-value" contenteditable="true">_____________________________________</div>
+      </div>
+    </div>
+    <div class="row cols-3">
+      <div class="field">
+        <label>NIF Empresa Gestora</label>
+        <div class="field-value" contenteditable="true">________________</div>
+      </div>
+      <div class="field">
+        <label>Telefone Administração</label>
+        <div class="field-value" contenteditable="true">+244 ___ ___ ___</div>
+      </div>
+      <div class="field">
+        <label>Email Administração</label>
+        <div class="field-value" contenteditable="true">________________________</div>
+      </div>
+    </div>
+    <div class="row cols-2">
+      <div class="field">
+        <label>Morada do Condomínio</label>
+        <div class="field-value" contenteditable="true">_____________________________________</div>
+      </div>
+      <div class="field">
+        <label>Município / Província</label>
+        <div class="field-value" contenteditable="true">__________________ / ______________</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Dados Pessoais do Condómino -->
+  <div class="section">
+    <div class="section-title">
+      2. Dados Pessoais do Condómino
+      <span class="helper">(preenchidos pelo condómino)</span>
+    </div>
+    <div class="row cols-2-1">
+      <div class="field">
+        <label>Nome Completo <span class="req">*</span></label>
+        <div class="field-value" contenteditable="true">_____________________________________</div>
+      </div>
+      <div class="field">
+        <label>Data de Nascimento <span class="req">*</span></label>
+        <div class="field-value" contenteditable="true">__/__/____</div>
+      </div>
+    </div>
+    <div class="row cols-3">
+      <div class="field">
+        <label>Tipo de Documento <span class="req">*</span></label>
+        <div class="checks">
+          <span class="check"><span class="box"></span>BI</span>
+          <span class="check"><span class="box"></span>Passaporte</span>
+          <span class="check"><span class="box"></span>Outro</span>
+        </div>
+      </div>
+      <div class="field">
+        <label>Nº do Documento <span class="req">*</span></label>
+        <div class="field-value" contenteditable="true">_______________</div>
+      </div>
+      <div class="field">
+        <label>Validade</label>
+        <div class="field-value" contenteditable="true">__/__/____</div>
+      </div>
+    </div>
+    <div class="row cols-3">
+      <div class="field">
+        <label>NIF (Pessoal)</label>
+        <div class="field-value" contenteditable="true">________________</div>
+      </div>
+      <div class="field">
+        <label>Estado Civil</label>
+        <div class="field-value" contenteditable="true">_______________</div>
+      </div>
+      <div class="field">
+        <label>Profissão</label>
+        <div class="field-value" contenteditable="true">_______________</div>
+      </div>
+    </div>
+    <div class="row cols-3">
+      <div class="field">
+        <label>Telemóvel Principal <span class="req">*</span></label>
+        <div class="field-value" contenteditable="true">+244 ___ ___ ___</div>
+      </div>
+      <div class="field">
+        <label>Telefone Alternativo</label>
+        <div class="field-value" contenteditable="true">+244 ___ ___ ___</div>
+      </div>
+      <div class="field">
+        <label>Email <span class="req">*</span></label>
+        <div class="field-value" contenteditable="true">________________________</div>
+      </div>
+    </div>
+    <div class="row cols-2">
+      <div class="field">
+        <label>Morada Anterior (antes de mudar para o condomínio)</label>
+        <div class="field-value" contenteditable="true">_____________________________________</div>
+      </div>
+      <div class="field">
+        <label>Local de Trabalho (opcional)</label>
+        <div class="field-value" contenteditable="true">_____________________________________</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Dados Empresariais (se aplicável) -->
+  <div class="section">
+    <div class="section-title">
+      3. Dados Empresariais
+      <span class="helper">(preencher se o condómino é Pessoa Colectiva)</span>
+    </div>
+    <div class="row cols-2-1">
+      <div class="field">
+        <label>Designação Social</label>
+        <div class="field-value" contenteditable="true">_____________________________________</div>
+      </div>
+      <div class="field">
+        <label>NIF Empresa</label>
+        <div class="field-value" contenteditable="true">________________</div>
+      </div>
+    </div>
+    <div class="row cols-2">
+      <div class="field">
+        <label>Representante Legal</label>
+        <div class="field-value" contenteditable="true">_____________________________________</div>
+      </div>
+      <div class="field">
+        <label>Cargo</label>
+        <div class="field-value" contenteditable="true">_______________</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Imóvel -->
+  <div class="section">
+    <div class="section-title">4. Imóvel no Condomínio</div>
+    <div class="row cols-3">
+      <div class="field">
+        <label>Tipo de Relação <span class="req">*</span></label>
+        <div class="checks">
+          <span class="check"><span class="box"></span>Proprietário</span>
+          <span class="check"><span class="box"></span>Inquilino</span>
+          <span class="check"><span class="box"></span>Usufrutuário</span>
+        </div>
+      </div>
+      <div class="field">
+        <label>Edifício / Bloco <span class="req">*</span></label>
+        <div class="field-value" contenteditable="true">_____________</div>
+      </div>
+      <div class="field">
+        <label>Andar / Lote / Vivenda <span class="req">*</span></label>
+        <div class="field-value" contenteditable="true">_____________</div>
+      </div>
+    </div>
+    <div class="row cols-4">
+      <div class="field">
+        <label>Nº Fracção / Imóvel</label>
+        <div class="field-value" contenteditable="true">________</div>
+      </div>
+      <div class="field">
+        <label>Tipologia (T1/T2...)</label>
+        <div class="field-value" contenteditable="true">________</div>
+      </div>
+      <div class="field">
+        <label>Área (m²)</label>
+        <div class="field-value" contenteditable="true">________</div>
+      </div>
+      <div class="field">
+        <label>Quota Proporcional</label>
+        <div class="field-value" contenteditable="true">________</div>
+      </div>
+    </div>
+    <div class="row cols-2">
+      <div class="field">
+        <label>Data Início Ocupação</label>
+        <div class="field-value" contenteditable="true">__/__/____</div>
+      </div>
+      <div class="field">
+        <label>Nº Estacionamentos / Arrecadação</label>
+        <div class="field-value" contenteditable="true">Est: ___ | Arr: ___</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. Composição do Agregado Familiar -->
+  <div class="section">
+    <div class="section-title">
+      5. Agregado Familiar
+      <span class="helper">(outras pessoas que residem no imóvel)</span>
+    </div>
+    <table class="lines">
+      <thead>
+        <tr>
+          <th style="width:35%">Nome Completo</th>
+          <th style="width:15%">Parentesco</th>
+          <th style="width:15%">Data Nasc.</th>
+          <th style="width:20%">BI / Passaporte</th>
+          <th style="width:15%">Telemóvel</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td contenteditable="true">&nbsp;</td><td contenteditable="true">&nbsp;</td><td contenteditable="true">&nbsp;</td><td contenteditable="true">&nbsp;</td><td contenteditable="true">&nbsp;</td></tr>
+        <tr><td contenteditable="true">&nbsp;</td><td contenteditable="true">&nbsp;</td><td contenteditable="true">&nbsp;</td><td contenteditable="true">&nbsp;</td><td contenteditable="true">&nbsp;</td></tr>
+        <tr><td contenteditable="true">&nbsp;</td><td contenteditable="true">&nbsp;</td><td contenteditable="true">&nbsp;</td><td contenteditable="true">&nbsp;</td><td contenteditable="true">&nbsp;</td></tr>
+        <tr><td contenteditable="true">&nbsp;</td><td contenteditable="true">&nbsp;</td><td contenteditable="true">&nbsp;</td><td contenteditable="true">&nbsp;</td><td contenteditable="true">&nbsp;</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 6. Contacto de Emergência -->
+  <div class="section">
+    <div class="section-title">6. Contacto de Emergência</div>
+    <div class="row cols-3">
+      <div class="field">
+        <label>Nome Completo <span class="req">*</span></label>
+        <div class="field-value" contenteditable="true">_______________________</div>
+      </div>
+      <div class="field">
+        <label>Parentesco / Relação</label>
+        <div class="field-value" contenteditable="true">_______________</div>
+      </div>
+      <div class="field">
+        <label>Telemóvel <span class="req">*</span></label>
+        <div class="field-value" contenteditable="true">+244 ___ ___ ___</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. Veículos -->
+  <div class="section">
+    <div class="section-title">
+      7. Veículos
+      <span class="helper">(matrículas para registo na portaria)</span>
+    </div>
+    <table class="lines">
+      <thead>
+        <tr>
+          <th style="width:20%">Matrícula</th>
+          <th style="width:25%">Marca / Modelo</th>
+          <th style="width:15%">Cor</th>
+          <th style="width:25%">Proprietário (se diferente)</th>
+          <th style="width:15%">Lugar Est.</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td contenteditable="true">&nbsp;</td><td contenteditable="true">&nbsp;</td><td contenteditable="true">&nbsp;</td><td contenteditable="true">&nbsp;</td><td contenteditable="true">&nbsp;</td></tr>
+        <tr><td contenteditable="true">&nbsp;</td><td contenteditable="true">&nbsp;</td><td contenteditable="true">&nbsp;</td><td contenteditable="true">&nbsp;</td><td contenteditable="true">&nbsp;</td></tr>
+        <tr><td contenteditable="true">&nbsp;</td><td contenteditable="true">&nbsp;</td><td contenteditable="true">&nbsp;</td><td contenteditable="true">&nbsp;</td><td contenteditable="true">&nbsp;</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 8. Visitantes Recorrentes Autorizados -->
+  <div class="section">
+    <div class="section-title">
+      8. Visitantes Recorrentes Autorizados
+      <span class="helper">(empregada, motorista, familiares com acesso frequente)</span>
+    </div>
+    <table class="lines">
+      <thead>
+        <tr>
+          <th style="width:35%">Nome Completo</th>
+          <th style="width:20%">BI / Passaporte</th>
+          <th style="width:15%">Telemóvel</th>
+          <th style="width:30%">Tipo de Acesso</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td contenteditable="true">&nbsp;</td><td contenteditable="true">&nbsp;</td><td contenteditable="true">&nbsp;</td><td contenteditable="true">&nbsp;</td></tr>
+        <tr><td contenteditable="true">&nbsp;</td><td contenteditable="true">&nbsp;</td><td contenteditable="true">&nbsp;</td><td contenteditable="true">&nbsp;</td></tr>
+        <tr><td contenteditable="true">&nbsp;</td><td contenteditable="true">&nbsp;</td><td contenteditable="true">&nbsp;</td><td contenteditable="true">&nbsp;</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 9. Animais de Estimação -->
+  <div class="section">
+    <div class="section-title">
+      9. Animais de Estimação
+      <span class="helper">(se aplicável — conforme regulamento do condomínio)</span>
+    </div>
+    <table class="lines">
+      <thead>
+        <tr>
+          <th style="width:25%">Nome</th>
+          <th style="width:20%">Espécie</th>
+          <th style="width:20%">Raça</th>
+          <th style="width:15%">Porte</th>
+          <th style="width:20%">Vacinas em dia?</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td contenteditable="true">&nbsp;</td><td contenteditable="true">&nbsp;</td><td contenteditable="true">&nbsp;</td><td contenteditable="true">&nbsp;</td><td contenteditable="true">&nbsp;</td></tr>
+        <tr><td contenteditable="true">&nbsp;</td><td contenteditable="true">&nbsp;</td><td contenteditable="true">&nbsp;</td><td contenteditable="true">&nbsp;</td><td contenteditable="true">&nbsp;</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 10. Preferências de Comunicação + RGPD -->
+  <div class="section">
+    <div class="section-title">10. Preferências de Comunicação</div>
+
+    <div class="row cols-3">
+      <div class="field">
+        <label>Receber via SMS</label>
+        <div class="checks">
+          <span class="check"><span class="box"></span>Sim</span>
+          <span class="check"><span class="box"></span>Não</span>
+        </div>
+      </div>
+      <div class="field">
+        <label>Receber via Email</label>
+        <div class="checks">
+          <span class="check"><span class="box"></span>Sim</span>
+          <span class="check"><span class="box"></span>Não</span>
+        </div>
+      </div>
+      <div class="field">
+        <label>Receber via WhatsApp</label>
+        <div class="checks">
+          <span class="check"><span class="box"></span>Sim</span>
+          <span class="check"><span class="box"></span>Não</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="consents">
+      <h4>📋 Consentimentos e Declarações</h4>
+      <div class="check"><span class="box"></span><span><b>Tratamento de Dados Pessoais</b> · Autorizo a Empresa Gestora a tratar os meus dados pessoais para efeitos de gestão do condomínio, em conformidade com a legislação aplicável em Angola (Lei n.º 22/11) e Regulamento Interno do Condomínio.</span></div>
+      <div class="check"><span class="box"></span><span><b>Comunicações Operacionais</b> · Aceito receber comunicações da administração relativas a taxas, manutenções, assembleias, emergências e regulamentos.</span></div>
+      <div class="check"><span class="box"></span><span><b>Política de Privacidade ONDAKA</b> · Declaro ter sido informado da Política de Privacidade da plataforma ONDAKA (disponível em ondaka.ao/privacidade) onde os meus dados serão armazenados.</span></div>
+      <div class="check"><span class="box"></span><span><b>Regulamento Interno</b> · Declaro que recebi e tomei conhecimento do Regulamento Interno do Condomínio, comprometendo-me a respeitá-lo.</span></div>
+    </div>
+  </div>
+
+  <!-- 11. Notas / Observações -->
+  <div class="section">
+    <div class="section-title">11. Observações Adicionais</div>
+    <div class="field">
+      <div class="field-value" contenteditable="true" style="min-height: 60px; border: 1px solid var(--border); border-radius: 4px; padding: 8px; border-bottom: 1px solid var(--text);">&nbsp;</div>
+    </div>
+  </div>
+
+  <!-- Assinaturas -->
+  <div class="signatures">
+    <div>
+      <div class="sig-block">Assinatura do Condómino</div>
+      <div class="sig-date">Data: __/__/____</div>
+    </div>
+    <div>
+      <div class="sig-block">Assinatura da Administração</div>
+      <div class="sig-date">Data: __/__/____</div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="form-footer">
+    <div><b>ONDAKA</b> · Plataforma de Gestão de Condomínios · ondaka.ao</div>
+    <div>Soluções Simples, Lda · Luanda, Angola</div>
+    <div>Imp.: <span contenteditable="true">__/__/____</span></div>
+  </div>
+
+</div>
+
+<!-- Página 2 - Uso Interno -->
+<div class="page">
+
+  <div class="form-header">
+    <div class="form-logo">O</div>
+    <div class="form-header-text">
+      <h1>Folha Interna · Activação da Conta na Plataforma</h1>
+      <p>Preenchida pela Administração após recepção do formulário</p>
+    </div>
+    <div class="form-no">
+      Formulário Nº<br>
+      <span class="big" contenteditable="true">REG-______</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">A. Dados de Activação da Conta</div>
+    <div class="row cols-2">
+      <div class="field">
+        <label>Email para login <span class="req">*</span></label>
+        <div class="field-value" contenteditable="true">________________________</div>
+      </div>
+      <div class="field">
+        <label>Telemóvel (recepção SMS de OTP)</label>
+        <div class="field-value" contenteditable="true">+244 ___ ___ ___</div>
+      </div>
+    </div>
+    <div class="row cols-2">
+      <div class="field">
+        <label>Role na plataforma</label>
+        <div class="checks">
+          <span class="check"><span class="box"></span>Condómino</span>
+          <span class="check"><span class="box"></span>Admin. Condomínio</span>
+          <span class="check"><span class="box"></span>Gestor</span>
+        </div>
+      </div>
+      <div class="field">
+        <label>Idioma preferido</label>
+        <div class="checks">
+          <span class="check on"><span class="box"></span>Português (Angola)</span>
+          <span class="check"><span class="box"></span>Português (Portugal)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">B. Validações Documentais</div>
+    <div class="checks" style="flex-direction: column; gap: 8px;">
+      <span class="check"><span class="box"></span>Cópia BI / Passaporte recebida</span>
+      <span class="check"><span class="box"></span>Comprovativo de propriedade / contrato arrendamento recebido</span>
+      <span class="check"><span class="box"></span>Comprovativo de morada recebido</span>
+      <span class="check"><span class="box"></span>Cópia de cartão de vacinas (animais) recebida</span>
+      <span class="check"><span class="box"></span>Documentos digitalizados e arquivados</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">C. Processamento</div>
+    <div class="row cols-3">
+      <div class="field">
+        <label>Data Recepção Formulário</label>
+        <div class="field-value" contenteditable="true">__/__/____</div>
+      </div>
+      <div class="field">
+        <label>Data Criação Conta</label>
+        <div class="field-value" contenteditable="true">__/__/____</div>
+      </div>
+      <div class="field">
+        <label>Data 1ª Quota</label>
+        <div class="field-value" contenteditable="true">__/__/____</div>
+      </div>
+    </div>
+    <div class="row cols-2">
+      <div class="field">
+        <label>Processado por (nome do administrador)</label>
+        <div class="field-value" contenteditable="true">_______________________</div>
+      </div>
+      <div class="field">
+        <label>ID Condómino Plataforma</label>
+        <div class="field-value" contenteditable="true">_______________</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">D. Observações Internas</div>
+    <div class="field">
+      <div class="field-value" contenteditable="true" style="min-height: 80px; border: 1px solid var(--border); border-radius: 4px; padding: 8px; border-bottom: 1px solid var(--text);">&nbsp;</div>
+    </div>
+  </div>
+
+  <div class="signatures">
+    <div>
+      <div class="sig-block">Administrador (Recepção)</div>
+      <div class="sig-date">Data: __/__/____</div>
+    </div>
+    <div>
+      <div class="sig-block">Administrador (Activação)</div>
+      <div class="sig-date">Data: __/__/____</div>
+    </div>
+  </div>
+
+  <div class="form-footer">
+    <div><b>ONDAKA · Uso Interno</b> · Não distribuir ao condómino</div>
+    <div>Conservar arquivado pelo prazo legal</div>
+  </div>
+
+</div>
+
+<script>
+let editMode = false;
+function toggleEdit() {
+  editMode = !editMode;
+  document.getElementById('editBtn').textContent = editMode ? '✓ Edição Activa' : '✏️ Modo Edição';
+  document.getElementById('editBtn').style.background = editMode
+    ? 'linear-gradient(135deg, #06b6d4, #a855f7)'
+    : 'rgba(255,255,255,0.1)';
+}
+
+// Checkboxes
+document.querySelectorAll('.check').forEach(c => {
+  c.addEventListener('click', () => c.classList.toggle('on'));
+});
+
+// Reset
+function resetForm() {
+  if (!confirm('Limpar todo o formulário? Esta acção não pode ser desfeita.')) return;
+  document.querySelectorAll('[contenteditable="true"]').forEach(el => {
+    // Manter placeholders originais
+    const txt = el.textContent.trim();
+    if (txt && !txt.match(/^[_\/\.\s\+:\|]+$/)) {
+      el.textContent = el.textContent.replace(/[^_\/\.\s\+:\|]/g, '_');
+    }
+  });
+  document.querySelectorAll('.check.on').forEach(c => c.classList.remove('on'));
+}
+</script>
+</body>
+</html>

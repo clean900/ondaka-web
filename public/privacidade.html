@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="pt-AO">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Política de Privacidade da plataforma ONDAKA — Soluções Simples, Lda, em conformidade com a Lei 22/11 e DP 141/15 de Angola.">
+    <title>Política de Privacidade — ONDAKA</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2300D4FF'/%3E%3Ctext x='16' y='22' font-family='Arial' font-size='18' font-weight='bold' fill='white' text-anchor='middle'%3EO%3C/text%3E%3C/svg%3E">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #0A0A1A;
+            color: rgba(255, 255, 255, 0.85);
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+        header {
+            background: #070715;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            backdrop-filter: blur(8px);
+            background: rgba(7, 7, 21, 0.95);
+        }
+        .header-inner {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .logo {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #00D4FF 0%, #A855F7 60%, #EC4899 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+        .brand {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #fff;
+            letter-spacing: 0.5px;
+        }
+        .brand-sub {
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.4);
+            margin-left: auto;
+        }
+        main {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 3rem 1.5rem 6rem;
+        }
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #00D4FF 0%, #A855F7 60%, #EC4899 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+        h2 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #fff;
+            margin: 2.5rem 0 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        h2:first-of-type { border-top: none; padding-top: 0; margin-top: 2rem; }
+        h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.95);
+            margin: 1.5rem 0 0.75rem;
+        }
+        p {
+            margin-bottom: 1rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        strong { color: #fff; font-weight: 600; }
+        em { color: rgba(255, 255, 255, 0.7); font-style: italic; }
+        ul, ol {
+            margin: 1rem 0 1.5rem 1.5rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        li { margin-bottom: 0.4rem; }
+        a {
+            color: #00D4FF;
+            text-decoration: none;
+            border-bottom: 1px dotted rgba(0, 212, 255, 0.4);
+            transition: color 0.2s;
+        }
+        a:hover { color: #A855F7; border-bottom-color: rgba(168, 85, 247, 0.6); }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 8px;
+            overflow: hidden;
+            font-size: 0.95rem;
+        }
+        th, td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        th {
+            background: rgba(168, 85, 247, 0.08);
+            color: #fff;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        td { color: rgba(255, 255, 255, 0.8); }
+        tr:last-child td { border-bottom: none; }
+        code {
+            background: rgba(255, 255, 255, 0.06);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-family: 'SF Mono', Monaco, Consolas, monospace;
+            font-size: 0.9em;
+            color: #00D4FF;
+        }
+        pre {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            padding: 1rem;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+        }
+        pre code { background: transparent; padding: 0; color: rgba(255, 255, 255, 0.85); }
+        hr {
+            border: none;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.08);
+            margin: 2rem 0;
+        }
+        blockquote {
+            border-left: 3px solid #A855F7;
+            padding: 0.5rem 0 0.5rem 1.5rem;
+            margin: 1.5rem 0;
+            color: rgba(255, 255, 255, 0.7);
+            font-style: italic;
+        }
+        footer {
+            background: #070715;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 2rem 1.5rem;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.85rem;
+            margin-top: 3rem;
+        }
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.6);
+            border-bottom: none;
+        }
+        .footer-links a:hover { color: #00D4FF; }
+        .meta-info {
+            background: rgba(0, 212, 255, 0.05);
+            border-left: 3px solid #00D4FF;
+            padding: 1rem 1.25rem;
+            border-radius: 0 8px 8px 0;
+            margin: 1.5rem 0 2.5rem;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        @media (max-width: 640px) {
+            main { padding: 2rem 1rem 4rem; }
+            h1 { font-size: 1.6rem; }
+            h2 { font-size: 1.2rem; }
+            table { font-size: 0.85rem; }
+            th, td { padding: 0.5rem 0.75rem; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-inner">
+            <a href="https://ondaka.ao" style="display: flex; align-items: center; gap: 0.75rem; text-decoration: none; border-bottom: none;">
+                <div class="logo">O</div>
+                <div class="brand">ONDAKA</div>
+            </a>
+            <span class="brand-sub">Soluções Simples, Lda</span>
+        </div>
+    </header>
+    <main>
+<h1>Política de Privacidade — ONDAKA</h1>
+<div class="meta-info"><strong>Última actualização:</strong> 19 de Maio de 2026</div>
+<p>A presente Política de Privacidade descreve como a <strong>Soluções Simples, Lda</strong> ("Soluções Simples", "nós") recolhe, utiliza, partilha e protege os dados pessoais dos utilizadores da plataforma <strong>ONDAKA</strong> ("plataforma", "serviço"), disponível em https://ondaka.ao e através das aplicações móveis para Android e iOS.</p>
+<p>Ao utilizar a ONDAKA, o utilizador declara ter lido e compreendido esta Política. Caso não concorde com algum dos termos aqui descritos, deve abster-se de utilizar o serviço.</p>
+<hr />
+<h2>1. Identificação do Responsável pelo Tratamento</h2>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Informação</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Designação social</td>
+<td>Soluções Simples, Lda</td>
+</tr>
+<tr>
+<td>NIF</td>
+<td>5417658413</td>
+</tr>
+<tr>
+<td>Sede</td>
+<td>Urbanização Boa Vida, Centro de Escritórios, Luanda, Angola</td>
+</tr>
+<tr>
+<td>Email para questões de privacidade</td>
+<td>comercial@ondaka.ao</td>
+</tr>
+<tr>
+<td>WhatsApp de suporte</td>
+<td>+244 922 772 177</td>
+</tr>
+<tr>
+<td>Website</td>
+<td>https://ondaka.ao</td>
+</tr>
+</tbody>
+</table>
+<p>A Soluções Simples é uma sociedade comercial de direito angolano e é a entidade responsável pelo tratamento dos dados pessoais recolhidos através da plataforma ONDAKA.</p>
+<hr />
+<h2>2. Enquadramento Legal</h2>
+<p>O tratamento de dados pessoais realizado pela Soluções Simples observa o regime jurídico aplicável em Angola, designadamente:</p>
+<ul>
+<li><strong>Lei n.º 22/11, de 17 de Junho</strong> — Lei da Protecção de Dados Pessoais;</li>
+<li><strong>Decreto Presidencial n.º 141/15, de 29 de Junho</strong> — Regime jurídico da propriedade horizontal e gestão de condomínios;</li>
+<li><strong>Lei n.º 23/11, de 20 de Junho</strong> — Lei das Comunicações Electrónicas;</li>
+<li>Demais legislação angolana aplicável.</li>
+</ul>
+<p>Sempre que o utilizador seja cidadão de país onde se aplique o Regulamento Geral de Protecção de Dados (RGPD) da União Europeia, a Soluções Simples observa também esse regime, no que seja compatível.</p>
+<hr />
+<h2>3. Categorias de Dados Recolhidos</h2>
+<p>A ONDAKA é uma plataforma SaaS de gestão de condomínios em Angola, com perfis de utilizador distintos (super-administrador, administrador de empresa, gestor, administrador de condomínio, condómino, funcionário, prestador, guarda). Os dados recolhidos variam conforme o perfil.</p>
+<h3>3.1 Dados de identificação e contacto</h3>
+<ul>
+<li>Nome completo</li>
+<li>Bilhete de Identidade ou Passaporte</li>
+<li>NIF</li>
+<li>Endereço de correio electrónico</li>
+<li>Número de telemóvel angolano</li>
+<li>Morada de residência ou da fracção</li>
+<li>Fotografia de perfil (opcional)</li>
+</ul>
+<h3>3.2 Dados de autenticação</h3>
+<ul>
+<li>Palavra-passe encriptada (nunca armazenada em texto simples)</li>
+<li>Códigos de verificação (2FA via SMS, quando aplicável)</li>
+<li>Tokens de sessão</li>
+<li>Endereços IP e identificadores de dispositivo</li>
+<li>Histórico de início de sessão</li>
+</ul>
+<h3>3.3 Dados de fracção / imóvel</h3>
+<ul>
+<li>Identificação da fracção (bloco, andar, número)</li>
+<li>Quota proporcional</li>
+<li>Histórico de pagamento de taxas de condomínio</li>
+<li>Saldo em conta-corrente</li>
+</ul>
+<h3>3.4 Dados financeiros</h3>
+<ul>
+<li>Referências de pagamento ProxyPay (RPS, DDS)</li>
+<li>Comprovativos de pagamento</li>
+<li>Histórico de transacções (valores, datas, métodos)</li>
+<li>Subscrições B2B (para clientes empresariais)</li>
+<li><strong>Nota:</strong> a Soluções Simples <strong>não armazena dados de cartão de crédito ou débito</strong>. O processamento de pagamentos é feito por entidades terceiras autorizadas pelo Banco Nacional de Angola (BNA).</li>
+</ul>
+<h3>3.5 Dados biométricos (opcional)</h3>
+<p>Quando a empresa gestora do condomínio activa o add-on de Reconhecimento Facial ZKTeco para controlo de acessos ou marcação de presença de funcionários, são tratados dados biométricos faciais. <strong>Este tratamento exige consentimento explícito do titular</strong> e os dados são armazenados de forma encriptada e dissociada.</p>
+<h3>3.6 Dados de localização</h3>
+<ul>
+<li>Localização aproximada (cidade) para fins de personalização e suporte</li>
+<li>Localização precisa, <strong>apenas quando expressamente autorizada</strong> pelo utilizador no dispositivo, no contexto de funcionalidades específicas (ex: SOS de emergência)</li>
+</ul>
+<h3>3.7 Dados de utilização</h3>
+<ul>
+<li>Páginas visitadas e funcionalidades utilizadas</li>
+<li>Tempos de sessão</li>
+<li>Eventos de interacção (cliques, formulários submetidos)</li>
+<li>Registos de erros e logs técnicos</li>
+</ul>
+<h3>3.8 Dados de comunicação</h3>
+<ul>
+<li>Conteúdo de mensagens enviadas através do chatbot e canais de suporte</li>
+<li>Conteúdo de comunicados, pedidos e reclamações registadas</li>
+<li>Mensagens SMS (via "serviço SMS ONDAKA")</li>
+<li>Notificações push e e-mails enviados</li>
+</ul>
+<hr />
+<h2>4. Finalidades do Tratamento</h2>
+<p>Os dados pessoais recolhidos destinam-se exclusivamente às seguintes finalidades:</p>
+<ol>
+<li><strong>Prestação do serviço:</strong> permitir o acesso e utilização da plataforma ONDAKA pelos diferentes perfis de utilizador.</li>
+<li><strong>Gestão de condomínios:</strong> suportar as funcionalidades de cobrança de taxas, comunicação entre condóminos e gestores, controlo de visitantes, gestão de pedidos, assembleias e demais funcionalidades previstas no DP 141/15.</li>
+<li><strong>Processamento de pagamentos:</strong> intermediar pagamentos via ProxyPay e outros prestadores regulamentados.</li>
+<li><strong>Segurança:</strong> prevenção de fraude, detecção de actividade suspeita, registo de acessos e auditoria.</li>
+<li><strong>Suporte ao utilizador:</strong> prestação de assistência técnica e comercial.</li>
+<li><strong>Comunicação:</strong> envio de notificações operacionais (lembretes de pagamento, alertas de visitante, comunicados do condomínio).</li>
+<li><strong>Cumprimento de obrigações legais:</strong> retenção de documentação fiscal e contabilística pelo prazo legalmente exigido em Angola (mínimo de 5 anos).</li>
+<li><strong>Melhoria do serviço:</strong> análise agregada e anonimizada de utilização para melhorar funcionalidades.</li>
+</ol>
+<p>A Soluções Simples <strong>não utiliza dados pessoais para publicidade comportamental</strong> nem os vende a terceiros.</p>
+<hr />
+<h2>5. Fundamentos de Licitude</h2>
+<p>O tratamento de dados realizado pela Soluções Simples baseia-se nos seguintes fundamentos:</p>
+<table>
+<thead>
+<tr>
+<th>Fundamento</th>
+<th>Aplicação</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Consentimento</strong></td>
+<td>Funcionalidades opcionais (biometria, localização precisa, marketing)</td>
+</tr>
+<tr>
+<td><strong>Execução de contrato</strong></td>
+<td>Prestação do serviço ONDAKA ao titular ou à empresa gestora</td>
+</tr>
+<tr>
+<td><strong>Obrigação legal</strong></td>
+<td>Retenção fiscal, cumprimento do DP 141/15</td>
+</tr>
+<tr>
+<td><strong>Interesse legítimo</strong></td>
+<td>Segurança da plataforma, prevenção de fraude, melhoria do serviço</td>
+</tr>
+<tr>
+<td><strong>Defesa de direitos</strong></td>
+<td>Litígios e reclamações</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>6. Partilha de Dados com Terceiros</h2>
+<p>A Soluções Simples partilha dados pessoais apenas com os seguintes terceiros, exclusivamente para as finalidades descritas:</p>
+<h3>6.1 Prestadores de serviço de pagamento</h3>
+<ul>
+<li><strong>ProxyPay, S.A.</strong> (Angola) — processamento de pagamentos via referência (RPS) e débito directo (DDS), regulamentada pelo Banco Nacional de Angola.</li>
+</ul>
+<h3>6.2 Prestadores de infraestrutura técnica</h3>
+<ul>
+<li><strong>Google LLC</strong> (Firebase Cloud Messaging) — entrega de notificações push para as aplicações móveis.</li>
+<li><strong>Pusher Ltd</strong> (Reino Unido) — comunicações em tempo real (WebSocket).</li>
+<li><strong>Serviços de envio de SMS</strong> — entrega de SMS transaccionais e códigos de verificação através do "serviço SMS ONDAKA".</li>
+</ul>
+<h3>6.3 Prestadores de hardware integrado (quando activos)</h3>
+<ul>
+<li><strong>MiRO Distribution</strong> — fornecimento de hardware ZKTeco (reconhecimento facial) e Hikvision (câmaras ANPR). Os dados biométricos são processados localmente nos dispositivos antes da sincronização com a plataforma.</li>
+</ul>
+<h3>6.4 Empresa gestora do condomínio</h3>
+<p>Os dados do condómino são partilhados com a empresa gestora do respectivo condomínio (cliente B2B da ONDAKA), na medida estritamente necessária à gestão do condomínio. <strong>A empresa gestora actua como responsável independente</strong> pelo tratamento dos dados que receba neste contexto.</p>
+<h3>6.5 Autoridades públicas</h3>
+<p>A Soluções Simples poderá partilhar dados pessoais com autoridades judiciais, fiscais ou regulatórias angolanas (Banco Nacional de Angola, Administração Geral Tributária, tribunais), quando legalmente obrigada a fazê-lo.</p>
+<h3>6.6 Transferências internacionais</h3>
+<p>Alguns dos prestadores acima estão sediados fora de Angola (designadamente Google e Pusher). Nestes casos, garantimos que existem mecanismos contratuais e técnicos apropriados de protecção de dados.</p>
+<hr />
+<h2>7. Prazos de Conservação</h2>
+<table>
+<thead>
+<tr>
+<th>Categoria</th>
+<th>Prazo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Dados de conta activa</td>
+<td>Enquanto a conta estiver activa</td>
+</tr>
+<tr>
+<td>Dados de conta encerrada</td>
+<td>Até 30 dias após encerramento, salvo obrigação legal de retenção</td>
+</tr>
+<tr>
+<td>Documentos fiscais (facturas, recibos)</td>
+<td>Mínimo de 5 anos, conforme legislação fiscal angolana</td>
+</tr>
+<tr>
+<td>Actas de assembleia</td>
+<td>Indefinidamente (título executivo, DP 141/15)</td>
+</tr>
+<tr>
+<td>Logs de auditoria e segurança</td>
+<td>5 anos</td>
+</tr>
+<tr>
+<td>Comunicações de suporte</td>
+<td>2 anos após encerramento da interacção</td>
+</tr>
+<tr>
+<td>Dados biométricos (ZKTeco)</td>
+<td>Até cancelamento do consentimento ou termo da relação laboral</td>
+</tr>
+<tr>
+<td>Registos de pagamento</td>
+<td>10 anos (obrigação fiscal)</td>
+</tr>
+</tbody>
+</table>
+<p>Findos os prazos legais, os dados são eliminados ou anonimizados de forma segura.</p>
+<hr />
+<h2>8. Direitos do Titular dos Dados</h2>
+<p>Nos termos da Lei 22/11 e do RGPD (quando aplicável), o utilizador tem os seguintes direitos:</p>
+<h3>8.1 Direito de acesso</h3>
+<p>Obter confirmação de quais dados pessoais são tratados, e receber cópia dos mesmos.</p>
+<h3>8.2 Direito de rectificação</h3>
+<p>Corrigir dados incorrectos ou desactualizados directamente na plataforma ou através do suporte.</p>
+<h3>8.3 Direito ao apagamento ("direito a ser esquecido")</h3>
+<p>Solicitar a eliminação dos dados pessoais, sujeito a limites legais (ex: dados fiscais sob obrigação de retenção não podem ser apagados imediatamente, mas serão anonimizados).</p>
+<h3>8.4 Direito de oposição</h3>
+<p>Opor-se ao tratamento dos dados para finalidades baseadas em interesse legítimo.</p>
+<h3>8.5 Direito à limitação do tratamento</h3>
+<p>Solicitar que os dados sejam apenas conservados, sem tratamento activo, em situações específicas.</p>
+<h3>8.6 Direito de portabilidade</h3>
+<p>Receber os dados pessoais em formato estruturado e legível por máquina, para os transferir para outro responsável.</p>
+<h3>8.7 Direito de retirar consentimento</h3>
+<p>Quando o tratamento se baseie em consentimento, o utilizador pode retirá-lo a qualquer momento, sem prejuízo da validade do tratamento anterior.</p>
+<h3>8.8 Como exercer estes direitos</h3>
+<ul>
+<li>Através da própria plataforma, sempre que disponível (ex: secção "Privacidade" da conta)</li>
+<li>Por correio electrónico para comercial@ondaka.ao</li>
+<li>Por WhatsApp para +244 922 772 177</li>
+</ul>
+<p>A Soluções Simples responde ao pedido no prazo máximo de <strong>30 dias úteis</strong>, sem custo para o titular (exceptuando pedidos manifestamente infundados ou repetidos).</p>
+<h3>8.9 Direito de reclamação</h3>
+<p>Sem prejuízo de qualquer outra via, o titular pode apresentar reclamação à autoridade de protecção de dados competente em Angola.</p>
+<hr />
+<h2>9. Segurança dos Dados</h2>
+<p>A Soluções Simples adopta medidas técnicas e organizativas adequadas para proteger os dados pessoais, designadamente:</p>
+<ul>
+<li>Encriptação de comunicações (HTTPS/TLS)</li>
+<li>Encriptação de palavras-passe (algoritmo bcrypt)</li>
+<li>Encriptação de dados biométricos em repouso</li>
+<li>Autenticação multi-factor (2FA) opcional via SMS</li>
+<li>Controlo de acessos por perfil e permissões granulares</li>
+<li>Registo de auditoria de operações críticas</li>
+<li>Cópias de segurança regulares</li>
+<li>Servidor com firewall e protecção contra intrusões</li>
+<li>Formação contínua dos colaboradores com acesso a dados</li>
+</ul>
+<p>Apesar destas medidas, <strong>nenhum sistema é totalmente imune a falhas de segurança</strong>. Em caso de violação de dados pessoais que afecte os direitos e liberdades dos titulares, a Soluções Simples notificará a autoridade competente e os titulares afectados, conforme exigido pela lei.</p>
+<hr />
+<h2>10. Cookies e Tecnologias Similares</h2>
+<p>A versão web da ONDAKA utiliza cookies estritamente necessários ao funcionamento da plataforma (sessão, autenticação, preferências). <strong>Não utilizamos cookies de publicidade nem de rastreamento por terceiros.</strong></p>
+<p>As aplicações móveis utilizam identificadores de dispositivo (Firebase Installation ID) para entrega de notificações push e diagnóstico técnico.</p>
+<hr />
+<h2>11. Protecção de Menores</h2>
+<p>A ONDAKA <strong>não se destina a menores de 18 anos</strong>. Não recolhemos intencionalmente dados de menores. Caso um pai/encarregado de educação verifique que um menor forneceu dados pessoais sem autorização, deve contactar-nos imediatamente para remoção dos mesmos.</p>
+<hr />
+<h2>12. Alterações à Política de Privacidade</h2>
+<p>A Soluções Simples poderá actualizar esta Política para reflectir alterações legais, técnicas ou de prestação do serviço. As alterações entram em vigor na data indicada no topo do documento.</p>
+<p>Alterações materiais (impacto significativo nos direitos dos titulares) serão comunicadas previamente através de:
+- Notificação na plataforma e/ou aplicações móveis
+- E-mail para os utilizadores registados (quando aplicável)</p>
+<p>A utilização continuada da plataforma após a entrada em vigor das alterações constitui aceitação tácita das mesmas.</p>
+<hr />
+<h2>13. Contactos</h2>
+<p>Para qualquer questão relacionada com esta Política ou com o tratamento dos seus dados pessoais:</p>
+<ul>
+<li><strong>E-mail:</strong> comercial@ondaka.ao</li>
+<li><strong>WhatsApp:</strong> +244 922 772 177</li>
+<li><strong>Morada:</strong> Urbanização Boa Vida, Centro de Escritórios, Luanda, Angola</li>
+<li><strong>Website:</strong> https://ondaka.ao</li>
+</ul>
+<hr />
+<p><em>Documento elaborado em conformidade com a legislação angolana vigente. Em caso de dúvida sobre a interpretação dos seus termos, prevalece a versão em língua portuguesa.</em></p>
+<p><strong>Soluções Simples, Lda — Todos os direitos reservados.</strong></p>
+    </main>
+    <footer>
+        <div class="footer-links">
+            <a href="https://ondaka.ao">Início</a>
+            <a href="/privacidade">Privacidade</a>
+            <a href="/termos">Termos</a>
+            <a href="https://wa.me/244922772177">Suporte</a>
+        </div>
+        <div>© 2026 Soluções Simples, Lda · Todos os direitos reservados</div>
+    </footer>
+</body>
+</html>

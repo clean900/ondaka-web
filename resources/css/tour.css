@@ -1,0 +1,112 @@
+/* ONDAKA — overrides para Driver.js (tour interactivo) */
+
+.ondaka-tour-popover {
+    background: linear-gradient(135deg, #16163A 0%, #1A1A4F 100%) !important;
+    border: 1px solid rgba(168, 85, 247, 0.25) !important;
+    border-radius: 14px !important;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(0, 212, 255, 0.1) !important;
+    color: #fff !important;
+    padding: 0 !important;
+    max-width: 380px !important;
+}
+
+.ondaka-tour-popover .driver-popover-title {
+    color: #fff !important;
+    font-size: 17px !important;
+    font-weight: 600 !important;
+    padding: 18px 20px 6px !important;
+    margin: 0 !important;
+    letter-spacing: -0.2px;
+}
+
+.ondaka-tour-popover .driver-popover-description {
+    color: rgba(255, 255, 255, 0.75) !important;
+    font-size: 13px !important;
+    line-height: 1.55 !important;
+    padding: 0 20px 14px !important;
+    margin: 0 !important;
+}
+
+.ondaka-tour-popover .driver-popover-progress-text {
+    color: rgba(255, 255, 255, 0.45) !important;
+    font-size: 10px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    padding: 14px 20px 0 !important;
+}
+
+.ondaka-tour-popover .driver-popover-footer {
+    padding: 12px 20px 16px !important;
+    margin: 0 !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.06) !important;
+    margin-top: 6px !important;
+}
+
+.ondaka-tour-popover .driver-popover-prev-btn,
+.ondaka-tour-popover .driver-popover-next-btn,
+.ondaka-tour-popover .driver-popover-close-btn {
+    border-radius: 8px !important;
+    font-weight: 500 !important;
+    font-size: 13px !important;
+    padding: 8px 14px !important;
+    text-shadow: none !important;
+    border: none !important;
+    transition: opacity 0.2s !important;
+}
+
+.ondaka-tour-popover .driver-popover-prev-btn {
+    background: rgba(255, 255, 255, 0.06) !important;
+    color: rgba(255, 255, 255, 0.7) !important;
+}
+
+.ondaka-tour-popover .driver-popover-prev-btn:hover {
+    background: rgba(255, 255, 255, 0.1) !important;
+    color: #fff !important;
+}
+
+.ondaka-tour-popover .driver-popover-next-btn {
+    background: linear-gradient(135deg, #00D4FF 0%, #A855F7 100%) !important;
+    color: #fff !important;
+}
+
+.ondaka-tour-popover .driver-popover-next-btn:hover {
+    opacity: 0.9 !important;
+}
+
+.ondaka-tour-popover .driver-popover-close-btn {
+    color: rgba(255, 255, 255, 0.4) !important;
+    background: transparent !important;
+    width: 28px !important;
+    height: 28px !important;
+    padding: 0 !important;
+    top: 12px !important;
+    right: 12px !important;
+}
+
+.ondaka-tour-popover .driver-popover-close-btn:hover {
+    color: #fff !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+}
+
+.ondaka-tour-popover .driver-popover-arrow-side-right.driver-popover-arrow {
+    border-right-color: rgba(168, 85, 247, 0.4) !important;
+}
+
+.ondaka-tour-popover .driver-popover-arrow-side-left.driver-popover-arrow {
+    border-left-color: rgba(168, 85, 247, 0.4) !important;
+}
+
+.ondaka-tour-popover .driver-popover-arrow-side-top.driver-popover-arrow {
+    border-top-color: rgba(168, 85, 247, 0.4) !important;
+}
+
+.ondaka-tour-popover .driver-popover-arrow-side-bottom.driver-popover-arrow {
+    border-bottom-color: rgba(168, 85, 247, 0.4) !important;
+}
+
+/* Highlight do elemento */
+.driver-active-element {
+    box-shadow: 0 0 0 2px rgba(0, 212, 255, 0.6), 0 0 30px rgba(168, 85, 247, 0.3) !important;
+    border-radius: 8px !important;
+    transition: box-shadow 0.3s !important;
+}
