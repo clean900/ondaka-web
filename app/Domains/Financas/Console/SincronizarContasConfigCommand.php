@@ -34,9 +34,10 @@ class SincronizarContasConfigCommand extends Command
                 continue;
             }
 
+            $ibanNorm = $this->normalizarIban($iban);
             $existe = ContaBancaria::where('condominio_id', $config->condominio_id)
-                ->where('iban', $iban)
-                ->first();
+                ->get()
+                ->first(fn ($c) => $this->normalizarIban((string) $c->iban) === $ibanNorm);
 
             if ($existe) {
                 $jaExistiam++;
@@ -66,5 +67,9 @@ class SincronizarContasConfigCommand extends Command
         $this->info("Concluido. Criadas: {$criadas} | Ja existiam: {$jaExistiam} | Config sem dados: {$semDados}");
 
         return self::SUCCESS;
+    }
+    private function normalizarIban(string $iban): string
+    {
+        return strtoupper(preg_replace('/[^A-Za-z0-9]/', '', $iban) ?? '');
     }
 }
