@@ -31,6 +31,7 @@ return Application::configure(basePath: dirname(__DIR__))
         \App\Domains\Integracao\Sms\Console\EnviarSmsTesteCommand::class,
         \App\Domains\Integracao\Sms\Console\ConsultarSaldoSmsCommand::class,
         \App\Domains\Facturacao\Console\BackfillPagamentosCommand::class,
+        \App\Domains\Financas\Console\SincronizarContasConfigCommand::class,
     ])
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->validateCsrfTokens(except: [
