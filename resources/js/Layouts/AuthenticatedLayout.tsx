@@ -27,6 +27,7 @@ type MenuItem = {
     badge?: string;
     urgentBadge?: number;
     feature_slug?: string;
+    externo?: boolean;
 };
 
 type MenuSection = {
@@ -235,7 +236,7 @@ export default function AuthenticatedLayout({ children }: PropsWithChildren) {
                 { label: 'Contratos', href: '/documentos/contratos', icon: FileText },
                 { label: 'Regulamentos', href: '/documentos/regulamentos', icon: FileText },
                 { label: 'Outros', href: '/documentos/outros', icon: FileText },
-                { label: 'Formulário de Registo', href: '/documentos/formulario-registo', icon: FileText },
+                { label: 'Formulário de Registo', href: '/documentos/formulario-registo', icon: FileText, externo: true },
             ],
         },
         {
@@ -281,7 +282,6 @@ export default function AuthenticatedLayout({ children }: PropsWithChildren) {
             itens: [
                 { label: 'Dashboard BI', href: '/bi', icon: ChartBar, urgentBadge: numAlertas, feature_slug: 'dashboard_bi' },
                 { label: 'NPS do Condomínio', href: '/nps/dashboard', icon: Gauge },
-                { label: 'Avaliar a ONDAKA', href: '/nps/avaliar', icon: MessageSquare },
                 { label: 'Configurar NPS', href: '/nps/configuracao', icon: Settings },
             ],
         }] : []),
@@ -425,10 +425,14 @@ export default function AuthenticatedLayout({ children }: PropsWithChildren) {
                                     }
 
                                     const activo = !item.disabled && estaActivo(item.href);
+                                    const Comp: any = item.externo ? 'a' : Link;
+                                    const linkProps: any = item.externo
+                                        ? { href: item.href, target: '_blank', rel: 'noopener noreferrer' }
+                                        : { href: item.disabled ? '#' : item.href };
                                     return (
-                                        <Link
+                                        <Comp
                                             key={item.label}
-                                            href={item.disabled ? '#' : item.href}
+                                            {...linkProps}
                                             className={cn(
                                                 'flex items-center gap-3 px-3 py-2.5 rounded-lg text-[13px] transition-all group relative',
                                                 item.disabled
@@ -457,7 +461,7 @@ export default function AuthenticatedLayout({ children }: PropsWithChildren) {
                                                     {item.urgentBadge > 99 ? '99+' : item.urgentBadge}
                                                 </span>
                                             )}
-                                        </Link>
+                                        </Comp>
                                     );
                                 })}
                             </div>
