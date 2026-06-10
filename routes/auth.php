@@ -41,6 +41,17 @@ Route::middleware('guest')->group(function () {
             ]);
         }
 
+        // Fallback: garantir condomínio activo para admins-empresa/gestores sem um definido
+        if (! $user->condominio_activo_id && $user->empresa_gestora_id) {
+            $primeiroCondominio = \App\Domains\Condominio\Models\Condominio::where('empresa_gestora_id', $user->empresa_gestora_id)
+                ->orderBy('id')
+                ->first();
+            if ($primeiroCondominio) {
+                $user->condominio_activo_id = $primeiroCondominio->id;
+                $user->save();
+            }
+        }
+
         return redirect()->intended(route('dashboard'));
     });
 });
