@@ -475,6 +475,15 @@ Route::middleware(['auth', 'verified', '2fa'])->group(function () {
             Route::delete('/{id}', [\App\Domains\Tickets\Http\Controllers\Web\CategoriasPedidoController::class, 'eliminar'])->whereNumber('id')->name('eliminar');
         });
 
+    // === Configurações: SMS Sender ID personalizado ===
+    Route::middleware('role:super-admin|admin-empresa|gestor')
+        ->prefix('configuracoes/sms-sender')
+        ->name('configuracoes.sms-sender.')
+        ->group(function () {
+            Route::get('/', [\App\Domains\Integracao\Sms\Http\Controllers\Web\SmsSenderConfigController::class, 'index'])->name('index');
+            Route::post('/', [\App\Domains\Integracao\Sms\Http\Controllers\Web\SmsSenderConfigController::class, 'guardar'])->name('guardar');
+        });
+
     // === Configurações: Empresas Prestadoras ===
     Route::middleware('role:super-admin|admin-empresa|gestor')
         ->prefix('configuracoes/empresas-prestadoras')
