@@ -87,8 +87,12 @@ class FeatureSubscription extends Model
             return false;
         }
 
-        // Consumível sem saldo
-        if ($this->feature && $this->feature->ehConsumivel() && $this->saldo_actual <= 0) {
+        // Sem saldo: aplica-se a consumiveis E a subscricoes que tenham saldo proprio
+        // (ex.: sms_sender_id e subscription mas controla saldo). Subscricoes sem saldo
+        // (saldo_inicial = 0, ex.: ProxyPay, Reservas) nao sao afectadas.
+        $controlaSaldo = ($this->feature && $this->feature->ehConsumivel())
+            || ($this->saldo_inicial > 0);
+        if ($controlaSaldo && $this->saldo_actual <= 0) {
             return false;
         }
 
