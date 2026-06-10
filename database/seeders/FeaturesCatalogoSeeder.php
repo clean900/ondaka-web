@@ -107,7 +107,7 @@ class FeaturesCatalogoSeeder extends Seeder
                 'icone' => 'Receipt',
                 'categoria' => 'pagamentos',
                 'comprador' => 'condominio',
-                'modelo_cobranca' => 'consumable',
+                'modelo_cobranca' => 'subscription',
                 'unidade' => 'transacção',
                 'preco_base' => null,
                 'preco_activacao' => 20000.00,
