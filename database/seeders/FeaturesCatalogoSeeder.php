@@ -36,7 +36,7 @@ class FeaturesCatalogoSeeder extends Seeder
                 'icone' => 'MessageSquare',
                 'categoria' => 'comunicacao',
                 'comprador' => 'ambos',
-                'modelo_cobranca' => 'consumable',
+                'modelo_cobranca' => 'subscription',
                 'unidade' => 'SMS',
                 'preco_base' => null, // depende do pacote
                 'preco_activacao' => 5000.00,
