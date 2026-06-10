@@ -109,6 +109,15 @@
   "resources/js/Pages/Auth/RecuperarPassword.tsx": [
     "/build/assets/RecuperarPassword-DRx-lFls.js"
   ],
+  "resources/js/Pages/Avisos/Create.tsx": [
+    "/build/assets/Create-C2GWXdCy.js"
+  ],
+  "resources/js/Pages/Avisos/Index.tsx": [
+    "/build/assets/Index-DwllEKSg.js"
+  ],
+  "resources/js/Pages/Avisos/Show.tsx": [
+    "/build/assets/Show-VvsKnNFQ.js"
+  ],
   "resources/js/Pages/Bi/Dashboard.tsx": [
     "/build/assets/Dashboard-D9u41y_7.js"
   ],
