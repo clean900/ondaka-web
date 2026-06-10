@@ -8,6 +8,7 @@ use App\Domains\Avisos\Models\Aviso;
 use App\Domains\Avisos\Models\AvisoComentario;
 use App\Domains\Feature\Services\FeatureGate;
 use App\Domains\Integracao\Sms\Contracts\SmsProviderInterface;
+use App\Domains\Integracao\Sms\Support\SmsSenderResolver;
 use App\Domains\Notifications\Services\FcmSenderService;
 use App\Domains\Avisos\Notifications\AvisoNovoNotification;
 use App\Models\User;
@@ -27,6 +28,7 @@ class AvisoNotificationService
 {
     public function __construct(
         protected SmsProviderInterface $smsProvider,
+        protected SmsSenderResolver $senderResolver,
         protected FcmSenderService $fcmSender,
     ) {}
 
@@ -223,7 +225,7 @@ class AvisoNotificationService
         if (! $consumido) return;
 
         try {
-            $this->smsProvider->enviar($numero, $smsMensagem);
+            $this->senderResolver->paraCondominio($condominio)->enviar($numero, $smsMensagem);
         } catch (Throwable $e) {
             Log::error("[AvisoNotification] SMS falhou para {$numero}: " . $e->getMessage());
         }

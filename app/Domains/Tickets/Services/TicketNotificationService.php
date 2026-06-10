@@ -6,6 +6,7 @@ namespace App\Domains\Tickets\Services;
 
 use App\Domains\Feature\Services\FeatureGate;
 use App\Domains\Integracao\Sms\Contracts\SmsProviderInterface;
+use App\Domains\Integracao\Sms\Support\SmsSenderResolver;
 use App\Domains\Notifications\Services\FcmSenderService;
 use App\Domains\Tickets\Notifications\TicketEstadoNotification;
 use App\Domains\Tickets\Models\Ticket;
@@ -27,6 +28,7 @@ class TicketNotificationService
 {
     public function __construct(
         protected SmsProviderInterface $smsProvider,
+        protected SmsSenderResolver $senderResolver,
         protected FcmSenderService $fcmSender,
     ) {}
 
@@ -198,7 +200,7 @@ class TicketNotificationService
         }
 
         try {
-            $this->smsProvider->enviar($numero, $smsMensagem);
+            $this->senderResolver->paraCondominio($condominio)->enviar($numero, $smsMensagem);
         } catch (Throwable $e) {
             Log::error("[TicketNotification] Falha SMS para {$numero}: " . $e->getMessage());
         }
