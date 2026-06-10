@@ -23,6 +23,15 @@ use App\Domains\Subscription\Http\Controllers\SuperAdminSubscricaoConfigControll
 use App\Domains\Subscription\Http\Controllers\SuperAdminFacturasPlataformaController;
 use App\Domains\Subscription\Http\Controllers\SuperAdminDashboardController;
 use App\Domains\Subscription\Http\Controllers\SuperAdminClientesController;
+use App\Domains\Permissoes\Http\Controllers\SuperAdminPermissoesController;
+use App\Domains\Bi\Http\Controllers\Web\BiDashboardController;
+use App\Domains\Reserva\Http\Controllers\Web\ReservaController;
+use App\Domains\Facturacao\Http\Controllers\Web\AcordosGestorController;
+use App\Domains\Nps\Http\Controllers\Web\NpsGestoraController;
+use App\Domains\Nps\Http\Controllers\Web\NpsConfiguracaoController;
+use App\Domains\Nps\Http\Controllers\Web\SuperAdminNpsController;
+use App\Domains\Marketplace\Http\Controllers\Web\SuperAdminMarketplaceController;
+use App\Domains\Comunicados\Http\Controllers\SuperAdminComunicadosController;
 use App\Domains\Subscription\Http\Controllers\SubscricaoController;
 use App\Domains\Encomenda\Http\Controllers\EncomendaWebController;
 use App\Domains\Visitor\Http\Controllers\Web\VisitantesWebController;
@@ -137,6 +146,112 @@ Route::middleware(['auth', 'verified', '2fa'])->group(function () {
         });
 
     // Super-admin: facturas plataforma de TODAS as empresas
+    // === Reservas de Areas Comuns ===
+    Route::middleware(['role:super-admin|admin-empresa|gestor'])
+        ->prefix('reservas')
+        ->name('reservas.')
+        ->group(function () {
+            Route::get('/', [ReservaController::class, 'index'])->name('index');
+            Route::get('/espacos/novo', [ReservaController::class, 'novoEspaco'])->name('espacos.novo');
+            Route::get('/espacos/{espaco}/editar', [ReservaController::class, 'editarEspaco'])->name('espacos.editar')->whereNumber('espaco');
+            Route::post('/espacos', [ReservaController::class, 'guardarEspaco'])->name('espacos.guardar');
+            Route::delete('/espacos/{espaco}', [ReservaController::class, 'apagarEspaco'])->name('espacos.apagar')->whereNumber('espaco');
+            Route::post('/{reserva}/aprovar', [ReservaController::class, 'aprovar'])->name('aprovar')->whereNumber('reserva');
+            Route::post('/{reserva}/recusar', [ReservaController::class, 'recusar'])->name('recusar')->whereNumber('reserva');
+            Route::post('/{reserva}/confirmar-caucao', [ReservaController::class, 'confirmarCaucao'])->name('confirmar-caucao')->whereNumber('reserva');
+        });
+
+    // === Acordos de Pagamento (gestor) ===
+    Route::middleware(['role:super-admin|admin-empresa|gestor'])
+        ->prefix('acordos')
+        ->name('acordos.')
+        ->group(function () {
+            Route::get('/', [AcordosGestorController::class, 'index'])->name('index');
+            Route::post('/{acordo}/aprovar', [AcordosGestorController::class, 'aprovar'])->name('aprovar')->whereNumber('acordo');
+            Route::post('/{acordo}/recusar', [AcordosGestorController::class, 'recusar'])->name('recusar')->whereNumber('acordo');
+            Route::post('/{acordo}/contrapropor', [AcordosGestorController::class, 'contrapropor'])->name('contrapropor')->whereNumber('acordo');
+        });
+
+    // === NPS (gestora) ===
+    Route::middleware(['role:super-admin|admin-empresa|gestor'])
+        ->prefix('nps')
+        ->name('nps.')
+        ->group(function () {
+            Route::get('/dashboard', [NpsGestoraController::class, 'dashboard'])->name('dashboard');
+            Route::get('/avaliar', [NpsGestoraController::class, 'estadoPlataforma'])->name('avaliar');
+            Route::post('/avaliar', [NpsGestoraController::class, 'responderPlataforma'])->name('responder');
+            Route::get('/configuracao', [NpsConfiguracaoController::class, 'condominio'])->name('configuracao');
+            Route::post('/configuracao', [NpsConfiguracaoController::class, 'guardarCondominio'])->name('configuracao.guardar');
+        });
+
+    // === NPS (super-admin) ===
+    Route::middleware(['role:super-admin'])
+        ->prefix('admin/nps')
+        ->name('admin.nps.')
+        ->group(function () {
+            Route::get('/', [SuperAdminNpsController::class, 'index'])->name('index');
+            Route::get('/configuracao', [NpsConfiguracaoController::class, 'plataforma'])->name('configuracao');
+            Route::post('/configuracao', [NpsConfiguracaoController::class, 'guardarPlataforma'])->name('configuracao.guardar');
+        });
+
+    // === Marketplace (super-admin) ===
+    Route::middleware(['role:super-admin'])
+        ->prefix('admin/marketplace')
+        ->name('admin.marketplace.')
+        ->group(function () {
+            Route::get('/', [SuperAdminMarketplaceController::class, 'index'])->name('index');
+            Route::get('/anuncios', [SuperAdminMarketplaceController::class, 'anuncios'])->name('anuncios');
+            Route::post('/{anuncio}/remover', [SuperAdminMarketplaceController::class, 'remover'])->name('remover')->whereNumber('anuncio');
+            Route::post('/{anuncio}/reactivar', [SuperAdminMarketplaceController::class, 'reactivar'])->name('reactivar')->whereNumber('anuncio');
+            Route::post('/denuncia/{denuncia}/resolver', [SuperAdminMarketplaceController::class, 'resolverDenuncia'])->name('denuncia.resolver')->whereNumber('denuncia');
+        });
+
+    // === Comunicados (super-admin) ===
+    Route::middleware(['role:super-admin'])
+        ->prefix('admin/comunicados')
+        ->name('admin.comunicados.')
+        ->group(function () {
+            Route::get('/', [SuperAdminComunicadosController::class, 'index'])->name('index');
+            Route::post('/enviar', [SuperAdminComunicadosController::class, 'enviar'])->name('enviar');
+        });
+
+    // === Business Intelligence (BI) ===
+    Route::middleware(['role:super-admin|admin-empresa|gestor'])
+        ->prefix('bi')
+        ->name('bi.')
+        ->group(function () {
+            Route::get('/', [BiDashboardController::class, 'index'])->name('index');
+            // Endpoints de dados (JSON)
+            Route::get('/dados/receitas', [BiDashboardController::class, 'dadosReceitas'])->name('dados.receitas');
+            Route::get('/dados/cobranca', [BiDashboardController::class, 'dadosCobranca'])->name('dados.cobranca');
+            Route::get('/dados/despesas', [BiDashboardController::class, 'dadosDespesas'])->name('dados.despesas');
+            Route::get('/dados/saude', [BiDashboardController::class, 'dadosSaude'])->name('dados.saude');
+            Route::get('/dados/preditivo', [BiDashboardController::class, 'dadosPreditivo'])->name('dados.preditivo');
+            Route::get('/dados/multi', [BiDashboardController::class, 'dadosMulti'])->name('dados.multi');
+            Route::get('/dados/operacional', [BiDashboardController::class, 'dadosOperacional'])->name('dados.operacional');
+            Route::get('/dados/devedores', [BiDashboardController::class, 'dadosDevedores'])->name('dados.devedores');
+            Route::get('/dados/alertas', [BiDashboardController::class, 'dadosAlertas'])->name('dados.alertas');
+            Route::get('/dados/fraccao/{fraccao}/lancamentos', [BiDashboardController::class, 'dadosLancamentosFraccao'])->name('dados.fraccao.lancamentos')->whereNumber('fraccao');
+            // Exports
+            Route::get('/exportar/csv', [BiDashboardController::class, 'exportarCsv'])->name('exportar.csv');
+            Route::get('/exportar/pdf', [BiDashboardController::class, 'exportarPdf'])->name('exportar.pdf');
+            Route::get('/exportar/cobranca/csv', [BiDashboardController::class, 'exportarCobrancaCsv'])->name('exportar.cobranca.csv');
+            Route::get('/exportar/despesas/csv', [BiDashboardController::class, 'exportarDespesasCsv'])->name('exportar.despesas.csv');
+            // Config de alertas
+            Route::get('/alertas/config', [BiDashboardController::class, 'configAlertas'])->name('alertas.config');
+            Route::post('/alertas/config', [BiDashboardController::class, 'guardarConfigAlertas'])->name('alertas.config.guardar');
+        });
+
+    // === Super-admin: Permissoes ===
+    Route::middleware('role:super-admin')
+        ->prefix('super-admin/permissoes')
+        ->name('super-admin.permissoes.')
+        ->group(function () {
+            Route::get('/', [SuperAdminPermissoesController::class, 'index'])->name('index');
+            Route::post('/toggle', [SuperAdminPermissoesController::class, 'toggle'])->name('toggle');
+            Route::post('/criar', [SuperAdminPermissoesController::class, 'criar'])->name('criar');
+        });
+
     Route::middleware('role:super-admin')
         ->prefix('super-admin/facturas-plataforma')
         ->name('super-admin.facturas-plataforma.')

@@ -55,6 +55,18 @@
   "resources/js/Pages/Admin/Features/Show.tsx": [
     "/build/assets/Show-D6kXBGsP.js"
   ],
+  "resources/js/Pages/Admin/Marketplace/Anuncios.tsx": [
+    "/build/assets/Anuncios-DPoFkXUY.js"
+  ],
+  "resources/js/Pages/Admin/Marketplace/Index.tsx": [
+    "/build/assets/Index-DJ7JImaS.js"
+  ],
+  "resources/js/Pages/Admin/Nps/Configuracao.tsx": [
+    "/build/assets/Configuracao-B_U3B8sL.js"
+  ],
+  "resources/js/Pages/Admin/Nps/Index.tsx": [
+    "/build/assets/Index-B3ScyXYp.js"
+  ],
   "resources/js/Pages/Admin/Ordens/Index.tsx": [
     "/build/assets/Index-DUYlieAH.js"
   ],
@@ -96,6 +108,12 @@
   ],
   "resources/js/Pages/Auth/RecuperarPassword.tsx": [
     "/build/assets/RecuperarPassword-DRx-lFls.js"
+  ],
+  "resources/js/Pages/Bi/Dashboard.tsx": [
+    "/build/assets/Dashboard-DmkxRN0r.js"
+  ],
+  "resources/js/Pages/Bi/Upgrade.tsx": [
+    "/build/assets/Upgrade-CqOpFhKS.js"
   ],
   "resources/js/Pages/Catalogo/Index.tsx": [
     "/build/assets/Index-C65FsyQJ.js"
@@ -163,6 +181,9 @@
   "resources/js/Pages/Encomendas/Index.tsx": [
     "/build/assets/Index-Bs6TIIAm.js"
   ],
+  "resources/js/Pages/Facturacao/Acordos/Index.tsx": [
+    "/build/assets/Index-C3FlN3yo.js"
+  ],
   "resources/js/Pages/Faqs/Form.tsx": [
     "/build/assets/Form-CNTBL-k8.js"
   ],
@@ -199,6 +220,12 @@
   "resources/js/Pages/Mobile/UsarApp.tsx": [
     "/build/assets/UsarApp-DDGwbCUa.js"
   ],
+  "resources/js/Pages/Nps/Configuracao.tsx": [
+    "/build/assets/Configuracao-1_MMD6El.js"
+  ],
+  "resources/js/Pages/Nps/Dashboard.tsx": [
+    "/build/assets/Dashboard-BYErXj8b.js"
+  ],
   "resources/js/Pages/Ordens/Confirmar.tsx": [
     "/build/assets/Confirmar-BnU0abwO.js"
   ],
@@ -223,6 +250,15 @@
   "resources/js/Pages/Registo/Index.tsx": [
     "/build/assets/Index-CRGsw2T_.js"
   ],
+  "resources/js/Pages/Reservas/Espaco.tsx": [
+    "/build/assets/Espaco-DjZzL2g2.js"
+  ],
+  "resources/js/Pages/Reservas/Index.tsx": [
+    "/build/assets/Index-BgzUkhh4.js"
+  ],
+  "resources/js/Pages/Reservas/Upgrade.tsx": [
+    "/build/assets/Upgrade-BAWTMB4-.js"
+  ],
   "resources/js/Pages/Sos/Index.tsx": [
     "/build/assets/Index-EGtkQsL8.js"
   ],
@@ -246,6 +282,9 @@
   ],
   "resources/js/Pages/SuperAdmin/Clientes/Show.tsx": [
     "/build/assets/Show-BaRaNDyc.js"
+  ],
+  "resources/js/Pages/SuperAdmin/Comunicados/Index.tsx": [
+    "/build/assets/Index-D8OvZycA.js"
   ],
   "resources/js/Pages/SuperAdmin/Dashboard/Index.tsx": [
     "/build/assets/Index-F9WBnEO_.js"
