@@ -473,7 +473,7 @@ Route::middleware(['auth', 'verified', '2fa'])->group(function () {
         });
 
     // === Contas Bancárias ===
-    Route::middleware('role:gestor|administrador-condominio')
+    Route::middleware('role:admin-empresa|gestor|administrador-condominio')
         ->prefix('financas/contas-bancarias')
         ->name('financas.contas-bancarias.')
         ->group(function () {
