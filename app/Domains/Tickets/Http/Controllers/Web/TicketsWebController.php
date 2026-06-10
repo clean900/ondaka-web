@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Domains\Tickets\Http\Controllers\Web;
 
 use App\Domains\Tickets\Models\Ticket;
+use App\Domains\Tickets\Models\CategoriaPedido;
 use App\Domains\Tickets\Services\TicketService;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
@@ -47,9 +48,21 @@ class TicketsWebController extends Controller
 
         $tickets = $query->paginate(20)->withQueryString();
 
+        $categoriasParticulares = CategoriaPedido::paraEmpresa($user->empresa_gestora_id)
+            ->where('tipo', 'particular')->where('ativo', true)
+            ->orderBy('ordem')->orderBy('nome')
+            ->get(['id', 'nome', 'slug', 'icone', 'tipo', 'ordem']);
+
+        $categoriasPublicas = CategoriaPedido::paraEmpresa($user->empresa_gestora_id)
+            ->where('tipo', 'publico')->where('ativo', true)
+            ->orderBy('ordem')->orderBy('nome')
+            ->get(['id', 'nome', 'slug', 'icone', 'tipo', 'ordem']);
+
         return Inertia::render('Tickets/Index', [
             'tickets' => $tickets,
             'filtros' => $request->only(['estado', 'categoria', 'prioridade', 'busca']),
+            'categoriasParticulares' => $categoriasParticulares,
+            'categoriasPublicas' => $categoriasPublicas,
         ]);
     }
 
