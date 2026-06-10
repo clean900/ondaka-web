@@ -3,8 +3,9 @@ import { PropsWithChildren, useState, useEffect, useRef } from 'react';
 import { toast, Toaster } from 'sonner';
 import {
     LayoutDashboard, Building2, Users, UserCog, Receipt, MessageSquare,
-    FileText, Shield, Menu, X, LogOut, Bell, Settings, Search, CreditCard, Ticket, DollarSign, GraduationCap, Map, MessageCircle,
+    FileText, Shield, Menu, X, LogOut, Bell, Settings, Search, CreditCard, Ticket, DollarSign, GraduationCap, Map, MessageCircle, Megaphone,
     Sparkles, Package, DoorOpen, Wallet, Clock, Tag, Briefcase, FileBarChart, Calendar, LifeBuoy, Siren, Lock,
+    Flag, ShoppingBag, Gauge, ChartBar, ClipboardList, CalendarCheck, Handshake, Handshake,
 } from 'lucide-react';
 import type { PageProps } from '@/types';
 import { cn, iniciais, gradientDeNome } from '@/lib/utils';
@@ -178,6 +179,16 @@ export default function AuthenticatedLayout({ children }: PropsWithChildren) {
     }, [auth.user.roles]);
 
     const isSuperAdmin = auth.user.roles?.includes('super-admin') ?? false;
+    const isGestoraNps = (auth.user.roles ?? []).some((r: string) => ['admin-empresa', 'gestor'].includes(r));
+
+    const [numAlertas, setNumAlertas] = useState<number>(0);
+    useEffect(() => {
+        if (!isGestoraNps) return;
+        fetch('/bi/dados/alertas', { headers: { Accept: 'application/json' } })
+            .then((r) => r.ok ? r.json() : null)
+            .then((j) => { if (j && typeof j.total === 'number') setNumAlertas(j.total); })
+            .catch(() => { /* silencioso */ });
+    }, [isGestoraNps]);
     const isAdminIndependente = auth.user.empresa_gestora?.tipo_cliente === 'admin_independente';
 
     const seccoes: MenuSection[] = [
@@ -196,15 +207,26 @@ export default function AuthenticatedLayout({ children }: PropsWithChildren) {
                 { label: 'Assembleias', href: '/assembleias', icon: Users, feature_slug: 'assembleia_virtual' },
                 { label: 'Visitantes', href: '/visitantes/dentro-agora', icon: DoorOpen },
                 { label: 'Encomendas', href: '/encomendas', icon: Package, feature_slug: 'encomendas_avancado' },
+                { label: 'Reservas', href: '/reservas', icon: CalendarCheck, feature_slug: 'reservas_areas_comuns' },
                 { label: 'Pedidos de intervenção', href: '/tickets', icon: Ticket },
                 { label: 'Equipa', href: '/condominio/equipa', icon: Users },
                 { label: 'Minhas quotas', href: '/minhas-quotas', icon: Wallet },
-                { label: 'Modelos de Turno', href: '/configuracoes/turnos', icon: Clock, feature_slug: 'modulo_rh' },
-                { label: 'Escala de Turnos', href: '/turnos/escala', icon: Calendar, feature_slug: 'modulo_rh' },
-                { label: 'Marcar Presença', href: '/turnos/presenca', icon: Clock, feature_slug: 'modulo_rh' },
-                { label: 'Relatório de Horas', href: '/turnos/relatorio', icon: FileBarChart, feature_slug: 'modulo_rh' },
-                { label: 'Empresas Prestadoras', href: '/configuracoes/empresas-prestadoras', icon: Briefcase, feature_slug: 'fornecedores_certificados' },
-                { label: 'FAQs do Chatbot', href: '/admin/chatbot/faqs', icon: MessageSquare },
+                // { label: 'Modelos de Turno', href: '/configuracoes/turnos', icon: Clock, feature_slug: 'modulo_rh' }, // RH - fase futura
+                // { label: 'Escala de Turnos', href: '/turnos/escala', icon: Calendar, feature_slug: 'modulo_rh' }, // RH - fase futura
+                // { label: 'Marcar Presença', href: '/turnos/presenca', icon: Clock, feature_slug: 'modulo_rh' }, // RH - fase futura
+                // { label: 'Relatório de Horas', href: '/turnos/relatorio', icon: FileBarChart, feature_slug: 'modulo_rh' }, // RH - fase futura
+                { label: 'Empresas Prestadoras', href: '/configuracoes/empresas-prestadoras', icon: Briefcase, feature_slug: 'empresas_prestadoras' },
+                { label: 'FAQs do Chatbot', href: '/admin/chatbot/faqs', icon: MessageSquare, feature_slug: 'chatbot_faq' },
+                { label: 'Domínio Personalizado', href: '/funcionalidades/dominio_personalizado', icon: Sparkles, feature_slug: 'dominio_personalizado' },
+                { label: 'Marketplace', href: '/funcionalidades/marketplace', icon: ShoppingBag, feature_slug: 'marketplace' },
+            ],
+        },
+        {
+            titulo: 'Comunicação',
+            itens: [
+                { label: 'Avisos', href: '/avisos', icon: Megaphone },
+                { label: 'SMS Sender ID', href: '/funcionalidades/sms_sender_id', icon: MessageSquare, feature_slug: 'sms_sender_id' },
+                { label: 'SMS Pack Extra', href: '/funcionalidades/sms_pack_extra', icon: MessageSquare, feature_slug: 'sms_pack_extra' },
             ],
         },
         {
@@ -234,8 +256,10 @@ export default function AuthenticatedLayout({ children }: PropsWithChildren) {
             itens: [
                 { label: 'Pagamentos', href: '/pagamentos', icon: DollarSign },
                 { label: 'Taxas de Condomínio', href: '/quotas', icon: FileText },
+                { label: 'Acordos', href: '/acordos', icon: Handshake },
                 { label: 'Créditos', href: '/creditos', icon: Wallet },
                 { label: 'Lançamentos', href: '/lancamentos', icon: Receipt },
+                { label: 'ProxyPay', href: '/funcionalidades/proxypay_rps', icon: CreditCard, feature_slug: 'proxypay_rps' },
             ],
         },
         {
@@ -252,6 +276,15 @@ export default function AuthenticatedLayout({ children }: PropsWithChildren) {
                 { label: 'Contactos & Suporte', href: '/configuracoes/contactos-suporte', icon: LifeBuoy },
             ],
         },
+        ...(isGestoraNps ? [{
+            titulo: 'Qualidade & BI',
+            itens: [
+                { label: 'Dashboard BI', href: '/bi', icon: ChartBar, urgentBadge: numAlertas, feature_slug: 'dashboard_bi' },
+                { label: 'NPS do Condomínio', href: '/nps/dashboard', icon: Gauge },
+                { label: 'Avaliar a ONDAKA', href: '/nps/avaliar', icon: MessageSquare },
+                { label: 'Configurar NPS', href: '/nps/configuracao', icon: Settings },
+            ],
+        }] : []),
         {
             titulo: 'Conta',
             itens: [
@@ -260,11 +293,16 @@ export default function AuthenticatedLayout({ children }: PropsWithChildren) {
                 ...(isSuperAdmin ? [
                     { label: 'Admin subscrições', href: '/admin/subscricoes', icon: Settings },
                     { label: 'Dashboard', href: '/super-admin', icon: LayoutDashboard },
+                    { label: 'Comunicados', href: '/admin/comunicados', icon: Megaphone },
                     { label: 'Clientes B2B', href: '/super-admin/clientes', icon: Users },
                     { label: 'Config subscrições', href: '/super-admin/subscricoes-config', icon: Settings },
                     { label: 'Permissões', href: '/super-admin/permissoes', icon: Shield },
                     { label: 'Facturas plataforma', href: '/super-admin/facturas-plataforma', icon: Receipt },
                     { label: 'Admin features', href: '/admin/features', icon: Package },
+                    { label: 'Moderação Marketplace', href: '/admin/marketplace', icon: Flag },
+                    { label: 'Anúncios Marketplace', href: '/admin/marketplace/anuncios', icon: ShoppingBag },
+                    { label: 'NPS — Satisfação', href: '/admin/nps', icon: Gauge },
+                    { label: 'Configurar NPS', href: '/admin/nps/configuracao', icon: Gauge },
                     { label: 'Admin ordens', href: '/admin/ordens', icon: Receipt },
                     { label: 'Admin SMS', href: '/admin/sms', icon: MessageSquare },
                 ] : []),
