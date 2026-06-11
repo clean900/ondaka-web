@@ -66,7 +66,7 @@ class TicketsWebController extends Controller
         ]);
     }
 
-    public function show(Request $request, int $id): Response
+    public function show(Request $request, string $id): Response
     {
         $user = $request->user();
 
@@ -89,7 +89,7 @@ class TicketsWebController extends Controller
     /**
      * POST /tickets/{id}/comentarios
      */
-    public function comentar(Request $request, int $id): RedirectResponse
+    public function comentar(Request $request, string $id): RedirectResponse
     {
         $request->validate([
             'mensagem' => ['required', 'string', 'min:2', 'max:5000'],
@@ -112,7 +112,7 @@ class TicketsWebController extends Controller
     /**
      * PATCH /tickets/{id}/estado
      */
-    public function mudarEstado(Request $request, int $id): RedirectResponse
+    public function mudarEstado(Request $request, string $id): RedirectResponse
     {
         $request->validate([
             'estado' => ['required', 'string', 'in:aberto,em_analise,em_curso,resolvido,fechado,cancelado'],
