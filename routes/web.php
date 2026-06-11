@@ -14,6 +14,7 @@ use App\Domains\Condomino\Http\Controllers\ContratoOcupacaoController;
 use App\Domains\Feature\Http\Controllers\AdminFeaturesController;
 use App\Domains\Feature\Http\Controllers\FuncionalidadesController;
 use App\Domains\Integracao\Sms\Http\Controllers\AdminSmsController;
+use App\Domains\Integracao\Sms\Http\Controllers\SmsSenderAdminController;
 use App\Domains\Payment\Http\Controllers\AdminOrdemController;
 use App\Domains\Payment\Http\Controllers\FacturaController;
 use App\Domains\Payment\Http\Controllers\OrdemController;
@@ -306,6 +307,13 @@ Route::middleware(['auth', 'verified', '2fa'])->group(function () {
         Route::get('/', [AdminSmsController::class, 'index'])->name('index');
         Route::get('/{smsLog}', [AdminSmsController::class, 'show'])->name('show');
         Route::post('/{smsLog}/reenviar', [AdminSmsController::class, 'reenviar'])->name('reenviar');
+    });
+
+    // === Sender ID SMS (super-admin) — configurar api_key e marcar configurado ===
+    Route::middleware('role:super-admin')->prefix('admin/sms-sender')->name('admin.sms-sender.')->group(function () {
+        Route::get('/', [SmsSenderAdminController::class, 'index'])->name('index');
+        Route::post('/{config}/configurar', [SmsSenderAdminController::class, 'configurar'])->name('configurar')->whereNumber('config');
+        Route::post('/{config}/reverter', [SmsSenderAdminController::class, 'reverter'])->name('reverter')->whereNumber('config');
     });
 
     // Funcionalidades (loja e minhas) - SEMPRE acessível, mesmo em grace
