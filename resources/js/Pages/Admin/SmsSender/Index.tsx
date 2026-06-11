@@ -61,9 +61,9 @@ export default function Index({ configs }: Props) {
                         <Radio className="h-6 w-6 text-white" />
                     </div>
                     <div>
-                        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Sender IDs SMS</h1>
-                        <p className="text-sm text-gray-500 dark:text-gray-400">
-                            Configurar a API key TelcoSMS de cada remetente personalizado pedido pelos gestores.
+                        <h1 className="text-2xl font-bold text-white">Sender IDs SMS</h1>
+                        <p className="text-sm text-gray-300">
+                            Configurar a API key do Serviço SMS ONDAKA de cada remetente personalizado pedido pelos gestores.
                         </p>
                     </div>
                 </div>
@@ -96,7 +96,7 @@ export default function Index({ configs }: Props) {
                                                 type="text"
                                                 value={keys[c.id] ?? ''}
                                                 onChange={(e) => setKeys((k) => ({ ...k, [c.id]: e.target.value }))}
-                                                placeholder="Colar API key TelcoSMS…"
+                                                placeholder="Colar API key do Serviço SMS ONDAKA…"
                                                 className="w-full rounded-lg border border-gray-300 bg-white py-2 pl-9 pr-3 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-900 dark:text-white"
                                             />
                                         </div>
