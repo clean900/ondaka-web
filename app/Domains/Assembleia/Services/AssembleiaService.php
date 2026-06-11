@@ -23,13 +23,16 @@ class AssembleiaService
     public function criar(Condominio $condominio, array $dados, int $criadaPorUserId): Assembleia
     {
         return DB::transaction(function () use ($condominio, $dados, $criadaPorUserId) {
-            // Numeração sequencial por empresa
+            // Numeração sequencial GLOBAL por ano. O índice `numero` é unique
+            // global, por isso a sequência tem de ser global — antes derivava de
+            // max('id') por empresa, o que gerava sempre ASS-{ano}-000001 e
+            // colidia entre empresas (1062 Duplicate entry).
             $ano = date('Y');
-            $ultimo = Assembleia::where('empresa_gestora_id', $condominio->empresa_gestora_id)
-                ->whereYear('created_at', $ano)
+            $ultimoNumero = Assembleia::where('numero', 'like', "ASS-{$ano}-%")
                 ->lockForUpdate()
-                ->max('id');
-            $seq = str_pad((string) (((int) $ultimo) + 1), 6, '0', STR_PAD_LEFT);
+                ->max('numero');
+            $ultimoSeq = $ultimoNumero ? (int) substr($ultimoNumero, -6) : 0;
+            $seq = str_pad((string) ($ultimoSeq + 1), 6, '0', STR_PAD_LEFT);
             $numero = "ASS-{$ano}-{$seq}";
 
             // Total de fracções para cálculo de quórum
