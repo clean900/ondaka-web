@@ -57,6 +57,7 @@ export default function DespesasIndex({ despesas, stats, categorias, contas, con
     const [modalNova, setModalNova] = useState(false);
     const [editandoId, setEditandoId] = useState<number | null>(null);
     const [confirmandoPaga, setConfirmandoPaga] = useState<Despesa | null>(null);
+    const [metodoPagamento, setMetodoPagamento] = useState('transferencia');
 
     const form = useForm({
         tipo: 'condominio' as 'condominio' | 'empresa',
@@ -120,7 +121,7 @@ export default function DespesasIndex({ despesas, stats, categorias, contas, con
 
     const marcarPaga = () => {
         if (!confirmandoPaga) return;
-        router.post(`/despesas/${confirmandoPaga.id}/pagar`, {}, {
+        router.post(`/despesas/${confirmandoPaga.id}/pagar`, { metodo_pagamento: metodoPagamento }, {
             preserveScroll: true,
             onSuccess: () => setConfirmandoPaga(null),
         });
@@ -337,6 +338,14 @@ export default function DespesasIndex({ despesas, stats, categorias, contas, con
                         </div>
                         <p className="text-sm text-white/70 mb-3">Vai marcar esta despesa como paga. Isto cria um movimento de <strong className="text-green-300">saída</strong> de <strong className="text-white">{formatarKz(confirmandoPaga.valor)}</strong> na conta <strong className="text-white">{confirmandoPaga.conta_bancaria?.nome}</strong>.</p>
                         <p className="text-xs text-white/40 mb-4">O saldo da conta será actualizado automaticamente.</p>
+                        <div className="mb-4">
+                            <label className="block text-xs text-white/60 mb-1">Método de pagamento</label>
+                            <select value={metodoPagamento} onChange={(e) => setMetodoPagamento(e.target.value)} className="w-full bg-white/5 border border-white/10 rounded px-3 py-2 text-sm text-white">
+                                <option value="transferencia">Transferência</option>
+                                <option value="deposito">Depósito</option>
+                                <option value="numerario">Numerário</option>
+                            </select>
+                        </div>
                         <div className="flex justify-end gap-2">
                             <button onClick={() => setConfirmandoPaga(null)} className="px-4 py-2 rounded text-sm text-white/80 bg-white/5 border border-white/10 hover:bg-white/10">Cancelar</button>
                             <button onClick={marcarPaga} className="px-5 py-2 rounded text-white text-sm font-medium" style={{ background: 'linear-gradient(135deg, #22c55e, #16a34a)' }}>
