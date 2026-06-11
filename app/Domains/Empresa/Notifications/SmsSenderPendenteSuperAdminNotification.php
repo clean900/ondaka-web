@@ -41,7 +41,7 @@ class SmsSenderPendenteSuperAdminNotification extends Notification
         return [
             'tipo' => 'sms_sender_pendente',
             'titulo' => "Sender ID a configurar: {$this->senderName}",
-            'mensagem' => "{$this->empresa->nome} definiu o remetente \"{$this->senderName}\" para o condominio {$this->condominio->nome}. A aguardar configuracao da api_key.",
+            'mensagem' => "{$this->empresa->nome} definiu o remetente \"{$this->senderName}\" para {$this->condominio->nome}. A aguardar configuracao da api_key.",
             'empresa_id' => $this->empresa->id,
             'empresa_nome' => $this->empresa->nome,
             'condominio_id' => $this->condominio->id,
