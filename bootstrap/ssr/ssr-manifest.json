@@ -175,6 +175,9 @@
   "resources/js/Pages/Convite/Invalido.tsx": [
     "/build/assets/Invalido-VjVBTMtv.js"
   ],
+  "resources/js/Pages/Creditos/Index.tsx": [
+    "/build/assets/Index-CIj1rNLi.js"
+  ],
   "resources/js/Pages/Dashboard.tsx": [
     "/build/assets/Dashboard-Dg9_Aqrg.js"
   ],
@@ -182,7 +185,7 @@
     "/build/assets/Categorias-CCah-8bb.js"
   ],
   "resources/js/Pages/Despesas/Index.tsx": [
-    "/build/assets/Index-BhL12Dvi.js"
+    "/build/assets/Index-DsxppCpw.js"
   ],
   "resources/js/Pages/Documentos/Contratos.tsx": [
     "/build/assets/Contratos-uFwCoHc8.js"
@@ -204,6 +207,12 @@
   ],
   "resources/js/Pages/Facturacao/Acordos/Index.tsx": [
     "/build/assets/Index-CYpvbLQs.js"
+  ],
+  "resources/js/Pages/Facturacao/Quotas/Index.tsx": [
+    "/build/assets/Index-DkMJd9Dj.js"
+  ],
+  "resources/js/Pages/Facturacao/Quotas/Show.tsx": [
+    "/build/assets/Show-CnthxiWY.js"
   ],
   "resources/js/Pages/Faqs/Form.tsx": [
     "/build/assets/Form-Cy2_gQTF.js"
