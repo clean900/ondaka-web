@@ -22,6 +22,13 @@ class SmsSenderConfig extends Model
         'estado',
     ];
 
+    protected function casts(): array
+    {
+        return [
+            'api_key' => 'encrypted',
+        ];
+    }
+
     public function condominio(): BelongsTo
     {
         return $this->belongsTo(Condominio::class);
