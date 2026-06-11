@@ -79,6 +79,9 @@
   "resources/js/Pages/Admin/Sms/Show.tsx": [
     "/build/assets/Show-Daww8_OM.js"
   ],
+  "resources/js/Pages/Admin/SmsSender/Index.tsx": [
+    "/build/assets/Index-BUQrILxo.js"
+  ],
   "resources/js/Pages/Admin/Subscricoes/Index.tsx": [
     "/build/assets/Index-yG370yzc.js"
   ],
