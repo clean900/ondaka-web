@@ -46,7 +46,9 @@ class NpsConfiguracao extends Model
     public static function resolver(string $alvo, ?int $empresaGestoraId): array
     {
         $query = static::where('alvo', $alvo);
-        if ($alvo === 'plataforma') {
+        // `where('col', null)` gera `= NULL` (nunca casa). Quando nao ha gestora,
+        // a config aplicavel e a de escopo nulo -> usar whereNull.
+        if ($alvo === 'plataforma' || $empresaGestoraId === null) {
             $query->whereNull('empresa_gestora_id');
         } else {
             $query->where('empresa_gestora_id', $empresaGestoraId);
