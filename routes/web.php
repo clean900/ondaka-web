@@ -457,6 +457,7 @@ Route::middleware(['auth', 'verified', '2fa'])->group(function () {
             Route::get('/dentro-agora', [VisitantesWebController::class, 'dentroAgora'])->name('dentro-agora');
             Route::get('/historico', [VisitantesWebController::class, 'historico'])->name('historico');
             Route::get('/pre-aprovacoes', [VisitantesWebController::class, 'preAprovacoes'])->name('pre-aprovacoes');
+            Route::post('/pre-aprovacoes', [VisitantesWebController::class, 'criarPreAprovacao'])->name('pre-aprovacoes.criar');
         });
 
     // === Encomendas ===
