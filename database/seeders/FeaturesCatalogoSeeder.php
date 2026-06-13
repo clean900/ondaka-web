@@ -286,7 +286,7 @@ class FeaturesCatalogoSeeder extends Seeder
                 'configuracao_schema' => [
                     'dominio' => ['tipo' => 'string', 'label' => 'Domínio (ex: app.meucondominio.ao)'],
                 ],
-                'activa' => true,
+                'activa' => false, // C-01: oculto na loja (como o Sender ID)
                 'em_breve' => false,
                 'requer_aprovacao_manual' => true,
                 'ordem_listagem' => 150,
