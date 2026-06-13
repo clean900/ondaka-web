@@ -128,6 +128,14 @@ class AssembleiaApiController extends Controller
             'opcao' => 'required|string|max:100',
         ]);
 
+        // O mobile envia rotulos ("Sim"/"Não"/"Abstenção"); o canonico e sim/nao/abstencao.
+        $opcao = \Illuminate\Support\Str::lower(
+            \Illuminate\Support\Str::ascii((string) $request->string('opcao'))
+        );
+        if (! in_array($opcao, ['sim', 'nao', 'abstencao'], true)) {
+            return response()->json(['message' => 'Opção inválida.'], 422);
+        }
+
         $participante = AssembleiaParticipante::where('assembleia_id', $id)
             ->where('condomino_id', $condomino->id)
             ->first();
@@ -147,7 +155,12 @@ class AssembleiaApiController extends Controller
 
         AssembleiaVoto::updateOrCreate(
             ['ponto_votacao_id' => $pontoId, 'participante_id' => $participante->id],
-            ['opcao' => $request->string('opcao'), 'votado_em' => now()],
+            [
+                'opcao' => $opcao,
+                'peso_permilagem' => (float) ($participante->permilagem_total ?? 0),
+                'votou_como_procurador' => false,
+                'votado_em' => now(),
+            ],
         );
 
         return response()->json(['message' => 'Voto registado.']);
