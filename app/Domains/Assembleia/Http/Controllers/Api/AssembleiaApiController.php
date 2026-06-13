@@ -92,7 +92,7 @@ class AssembleiaApiController extends Controller
                 'estado' => $p->estado,
                 'opcoes' => $p->opcoes,
                 'meu_voto' => $votos[$p->id] ?? null,
-                'votacao_aberta' => $p->estado === 'aberta',
+                'votacao_aberta' => $p->estado === 'em_votacao',
             ];
         });
 
@@ -141,7 +141,7 @@ class AssembleiaApiController extends Controller
             return response()->json(['message' => 'Ponto não encontrado.'], 404);
         }
 
-        if ($ponto->estado !== 'aberta') {
+        if ($ponto->estado !== 'em_votacao') {
             return response()->json(['message' => 'Votação não está aberta.'], 422);
         }
 
