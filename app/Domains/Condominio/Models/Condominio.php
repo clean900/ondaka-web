@@ -27,6 +27,7 @@ class Condominio extends Model
         'ucf_valor_actual', 'percentagem_fundo_reserva',
         'administrador_actual_id', 'administrador_mandato_inicio',
         'administrador_mandato_fim', 'estado', 'configuracoes',
+        'exige_aprovacao_comissao',
     ];
 
     protected $casts = [
@@ -39,7 +40,22 @@ class Condominio extends Model
         'longitude' => 'decimal:7',
         'configuracoes' => 'array',
         'tem_area_comercial' => 'boolean',
+        'exige_aprovacao_comissao' => 'boolean',
     ];
+
+    /* ============================================
+       COMISSÃO DE MORADORES
+       ============================================ */
+
+    public function membrosComissao(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\App\Domains\Condominio\Models\ComissaoMembro::class, 'condominio_id');
+    }
+
+    public function ehMembroComissao(int $userId): bool
+    {
+        return $this->membrosComissao()->where('user_id', $userId)->exists();
+    }
 
     /* ============================================
        HELPERS DE TIPO

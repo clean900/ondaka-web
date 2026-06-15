@@ -49,6 +49,14 @@ class DespesaService
             throw new RuntimeException('Só despesas pendentes podem ser aprovadas. Estado actual: ' . $despesa->estado);
         }
 
+        // F-03: se o condomínio exige aprovação da comissão de moradores, só um
+        // membro da comissão desse condomínio pode aprovar. Despesas sem condomínio
+        // (tipo empresa) ou de condomínios sem a regra mantêm o fluxo normal.
+        $condominio = $despesa->condominio;
+        if ($condominio && $condominio->exige_aprovacao_comissao && ! $condominio->ehMembroComissao($userId)) {
+            throw new RuntimeException('Apenas um membro da comissão de moradores pode aprovar esta despesa.');
+        }
+
         $despesa->update([
             'estado' => 'aprovada',
             'aprovada_em' => now(),
