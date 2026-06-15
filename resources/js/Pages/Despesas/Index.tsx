@@ -1,7 +1,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link, router, useForm } from '@inertiajs/react';
 import { useState, FormEvent } from 'react';
-import { Check, X, Plus, Edit, Trash2, CheckCircle, DollarSign, Ban, Filter, Receipt } from 'lucide-react';
+import { Check, X, Plus, Edit, Trash2, CheckCircle, DollarSign, Ban, Filter, Receipt, Eye } from 'lucide-react';
 
 type Despesa = {
     id: number;
@@ -19,6 +19,10 @@ type Despesa = {
     condominio?: { id: number; nome: string };
     conta_bancaria?: { id: number; nome: string; banco: string };
     criada_por?: { id: number; name: string };
+    aprovada_por?: { id: number; name: string } | null;
+    paga_por?: { id: number; name: string } | null;
+    metodo_pagamento: string | null;
+    comprovativo_path: string | null;
     aprovada_em: string | null;
     paga_em: string | null;
     cancelada_em: string | null;
@@ -57,6 +61,7 @@ export default function DespesasIndex({ despesas, stats, categorias, contas, con
     const [modalNova, setModalNova] = useState(false);
     const [editandoId, setEditandoId] = useState<number | null>(null);
     const [confirmandoPaga, setConfirmandoPaga] = useState<Despesa | null>(null);
+    const [detalhe, setDetalhe] = useState<Despesa | null>(null);
     const [metodoPagamento, setMetodoPagamento] = useState('transferencia');
     const [contaPagamento, setContaPagamento] = useState<number | null>(null);
     const [comprovativo, setComprovativo] = useState<File | null>(null);
@@ -273,6 +278,7 @@ export default function DespesasIndex({ despesas, stats, categorias, contas, con
                                         </td>
                                         <td className="px-3 py-2.5">
                                             <div className="flex items-center justify-end gap-1">
+                                                <button onClick={() => setDetalhe(d)} title="Ver detalhe" className="p-1.5 rounded text-white/50 hover:bg-white/10 hover:text-white"><Eye className="h-4 w-4" /></button>
                                                 {d.estado === 'pendente' && (
                                                     <button onClick={() => aprovar(d.id)} title="Aprovar" className="p-1.5 rounded text-cyan-300 hover:bg-cyan-500/10"><CheckCircle className="h-4 w-4" /></button>
                                                 )}
@@ -386,7 +392,46 @@ export default function DespesasIndex({ despesas, stats, categorias, contas, con
                     </div>
                 </div>
             )}
+
+            {detalhe && (
+                <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-md py-8 px-4 overflow-y-auto" onClick={() => setDetalhe(null)}>
+                    <div className="bg-[#16163A] border border-white/10 rounded-2xl w-full max-w-lg mx-auto" onClick={(e) => e.stopPropagation()}>
+                        <div className="flex items-center justify-between p-5 border-b border-white/5">
+                            <h2 className="text-lg font-semibold text-white">Detalhe da despesa</h2>
+                            <button onClick={() => setDetalhe(null)} className="text-white/40 hover:text-white"><X className="h-5 w-5" /></button>
+                        </div>
+                        <div className="p-5 space-y-2.5 text-sm">
+                            <Linha label="Descrição" valor={detalhe.descricao} />
+                            <Linha label="Valor" valor={formatarKz(detalhe.valor)} />
+                            {detalhe.fornecedor && <Linha label="Fornecedor" valor={detalhe.fornecedor} />}
+                            {detalhe.categoria && <Linha label="Categoria" valor={detalhe.categoria.nome} />}
+                            {detalhe.condominio && <Linha label="Condomínio" valor={detalhe.condominio.nome} />}
+                            <Linha label="Conta" valor={detalhe.conta_bancaria?.nome ?? '—'} />
+                            <Linha label="Data" valor={detalhe.data_despesa} />
+                            {detalhe.criada_por && <Linha label="Criada por" valor={detalhe.criada_por.name} />}
+                            {detalhe.aprovada_por && <Linha label="Aprovada por" valor={`${detalhe.aprovada_por.name}${detalhe.aprovada_em ? ' · ' + detalhe.aprovada_em : ''}`} />}
+                            {detalhe.paga_por && <Linha label="Paga por" valor={`${detalhe.paga_por.name}${detalhe.paga_em ? ' · ' + detalhe.paga_em : ''}`} />}
+                            {detalhe.metodo_pagamento && <Linha label="Método" valor={detalhe.metodo_pagamento} />}
+                            <div className="flex justify-between items-center pt-1">
+                                <span className="text-white/50">Comprovativo</span>
+                                {detalhe.comprovativo_path
+                                    ? <a href={`/ficheiros/${detalhe.comprovativo_path}`} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-cyan-300 hover:underline"><Receipt className="h-4 w-4" /> Abrir comprovativo</a>
+                                    : <span className="text-white/40">Sem comprovativo</span>}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
         </AuthenticatedLayout>
+    );
+}
+
+function Linha({ label, valor }: { label: string; valor: string }) {
+    return (
+        <div className="flex justify-between gap-4">
+            <span className="text-white/50 shrink-0">{label}</span>
+            <span className="text-white text-right">{valor}</span>
+        </div>
     );
 }
 

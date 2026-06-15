@@ -32,7 +32,7 @@ class DespesaController extends Controller
         $condominioId = $request->integer('condominio_id') ?: null;
 
         $query = Despesa::query()
-            ->with(['categoria:id,nome,cor,icone', 'condominio:id,nome', 'contaBancaria:id,nome,banco', 'criadaPor:id,name'])
+            ->with(['categoria:id,nome,cor,icone', 'condominio:id,nome', 'contaBancaria:id,nome,banco', 'criadaPor:id,name', 'aprovadaPor:id,name', 'pagaPor:id,name'])
             ->where('empresa_gestora_id', $empresa->id)
             ->orderByDesc('data_despesa')
             ->orderByDesc('id');
