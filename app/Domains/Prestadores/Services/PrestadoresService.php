@@ -121,8 +121,17 @@ class PrestadoresService
             ? collect()
             : EmpresaPrestadora::aprovados()->whereIn('id', $destacadosIds)->get();
 
-        // 3. Juntar (destacados primeiro, sem duplicar)
-        $todos = $destacados->concat($publicos)->unique('id');
+        // 2b. Prestadores da própria gestora do condómino (tipo=gestora, aprovados).
+        // Restaura a associação gestora -> seus prestadores: um condómino vê sempre
+        // os prestadores aprovados da sua gestora, sem depender de destaque/subscrição.
+        $daGestora = $empresaGestoraId
+            ? EmpresaPrestadora::aprovados()
+                ->where('empresa_gestora_id', $empresaGestoraId)
+                ->get()
+            : collect();
+
+        // 3. Juntar (destacados primeiro, depois os da gestora, depois públicos; sem duplicar)
+        $todos = $destacados->concat($daGestora)->concat($publicos)->unique('id');
 
         // 4. Calcular distância e ordenar por proximidade
         $resultado = $todos->map(function ($p) use ($lat, $lng, $destacadosIds) {
