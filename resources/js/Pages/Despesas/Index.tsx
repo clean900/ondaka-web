@@ -25,7 +25,7 @@ type Despesa = {
 };
 
 type Categoria = { id: number; nome: string; slug: string; icone: string | null; cor: string | null };
-type Conta = { id: number; nome: string; banco: string; moeda: string; saldo_actual: string; principal: boolean };
+type Conta = { id: number; nome: string; banco: string; moeda: string; saldo_actual: string; principal: boolean; condominio_id: number };
 type Condominio = { id: number; nome: string };
 
 type Props = {
@@ -58,6 +58,12 @@ export default function DespesasIndex({ despesas, stats, categorias, contas, con
     const [editandoId, setEditandoId] = useState<number | null>(null);
     const [confirmandoPaga, setConfirmandoPaga] = useState<Despesa | null>(null);
     const [metodoPagamento, setMetodoPagamento] = useState('transferencia');
+    const [contaPagamento, setContaPagamento] = useState<number | null>(null);
+
+    const abrirPagamento = (d: Despesa) => {
+        setContaPagamento(d.conta_bancaria_id);
+        setConfirmandoPaga(d);
+    };
 
     const form = useForm({
         tipo: 'condominio' as 'condominio' | 'empresa',
@@ -121,7 +127,7 @@ export default function DespesasIndex({ despesas, stats, categorias, contas, con
 
     const marcarPaga = () => {
         if (!confirmandoPaga) return;
-        router.post(`/despesas/${confirmandoPaga.id}/pagar`, { metodo_pagamento: metodoPagamento }, {
+        router.post(`/despesas/${confirmandoPaga.id}/pagar`, { metodo_pagamento: metodoPagamento, conta_bancaria_id: contaPagamento }, {
             preserveScroll: true,
             onSuccess: () => setConfirmandoPaga(null),
         });
@@ -264,7 +270,7 @@ export default function DespesasIndex({ despesas, stats, categorias, contas, con
                                                     <button onClick={() => aprovar(d.id)} title="Aprovar" className="p-1.5 rounded text-cyan-300 hover:bg-cyan-500/10"><CheckCircle className="h-4 w-4" /></button>
                                                 )}
                                                 {(d.estado === 'pendente' || d.estado === 'aprovada') && (
-                                                    <button onClick={() => setConfirmandoPaga(d)} title="Marcar paga" className="p-1.5 rounded text-green-300 hover:bg-green-500/10"><DollarSign className="h-4 w-4" /></button>
+                                                    <button onClick={() => abrirPagamento(d)} title="Marcar paga" className="p-1.5 rounded text-green-300 hover:bg-green-500/10"><DollarSign className="h-4 w-4" /></button>
                                                 )}
                                                 {(d.estado === 'pendente' || d.estado === 'aprovada') && (
                                                     <button onClick={() => abrirEditar(d)} title="Editar" className="p-1.5 rounded text-white/50 hover:bg-white/10 hover:text-white"><Edit className="h-4 w-4" /></button>
@@ -336,8 +342,16 @@ export default function DespesasIndex({ despesas, stats, categorias, contas, con
                             <h2 className="text-white text-base font-medium">Confirmar pagamento</h2>
                             <button onClick={() => setConfirmandoPaga(null)} className="text-white/40 hover:text-white p-1"><X className="h-4 w-4" /></button>
                         </div>
-                        <p className="text-sm text-white/70 mb-3">Vai marcar esta despesa como paga. Isto cria um movimento de <strong className="text-green-300">saída</strong> de <strong className="text-white">{formatarKz(confirmandoPaga.valor)}</strong> na conta <strong className="text-white">{confirmandoPaga.conta_bancaria?.nome}</strong>.</p>
+                        <p className="text-sm text-white/70 mb-3">Vai marcar esta despesa como paga. Isto cria um movimento de <strong className="text-green-300">saída</strong> de <strong className="text-white">{formatarKz(confirmandoPaga.valor)}</strong> na conta escolhida abaixo.</p>
                         <p className="text-xs text-white/40 mb-4">O saldo da conta será actualizado automaticamente.</p>
+                        <div className="mb-4">
+                            <label className="block text-xs text-white/60 mb-1">Conta bancária</label>
+                            <select value={contaPagamento ?? ''} onChange={(e) => setContaPagamento(e.target.value ? parseInt(e.target.value) : null)} className="w-full bg-white/5 border border-white/10 rounded px-3 py-2 text-sm text-white">
+                                {contas
+                                    .filter((c) => confirmandoPaga.condominio_id == null || c.condominio_id === confirmandoPaga.condominio_id)
+                                    .map((c) => <option key={c.id} value={c.id}>{c.nome}{c.principal ? ' (principal)' : ''} — {c.banco}</option>)}
+                            </select>
+                        </div>
                         <div className="mb-4">
                             <label className="block text-xs text-white/60 mb-1">Método de pagamento</label>
                             <select value={metodoPagamento} onChange={(e) => setMetodoPagamento(e.target.value)} className="w-full bg-white/5 border border-white/10 rounded px-3 py-2 text-sm text-white">

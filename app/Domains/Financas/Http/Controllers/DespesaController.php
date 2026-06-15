@@ -175,9 +175,19 @@ class DespesaController extends Controller
         $request->validate([
             'data_pagamento' => 'nullable|date',
             'metodo_pagamento' => 'required|in:transferencia,deposito,numerario',
+            'conta_bancaria_id' => 'nullable|integer|exists:contas_bancarias,id',
         ]);
+        // Se vier uma conta diferente, tem de pertencer a um condomínio da mesma empresa.
+        $contaId = $request->input('conta_bancaria_id');
+        if ($contaId) {
+            $condominioIds = \App\Domains\Condominio\Models\Condominio::where('empresa_gestora_id', $despesa->empresa_gestora_id)->pluck('id');
+            $valida = ContaBancaria::where('id', $contaId)->whereIn('condominio_id', $condominioIds)->exists();
+            if (! $valida) {
+                return back()->with('error', 'Conta bancária inválida para esta despesa.');
+            }
+        }
         try {
-            $this->service->marcarPaga($despesa, auth()->id(), $request->input('data_pagamento'), $request->input('metodo_pagamento'));
+            $this->service->marcarPaga($despesa, auth()->id(), $request->input('data_pagamento'), $request->input('metodo_pagamento'), $contaId ? (int) $contaId : null);
             return back()->with('success', 'Despesa marcada como paga. Movimento criado na conta bancária.');
         } catch (Throwable $e) {
             return back()->with('error', $e->getMessage());
