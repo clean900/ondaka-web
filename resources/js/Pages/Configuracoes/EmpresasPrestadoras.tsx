@@ -134,6 +134,7 @@ function ModalEmpresa({ modal, onClose }: { modal: { tipo: 'novo' | 'editar'; em
     const [especialidades, setEspecialidades] = useState(emp?.especialidades ?? '');
     const [observacoes, setObservacoes] = useState(emp?.observacoes ?? '');
     const [ativa, setAtiva] = useState(emp?.ativa ?? true);
+    const [logo, setLogo] = useState<File | null>(null);
     const [enviando, setEnviando] = useState(false);
 
     const submit = () => {
@@ -142,16 +143,25 @@ function ModalEmpresa({ modal, onClose }: { modal: { tipo: 'novo' | 'editar'; em
             return;
         }
         setEnviando(true);
-        const payload = { nome, nif, telefone, email, especialidades, observacoes, ativa };
+        const base = { nome, nif, telefone, email, especialidades, observacoes, ativa };
 
         if (modal.tipo === 'novo') {
-            router.post('/configuracoes/empresas-prestadoras', payload, {
+            router.post('/configuracoes/empresas-prestadoras', logo ? { ...base, logo } : base, {
                 preserveScroll: true,
+                forceFormData: !!logo,
                 onSuccess: () => { toast.success('Empresa criada.'); onClose(); },
                 onFinish: () => setEnviando(false),
             });
+        } else if (logo) {
+            // Com ficheiro: POST + method spoofing (Laravel não lê multipart em PATCH).
+            router.post(`/configuracoes/empresas-prestadoras/${emp!.id}`, { ...base, logo, _method: 'patch' }, {
+                preserveScroll: true,
+                forceFormData: true,
+                onSuccess: () => { toast.success('Empresa actualizada.'); onClose(); },
+                onFinish: () => setEnviando(false),
+            });
         } else {
-            router.patch(`/configuracoes/empresas-prestadoras/${emp!.id}`, payload, {
+            router.patch(`/configuracoes/empresas-prestadoras/${emp!.id}`, base, {
                 preserveScroll: true,
                 onSuccess: () => { toast.success('Empresa actualizada.'); onClose(); },
                 onFinish: () => setEnviando(false),
@@ -192,6 +202,16 @@ function ModalEmpresa({ modal, onClose }: { modal: { tipo: 'novo' | 'editar'; em
                     <div>
                         <label className="text-xs text-white/60 uppercase tracking-wide block mb-1.5">Observações</label>
                         <textarea value={observacoes} onChange={(e) => setObservacoes(e.target.value)} rows={2} className="w-full rounded-lg bg-white/5 border border-white/10 px-3 py-2 text-sm text-white resize-none" />
+                    </div>
+                    <div>
+                        <label className="text-xs text-white/60 uppercase tracking-wide block mb-1.5">Logo da empresa (opcional)</label>
+                        <input
+                            type="file"
+                            accept="image/*"
+                            onChange={(e) => setLogo(e.target.files?.[0] ?? null)}
+                            className="w-full text-sm text-white/70 file:mr-3 file:rounded-lg file:border-0 file:bg-white/10 file:px-3 file:py-1.5 file:text-sm file:text-white hover:file:bg-white/20"
+                        />
+                        {logo && <p className="mt-1 text-xs text-white/40">Selecionado: {logo.name}</p>}
                     </div>
                     {modal.tipo === 'editar' && (
                         <label className="flex items-center gap-2 text-sm text-white/80">

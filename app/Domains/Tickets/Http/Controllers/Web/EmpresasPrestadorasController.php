@@ -34,6 +34,7 @@ class EmpresasPrestadorasController extends Controller
             'email' => 'nullable|email|max:150',
             'especialidades' => 'nullable|string',
             'observacoes' => 'nullable|string',
+            'logo' => 'nullable|image|max:2048',
         ]);
 
         EmpresaPrestadora::create([
@@ -44,6 +45,9 @@ class EmpresasPrestadorasController extends Controller
             'email' => $request->email,
             'especialidades' => $request->especialidades,
             'observacoes' => $request->observacoes,
+            'foto_path' => $request->hasFile('logo')
+                ? $request->file('logo')->store('prestadores', 'public')
+                : null,
             'ativa' => true,
         ]);
 
@@ -60,6 +64,7 @@ class EmpresasPrestadorasController extends Controller
             'especialidades' => 'nullable|string',
             'observacoes' => 'nullable|string',
             'ativa' => 'required|boolean',
+            'logo' => 'nullable|image|max:2048',
         ]);
 
         $emp = EmpresaPrestadora::where('id', $id)
@@ -67,6 +72,10 @@ class EmpresasPrestadorasController extends Controller
             ->firstOrFail();
 
         $emp->update($request->only(['nome', 'nif', 'telefone', 'email', 'especialidades', 'observacoes', 'ativa']));
+
+        if ($request->hasFile('logo')) {
+            $emp->update(['foto_path' => $request->file('logo')->store('prestadores', 'public')]);
+        }
 
         return back()->with('success', 'Empresa actualizada.');
     }
