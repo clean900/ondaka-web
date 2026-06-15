@@ -98,6 +98,12 @@ class AssembleiaService
 
             if ($numeroFraccoes === 0) continue;
 
+            // Fallback: se as fracções nao tiverem permilagem configurada (0), o voto
+            // conta por fraccao (peso = nº de fracções). Evita resultados a 0 / "Empate".
+            if ($permilagemTotal <= 0) {
+                $permilagemTotal = (float) $numeroFraccoes;
+            }
+
             AssembleiaParticipante::create([
                 'assembleia_id' => $assembleia->id,
                 'condomino_id' => $condomino->id,
