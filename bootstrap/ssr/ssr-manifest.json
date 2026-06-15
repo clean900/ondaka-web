@@ -130,6 +130,9 @@
   "resources/js/Pages/Catalogo/Index.tsx": [
     "/build/assets/Index-C65FsyQJ.js"
   ],
+  "resources/js/Pages/Condominio/Comissao.tsx": [
+    "/build/assets/Comissao-pgQu3Sb2.js"
+  ],
   "resources/js/Pages/Condominio/Equipa.tsx": [
     "/build/assets/Equipa-CXY1azjO.js"
   ],
@@ -143,7 +146,7 @@
     "/build/assets/Index-wcAXF6on.js"
   ],
   "resources/js/Pages/Condominios/Show.tsx": [
-    "/build/assets/Show-atArC1t_.js"
+    "/build/assets/Show-D-8BnpKy.js"
   ],
   "resources/js/Pages/Condominos/Form.tsx": [
     "/build/assets/Form-DXKv_Eqq.js"

@@ -697,6 +697,12 @@ Route::middleware(['auth', 'verified', '2fa'])->group(function () {
             Route::patch('condominios/{condominio}/facturacao/proxypay', [\App\Domains\Facturacao\Http\Controllers\Web\FacturacaoConfigController::class, 'actualizarProxyPay'])->name('condominios.facturacao.proxypay');
             Route::patch('condominios/{condominio}/facturacao/quotas', [\App\Domains\Facturacao\Http\Controllers\Web\FacturacaoConfigController::class, 'actualizarQuotas'])->name('condominios.facturacao.quotas');
             Route::patch('condominios/{condominio}/facturacao/multas', [\App\Domains\Facturacao\Http\Controllers\Web\FacturacaoConfigController::class, 'actualizarMultas'])->name('condominios.facturacao.multas');
+
+            // Comissão de moradores (F-03)
+            Route::get('condominios/{condominio}/comissao', [\App\Domains\Condominio\Http\Controllers\ComissaoController::class, 'show'])->name('condominios.comissao.show');
+            Route::patch('condominios/{condominio}/comissao/regra', [\App\Domains\Condominio\Http\Controllers\ComissaoController::class, 'actualizarRegra'])->name('condominios.comissao.regra');
+            Route::post('condominios/{condominio}/comissao/membros', [\App\Domains\Condominio\Http\Controllers\ComissaoController::class, 'adicionarMembro'])->name('condominios.comissao.membros.add');
+            Route::delete('condominios/{condominio}/comissao/membros/{membro}', [\App\Domains\Condominio\Http\Controllers\ComissaoController::class, 'removerMembro'])->name('condominios.comissao.membros.remove');
         });
 
     // === Avisos ===

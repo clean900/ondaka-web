@@ -1,7 +1,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link, router } from '@inertiajs/react';
 import {
-    ArrowLeft, Edit, Plus, Building2, MapPin, User, Trash2,
+    ArrowLeft, Edit, Plus, Building2, MapPin, User, Users, Trash2,
     Hash, Calendar, FileText, Landmark, CreditCard, DollarSign, Shield,
     ChevronRight,
 } from 'lucide-react';
@@ -75,6 +75,10 @@ export default function Show({ condominio, estatisticas }: Props) {
                     </div>
 
                     <div className="flex items-center gap-2">
+                        <Link href={`/condominios/${condominio.id}/comissao`} className="btn-secondary">
+                            <Users className="h-4 w-4" />
+                            Comissão
+                        </Link>
                         <Link href={`/condominios/${condominio.id}/edit`} className="btn-secondary">
                             <Edit className="h-4 w-4" />
                             Editar
