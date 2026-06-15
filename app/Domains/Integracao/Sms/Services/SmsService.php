@@ -8,8 +8,10 @@ use App\Domains\Feature\Services\FeatureGate;
 use App\Domains\Integracao\Sms\Contracts\SmsProviderInterface;
 use App\Domains\Integracao\Sms\Contracts\SmsResult;
 use App\Domains\Integracao\Sms\Exceptions\SmsException;
+use App\Domains\Integracao\Sms\Exceptions\SmsSemSaldoException;
 use App\Domains\Integracao\Sms\Models\SmsLog;
 use App\Domains\Integracao\Sms\Support\NumeroAngola;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
 
@@ -20,21 +22,21 @@ class SmsService
 {
     public function __construct(
         protected SmsProviderInterface $provider,
+        protected NotificadorSaldoSmsEsgotado $notificadorSaldo,
     ) {}
 
     /**
-     * Envia SMS consumindo saldo da feature 'sms_sender_id' do owner.
+     * Envia SMS de cliente consumindo créditos da feature 'sms_pack_extra' do owner.
+     *
+     * 'sms_sender_id' é apenas branding (nome do remetente) — não se consome aqui.
+     * Sem créditos: bloqueia (SmsSemSaldoException), regista log e notifica
+     * gestor + condómino que despoletou a acção.
      */
     public function enviar(Model $owner, string $numero, string $mensagem, array $contexto = []): SmsResult
     {
-        if (! FeatureGate::has($owner, 'sms_sender_id')) {
-            $this->registarLogErro($owner, $numero, $mensagem, 'Feature SMS Sender ID não está activa', $contexto);
-            throw new SmsException('Feature SMS Sender ID não está activa para este cliente.');
-        }
-
         $consumido = FeatureGate::consume(
             owner: $owner,
-            featureSlug: 'sms_sender_id',
+            featureSlug: 'sms_pack_extra',
             quantidade: 1,
             acao: 'sms_enviado',
             metadata: ['trigger' => $contexto['trigger'] ?? null],
@@ -42,11 +44,12 @@ class SmsService
         );
 
         if (! $consumido) {
-            $this->registarLogErro($owner, $numero, $mensagem, 'Saldo SMS esgotado', $contexto);
-            throw new SmsException('Saldo SMS esgotado. Recarregue a feature SMS Sender ID para continuar.');
+            $this->registarLogErro($owner, $numero, $mensagem, 'Saldo SMS esgotado (sms_pack_extra)', $contexto);
+            $this->notificarSemSaldo($owner, $contexto);
+            throw new SmsSemSaldoException('Saldo de SMS esgotado. Adquira o Pacote Extra SMS para continuar.');
         }
 
-        $subscription = FeatureGate::getSubscription($owner, 'sms_sender_id');
+        $subscription = FeatureGate::getSubscription($owner, 'sms_pack_extra');
 
         $log = $this->criarLog(
             owner: $owner,
@@ -114,13 +117,19 @@ class SmsService
 
     /**
      * Enviar com fallback automático:
-     *   Tenta consumir saldo cliente. Se não tem feature activa ou saldo,
-     *   usa modo sistema (não falha o fluxo crítico).
+     *   Tenta consumir créditos do cliente. Se falha por ERRO de provider/rede,
+     *   usa modo sistema (não parte o fluxo crítico).
+     *   Se falha por FALTA DE SALDO (SmsSemSaldoException), NÃO usa sistema —
+     *   bloqueia o envio (controlo de custo) e relança; o gestor e o condómino
+     *   já foram notificados em enviar().
      */
     public function enviarComFallback(Model $owner, string $numero, string $mensagem, array $contexto = []): SmsResult
     {
         try {
             return $this->enviar($owner, $numero, $mensagem, $contexto);
+        } catch (SmsSemSaldoException $e) {
+            // Sem créditos: bloquear de propósito — não enviar por sistema.
+            throw $e;
         } catch (SmsException $e) {
             Log::info('[SMS] Fallback para sistema', [
                 'motivo' => $e->getMessage(),
@@ -131,6 +140,16 @@ class SmsService
                 'fallback_motivo' => $e->getMessage(),
             ]));
         }
+    }
+
+    /**
+     * Notifica gestor(es) + condómino que despoletou a acção de que o saldo de SMS
+     * esgotou. Nunca lança — a notificação não pode partir o fluxo de envio.
+     */
+    private function notificarSemSaldo(Model $owner, array $contexto): void
+    {
+        $condomino = ! empty($contexto['user_id']) ? User::find($contexto['user_id']) : null;
+        $this->notificadorSaldo->notificar($owner, $condomino);
     }
 
     public function saldoProvider(): ?int
@@ -228,7 +247,7 @@ class SmsService
     private function devolverCredito(Model $owner, SmsLog $log, string $motivo): void
     {
         try {
-            $subscription = FeatureGate::getSubscription($owner, 'sms_sender_id');
+            $subscription = FeatureGate::getSubscription($owner, 'sms_pack_extra');
 
             if ($subscription) {
                 $subscription->increment('saldo_actual', 1);

@@ -162,8 +162,8 @@ class NotificacaoB2BService
             return;
         }
         try {
-            $this->smsService->enviarComFallback(
-                owner: $user,
+            // Notificação B2B é mensagem de sistema ONDAKA → envia sempre por sistema.
+            $this->smsService->enviarSistema(
                 numero: $user->telefone,
                 mensagem: $mensagem,
                 contexto: array_merge(['origem' => 'notificacao_b2b'], $contexto),

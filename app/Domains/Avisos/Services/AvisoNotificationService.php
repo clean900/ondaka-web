@@ -8,6 +8,7 @@ use App\Domains\Avisos\Models\Aviso;
 use App\Domains\Avisos\Models\AvisoComentario;
 use App\Domains\Feature\Services\FeatureGate;
 use App\Domains\Integracao\Sms\Contracts\SmsProviderInterface;
+use App\Domains\Integracao\Sms\Services\NotificadorSaldoSmsEsgotado;
 use App\Domains\Integracao\Sms\Support\SmsSenderResolver;
 use App\Domains\Notifications\Services\FcmSenderService;
 use App\Domains\Avisos\Notifications\AvisoNovoNotification;
@@ -30,6 +31,7 @@ class AvisoNotificationService
         protected SmsProviderInterface $smsProvider,
         protected SmsSenderResolver $senderResolver,
         protected FcmSenderService $fcmSender,
+        protected NotificadorSaldoSmsEsgotado $notificadorSaldo,
     ) {}
 
     public function avisoPublicado(Aviso $aviso): void
@@ -205,24 +207,23 @@ class AvisoNotificationService
         $condominio = $aviso->condominio;
         if (! $condominio) return;
 
-        $featureSlug = FeatureGate::has($condominio, 'sms_sender_id')
-            ? 'sms_sender_id'
-            : 'sms_pack_extra';
-
-        if (! FeatureGate::has($condominio, $featureSlug)) return;
-
         $smsMensagem = mb_strimwidth(strip_tags($mensagem), 0, 155, '...');
 
+        // Créditos de SMS vivem sempre em 'sms_pack_extra' ('sms_sender_id' é só branding).
         $consumido = FeatureGate::consume(
             owner: $condominio,
-            featureSlug: $featureSlug,
+            featureSlug: 'sms_pack_extra',
             quantidade: 1,
             acao: 'sms_aviso',
             referenciavel: $aviso,
             metadata: ['aviso_id' => $aviso->id, 'numero' => $numero],
         );
 
-        if (! $consumido) return;
+        if (! $consumido) {
+            // Sem créditos: não envia e notifica o gestor (broadcast iniciado por gestão).
+            $this->notificadorSaldo->notificar($condominio);
+            return;
+        }
 
         try {
             $this->senderResolver->paraCondominio($condominio)->enviar($numero, $smsMensagem);

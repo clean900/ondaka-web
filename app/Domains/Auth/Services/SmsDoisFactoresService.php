@@ -59,13 +59,9 @@ class SmsDoisFactoresService
         ];
 
         try {
-            $empresa = $user->empresaGestora;
-
-            if ($empresa) {
-                $this->smsService->enviarComFallback($empresa, $user->telefone, $mensagem, $contexto);
-            } else {
-                $this->smsService->enviarSistema($user->telefone, $mensagem, $contexto);
-            }
+            // Código 2FA é mensagem de sistema ONDAKA: envia sempre por sistema.
+            // Nunca consome créditos do cliente nem bloqueia o login por falta de saldo.
+            $this->smsService->enviarSistema($user->telefone, $mensagem, $contexto);
 
             return true;
 

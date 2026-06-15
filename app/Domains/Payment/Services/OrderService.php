@@ -188,18 +188,16 @@ class OrderService
 
         $smsService = app(\App\Domains\Integracao\Sms\Services\SmsService::class);
 
-        if ($owner instanceof \Illuminate\Database\Eloquent\Model) {
-            $smsService->enviarComFallback(
-                $owner,
-                $telefone,
-                $mensagem,
-                [
-                    'trigger' => 'ordem_aprovada',
-                    'categoria' => 'notificacao',
-                    'ordem_compra_id' => $ordem->id,
-                ],
-            );
-        }
+        // Confirmação de ordem é mensagem de sistema ONDAKA → envia sempre por sistema.
+        $smsService->enviarSistema(
+            $telefone,
+            $mensagem,
+            [
+                'trigger' => 'ordem_aprovada',
+                'categoria' => 'notificacao',
+                'ordem_compra_id' => $ordem->id,
+            ],
+        );
     }
 
     /**

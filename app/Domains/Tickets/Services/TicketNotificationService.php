@@ -6,6 +6,7 @@ namespace App\Domains\Tickets\Services;
 
 use App\Domains\Feature\Services\FeatureGate;
 use App\Domains\Integracao\Sms\Contracts\SmsProviderInterface;
+use App\Domains\Integracao\Sms\Services\NotificadorSaldoSmsEsgotado;
 use App\Domains\Integracao\Sms\Support\SmsSenderResolver;
 use App\Domains\Notifications\Services\FcmSenderService;
 use App\Domains\Tickets\Notifications\TicketEstadoNotification;
@@ -30,6 +31,7 @@ class TicketNotificationService
         protected SmsProviderInterface $smsProvider,
         protected SmsSenderResolver $senderResolver,
         protected FcmSenderService $fcmSender,
+        protected NotificadorSaldoSmsEsgotado $notificadorSaldo,
     ) {}
 
     public function ticketCriado(Ticket $ticket): void
@@ -176,19 +178,12 @@ class TicketNotificationService
             return;
         }
 
-        $featureSlug = FeatureGate::has($condominio, 'sms_sender_id')
-            ? 'sms_sender_id'
-            : 'sms_pack_extra';
-
-        if (! FeatureGate::has($condominio, $featureSlug)) {
-            return;
-        }
-
         $smsMensagem = mb_strimwidth($mensagem, 0, 155, '...');
 
+        // Créditos de SMS vivem sempre em 'sms_pack_extra' ('sms_sender_id' é só branding).
         $consumido = FeatureGate::consume(
             owner: $condominio,
-            featureSlug: $featureSlug,
+            featureSlug: 'sms_pack_extra',
             quantidade: 1,
             acao: 'sms_ticket_notificacao',
             referenciavel: $ticket,
@@ -196,6 +191,8 @@ class TicketNotificationService
         );
 
         if (! $consumido) {
+            // Sem créditos: não envia e notifica o gestor.
+            $this->notificadorSaldo->notificar($condominio);
             return;
         }
 

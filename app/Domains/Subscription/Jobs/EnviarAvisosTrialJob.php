@@ -175,8 +175,8 @@ class EnviarAvisosTrialJob implements ShouldQueue
         ]);
 
         try {
-            app(SmsService::class)->enviarComFallback(
-                $empresa,
+            // Aviso de trial/subscrição é mensagem de sistema ONDAKA → envia sempre por sistema.
+            app(SmsService::class)->enviarSistema(
                 $telefone,
                 $mensagem,
                 [
