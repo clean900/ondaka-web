@@ -59,9 +59,11 @@ export default function DespesasIndex({ despesas, stats, categorias, contas, con
     const [confirmandoPaga, setConfirmandoPaga] = useState<Despesa | null>(null);
     const [metodoPagamento, setMetodoPagamento] = useState('transferencia');
     const [contaPagamento, setContaPagamento] = useState<number | null>(null);
+    const [comprovativo, setComprovativo] = useState<File | null>(null);
 
     const abrirPagamento = (d: Despesa) => {
         setContaPagamento(d.conta_bancaria_id);
+        setComprovativo(null);
         setConfirmandoPaga(d);
     };
 
@@ -127,8 +129,13 @@ export default function DespesasIndex({ despesas, stats, categorias, contas, con
 
     const marcarPaga = () => {
         if (!confirmandoPaga) return;
-        router.post(`/despesas/${confirmandoPaga.id}/pagar`, { metodo_pagamento: metodoPagamento, conta_bancaria_id: contaPagamento }, {
+        router.post(`/despesas/${confirmandoPaga.id}/pagar`, {
+            metodo_pagamento: metodoPagamento,
+            conta_bancaria_id: contaPagamento,
+            ...(comprovativo ? { comprovativo } : {}),
+        }, {
             preserveScroll: true,
+            forceFormData: !!comprovativo,
             onSuccess: () => setConfirmandoPaga(null),
         });
     };
@@ -359,6 +366,16 @@ export default function DespesasIndex({ despesas, stats, categorias, contas, con
                                 <option value="deposito">Depósito</option>
                                 <option value="numerario">Numerário</option>
                             </select>
+                        </div>
+                        <div className="mb-4">
+                            <label className="block text-xs text-white/60 mb-1">Comprovativo de pagamento (opcional)</label>
+                            <input
+                                type="file"
+                                accept="image/*,application/pdf"
+                                onChange={(e) => setComprovativo(e.target.files?.[0] ?? null)}
+                                className="w-full text-sm text-white/70 file:mr-3 file:rounded file:border-0 file:bg-white/10 file:px-3 file:py-1.5 file:text-sm file:text-white hover:file:bg-white/20"
+                            />
+                            {comprovativo && <p className="mt-1 text-xs text-white/40">{comprovativo.name}</p>}
                         </div>
                         <div className="flex justify-end gap-2">
                             <button onClick={() => setConfirmandoPaga(null)} className="px-4 py-2 rounded text-sm text-white/80 bg-white/5 border border-white/10 hover:bg-white/10">Cancelar</button>

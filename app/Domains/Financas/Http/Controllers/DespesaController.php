@@ -176,6 +176,7 @@ class DespesaController extends Controller
             'data_pagamento' => 'nullable|date',
             'metodo_pagamento' => 'required|in:transferencia,deposito,numerario',
             'conta_bancaria_id' => 'nullable|integer|exists:contas_bancarias,id',
+            'comprovativo' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:4096',
         ]);
         // Se vier uma conta diferente, tem de pertencer a um condomínio da mesma empresa.
         $contaId = $request->input('conta_bancaria_id');
@@ -186,8 +187,11 @@ class DespesaController extends Controller
                 return back()->with('error', 'Conta bancária inválida para esta despesa.');
             }
         }
+        $comprovativoPath = $request->hasFile('comprovativo')
+            ? $request->file('comprovativo')->store('despesas/comprovativos', 'public')
+            : null;
         try {
-            $this->service->marcarPaga($despesa, auth()->id(), $request->input('data_pagamento'), $request->input('metodo_pagamento'), $contaId ? (int) $contaId : null);
+            $this->service->marcarPaga($despesa, auth()->id(), $request->input('data_pagamento'), $request->input('metodo_pagamento'), $contaId ? (int) $contaId : null, $comprovativoPath);
             return back()->with('success', 'Despesa marcada como paga. Movimento criado na conta bancária.');
         } catch (Throwable $e) {
             return back()->with('error', $e->getMessage());

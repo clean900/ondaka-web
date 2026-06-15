@@ -66,13 +66,13 @@ class DespesaService
         return $despesa->fresh();
     }
 
-    public function marcarPaga(Despesa $despesa, int $userId, ?string $dataPagamento = null, ?string $metodoPagamento = null, ?int $contaBancariaId = null): Despesa
+    public function marcarPaga(Despesa $despesa, int $userId, ?string $dataPagamento = null, ?string $metodoPagamento = null, ?int $contaBancariaId = null, ?string $comprovativoPath = null): Despesa
     {
         if (! in_array($despesa->estado, ['pendente', 'aprovada'])) {
             throw new RuntimeException('Só despesas pendentes ou aprovadas podem ser marcadas como pagas. Estado actual: ' . $despesa->estado);
         }
 
-        return DB::transaction(function () use ($despesa, $userId, $dataPagamento, $metodoPagamento, $contaBancariaId) {
+        return DB::transaction(function () use ($despesa, $userId, $dataPagamento, $metodoPagamento, $contaBancariaId, $comprovativoPath) {
             // Permite alterar a conta bancária na hora do pagamento (senão usa a da despesa).
             $conta = ContaBancaria::lockForUpdate()->findOrFail($contaBancariaId ?: $despesa->conta_bancaria_id);
 
@@ -100,6 +100,7 @@ class DespesaService
                 'metodo_pagamento' => $metodoPagamento,
                 'paga_por_user_id' => $userId,
                 'movimento_id' => $movimento->id,
+                'comprovativo_path' => $comprovativoPath ?: $despesa->comprovativo_path,
             ]);
 
             return $despesa->fresh();
