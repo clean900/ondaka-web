@@ -151,6 +151,7 @@ class MeController extends Controller
             'roles'              => $user->roles->pluck('name'),
             'locale'             => $user->locale ?? 'pt_AO',
             'must_change_password' => (bool) $user->must_change_password,
+            'e_membro_comissao'  => \App\Domains\Condominio\Models\ComissaoMembro::where('user_id', $user->id)->exists(),
         ];
     }
 

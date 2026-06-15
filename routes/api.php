@@ -417,4 +417,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('me/conta', [\App\Http\Controllers\Api\MeController::class, 'apagarConta']);
     Route::patch('me/profile', [\App\Http\Controllers\Api\MeController::class, 'updateProfile']);
     Route::patch('me/password', [\App\Http\Controllers\Api\MeController::class, 'updatePassword']);
+
+    // F-03: comissão de moradores — aprovar/recusar despesas pendentes (mobile)
+    Route::get('me/despesas-comissao', [\App\Domains\Financas\Http\Controllers\Api\DespesaComissaoApiController::class, 'index']);
+    Route::post('despesas-comissao/{despesa}/aprovar', [\App\Domains\Financas\Http\Controllers\Api\DespesaComissaoApiController::class, 'aprovar']);
+    Route::post('despesas-comissao/{despesa}/recusar', [\App\Domains\Financas\Http\Controllers\Api\DespesaComissaoApiController::class, 'recusar']);
 });
