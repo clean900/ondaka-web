@@ -71,6 +71,7 @@ class AuthController extends Controller
                 'telefone'           => $user->telefone,
                 'empresa_gestora_id' => $user->empresa_gestora_id,
                 'roles'              => $user->roles->pluck('name'),
+                'e_membro_comissao'  => \App\Domains\Condominio\Models\ComissaoMembro::where('user_id', $user->id)->exists(),
                 'locale'             => $user->locale ?? 'pt_AO',
             ],
         ], 200);
@@ -105,6 +106,7 @@ class AuthController extends Controller
             'empresa_gestora_id' => $user->empresa_gestora_id,
             'estado'             => $user->estado,
             'roles'              => $user->roles->pluck('name'),
+            'e_membro_comissao'  => \App\Domains\Condominio\Models\ComissaoMembro::where('user_id', $user->id)->exists(),
             'locale'             => $user->locale ?? 'pt_AO',
             'condominio_nome'    => $condominioNome,
         ]);
