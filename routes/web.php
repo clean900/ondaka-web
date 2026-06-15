@@ -70,6 +70,13 @@ Route::get('/apagar-conta', function () {
     return response()->file(public_path('apagar-conta.html'));
 })->name('apagar-conta');
 
+// Servir ficheiros do disco public via /ficheiros/ (symlinks /storage/ bloqueados
+// pelo LiteSpeed). Cobre logos de prestadores, anexos de avisos, fotos de pedidos,
+// comprovativos, etc. O controller valida path traversal.
+Route::get('/ficheiros/{path}', [\App\Http\Controllers\FicheirosController::class, 'show'])
+    ->where('path', '.*')
+    ->name('ficheiros.show');
+
 // Auto-registo público (wizard 3 passos)
 Route::get('/registo', [\App\Http\Controllers\RegistoController::class, 'index'])->name('registo.index');
 Route::post('/registo', [\App\Http\Controllers\RegistoController::class, 'store'])->name('registo.store');
