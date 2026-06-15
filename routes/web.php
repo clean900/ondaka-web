@@ -66,6 +66,10 @@ Route::get('/termos', function () {
     return response()->file(public_path('termos.html'));
 })->name('termos');
 
+Route::get('/apagar-conta', function () {
+    return response()->file(public_path('apagar-conta.html'));
+})->name('apagar-conta');
+
 // Auto-registo público (wizard 3 passos)
 Route::get('/registo', [\App\Http\Controllers\RegistoController::class, 'index'])->name('registo.index');
 Route::post('/registo', [\App\Http\Controllers\RegistoController::class, 'store'])->name('registo.store');
