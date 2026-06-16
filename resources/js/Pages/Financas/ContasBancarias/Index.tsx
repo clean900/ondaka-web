@@ -1,7 +1,7 @@
 import { Head, useForm, router } from '@inertiajs/react';
 import { FormEventHandler, useState, useEffect } from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Building2, Plus, Edit, Trash2, ArrowDownCircle, ArrowUpCircle, Star, X, Check, ArrowLeftRight } from 'lucide-react';
+import { Building2, Plus, Edit, Trash2, ArrowDownCircle, ArrowUpCircle, Star, X, Check, ArrowLeftRight, ShieldCheck } from 'lucide-react';
 
 type Conta = {
     id: number;
@@ -15,6 +15,7 @@ type Conta = {
     notas: string | null;
     activa: boolean;
     principal: boolean;
+    e_fundo_reserva: boolean;
     aceita_proxypay: boolean;
     aceita_manual: boolean;
     instrucoes_pagamento: string | null;
@@ -27,7 +28,7 @@ type Movimento = {
     descricao: string;
     valor: string;
     saldo_apos: string;
-    origem_tipo: 'manual' | 'proxypay' | 'pagamento_aprovado' | 'despesa' | 'transferencia';
+    origem_tipo: 'manual' | 'proxypay' | 'pagamento_aprovado' | 'despesa' | 'transferencia' | 'fundo_reserva';
     origem_id: number | null;
     criado_por: { id: number; name: string } | null;
 };
@@ -64,11 +65,13 @@ const ORIGEM_LABELS: Record<string, { label: string; color: string }> = {
     pagamento_aprovado: { label: 'Pag. aprov.', color: '#C4B5FD' },
     despesa: { label: 'Despesa', color: '#FCA5A5' },
     transferencia: { label: 'Transfer.', color: '#7DD3FC' },
+    fundo_reserva: { label: 'Fundo res.', color: '#86EFAC' },
 };
 
 export default function Index({ condominio, condominios, contas, contaSeleccionadaId, movimentos }: Props) {
     const [modalNovaConta, setModalNovaConta] = useState(false);
     const [modalTransferir, setModalTransferir] = useState(false);
+    const [modalReservar, setModalReservar] = useState(false);
     const [editandoConta, setEditandoConta] = useState<number | null>(null);
 
     const contaActual = contas.find((c) => c.id === contaSeleccionadaId);
@@ -81,6 +84,7 @@ export default function Index({ condominio, condominios, contas, contaSelecciona
         moeda: 'AOA',
         saldo_inicial: '',
         principal: contas.length === 0,
+        e_fundo_reserva: false,
         aceita_proxypay: true,
         aceita_manual: true,
         instrucoes_pagamento: '',
@@ -109,9 +113,17 @@ export default function Index({ condominio, condominios, contas, contaSelecciona
         moeda: 'AOA',
         saldo_inicial: '',
         principal: false,
+        e_fundo_reserva: false,
         aceita_proxypay: true,
         aceita_manual: true,
         instrucoes_pagamento: '',
+    });
+
+    const formReservar = useForm({
+        conta_origem_id: null as number | null,
+        data: new Date().toISOString().split('T')[0],
+        descricao: '',
+        valor: '',
     });
 
     useEffect(() => {
@@ -126,6 +138,7 @@ export default function Index({ condominio, condominios, contas, contaSelecciona
                     moeda: conta.moeda,
                     saldo_inicial: conta.saldo_inicial,
                     principal: conta.principal,
+                    e_fundo_reserva: conta.e_fundo_reserva,
                     aceita_proxypay: conta.aceita_proxypay,
                     aceita_manual: conta.aceita_manual,
                     instrucoes_pagamento: conta.instrucoes_pagamento || '',
@@ -172,6 +185,16 @@ export default function Index({ condominio, condominios, contas, contaSelecciona
         formTransferir.post('/financas/contas-bancarias/transferir', {
             preserveScroll: true,
             onSuccess: () => { setModalTransferir(false); formTransferir.reset('descricao', 'valor', 'conta_destino_id'); },
+        });
+    };
+
+    const contaFundo = contas.find((c) => c.e_fundo_reserva);
+
+    const submitReservar: FormEventHandler = (e) => {
+        e.preventDefault();
+        formReservar.post('/financas/contas-bancarias/reservar-fundo', {
+            preserveScroll: true,
+            onSuccess: () => { setModalReservar(false); formReservar.reset('descricao', 'valor'); },
         });
     };
 
@@ -222,6 +245,14 @@ export default function Index({ condominio, condominios, contas, contaSelecciona
                     </div>
                 </div>
                 <div className="flex items-center gap-2">
+                    {contaFundo && contas.length >= 2 && (
+                        <button
+                            onClick={() => setModalReservar(true)}
+                            className="px-4 py-2.5 rounded-md text-white text-sm font-medium bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/30"
+                        >
+                            <ShieldCheck className="inline h-4 w-4 mr-1 -mt-0.5" /> Reservar fundo
+                        </button>
+                    )}
                     {contas.length >= 2 && (
                         <button
                             onClick={() => setModalTransferir(true)}
@@ -266,13 +297,20 @@ export default function Index({ condominio, condominios, contas, contaSelecciona
                                     }}
                                 >
                                     <div className="flex justify-between items-center mb-2">
-                                        {conta.principal ? (
-                                            <span className="text-[9px] font-medium tracking-wider px-2 py-0.5 rounded-full text-white" style={{ background: 'linear-gradient(135deg, #00D4FF, #A855F7)' }}>
-                                                PRINCIPAL
-                                            </span>
-                                        ) : (
-                                            <span className="text-[10px] text-white/40 uppercase tracking-wider">Secundária</span>
-                                        )}
+                                        <div className="flex items-center gap-1.5">
+                                            {conta.principal ? (
+                                                <span className="text-[9px] font-medium tracking-wider px-2 py-0.5 rounded-full text-white" style={{ background: 'linear-gradient(135deg, #00D4FF, #A855F7)' }}>
+                                                    PRINCIPAL
+                                                </span>
+                                            ) : (
+                                                <span className="text-[10px] text-white/40 uppercase tracking-wider">Secundária</span>
+                                            )}
+                                            {conta.e_fundo_reserva && (
+                                                <span className="text-[9px] font-medium tracking-wider px-2 py-0.5 rounded-full text-emerald-200 bg-emerald-500/20 border border-emerald-500/30">
+                                                    FUNDO RESERVA
+                                                </span>
+                                            )}
+                                        </div>
                                         <div className="flex gap-1">
                                             {!conta.principal && (
                                                 <button
@@ -467,6 +505,49 @@ export default function Index({ condominio, condominios, contas, contaSelecciona
                 </div>
             )}
 
+            {modalReservar && contaFundo && (
+                <div className="fixed inset-0 z-50 flex items-start justify-center p-4 py-8 bg-black/60 backdrop-blur-sm overflow-y-auto">
+                    <div className="bg-[#0F0F23] border border-emerald-500/30 rounded-xl p-5 w-full max-w-lg">
+                        <div className="flex justify-between items-center mb-4">
+                            <h3 className="text-white font-semibold">Reservar para o Fundo de Reserva</h3>
+                            <button onClick={() => setModalReservar(false)} className="text-white/40 hover:text-white p-1"><X className="h-5 w-5" /></button>
+                        </div>
+                        <p className="text-xs text-white/50 mb-3">Move um valor para a conta do fundo de reserva: <strong className="text-emerald-300">{contaFundo.nome}</strong>.</p>
+                        <form onSubmit={submitReservar} className="space-y-3">
+                            <div>
+                                <label className="block text-xs text-white/60 mb-1">Conta de origem</label>
+                                <select value={formReservar.data.conta_origem_id ?? ''} onChange={(e) => formReservar.setData('conta_origem_id', e.target.value ? parseInt(e.target.value) : null)} className="w-full bg-white/5 border border-white/10 rounded px-3 py-2 text-sm text-white">
+                                    <option value="">— Escolher —</option>
+                                    {contas.filter((c) => c.id !== contaFundo.id).map((c) => <option key={c.id} value={c.id}>{c.nome} — {formatKz(c.saldo_actual)} {c.moeda}</option>)}
+                                </select>
+                                {formReservar.errors.conta_origem_id && <p className="text-xs text-red-400 mt-1">{formReservar.errors.conta_origem_id}</p>}
+                            </div>
+                            <div className="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label className="block text-xs text-white/60 mb-1">Valor</label>
+                                    <input type="number" step="0.01" min="0.01" value={formReservar.data.valor} onChange={(e) => formReservar.setData('valor', e.target.value)} className="w-full bg-white/5 border border-white/10 rounded px-3 py-2 text-sm text-white" />
+                                    {formReservar.errors.valor && <p className="text-xs text-red-400 mt-1">{formReservar.errors.valor}</p>}
+                                </div>
+                                <div>
+                                    <label className="block text-xs text-white/60 mb-1">Data</label>
+                                    <input type="date" value={formReservar.data.data} onChange={(e) => formReservar.setData('data', e.target.value)} className="w-full bg-white/5 border border-white/10 rounded px-3 py-2 text-sm text-white" />
+                                </div>
+                            </div>
+                            <div>
+                                <label className="block text-xs text-white/60 mb-1">Descrição (opcional)</label>
+                                <input type="text" value={formReservar.data.descricao} onChange={(e) => formReservar.setData('descricao', e.target.value)} className="w-full bg-white/5 border border-white/10 rounded px-3 py-2 text-sm text-white" placeholder="Ex: Reserva de Junho" />
+                            </div>
+                            <div className="flex justify-end gap-2 pt-2">
+                                <button type="button" onClick={() => setModalReservar(false)} className="px-4 py-2 rounded text-sm text-white/80 bg-white/5 border border-white/10 hover:bg-white/10">Cancelar</button>
+                                <button type="submit" disabled={formReservar.processing} className="px-5 py-2 rounded text-white text-sm font-medium disabled:opacity-50 bg-emerald-600 hover:bg-emerald-500">
+                                    <ShieldCheck className="inline h-4 w-4 mr-1 -mt-0.5" /> {formReservar.processing ? 'A reservar...' : 'Reservar'}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
+
             {modalNovaConta && (
                 <div className="fixed inset-0 z-50 flex items-start justify-center p-4 py-8 bg-black/60 backdrop-blur-sm overflow-y-auto">
                     <div className="bg-[#0F0F23] border border-purple-500/30 rounded-xl p-5 w-full max-w-lg max-h-[90vh] overflow-y-auto">
@@ -520,6 +601,10 @@ export default function Index({ condominio, condominios, contas, contaSelecciona
                                 <label className="flex items-center gap-2 text-sm text-white/80 mb-2 cursor-pointer">
                                     <input type="checkbox" checked={formCriar.data.principal} onChange={(e) => formCriar.setData('principal', e.target.checked)} className="accent-purple-500" />
                                     Marcar como conta principal
+                                </label>
+                                <label className="flex items-center gap-2 text-sm text-white/80 mb-2 cursor-pointer">
+                                    <input type="checkbox" checked={formCriar.data.e_fundo_reserva} onChange={(e) => formCriar.setData('e_fundo_reserva', e.target.checked)} className="accent-emerald-500" />
+                                    Conta do Fundo de Reserva
                                 </label>
                                 <label className="flex items-center gap-2 text-sm text-white/80 mb-2 cursor-pointer">
                                     <input type="checkbox" checked={formCriar.data.aceita_proxypay} onChange={(e) => formCriar.setData('aceita_proxypay', e.target.checked)} className="accent-purple-500" />
@@ -602,6 +687,10 @@ export default function Index({ condominio, condominios, contas, contaSelecciona
                                 <label className="flex items-center gap-2 text-sm text-white/90">
                                     <input type="checkbox" checked={formEditar.data.principal} onChange={e => formEditar.setData('principal', e.target.checked)} className="rounded" />
                                     Marcar como conta principal
+                                </label>
+                                <label className="flex items-center gap-2 text-sm text-white/90">
+                                    <input type="checkbox" checked={formEditar.data.e_fundo_reserva} onChange={e => formEditar.setData('e_fundo_reserva', e.target.checked)} className="rounded" />
+                                    Conta do Fundo de Reserva
                                 </label>
                                 <label className="flex items-center gap-2 text-sm text-white/90">
                                     <input type="checkbox" checked={formEditar.data.aceita_proxypay} onChange={e => formEditar.setData('aceita_proxypay', e.target.checked)} className="rounded" />

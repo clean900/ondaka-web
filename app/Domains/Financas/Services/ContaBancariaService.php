@@ -27,6 +27,13 @@ class ContaBancariaService
                     ->update(['principal' => false]);
             }
 
+            // Só uma conta de fundo de reserva por condomínio.
+            $deveSerFundo = (bool) ($dados['e_fundo_reserva'] ?? false);
+            if ($deveSerFundo && $jaTemContas) {
+                ContaBancaria::where('condominio_id', $condominioId)
+                    ->update(['e_fundo_reserva' => false]);
+            }
+
             return ContaBancaria::create([
                 'condominio_id' => $condominioId,
                 'nome' => $dados['nome'],
@@ -39,6 +46,7 @@ class ContaBancariaService
                 'notas' => $dados['notas'] ?? null,
                 'activa' => $dados['activa'] ?? true,
                 'principal' => $deveSerPrincipal,
+                'e_fundo_reserva' => $deveSerFundo,
                 'aceita_proxypay' => $dados['aceita_proxypay'] ?? false,
                 'aceita_manual' => $dados['aceita_manual'] ?? true,
                 'instrucoes_pagamento' => $dados['instrucoes_pagamento'] ?? null,
@@ -58,6 +66,13 @@ class ContaBancariaService
                     ->update(['principal' => false]);
             }
 
+            // Só uma conta de fundo de reserva por condomínio.
+            if (isset($dados['e_fundo_reserva']) && $dados['e_fundo_reserva'] && !$conta->e_fundo_reserva) {
+                ContaBancaria::where('condominio_id', $conta->condominio_id)
+                    ->where('id', '!=', $conta->id)
+                    ->update(['e_fundo_reserva' => false]);
+            }
+
             $conta->update(array_filter([
                 'nome' => $dados['nome'] ?? null,
                 'banco' => $dados['banco'] ?? null,
@@ -67,6 +82,7 @@ class ContaBancariaService
                 'notas' => $dados['notas'] ?? null,
                 'activa' => $dados['activa'] ?? null,
                 'principal' => $dados['principal'] ?? null,
+                'e_fundo_reserva' => $dados['e_fundo_reserva'] ?? null,
                 'aceita_proxypay' => $dados['aceita_proxypay'] ?? null,
                 'aceita_manual' => $dados['aceita_manual'] ?? null,
                 'instrucoes_pagamento' => $dados['instrucoes_pagamento'] ?? null,
@@ -168,6 +184,59 @@ class ContaBancariaService
 
             $origem->update(['saldo_actual' => $saldoOrigem]);
             $destino->update(['saldo_actual' => $saldoDestino]);
+        });
+    }
+
+    /**
+     * F-04: reservar manualmente um valor para o Fundo de Reserva.
+     * Move o valor de uma conta de origem para a conta marcada como fundo de
+     * reserva, atomicamente (movimentos origem_tipo='fundo_reserva').
+     */
+    public function reservarFundo(ContaBancaria $origem, ContaBancaria $fundo, array $dados): void
+    {
+        if ($origem->id === $fundo->id) {
+            throw new \RuntimeException('A conta de origem não pode ser a própria conta do fundo de reserva.');
+        }
+        if (! $fundo->e_fundo_reserva) {
+            throw new \RuntimeException('A conta de destino não é a conta do fundo de reserva.');
+        }
+
+        DB::transaction(function () use ($origem, $fundo, $dados) {
+            $valor = (float) $dados['valor'];
+            $data = $dados['data'];
+            $descricao = ! empty($dados['descricao']) ? $dados['descricao'] : 'Reserva do fundo de reserva';
+
+            $origem = ContaBancaria::lockForUpdate()->findOrFail($origem->id);
+            $fundo = ContaBancaria::lockForUpdate()->findOrFail($fundo->id);
+
+            $saldoOrigem = (float) $origem->saldo_actual - $valor;
+            $saldoFundo = (float) $fundo->saldo_actual + $valor;
+
+            $movSaida = ContaBancariaMovimento::create([
+                'conta_bancaria_id' => $origem->id,
+                'data' => $data,
+                'tipo' => 'saida',
+                'descricao' => $descricao . ' → ' . $fundo->nome,
+                'valor' => $valor,
+                'saldo_apos' => $saldoOrigem,
+                'origem_tipo' => 'fundo_reserva',
+                'criado_por_user_id' => Auth::id(),
+            ]);
+
+            ContaBancariaMovimento::create([
+                'conta_bancaria_id' => $fundo->id,
+                'data' => $data,
+                'tipo' => 'entrada',
+                'descricao' => $descricao . ' ← ' . $origem->nome,
+                'valor' => $valor,
+                'saldo_apos' => $saldoFundo,
+                'origem_tipo' => 'fundo_reserva',
+                'origem_id' => $movSaida->id,
+                'criado_por_user_id' => Auth::id(),
+            ]);
+
+            $origem->update(['saldo_actual' => $saldoOrigem]);
+            $fundo->update(['saldo_actual' => $saldoFundo]);
         });
     }
 

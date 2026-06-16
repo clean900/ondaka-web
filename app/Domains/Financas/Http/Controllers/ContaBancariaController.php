@@ -71,6 +71,7 @@ class ContaBancariaController extends Controller
             'saldo_inicial' => 'nullable|numeric|min:0',
             'notas' => 'nullable|string|max:1000',
             'principal' => 'boolean',
+            'e_fundo_reserva' => 'boolean',
             'aceita_proxypay' => 'boolean',
             'aceita_manual' => 'boolean',
             'instrucoes_pagamento' => 'nullable|string|max:2000',
@@ -98,6 +99,7 @@ class ContaBancariaController extends Controller
             'notas' => 'nullable|string|max:1000',
             'activa' => 'boolean',
             'principal' => 'boolean',
+            'e_fundo_reserva' => 'boolean',
             'aceita_proxypay' => 'boolean',
             'aceita_manual' => 'boolean',
             'instrucoes_pagamento' => 'nullable|string|max:2000',
@@ -144,6 +146,42 @@ class ContaBancariaController extends Controller
                 'descricao' => $dados['descricao'] ?? null,
             ]);
             return back(303)->with('success', 'Transferência registada nas duas contas.');
+        } catch (\Throwable $e) {
+            return back(303)->with('error', $e->getMessage());
+        }
+    }
+
+    /**
+     * F-04: reservar manualmente um valor para a conta do Fundo de Reserva.
+     */
+    public function reservarFundo(Request $request): RedirectResponse
+    {
+        $dados = $request->validate([
+            'conta_origem_id' => 'required|integer|exists:contas_bancarias,id',
+            'data' => 'required|date|before_or_equal:today',
+            'descricao' => 'nullable|string|max:200',
+            'valor' => 'required|numeric|min:0.01',
+        ]);
+
+        $origem = ContaBancaria::findOrFail($dados['conta_origem_id']);
+        $this->autorizar($request, $origem);
+
+        $condominio = $this->resolverCondominio($request);
+        $fundo = ContaBancaria::where('condominio_id', $condominio->id)
+            ->where('e_fundo_reserva', true)
+            ->first();
+
+        if (! $fundo) {
+            return back(303)->with('error', 'Não há nenhuma conta marcada como Fundo de Reserva neste condomínio.');
+        }
+
+        try {
+            $this->service->reservarFundo($origem, $fundo, [
+                'valor' => $dados['valor'],
+                'data' => $dados['data'],
+                'descricao' => $dados['descricao'] ?? null,
+            ]);
+            return back(303)->with('success', 'Valor reservado no Fundo de Reserva.');
         } catch (\Throwable $e) {
             return back(303)->with('error', $e->getMessage());
         }

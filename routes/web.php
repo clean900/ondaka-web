@@ -506,6 +506,7 @@ Route::middleware(['auth', 'verified', '2fa'])->group(function () {
             Route::post('/{conta}/movimentos', [ContaBancariaController::class, 'adicionarMovimento'])->name('movimentos.adicionar');
             Route::delete('/movimentos/{movimento}', [ContaBancariaController::class, 'apagarMovimento'])->name('movimentos.apagar');
             Route::post('/transferir', [ContaBancariaController::class, 'transferir'])->name('transferir');
+            Route::post('/reservar-fundo', [ContaBancariaController::class, 'reservarFundo'])->name('reservar-fundo');
         });
 
     // === Categorias de Despesas (gestão restrita) ===

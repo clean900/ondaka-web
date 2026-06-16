@@ -29,6 +29,7 @@ class ContaBancaria extends Model
         'notas',
         'activa',
         'principal',
+        'e_fundo_reserva',
         'aceita_proxypay',
         'aceita_manual',
         'instrucoes_pagamento',
@@ -39,6 +40,7 @@ class ContaBancaria extends Model
         'saldo_actual' => 'decimal:2',
         'activa' => 'boolean',
         'principal' => 'boolean',
+        'e_fundo_reserva' => 'boolean',
         'aceita_proxypay' => 'boolean',
         'aceita_manual' => 'boolean',
     ];
