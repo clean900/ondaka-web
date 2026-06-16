@@ -16,7 +16,7 @@ type Despesa = {
     estado: 'pendente' | 'aprovada' | 'paga' | 'cancelada';
     notas: string | null;
     categoria?: { id: number; nome: string; cor: string | null; icone: string | null };
-    condominio?: { id: number; nome: string };
+    condominio?: { id: number; nome: string; exige_aprovacao_comissao?: boolean };
     conta_bancaria?: { id: number; nome: string; banco: string };
     criada_por?: { id: number; name: string };
     aprovada_por?: { id: number; name: string } | null;
@@ -279,10 +279,13 @@ export default function DespesasIndex({ despesas, stats, categorias, contas, con
                                         <td className="px-3 py-2.5">
                                             <div className="flex items-center justify-end gap-1">
                                                 <button onClick={() => setDetalhe(d)} title="Ver detalhe" className="p-1.5 rounded text-white/50 hover:bg-white/10 hover:text-white"><Eye className="h-4 w-4" /></button>
-                                                {d.estado === 'pendente' && (
+                                                {d.estado === 'pendente' && !d.condominio?.exige_aprovacao_comissao && (
                                                     <button onClick={() => aprovar(d.id)} title="Aprovar" className="p-1.5 rounded text-cyan-300 hover:bg-cyan-500/10"><CheckCircle className="h-4 w-4" /></button>
                                                 )}
-                                                {(d.estado === 'pendente' || d.estado === 'aprovada') && (
+                                                {d.estado === 'pendente' && d.condominio?.exige_aprovacao_comissao && (
+                                                    <span title="Aguarda aprovação da comissão (na app)" className="p-1.5 text-amber-300/70 text-[10px] uppercase tracking-wide">Comissão</span>
+                                                )}
+                                                {(d.estado === 'aprovada' || (d.estado === 'pendente' && !d.condominio?.exige_aprovacao_comissao)) && (
                                                     <button onClick={() => abrirPagamento(d)} title="Marcar paga" className="p-1.5 rounded text-green-300 hover:bg-green-500/10"><DollarSign className="h-4 w-4" /></button>
                                                 )}
                                                 {(d.estado === 'pendente' || d.estado === 'aprovada') && (

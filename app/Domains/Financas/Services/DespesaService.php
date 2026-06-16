@@ -72,6 +72,13 @@ class DespesaService
             throw new RuntimeException('Só despesas pendentes ou aprovadas podem ser marcadas como pagas. Estado actual: ' . $despesa->estado);
         }
 
+        // F-03: se o condomínio exige aprovação da comissão, a despesa tem de estar
+        // APROVADA antes de poder ser paga (não basta pendente).
+        $condominio = $despesa->condominio;
+        if ($condominio && $condominio->exige_aprovacao_comissao && $despesa->estado !== 'aprovada') {
+            throw new RuntimeException('Esta despesa precisa de ser aprovada pela comissão de moradores antes de ser paga.');
+        }
+
         return DB::transaction(function () use ($despesa, $userId, $dataPagamento, $metodoPagamento, $contaBancariaId, $comprovativoPath) {
             // Permite alterar a conta bancária na hora do pagamento (senão usa a da despesa).
             $conta = ContaBancaria::lockForUpdate()->findOrFail($contaBancariaId ?: $despesa->conta_bancaria_id);
