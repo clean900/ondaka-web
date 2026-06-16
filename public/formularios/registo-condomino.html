@@ -213,14 +213,14 @@ table.lines td[contenteditable]:focus { background: rgba(6,182,212,0.05); outlin
   <button onclick="toggleEdit()" id="editBtn">✏️ Modo Edição</button>
   <button class="primary" onclick="window.print()">🖨️ Imprimir / PDF</button>
   <button onclick="resetForm()">🔄 Limpar</button>
-  <div class="hint">💡 No "Modo Edição" o administrador pode preencher dados padrão do condomínio antes de imprimir. Clica em qualquer campo cinzento para editar.</div>
+  <div class="hint">💡 A edição está activa: clica em qualquer campo para preencher. Usa "🔒 Bloquear" antes de imprimir para evitar alterações acidentais.</div>
 </div>
 
 <div class="page">
 
   <!-- Header -->
   <div class="form-header">
-    <div class="form-logo">O</div>
+    <img src="/img/ondaka-logo.png" alt="ONDAKA" class="form-logo-img" style="height:50px;width:auto;object-fit:contain" />
     <div class="form-header-text">
       <h1>Formulário de Registo de Condómino</h1>
       <p>Plataforma ONDAKA · Decreto Presidencial n.º 141/15 de 29 de Junho · Conformidade RGPD</p>
@@ -611,7 +611,7 @@ table.lines td[contenteditable]:focus { background: rgba(6,182,212,0.05); outlin
 <div class="page">
 
   <div class="form-header">
-    <div class="form-logo">O</div>
+    <img src="/img/ondaka-logo.png" alt="ONDAKA" class="form-logo-img" style="height:50px;width:auto;object-fit:contain" />
     <div class="form-header-text">
       <h1>Folha Interna · Activação da Conta na Plataforma</h1>
       <p>Preenchida pela Administração após recepção do formulário</p>
@@ -718,13 +718,20 @@ table.lines td[contenteditable]:focus { background: rgba(6,182,212,0.05); outlin
 </div>
 
 <script>
-let editMode = false;
-function toggleEdit() {
-  editMode = !editMode;
-  document.getElementById('editBtn').textContent = editMode ? '✓ Edição Activa' : '✏️ Modo Edição';
-  document.getElementById('editBtn').style.background = editMode
+let editMode = true;
+function aplicarModo() {
+  document.querySelectorAll('[contenteditable]').forEach(el => {
+    el.setAttribute('contenteditable', editMode ? 'true' : 'false');
+  });
+  const btn = document.getElementById('editBtn');
+  btn.textContent = editMode ? '🔒 Bloquear (para imprimir)' : '✏️ Modo Edição';
+  btn.style.background = editMode
     ? 'linear-gradient(135deg, #06b6d4, #a855f7)'
     : 'rgba(255,255,255,0.1)';
+}
+function toggleEdit() {
+  editMode = !editMode;
+  aplicarModo();
 }
 
 // Checkboxes
@@ -744,6 +751,8 @@ function resetForm() {
   });
   document.querySelectorAll('.check.on').forEach(c => c.classList.remove('on'));
 }
+
+aplicarModo();
 </script>
 </body>
 </html>
