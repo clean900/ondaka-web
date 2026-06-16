@@ -413,6 +413,7 @@ Route::middleware('auth:sanctum')->group(function () {
     |--------------------------------------------------------------------------
     */
     Route::get('me/fraccoes', [\App\Http\Controllers\Api\MeController::class, 'fraccoes']);
+    Route::get('me/documentos', [\App\Http\Controllers\Api\MeController::class, 'documentos']);
     Route::get('me/acessos', [\App\Http\Controllers\Api\MeController::class, 'acessos']);
     Route::delete('me/conta', [\App\Http\Controllers\Api\MeController::class, 'apagarConta']);
     Route::patch('me/profile', [\App\Http\Controllers\Api\MeController::class, 'updateProfile']);

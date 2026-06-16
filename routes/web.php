@@ -344,6 +344,7 @@ Route::middleware(['auth', 'verified', '2fa'])->group(function () {
         Route::get('/outros', [DocumentosController::class, 'outros'])->name('outros');
         Route::post('/modelos', [DocumentosController::class, 'guardarModelo'])->name('modelos.guardar');
         Route::delete('/modelos/{modelo}', [DocumentosController::class, 'apagarModelo'])->name('modelos.apagar');
+        Route::patch('/modelos/{modelo}/visibilidade', [DocumentosController::class, 'toggleVisibilidade'])->name('modelos.visibilidade');
     });
 
     // Ordens de compra (cliente) - SEMPRE acessíveis, mesmo em grace

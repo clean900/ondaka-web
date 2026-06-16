@@ -1,6 +1,6 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, router, useForm } from '@inertiajs/react';
-import { FileText, Upload, Trash2, Download, Plus } from 'lucide-react';
+import { FileText, Upload, Trash2, Download, Plus, Smartphone } from 'lucide-react';
 import { FormEventHandler, useRef } from 'react';
 import { toast } from 'sonner';
 
@@ -9,6 +9,7 @@ interface Modelo {
     nome: string;
     descricao: string | null;
     url: string;
+    visivel_mobile: boolean;
     criado_em: string | null;
 }
 
@@ -50,6 +51,13 @@ export default function RepositorioDocumentos({ titulo, descricao, categoria, mo
         router.delete(`/documentos/modelos/${m.id}`, {
             preserveScroll: true,
             onSuccess: () => toast.success('Modelo removido.'),
+        });
+    };
+
+    const toggleMobile = (m: Modelo) => {
+        router.patch(`/documentos/modelos/${m.id}/visibilidade`, {}, {
+            preserveScroll: true,
+            onSuccess: () => toast.success(m.visivel_mobile ? 'Escondido do mobile.' : 'Visível no mobile.'),
         });
     };
 
@@ -98,11 +106,15 @@ export default function RepositorioDocumentos({ titulo, descricao, categoria, mo
                         {modelos.map((m) => (
                             <li key={m.id} className="flex items-center justify-between rounded-xl border border-zinc-700/50 bg-zinc-900/50 px-4 py-3">
                                 <div className="min-w-0">
-                                    <div className="text-sm text-white truncate">{m.nome}</div>
+                                    <div className="text-sm text-white truncate flex items-center gap-2">
+                                        {m.nome}
+                                        {m.visivel_mobile && <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">No mobile</span>}
+                                    </div>
                                     {m.descricao && <div className="text-xs text-zinc-400 truncate">{m.descricao}</div>}
                                     {m.criado_em && <div className="text-[11px] text-zinc-500">{m.criado_em}</div>}
                                 </div>
                                 <div className="flex items-center gap-3 shrink-0">
+                                    <button onClick={() => toggleMobile(m)} title={m.visivel_mobile ? 'Esconder do mobile' : 'Mostrar no mobile dos condóminos'} className={`p-1.5 rounded ${m.visivel_mobile ? 'text-emerald-300 bg-emerald-500/10' : 'text-white/40 hover:bg-white/10'}`}><Smartphone className="w-4 h-4" /></button>
                                     <a href={m.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-cyan-300 hover:underline text-sm"><Download className="w-4 h-4" /> Abrir</a>
                                     <button onClick={() => apagar(m)} className="p-1.5 rounded text-red-400 hover:bg-red-500/10" title="Apagar"><Trash2 className="w-4 h-4" /></button>
                                 </div>

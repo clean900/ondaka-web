@@ -99,6 +99,20 @@ class DocumentosController extends Controller
         return back()->with('success', 'Modelo removido.');
     }
 
+    /**
+     * Liga/desliga a visibilidade de um modelo no mobile dos condóminos.
+     */
+    public function toggleVisibilidade(Request $request, ModeloDocumento $modelo): RedirectResponse
+    {
+        if ($modelo->empresa_gestora_id !== $request->user()->empresa_gestora_id) {
+            abort(403);
+        }
+
+        $modelo->update(['visivel_mobile' => ! $modelo->visivel_mobile]);
+
+        return back()->with('success', $modelo->visivel_mobile ? 'Modelo visível no mobile.' : 'Modelo escondido do mobile.');
+    }
+
     private function modelos(string $categoria): array
     {
         $empresaId = request()->user()->empresa_gestora_id;
@@ -112,6 +126,7 @@ class DocumentosController extends Controller
                 'nome' => $m->nome,
                 'descricao' => $m->descricao,
                 'url' => '/ficheiros/' . $m->ficheiro_path,
+                'visivel_mobile' => (bool) $m->visivel_mobile,
                 'criado_em' => $m->created_at?->toDateString(),
             ])
             ->all();

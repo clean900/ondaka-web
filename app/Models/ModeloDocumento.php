@@ -20,6 +20,11 @@ class ModeloDocumento extends Model
         'nome',
         'descricao',
         'ficheiro_path',
+        'visivel_mobile',
         'criado_por_user_id',
+    ];
+
+    protected $casts = [
+        'visivel_mobile' => 'boolean',
     ];
 }

@@ -4,6 +4,7 @@ use App\Domains\Condomino\Models\Condomino;
 use App\Domains\Familiar\Models\Familiar;
 use App\Domains\Familiar\Support\CondominoResolver;
 use App\Http\Controllers\Controller;
+use App\Models\ModeloDocumento;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -134,6 +135,32 @@ class MeController extends Controller
         return response()->json([
             'message' => 'Password actualizada com sucesso.',
         ]);
+    }
+
+    /**
+     * GET /api/me/documentos
+     * Modelos de documentação que o gestor tornou visíveis no mobile.
+     */
+    public function documentos(Request $request): JsonResponse
+    {
+        $empresaId = $request->user()->empresa_gestora_id;
+        if (! $empresaId) {
+            return response()->json(['documentos' => []]);
+        }
+
+        $docs = ModeloDocumento::where('empresa_gestora_id', $empresaId)
+            ->where('visivel_mobile', true)
+            ->latest()
+            ->get()
+            ->map(fn (ModeloDocumento $m) => [
+                'id' => $m->id,
+                'categoria' => $m->categoria,
+                'nome' => $m->nome,
+                'descricao' => $m->descricao,
+                'url' => 'https://ondaka.ao/ficheiros/' . $m->ficheiro_path,
+            ]);
+
+        return response()->json(['documentos' => $docs]);
     }
 
     /**
