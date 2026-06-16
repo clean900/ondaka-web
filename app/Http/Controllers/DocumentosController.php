@@ -3,20 +3,20 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Models\ModeloDocumento;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Inertia\Response as InertiaResponse;
 
 /**
  * ONDAKA — DocumentosController
  *
- * 4 sub-páginas dentro da nova secção "Documentos" da sidebar:
- *   - GET /documentos/contratos          → placeholder "Em breve"
- *   - GET /documentos/regulamentos       → placeholder "Em breve"
- *   - GET /documentos/formulario-registo → serve HTML standalone
- *   - GET /documentos/outros             → placeholder "Em breve"
- *
- * As rotas exigem autenticação (estão dentro do grupo auth no routes/web.php).
+ * Secção "Documentos": modelos (templates) de documentação por categoria
+ * (contratos, regulamentos, outros) + formulário de registo standalone.
+ * As rotas exigem autenticação (grupo auth no routes/web.php).
  */
 class DocumentosController extends Controller
 {
@@ -24,7 +24,9 @@ class DocumentosController extends Controller
     {
         return Inertia::render('Documentos/Contratos', [
             'titulo' => 'Contratos',
-            'descricao' => 'Repositório central de contratos do condomínio.',
+            'descricao' => 'Modelos de contratos do condomínio (administração, serviços, fornecedores).',
+            'categoria' => 'contrato',
+            'modelos' => $this->modelos('contrato'),
         ]);
     }
 
@@ -32,13 +34,24 @@ class DocumentosController extends Controller
     {
         return Inertia::render('Documentos/Regulamentos', [
             'titulo' => 'Regulamentos',
-            'descricao' => 'Regulamento interno e normas do condomínio.',
+            'descricao' => 'Modelos de regulamento interno e normas do condomínio.',
+            'categoria' => 'regulamento',
+            'modelos' => $this->modelos('regulamento'),
+        ]);
+    }
+
+    public function outros(): InertiaResponse
+    {
+        return Inertia::render('Documentos/Outros', [
+            'titulo' => 'Outros documentos',
+            'descricao' => 'Outros modelos de documentos úteis do condomínio.',
+            'categoria' => 'outro',
+            'modelos' => $this->modelos('outro'),
         ]);
     }
 
     /**
-     * Devolve o HTML standalone do formulário (sem layout Inertia).
-     * O HTML já tem identidade visual ONDAKA própria (gradient, A4, imprimível).
+     * Devolve o HTML standalone do formulário de registo (sem layout Inertia).
      */
     public function formularioRegisto(): Response
     {
@@ -53,11 +66,54 @@ class DocumentosController extends Controller
         ]);
     }
 
-    public function outros(): InertiaResponse
+    public function guardarModelo(Request $request): RedirectResponse
     {
-        return Inertia::render('Documentos/Outros', [
-            'titulo' => 'Outros documentos',
-            'descricao' => 'Outros documentos úteis do condomínio.',
+        $request->validate([
+            'categoria' => 'required|in:contrato,regulamento,outro',
+            'nome' => 'required|string|max:150',
+            'descricao' => 'nullable|string|max:300',
+            'ficheiro' => 'required|file|mimes:pdf,doc,docx,jpg,jpeg,png|max:8192',
         ]);
+
+        ModeloDocumento::create([
+            'empresa_gestora_id' => $request->user()->empresa_gestora_id,
+            'categoria' => $request->categoria,
+            'nome' => $request->nome,
+            'descricao' => $request->descricao,
+            'ficheiro_path' => $request->file('ficheiro')->store('modelos-documentos', 'public'),
+            'criado_por_user_id' => $request->user()->id,
+        ]);
+
+        return back()->with('success', 'Modelo adicionado.');
+    }
+
+    public function apagarModelo(Request $request, ModeloDocumento $modelo): RedirectResponse
+    {
+        if ($modelo->empresa_gestora_id !== $request->user()->empresa_gestora_id) {
+            abort(403);
+        }
+
+        Storage::disk('public')->delete($modelo->ficheiro_path);
+        $modelo->delete();
+
+        return back()->with('success', 'Modelo removido.');
+    }
+
+    private function modelos(string $categoria): array
+    {
+        $empresaId = request()->user()->empresa_gestora_id;
+
+        return ModeloDocumento::where('empresa_gestora_id', $empresaId)
+            ->where('categoria', $categoria)
+            ->latest()
+            ->get()
+            ->map(fn (ModeloDocumento $m) => [
+                'id' => $m->id,
+                'nome' => $m->nome,
+                'descricao' => $m->descricao,
+                'url' => '/ficheiros/' . $m->ficheiro_path,
+                'criado_em' => $m->created_at?->toDateString(),
+            ])
+            ->all();
     }
 }

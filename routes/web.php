@@ -342,6 +342,8 @@ Route::middleware(['auth', 'verified', '2fa'])->group(function () {
         Route::get('/regulamentos', [DocumentosController::class, 'regulamentos'])->name('regulamentos');
         Route::get('/formulario-registo', [DocumentosController::class, 'formularioRegisto'])->name('formulario-registo');
         Route::get('/outros', [DocumentosController::class, 'outros'])->name('outros');
+        Route::post('/modelos', [DocumentosController::class, 'guardarModelo'])->name('modelos.guardar');
+        Route::delete('/modelos/{modelo}', [DocumentosController::class, 'apagarModelo'])->name('modelos.apagar');
     });
 
     // Ordens de compra (cliente) - SEMPRE acessíveis, mesmo em grace
