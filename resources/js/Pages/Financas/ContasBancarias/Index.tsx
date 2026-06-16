@@ -27,7 +27,7 @@ type Movimento = {
     descricao: string;
     valor: string;
     saldo_apos: string;
-    origem_tipo: 'manual' | 'proxypay' | 'pagamento_aprovado' | 'despesa';
+    origem_tipo: 'manual' | 'proxypay' | 'pagamento_aprovado' | 'despesa' | 'transferencia';
     origem_id: number | null;
     criado_por: { id: number; name: string } | null;
 };
@@ -63,6 +63,7 @@ const ORIGEM_LABELS: Record<string, { label: string; color: string }> = {
     proxypay: { label: 'ProxyPay', color: '#67E8F9' },
     pagamento_aprovado: { label: 'Pag. aprov.', color: '#C4B5FD' },
     despesa: { label: 'Despesa', color: '#FCA5A5' },
+    transferencia: { label: 'Transfer.', color: '#7DD3FC' },
 };
 
 export default function Index({ condominio, condominios, contas, contaSeleccionadaId, movimentos }: Props) {
