@@ -333,7 +333,7 @@ export default function AcordosIndex({ acordos, estadoFiltro }: Props) {
 
                         <h4 className="text-sm font-bold text-cyan-400 mb-1">O que é</h4>
                         <ul className="text-sm text-zinc-300 mb-3 list-disc pl-5 space-y-1">
-                            <li>Plano para pagar a dívida existente (Taxas em atraso). Pode ter entrada, prestações e juro.</li>
+                            <li>Plano para pagar a dívida existente (taxas, multas, despesas extra e juros em atraso). Pode ter entrada, prestações e juro.</li>
                         </ul>
 
                         <h4 className="text-sm font-bold text-cyan-400 mb-1">Negociação</h4>

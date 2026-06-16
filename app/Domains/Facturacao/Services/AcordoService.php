@@ -162,6 +162,16 @@ class AcordoService
             $pago += $pagoQuota;
         }
 
+        // F-05: somar também o pago dos outros lançamentos do acordo.
+        $linhasLanc = DB::table('acordo_lancamentos')->where('acordo_id', $acordo->id)->get();
+        foreach ($linhasLanc as $linha) {
+            $l = \App\Domains\Facturacao\Models\Lancamento::find($linha->lancamento_id);
+            if (! $l) {
+                continue;
+            }
+            $pago += min((float) $l->valor_pago, (float) $linha->valor_em_divida);
+        }
+
         return round($pago, 2) >= round($meta, 2);
     }
 
@@ -331,6 +341,8 @@ class AcordoService
 
             // Registar as QUOTAS vencidas que compoem este acordo (divida velha).
             $this->registarQuotasDoAcordo($acordo, $condomino);
+            // F-05: registar também os outros lançamentos em dívida (multa/extra/juros).
+            $this->registarLancamentosDoAcordo($acordo, $condomino);
 
             app(AcordoNotificacaoService::class)->avisarGestor(
                 $acordo, 'Nova proposta de acordo',
@@ -578,6 +590,16 @@ class AcordoService
                 ]);
             }
 
+            // F-05: anular também os outros lançamentos que entraram no acordo.
+            $lancamentoIds = DB::table('acordo_lancamentos')->where('acordo_id', $acordo->id)->pluck('lancamento_id');
+            \App\Domains\Facturacao\Models\Lancamento::whereIn('id', $lancamentoIds)
+                ->whereIn('estado', ['em_aberto', 'pago_parcial'])
+                ->update([
+                    'estado' => 'cancelado',
+                    'motivo_cancelamento' => 'Substituido por acordo de pagamento #' . $acordo->id,
+                    'cancelado_em' => now(),
+                ]);
+
             return $acordo->fresh(['prestacoes', 'propostas']);
         });
     }
@@ -611,17 +633,56 @@ class AcordoService
         }
     }
 
+    /**
+     * F-05: regista os outros lançamentos em dívida (multa, despesa extra, juros,
+     * ajuste a débito) que compõem o acordo, à semelhança de registarQuotasDoAcordo.
+     */
+    private function registarLancamentosDoAcordo(AcordoPagamento $acordo, Condomino $condomino): void
+    {
+        $fraccaoIds = $condomino->contratosActivos()->pluck('fraccao_id');
+        if ($fraccaoIds->isEmpty()) {
+            return;
+        }
+        $lancamentos = \App\Domains\Facturacao\Models\Lancamento::whereIn('fraccao_id', $fraccaoIds)
+            ->whereIn('tipo', ['despesa_extra', 'multa', 'juros', 'ajuste_debito'])
+            ->whereIn('estado', ['em_aberto', 'pago_parcial'])
+            ->whereDate('data_vencimento', '<', now())
+            ->get();
+        foreach ($lancamentos as $l) {
+            $emDivida = round((float) $l->valor - (float) $l->valor_pago, 2);
+            if ($emDivida <= 0) {
+                continue;
+            }
+            DB::table('acordo_lancamentos')->insert([
+                'acordo_id' => $acordo->id,
+                'lancamento_id' => $l->id,
+                'valor_em_divida' => number_format($emDivida, 2, '.', ''),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
+    }
+
     private function calcularDividaTotal(Condomino $condomino): float
     {
         $fraccaoIds = $condomino->contratosActivos()->pluck('fraccao_id');
         if ($fraccaoIds->isEmpty()) {
             return 0.0;
         }
-        $total = \App\Domains\Facturacao\Models\Quota::whereIn('fraccao_id', $fraccaoIds)
+        $totalQuotas = \App\Domains\Facturacao\Models\Quota::whereIn('fraccao_id', $fraccaoIds)
             ->whereIn('estado', ['aberta', 'paga_parcial'])
             ->whereDate('data_vencimento', '<', now())
             ->sum(DB::raw('valor_total - valor_pago'));
-        return round((float) $total, 2);
+
+        // F-05: incluir também os outros lançamentos em dívida (multa, despesa
+        // extra, juros, ajuste a débito) — acordos para todo o tipo de faturas.
+        $totalLancamentos = \App\Domains\Facturacao\Models\Lancamento::whereIn('fraccao_id', $fraccaoIds)
+            ->whereIn('tipo', ['despesa_extra', 'multa', 'juros', 'ajuste_debito'])
+            ->whereIn('estado', ['em_aberto', 'pago_parcial'])
+            ->whereDate('data_vencimento', '<', now())
+            ->sum(DB::raw('valor - valor_pago'));
+
+        return round((float) $totalQuotas + (float) $totalLancamentos, 2);
     }
 
     private function descobrirCondominioId(Condomino $condomino): ?int
