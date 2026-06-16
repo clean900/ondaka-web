@@ -646,7 +646,6 @@ class AcordoService
         $lancamentos = \App\Domains\Facturacao\Models\Lancamento::whereIn('fraccao_id', $fraccaoIds)
             ->whereIn('tipo', ['despesa_extra', 'multa', 'juros', 'ajuste_debito'])
             ->whereIn('estado', ['em_aberto', 'pago_parcial'])
-            ->whereDate('data_vencimento', '<', now())
             ->get();
         foreach ($lancamentos as $l) {
             $emDivida = round((float) $l->valor - (float) $l->valor_pago, 2);
@@ -676,10 +675,10 @@ class AcordoService
 
         // F-05: incluir também os outros lançamentos em dívida (multa, despesa
         // extra, juros, ajuste a débito) — acordos para todo o tipo de faturas.
+        // Estes são cobranças pontuais: negociáveis mesmo antes do vencimento.
         $totalLancamentos = \App\Domains\Facturacao\Models\Lancamento::whereIn('fraccao_id', $fraccaoIds)
             ->whereIn('tipo', ['despesa_extra', 'multa', 'juros', 'ajuste_debito'])
             ->whereIn('estado', ['em_aberto', 'pago_parcial'])
-            ->whereDate('data_vencimento', '<', now())
             ->sum(DB::raw('valor - valor_pago'));
 
         return round((float) $totalQuotas + (float) $totalLancamentos, 2);
