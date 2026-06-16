@@ -75,6 +75,10 @@ export default function Show({ condominio, estatisticas }: Props) {
                     </div>
 
                     <div className="flex items-center gap-2">
+                        <Link href={`/condominios/${condominio.id}/regulamento`} className="btn-secondary">
+                            <FileText className="h-4 w-4" />
+                            Regulamento
+                        </Link>
                         <Link href={`/condominios/${condominio.id}/comissao`} className="btn-secondary">
                             <Users className="h-4 w-4" />
                             Comissão

@@ -139,6 +139,9 @@
   "resources/js/Pages/Condominio/MinhasQuotas.tsx": [
     "/build/assets/MinhasQuotas-CVA2i_Xi.js"
   ],
+  "resources/js/Pages/Condominio/Regulamento.tsx": [
+    "/build/assets/Regulamento-4a3ozXGn.js"
+  ],
   "resources/js/Pages/Condominios/Form.tsx": [
     "/build/assets/Form-D1O5K0I3.js"
   ],
@@ -146,7 +149,7 @@
     "/build/assets/Index-wcAXF6on.js"
   ],
   "resources/js/Pages/Condominios/Show.tsx": [
-    "/build/assets/Show-D-8BnpKy.js"
+    "/build/assets/Show-D2nqnbNa.js"
   ],
   "resources/js/Pages/Condominos/Form.tsx": [
     "/build/assets/Form-DXKv_Eqq.js"

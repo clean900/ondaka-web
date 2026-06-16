@@ -28,6 +28,7 @@ class Condominio extends Model
         'administrador_actual_id', 'administrador_mandato_inicio',
         'administrador_mandato_fim', 'estado', 'configuracoes',
         'exige_aprovacao_comissao',
+        'regulamento_html', 'regulamento_mobile',
     ];
 
     protected $casts = [
@@ -41,6 +42,7 @@ class Condominio extends Model
         'configuracoes' => 'array',
         'tem_area_comercial' => 'boolean',
         'exige_aprovacao_comissao' => 'boolean',
+        'regulamento_mobile' => 'boolean',
     ];
 
     /* ============================================

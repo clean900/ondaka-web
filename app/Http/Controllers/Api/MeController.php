@@ -143,24 +143,37 @@ class MeController extends Controller
      */
     public function documentos(Request $request): JsonResponse
     {
-        $empresaId = $request->user()->empresa_gestora_id;
-        if (! $empresaId) {
-            return response()->json(['documentos' => []]);
+        $user = $request->user();
+        $docs = collect();
+
+        // Regulamento do condomínio activo (se publicado no mobile)
+        if ($user->condominio_activo_id) {
+            $cond = \App\Domains\Condominio\Models\Condominio::find($user->condominio_activo_id);
+            if ($cond && $cond->regulamento_mobile && $cond->regulamento_html) {
+                $docs->push([
+                    'id' => 0,
+                    'categoria' => 'regulamento',
+                    'nome' => 'Regulamento do condomínio',
+                    'descricao' => $cond->nome,
+                    'url' => 'https://ondaka.ao/condominios/' . $cond->id . '/regulamento/ver',
+                ]);
+            }
         }
 
-        $docs = ModeloDocumento::where('empresa_gestora_id', $empresaId)
-            ->where('visivel_mobile', true)
-            ->latest()
-            ->get()
-            ->map(fn (ModeloDocumento $m) => [
-                'id' => $m->id,
-                'categoria' => $m->categoria,
-                'nome' => $m->nome,
-                'descricao' => $m->descricao,
-                'url' => 'https://ondaka.ao/ficheiros/' . $m->ficheiro_path,
-            ]);
+        // Modelos publicados pela empresa gestora
+        if ($user->empresa_gestora_id) {
+            foreach (ModeloDocumento::where('empresa_gestora_id', $user->empresa_gestora_id)->where('visivel_mobile', true)->latest()->get() as $m) {
+                $docs->push([
+                    'id' => $m->id,
+                    'categoria' => $m->categoria,
+                    'nome' => $m->nome,
+                    'descricao' => $m->descricao,
+                    'url' => 'https://ondaka.ao/ficheiros/' . $m->ficheiro_path,
+                ]);
+            }
+        }
 
-        return response()->json(['documentos' => $docs]);
+        return response()->json(['documentos' => $docs->values()]);
     }
 
     /**

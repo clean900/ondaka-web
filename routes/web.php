@@ -77,6 +77,10 @@ Route::get('/ficheiros/{path}', [\App\Http\Controllers\FicheirosController::clas
     ->where('path', '.*')
     ->name('ficheiros.show');
 
+// Regulamento do condomínio — página pública imprimível (aberta no mobile)
+Route::get('/condominios/{condominio}/regulamento/ver', [\App\Domains\Condominio\Http\Controllers\RegulamentoController::class, 'ver'])
+    ->name('condominios.regulamento.ver');
+
 // Auto-registo público (wizard 3 passos)
 Route::get('/registo', [\App\Http\Controllers\RegistoController::class, 'index'])->name('registo.index');
 Route::post('/registo', [\App\Http\Controllers\RegistoController::class, 'store'])->name('registo.store');
@@ -702,6 +706,10 @@ Route::middleware(['auth', 'verified', '2fa'])->group(function () {
             Route::patch('condominios/{condominio}/facturacao/proxypay', [\App\Domains\Facturacao\Http\Controllers\Web\FacturacaoConfigController::class, 'actualizarProxyPay'])->name('condominios.facturacao.proxypay');
             Route::patch('condominios/{condominio}/facturacao/quotas', [\App\Domains\Facturacao\Http\Controllers\Web\FacturacaoConfigController::class, 'actualizarQuotas'])->name('condominios.facturacao.quotas');
             Route::patch('condominios/{condominio}/facturacao/multas', [\App\Domains\Facturacao\Http\Controllers\Web\FacturacaoConfigController::class, 'actualizarMultas'])->name('condominios.facturacao.multas');
+
+            // Regulamento do condomínio (F-01)
+            Route::get('condominios/{condominio}/regulamento', [\App\Domains\Condominio\Http\Controllers\RegulamentoController::class, 'editar'])->name('condominios.regulamento.editar');
+            Route::patch('condominios/{condominio}/regulamento', [\App\Domains\Condominio\Http\Controllers\RegulamentoController::class, 'guardar'])->name('condominios.regulamento.guardar');
 
             // Comissão de moradores (F-03)
             Route::get('condominios/{condominio}/comissao', [\App\Domains\Condominio\Http\Controllers\ComissaoController::class, 'show'])->name('condominios.comissao.show');
