@@ -120,6 +120,36 @@ class ContaBancariaController extends Controller
     }
 
     /**
+     * Transferência entre duas contas do condomínio activo.
+     */
+    public function transferir(Request $request): RedirectResponse
+    {
+        $dados = $request->validate([
+            'conta_origem_id' => 'required|integer|exists:contas_bancarias,id',
+            'conta_destino_id' => 'required|integer|different:conta_origem_id|exists:contas_bancarias,id',
+            'data' => 'required|date|before_or_equal:today',
+            'descricao' => 'nullable|string|max:200',
+            'valor' => 'required|numeric|min:0.01',
+        ]);
+
+        $origem = ContaBancaria::findOrFail($dados['conta_origem_id']);
+        $destino = ContaBancaria::findOrFail($dados['conta_destino_id']);
+        $this->autorizar($request, $origem);
+        $this->autorizar($request, $destino);
+
+        try {
+            $this->service->transferir($origem, $destino, [
+                'valor' => $dados['valor'],
+                'data' => $dados['data'],
+                'descricao' => $dados['descricao'] ?? null,
+            ]);
+            return back(303)->with('success', 'Transferência registada nas duas contas.');
+        } catch (\Throwable $e) {
+            return back(303)->with('error', $e->getMessage());
+        }
+    }
+
+    /**
      * Apagar conta (com confirmação no frontend).
      */
     public function destroy(Request $request, ContaBancaria $conta): RedirectResponse

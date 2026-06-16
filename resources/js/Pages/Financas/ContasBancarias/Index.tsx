@@ -1,7 +1,7 @@
 import { Head, useForm, router } from '@inertiajs/react';
 import { FormEventHandler, useState, useEffect } from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Building2, Plus, Edit, Trash2, ArrowDownCircle, ArrowUpCircle, Star, X, Check } from 'lucide-react';
+import { Building2, Plus, Edit, Trash2, ArrowDownCircle, ArrowUpCircle, Star, X, Check, ArrowLeftRight } from 'lucide-react';
 
 type Conta = {
     id: number;
@@ -67,6 +67,7 @@ const ORIGEM_LABELS: Record<string, { label: string; color: string }> = {
 
 export default function Index({ condominio, condominios, contas, contaSeleccionadaId, movimentos }: Props) {
     const [modalNovaConta, setModalNovaConta] = useState(false);
+    const [modalTransferir, setModalTransferir] = useState(false);
     const [editandoConta, setEditandoConta] = useState<number | null>(null);
 
     const contaActual = contas.find((c) => c.id === contaSeleccionadaId);
@@ -87,6 +88,14 @@ export default function Index({ condominio, condominios, contas, contaSelecciona
     const formMovimento = useForm({
         data: new Date().toISOString().split('T')[0],
         tipo: 'entrada' as 'entrada' | 'saida',
+        descricao: '',
+        valor: '',
+    });
+
+    const formTransferir = useForm({
+        conta_origem_id: contaSeleccionadaId ?? (contas[0]?.id ?? null) as number | null,
+        conta_destino_id: null as number | null,
+        data: new Date().toISOString().split('T')[0],
         descricao: '',
         valor: '',
     });
@@ -157,6 +166,14 @@ export default function Index({ condominio, condominios, contas, contaSelecciona
         });
     };
 
+    const submitTransferir: FormEventHandler = (e) => {
+        e.preventDefault();
+        formTransferir.post('/financas/contas-bancarias/transferir', {
+            preserveScroll: true,
+            onSuccess: () => { setModalTransferir(false); formTransferir.reset('descricao', 'valor', 'conta_destino_id'); },
+        });
+    };
+
     const seleccionarConta = (id: number) => {
         router.visit(`/financas/contas-bancarias?conta_id=${id}`, { preserveState: false });
     };
@@ -203,13 +220,23 @@ export default function Index({ condominio, condominios, contas, contaSelecciona
                         </span>
                     </div>
                 </div>
-                <button
-                    onClick={() => setModalNovaConta(true)}
-                    className="px-5 py-2.5 rounded-md text-white text-sm font-medium"
-                    style={{ background: 'linear-gradient(135deg, #00D4FF, #A855F7)' }}
-                >
-                    <Plus className="inline h-4 w-4 mr-1 -mt-0.5" /> Nova conta
-                </button>
+                <div className="flex items-center gap-2">
+                    {contas.length >= 2 && (
+                        <button
+                            onClick={() => setModalTransferir(true)}
+                            className="px-4 py-2.5 rounded-md text-white text-sm font-medium bg-white/10 hover:bg-white/15 border border-white/10"
+                        >
+                            <ArrowLeftRight className="inline h-4 w-4 mr-1 -mt-0.5" /> Transferir
+                        </button>
+                    )}
+                    <button
+                        onClick={() => setModalNovaConta(true)}
+                        className="px-5 py-2.5 rounded-md text-white text-sm font-medium"
+                        style={{ background: 'linear-gradient(135deg, #00D4FF, #A855F7)' }}
+                    >
+                        <Plus className="inline h-4 w-4 mr-1 -mt-0.5" /> Nova conta
+                    </button>
+                </div>
             </div>
 
             {contas.length === 0 ? (
@@ -388,6 +415,55 @@ export default function Index({ condominio, condominios, contas, contaSelecciona
                         </>
                     )}
                 </>
+            )}
+
+            {modalTransferir && (
+                <div className="fixed inset-0 z-50 flex items-start justify-center p-4 py-8 bg-black/60 backdrop-blur-sm overflow-y-auto">
+                    <div className="bg-[#0F0F23] border border-purple-500/30 rounded-xl p-5 w-full max-w-lg">
+                        <div className="flex justify-between items-center mb-4">
+                            <h3 className="text-white font-semibold">Transferir entre contas</h3>
+                            <button onClick={() => setModalTransferir(false)} className="text-white/40 hover:text-white p-1"><X className="h-5 w-5" /></button>
+                        </div>
+                        <form onSubmit={submitTransferir} className="space-y-3">
+                            <div>
+                                <label className="block text-xs text-white/60 mb-1">Conta de origem</label>
+                                <select value={formTransferir.data.conta_origem_id ?? ''} onChange={(e) => formTransferir.setData('conta_origem_id', e.target.value ? parseInt(e.target.value) : null)} className="w-full bg-white/5 border border-white/10 rounded px-3 py-2 text-sm text-white">
+                                    {contas.map((c) => <option key={c.id} value={c.id}>{c.nome} — {formatKz(c.saldo_actual)} {c.moeda}</option>)}
+                                </select>
+                                {formTransferir.errors.conta_origem_id && <p className="text-xs text-red-400 mt-1">{formTransferir.errors.conta_origem_id}</p>}
+                            </div>
+                            <div>
+                                <label className="block text-xs text-white/60 mb-1">Conta de destino</label>
+                                <select value={formTransferir.data.conta_destino_id ?? ''} onChange={(e) => formTransferir.setData('conta_destino_id', e.target.value ? parseInt(e.target.value) : null)} className="w-full bg-white/5 border border-white/10 rounded px-3 py-2 text-sm text-white">
+                                    <option value="">— Escolher —</option>
+                                    {contas.filter((c) => c.id !== formTransferir.data.conta_origem_id).map((c) => <option key={c.id} value={c.id}>{c.nome} — {formatKz(c.saldo_actual)} {c.moeda}</option>)}
+                                </select>
+                                {formTransferir.errors.conta_destino_id && <p className="text-xs text-red-400 mt-1">{formTransferir.errors.conta_destino_id}</p>}
+                            </div>
+                            <div className="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label className="block text-xs text-white/60 mb-1">Valor</label>
+                                    <input type="number" step="0.01" min="0.01" value={formTransferir.data.valor} onChange={(e) => formTransferir.setData('valor', e.target.value)} className="w-full bg-white/5 border border-white/10 rounded px-3 py-2 text-sm text-white" />
+                                    {formTransferir.errors.valor && <p className="text-xs text-red-400 mt-1">{formTransferir.errors.valor}</p>}
+                                </div>
+                                <div>
+                                    <label className="block text-xs text-white/60 mb-1">Data</label>
+                                    <input type="date" value={formTransferir.data.data} onChange={(e) => formTransferir.setData('data', e.target.value)} className="w-full bg-white/5 border border-white/10 rounded px-3 py-2 text-sm text-white" />
+                                </div>
+                            </div>
+                            <div>
+                                <label className="block text-xs text-white/60 mb-1">Descrição (opcional)</label>
+                                <input type="text" value={formTransferir.data.descricao} onChange={(e) => formTransferir.setData('descricao', e.target.value)} className="w-full bg-white/5 border border-white/10 rounded px-3 py-2 text-sm text-white" placeholder="Ex: Reforço do fundo de reserva" />
+                            </div>
+                            <div className="flex justify-end gap-2 pt-2">
+                                <button type="button" onClick={() => setModalTransferir(false)} className="px-4 py-2 rounded text-sm text-white/80 bg-white/5 border border-white/10 hover:bg-white/10">Cancelar</button>
+                                <button type="submit" disabled={formTransferir.processing} className="px-5 py-2 rounded text-white text-sm font-medium disabled:opacity-50" style={{ background: 'linear-gradient(135deg, #00D4FF, #A855F7)' }}>
+                                    <ArrowLeftRight className="inline h-4 w-4 mr-1 -mt-0.5" /> {formTransferir.processing ? 'A transferir...' : 'Transferir'}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             )}
 
             {modalNovaConta && (

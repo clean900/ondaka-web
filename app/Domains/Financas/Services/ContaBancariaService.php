@@ -122,6 +122,56 @@ class ContaBancariaService
     }
 
     /**
+     * Transferência entre duas contas bancárias: saída na origem + entrada no
+     * destino, de forma atómica. As contas têm de ser diferentes.
+     */
+    public function transferir(ContaBancaria $origem, ContaBancaria $destino, array $dados): void
+    {
+        if ($origem->id === $destino->id) {
+            throw new \RuntimeException('A conta de origem e destino têm de ser diferentes.');
+        }
+
+        DB::transaction(function () use ($origem, $destino, $dados) {
+            $valor = (float) $dados['valor'];
+            $data = $dados['data'];
+            $descricao = $dados['descricao'] ?? 'Transferência entre contas';
+
+            // Lock para evitar corridas
+            $origem = ContaBancaria::lockForUpdate()->findOrFail($origem->id);
+            $destino = ContaBancaria::lockForUpdate()->findOrFail($destino->id);
+
+            $saldoOrigem = (float) $origem->saldo_actual - $valor;
+            $saldoDestino = (float) $destino->saldo_actual + $valor;
+
+            $movSaida = ContaBancariaMovimento::create([
+                'conta_bancaria_id' => $origem->id,
+                'data' => $data,
+                'tipo' => 'saida',
+                'descricao' => $descricao . ' → ' . $destino->nome,
+                'valor' => $valor,
+                'saldo_apos' => $saldoOrigem,
+                'origem_tipo' => 'transferencia',
+                'criado_por_user_id' => Auth::id(),
+            ]);
+
+            ContaBancariaMovimento::create([
+                'conta_bancaria_id' => $destino->id,
+                'data' => $data,
+                'tipo' => 'entrada',
+                'descricao' => $descricao . ' ← ' . $origem->nome,
+                'valor' => $valor,
+                'saldo_apos' => $saldoDestino,
+                'origem_tipo' => 'transferencia',
+                'origem_id' => $movSaida->id,
+                'criado_por_user_id' => Auth::id(),
+            ]);
+
+            $origem->update(['saldo_actual' => $saldoOrigem]);
+            $destino->update(['saldo_actual' => $saldoDestino]);
+        });
+    }
+
+    /**
      * Apagar movimento e recalcular saldos da conta.
      */
     public function apagarMovimento(ContaBancariaMovimento $movimento): void
