@@ -184,6 +184,7 @@ class PreAprovacaoService
                     'categoria' => 'notificacao',
                     'trigger' => 'pre_aprovacao_criada',
                     'user_id' => $preAprovacao->condomino->user_id ?? null,
+                    'condominio_id' => $preAprovacao->fraccao?->condominio_id,
                 ],
             );
 

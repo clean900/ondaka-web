@@ -11,6 +11,7 @@ use App\Domains\Integracao\Sms\Exceptions\SmsException;
 use App\Domains\Integracao\Sms\Exceptions\SmsSemSaldoException;
 use App\Domains\Integracao\Sms\Models\SmsLog;
 use App\Domains\Integracao\Sms\Support\NumeroAngola;
+use App\Domains\Integracao\Sms\Support\SmsSenderResolver;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
@@ -23,7 +24,24 @@ class SmsService
     public function __construct(
         protected SmsProviderInterface $provider,
         protected NotificadorSaldoSmsEsgotado $notificadorSaldo,
+        protected SmsSenderResolver $senderResolver,
     ) {}
+
+    /**
+     * Resolve o provider com o Sender ID personalizado do condomínio, se configurado.
+     * O condomínio vem do contexto ('condominio_id') ou do próprio owner.
+     */
+    private function providerPara(Model $owner, array $contexto): SmsProviderInterface
+    {
+        $condominio = null;
+        if (! empty($contexto['condominio_id'])) {
+            $condominio = \App\Domains\Condominio\Models\Condominio::find($contexto['condominio_id']);
+        } elseif ($owner instanceof \App\Domains\Condominio\Models\Condominio) {
+            $condominio = $owner;
+        }
+
+        return $this->senderResolver->paraCondominio($condominio);
+    }
 
     /**
      * Envia SMS de cliente consumindo créditos da feature 'sms_pack_extra' do owner.
@@ -62,7 +80,8 @@ class SmsService
         );
 
         try {
-            $resultado = $this->provider->enviar($numero, $mensagem);
+            // Usa o Sender ID personalizado do condomínio, se configurado.
+            $resultado = $this->providerPara($owner, $contexto)->enviar($numero, $mensagem);
 
             if (! $resultado->sucesso) {
                 $this->devolverCredito($owner, $log, 'Provider rejeitou: '.$resultado->mensagemErro);

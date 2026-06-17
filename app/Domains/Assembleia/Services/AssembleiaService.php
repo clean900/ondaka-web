@@ -159,6 +159,7 @@ class AssembleiaService
                         [
                             'trigger' => 'assembleia_convocatoria',
                             'categoria' => 'notificacao',
+                            'condominio_id' => $assembleia->condominio_id,
                         ],
                     );
                     $participante->sms_enviado = true;
