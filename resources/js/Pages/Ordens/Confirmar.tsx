@@ -139,7 +139,7 @@ export default function OrdensConfirmar({ feature, pacote, resumo, dados_bancari
                                     <dd className="text-zinc-200 font-medium">{formatMoeda(resumo.subtotal)}</dd>
                                 </div>
                                 <div className="flex justify-between text-sm">
-                                    <dt className="text-zinc-400">IVA ({resumo.taxa_iva}%)</dt>
+                                    <dt className="text-zinc-400">IPS ({resumo.taxa_iva}%)</dt>
                                     <dd className="text-zinc-200 font-medium">{formatMoeda(resumo.valor_iva)}</dd>
                                 </div>
                                 <div className="flex justify-between pt-4 border-t border-zinc-800">

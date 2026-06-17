@@ -227,7 +227,7 @@ export default function OrdemShow({ ordem, referencia_proxypay }: Props) {
                                 </div>
                             )}
                             <div className="rounded-xl bg-zinc-800/40 p-3">
-                                <div className="text-xs text-zinc-500">IVA 14%</div>
+                                <div className="text-xs text-zinc-500">IPS 6,5%</div>
                                 <div className="mt-1 text-sm font-medium text-white">
                                     {formatKz(ordem.valor_iva)}
                                 </div>

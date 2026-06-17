@@ -62,7 +62,7 @@ class FeaturesCatalogoSeeder extends Seeder
                 'comprador' => 'ambos',
                 'modelo_cobranca' => 'consumable',
                 'unidade' => 'SMS',
-                'preco_base' => 25,
+                'preco_base' => 5000,
                 'activa' => true,
                 'em_breve' => false,
                 'ordem_listagem' => 19,
