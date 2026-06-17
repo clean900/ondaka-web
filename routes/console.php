@@ -141,3 +141,12 @@ Schedule::command('taxas:notificar')
     ->withoutOverlapping()
     ->name('ondaka.taxas-notificar')
     ->onFailure(fn () => $notificarFalhaCron('Notificar taxas condómino'));
+
+// ============================================
+// SMS Básico — reset mensal do pacote de 200 SMS
+// ============================================
+Schedule::command('sms:reset-basico')
+    ->monthlyOn(1, '00:30')
+    ->withoutOverlapping()
+    ->name('ondaka.sms-reset-basico')
+    ->onFailure(fn () => $notificarFalhaCron('Reset mensal SMS básico'));

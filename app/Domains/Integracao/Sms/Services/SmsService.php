@@ -52,22 +52,32 @@ class SmsService
      */
     public function enviar(Model $owner, string $numero, string $mensagem, array $contexto = []): SmsResult
     {
-        $consumido = FeatureGate::consume(
-            owner: $owner,
-            featureSlug: 'sms_pack_extra',
-            quantidade: 1,
-            acao: 'sms_enviado',
-            metadata: ['trigger' => $contexto['trigger'] ?? null],
-            userId: $contexto['user_id'] ?? null,
-        );
+        // Consome primeiro o pacote mensal da Básica (sms_basico) e, quando esgota,
+        // o Pack Extra (sms_pack_extra).
+        $consumido = false;
+        $slugConsumido = null;
+        foreach (['sms_basico', 'sms_pack_extra'] as $slug) {
+            if (FeatureGate::consume(
+                owner: $owner,
+                featureSlug: $slug,
+                quantidade: 1,
+                acao: 'sms_enviado',
+                metadata: ['trigger' => $contexto['trigger'] ?? null],
+                userId: $contexto['user_id'] ?? null,
+            )) {
+                $consumido = true;
+                $slugConsumido = $slug;
+                break;
+            }
+        }
 
         if (! $consumido) {
-            $this->registarLogErro($owner, $numero, $mensagem, 'Saldo SMS esgotado (sms_pack_extra)', $contexto);
+            $this->registarLogErro($owner, $numero, $mensagem, 'Saldo SMS esgotado (Básica + Pack Extra)', $contexto);
             $this->notificarSemSaldo($owner, $contexto);
             throw new SmsSemSaldoException('Saldo de SMS esgotado. Adquira o Pacote Extra SMS para continuar.');
         }
 
-        $subscription = FeatureGate::getSubscription($owner, 'sms_pack_extra');
+        $subscription = FeatureGate::getSubscription($owner, $slugConsumido);
 
         $log = $this->criarLog(
             owner: $owner,
@@ -266,7 +276,10 @@ class SmsService
     private function devolverCredito(Model $owner, SmsLog $log, string $motivo): void
     {
         try {
-            $subscription = FeatureGate::getSubscription($owner, 'sms_pack_extra');
+            // Reembolsa a subscrição que foi efectivamente debitada (Básica ou Extra).
+            $subscription = $log->feature_subscription_id
+                ? \App\Domains\Feature\Models\FeatureSubscription::find($log->feature_subscription_id)
+                : null;
 
             if ($subscription) {
                 $subscription->increment('saldo_actual', 1);

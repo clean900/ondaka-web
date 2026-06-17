@@ -54,15 +54,29 @@ class FeaturesCatalogoSeeder extends Seeder
                 'ordem_listagem' => 10,
             ],
             [
+                'slug' => 'sms_basico',
+                'nome' => 'Serviço SMS (ONDAKA)',
+                'descricao' => 'Activação do serviço de SMS com remetente "ONDAKA". Inclui 200 SMS por mês.',
+                'icone' => 'MessageSquare',
+                'categoria' => 'comunicacao',
+                'comprador' => 'ambos',
+                'modelo_cobranca' => 'consumable',
+                'unidade' => 'SMS',
+                'preco_base' => 25,
+                'activa' => true,
+                'em_breve' => false,
+                'ordem_listagem' => 19,
+            ],
+            [
                 'slug' => 'sms_pack_extra',
                 'nome' => 'Pacote extra SMS (ONDAKA)',
-                'descricao' => 'SMS adicionais com remetente padrão "ONDAKA" para condomínios que excedam o pacote grátis mensal (50 SMS/mês incluídos no core).',
+                'descricao' => 'SMS adicionais com remetente "ONDAKA" para quando o pacote mensal de 200 termina. 25 AOA por SMS — escolha a quantidade.',
                 'icone' => 'Send',
                 'categoria' => 'comunicacao',
                 'comprador' => 'ambos',
                 'modelo_cobranca' => 'consumable',
                 'unidade' => 'SMS',
-                'preco_base' => null,
+                'preco_base' => 25,
                 'activa' => true,
                 'em_breve' => false,
                 'ordem_listagem' => 20,
@@ -325,10 +339,16 @@ class FeaturesCatalogoSeeder extends Seeder
         ]);
 
         // Pacotes SMS extra ONDAKA — 16 Kz/SMS (margem menor, remetente padrão)
+        // SMS Básico — 5.000 = 200 SMS/mês (25 Kz/SMS)
+        $this->criarPacotesFeature('sms_basico', [
+            ['nome' => 'Mensal', 'slug' => 'mensal', 'preco' => 5000, 'quantidade' => 200, 'ordem' => 1, 'destaque' => true, 'descricao' => '200 SMS por mês'],
+        ]);
+
+        // SMS extra ONDAKA — 25 Kz/SMS (por unidade)
         $this->criarPacotesFeature('sms_pack_extra', [
-            ['nome' => 'Pequeno', 'slug' => 'pequeno', 'preco' => 5000, 'quantidade' => 312, 'ordem' => 1],
-            ['nome' => 'Médio', 'slug' => 'medio', 'preco' => 7500, 'quantidade' => 468, 'ordem' => 2, 'destaque' => true],
-            ['nome' => 'Grande', 'slug' => 'grande', 'preco' => 10000, 'quantidade' => 625, 'ordem' => 3],
+            ['nome' => '100 SMS', 'slug' => 'pequeno', 'preco' => 2500, 'quantidade' => 100, 'ordem' => 1],
+            ['nome' => '200 SMS', 'slug' => 'medio', 'preco' => 5000, 'quantidade' => 200, 'ordem' => 2, 'destaque' => true],
+            ['nome' => '500 SMS', 'slug' => 'grande', 'preco' => 12500, 'quantidade' => 500, 'ordem' => 3],
         ]);
 
         // OCR contadores — 5000 Kz por 200 leituras (25 Kz/leitura)
