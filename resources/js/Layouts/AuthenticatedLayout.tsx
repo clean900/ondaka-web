@@ -226,6 +226,7 @@ export default function AuthenticatedLayout({ children }: PropsWithChildren) {
             titulo: 'Comunicação',
             itens: [
                 { label: 'Avisos', href: '/avisos', icon: Megaphone },
+                { label: 'Serviço SMS', href: '/funcionalidades/sms_basico', icon: MessageSquare, feature_slug: 'sms_basico' },
                 { label: 'SMS Sender ID', href: '/funcionalidades/sms_sender_id', icon: MessageSquare, feature_slug: 'sms_sender_id' },
                 { label: 'SMS Pack Extra', href: '/funcionalidades/sms_pack_extra', icon: MessageSquare, feature_slug: 'sms_pack_extra' },
             ],

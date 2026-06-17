@@ -106,23 +106,22 @@ class HandleInertiaRequests extends Middleware
             return [];
         }
         $slugs = [];
+        // Menu: mostra as features que a empresa/condomínio POSSUEM (subscrição
+        // activa), independentemente do saldo — assim o cadeado não "volta" quando
+        // os SMS (ou outro consumível) chegam a 0.
         if ($user->empresa_gestora_id) {
             $empresa = $user->empresaGestora;
             if ($empresa) {
-                foreach (FeatureGate::allActive($empresa) as $f) {
-                    if (!empty($f['slug'])) {
-                        $slugs[$f['slug']] = true;
-                    }
+                foreach (FeatureGate::allOwnedSlugs($empresa) as $slug) {
+                    $slugs[$slug] = true;
                 }
             }
         }
         if ($user->condominio_activo_id) {
             $condominio = Condominio::find($user->condominio_activo_id);
             if ($condominio) {
-                foreach (FeatureGate::allActive($condominio) as $f) {
-                    if (!empty($f['slug'])) {
-                        $slugs[$f['slug']] = true;
-                    }
+                foreach (FeatureGate::allOwnedSlugs($condominio) as $slug) {
+                    $slugs[$slug] = true;
                 }
             }
         }

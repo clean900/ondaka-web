@@ -143,6 +143,29 @@ class FeatureGate
     }
 
     /**
+     * Slugs das features que o owner POSSUI (subscrição activa e não expirada),
+     * independentemente do saldo. Usado pelo menu: uma feature comprada continua
+     * visível mesmo quando o saldo (ex.: SMS) chega a 0 — o saldo trata-se na
+     * própria página, não trancando o menu.
+     */
+    public static function allOwnedSlugs(Model $owner): array
+    {
+        $owner = self::resolverEmpresaGestora($owner);
+
+        return FeatureSubscription::with('feature:id,slug')
+            ->where('owner_type', get_class($owner))
+            ->where('owner_id', $owner->getKey())
+            ->where('estado', 'activa')
+            ->get()
+            ->filter(fn (FeatureSubscription $s) => ! $s->expira_em || ! $s->expira_em->isPast())
+            ->map(fn (FeatureSubscription $s) => $s->feature?->slug)
+            ->filter()
+            ->unique()
+            ->values()
+            ->all();
+    }
+
+    /**
      * Obtém a FeatureSubscription activa ou pendente de um owner para um slug.
      * Método primário usado pelos outros.
      *
