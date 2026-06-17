@@ -84,7 +84,16 @@ class SosNotificationService
             $enviados = 0;
             foreach ($destinatarios as $user) {
                 try {
-                    $envios = $this->fcmSender->enviarParaUser($user, $titulo, $corpo, $data);
+                    // Só guardas recebem a sirene SOS; restantes (admins/gestores) canal normal.
+                    $ehGuarda = $user->hasRole('guarda');
+                    $envios = $this->fcmSender->enviarParaUser(
+                        $user,
+                        $titulo,
+                        $corpo,
+                        $data,
+                        canal: $ehGuarda ? 'ondaka_sos' : 'ondaka_default',
+                        som: $ehGuarda ? 'sirene_sos' : null,
+                    );
                     $enviados += $envios;
                 } catch (Throwable $e) {
                     Log::warning('[SOS] Falha push para user ' . $user->id, ['erro' => $e->getMessage()]);

@@ -20,8 +20,14 @@ class FcmSenderService
     /**
      * Envia notificação a um user (todos os seus devices).
      */
-    public function enviarParaUser(User $user, string $titulo, string $corpo, array $data = []): int
-    {
+    public function enviarParaUser(
+        User $user,
+        string $titulo,
+        string $corpo,
+        array $data = [],
+        string $canal = 'ondaka_default',
+        ?string $som = null,
+    ): int {
         $tokens = DeviceToken::where('user_id', $user->id)->pluck('token')->toArray();
 
         if (empty($tokens)) {
@@ -53,9 +59,10 @@ class FcmSenderService
                             ...(empty($data) ? [] : ['data' => array_map('strval', $data)]),
                             'android' => [
                                 'priority' => 'HIGH',
-                                'notification' => [
-                                    'channel_id' => 'ondaka_default',
-                                ],
+                                'notification' => array_filter([
+                                    'channel_id' => $canal,
+                                    'sound' => $som,
+                                ], fn ($v) => $v !== null),
                             ],
                         ],
                     ]);
