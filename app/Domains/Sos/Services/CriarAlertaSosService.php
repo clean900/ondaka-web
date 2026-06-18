@@ -104,10 +104,11 @@ class CriarAlertaSosService
             return $alerta;
         });
 
-        // Dispara notificações push (não bloqueia em caso de falha)
-        if ($this->notificationService !== null) {
-            $this->notificationService->notificar($alerta);
-        }
+        // Dispara notificações push (não bloqueia em caso de falha).
+        // Resolve sempre o serviço: a injeção opcional (?Service = null) era
+        // resolvida pelo container para null, saltando o push silenciosamente.
+        $notificador = $this->notificationService ?? app(SosNotificationService::class);
+        $notificador->notificar($alerta);
 
         return $alerta;
     }
