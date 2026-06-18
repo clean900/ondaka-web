@@ -27,6 +27,7 @@ class FcmSenderService
         array $data = [],
         string $canal = 'ondaka_default',
         ?string $som = null,
+        bool $dataOnly = false,
     ): int {
         $tokens = DeviceToken::where('user_id', $user->id)->pluck('token')->toArray();
 
@@ -44,28 +45,39 @@ class FcmSenderService
         $projectId = config('services.fcm.project_id', 'ondaka-prod');
         $url = "https://fcm.googleapis.com/v1/projects/{$projectId}/messages:send";
 
+        // Mensagem data-only (SOS): sem bloco "notification" para a app construir
+        // o alarme full-screen no background handler. Caso normal: notification + data.
+        if ($dataOnly) {
+            $mensagem = [
+                'token' => $token ?? '',
+                'data' => array_map('strval', array_merge($data, [
+                    'titulo' => $titulo,
+                    'corpo' => $corpo,
+                ])),
+                'android' => ['priority' => 'HIGH'],
+            ];
+        } else {
+            $mensagem = [
+                'token' => $token ?? '',
+                'notification' => ['title' => $titulo, 'body' => $corpo],
+                ...(empty($data) ? [] : ['data' => array_map('strval', $data)]),
+                'android' => [
+                    'priority' => 'HIGH',
+                    'notification' => array_filter([
+                        'channel_id' => $canal,
+                        'sound' => $som,
+                    ], fn ($v) => $v !== null),
+                ],
+            ];
+        }
+
         $enviados = 0;
         foreach ($tokens as $token) {
             try {
+                $mensagem['token'] = $token;
                 $response = Http::withToken($accessToken)
                     ->timeout(10)
-                    ->post($url, [
-                        'message' => [
-                            'token' => $token,
-                            'notification' => [
-                                'title' => $titulo,
-                                'body' => $corpo,
-                            ],
-                            ...(empty($data) ? [] : ['data' => array_map('strval', $data)]),
-                            'android' => [
-                                'priority' => 'HIGH',
-                                'notification' => array_filter([
-                                    'channel_id' => $canal,
-                                    'sound' => $som,
-                                ], fn ($v) => $v !== null),
-                            ],
-                        ],
-                    ]);
+                    ->post($url, ['message' => $mensagem]);
 
                 if ($response->successful()) {
                     $enviados++;

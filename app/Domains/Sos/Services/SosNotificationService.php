@@ -84,7 +84,8 @@ class SosNotificationService
             $enviados = 0;
             foreach ($destinatarios as $user) {
                 try {
-                    // Só guardas recebem a sirene SOS; restantes (admins/gestores) canal normal.
+                    // Guardas recebem alarme full-screen (data-only → a app constrói o
+                    // ecrã vermelho + sirene em loop). Restantes (admins/gestores): push normal.
                     $ehGuarda = $user->hasRole('guarda');
                     $envios = $this->fcmSender->enviarParaUser(
                         $user,
@@ -93,6 +94,7 @@ class SosNotificationService
                         $data,
                         canal: $ehGuarda ? 'ondaka_sos' : 'ondaka_default',
                         som: $ehGuarda ? 'sirene_sos' : null,
+                        dataOnly: $ehGuarda,
                     );
                     $enviados += $envios;
                 } catch (Throwable $e) {
