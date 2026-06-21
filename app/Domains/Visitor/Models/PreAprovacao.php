@@ -32,8 +32,15 @@ class PreAprovacao extends Model
         'empresa_gestora_id',
         'condomino_id',
         'fraccao_id',
+        'tipo_acesso',
         'nome_visitante',
         'telefone_visitante',
+        'tipo_documento',
+        'numero_documento',
+        'documento_anexo_path',
+        'requer_aprovacao',
+        'aprovado_por_user_id',
+        'aprovado_em',
         'qr_token',
         'otp_code',
         'valida_desde',
@@ -47,6 +54,8 @@ class PreAprovacao extends Model
     protected $casts = [
         'valida_desde' => 'datetime',
         'valida_ate' => 'datetime',
+        'aprovado_em' => 'datetime',
+        'requer_aprovacao' => 'boolean',
         'sms_enviado' => 'boolean',
         'sms_enviado_em' => 'datetime',
     ];
@@ -54,9 +63,17 @@ class PreAprovacao extends Model
     // === Constantes dos estados (evita strings mágicas no código) ===
 
     public const ESTADO_PENDENTE = 'pendente';
+    public const ESTADO_APROVADO = 'aprovado';   // passe aprovado pelo gestor (QR activo)
+    public const ESTADO_RECUSADO = 'recusado';
     public const ESTADO_USADA = 'usada';
     public const ESTADO_EXPIRADA = 'expirada';
     public const ESTADO_CANCELADA = 'cancelada';
+
+    /** É um passe (prestador/trabalhador), não uma visita pontual. */
+    public function ehPasse(): bool
+    {
+        return $this->tipo_acesso !== 'visita';
+    }
 
     // === Relações ===
 

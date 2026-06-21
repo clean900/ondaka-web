@@ -123,12 +123,13 @@ class ValidacaoService
             throw new RuntimeException('Pré-aprovação não pertence à empresa do guarda.');
         }
 
-        // 2. Estado tem de ser pendente
-        if ($preAprovacao->estado !== PreAprovacao::ESTADO_PENDENTE) {
+        // 2. Estado válido: PENDENTE (visita pontual) ou APROVADO (passe activo).
+        if (! in_array($preAprovacao->estado, [PreAprovacao::ESTADO_PENDENTE, PreAprovacao::ESTADO_APROVADO], true)) {
             throw new InvalidArgumentException(
                 match ($preAprovacao->estado) {
                     PreAprovacao::ESTADO_USADA => 'Este código já foi utilizado anteriormente.',
-                    PreAprovacao::ESTADO_EXPIRADA => 'Este código expirou.',
+                    PreAprovacao::ESTADO_EXPIRADA => 'Este passe expirou. Peça ao condómino para estender a validade.',
+                    PreAprovacao::ESTADO_RECUSADO => 'Este passe foi recusado.',
                     PreAprovacao::ESTADO_CANCELADA => 'Este código foi cancelado pelo condómino.',
                     default => 'Código inválido.',
                 }
@@ -165,7 +166,10 @@ class ValidacaoService
                 'metodo_validacao' => $metodo,
             ]);
 
-            $preAprovacao->update(['estado' => PreAprovacao::ESTADO_USADA]);
+            // Passe (prestador/trabalhador) é reutilizável na janela — não marca usada.
+            if (! $preAprovacao->ehPasse()) {
+                $preAprovacao->update(['estado' => PreAprovacao::ESTADO_USADA]);
+            }
 
             // Notificar o condómino dono da pré-aprovação (após commit; after_commit=false)
             $condominoId = $preAprovacao->condomino_id;
