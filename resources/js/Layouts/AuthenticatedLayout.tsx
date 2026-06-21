@@ -210,7 +210,7 @@ export default function AuthenticatedLayout({ children }: PropsWithChildren) {
                 { label: 'Lista Negra', href: '/visitantes/lista-negra', icon: Shield },
                 { label: 'Encomendas', href: '/encomendas', icon: Package, feature_slug: 'encomendas_avancado' },
                 { label: 'Reservas', href: '/reservas', icon: CalendarCheck, feature_slug: 'reservas_areas_comuns' },
-                { label: 'Manutenção', href: '/manutencao', icon: Cog, feature_slug: 'manutencao_preventiva' },
+                { label: 'Manutenção', href: '/manutencao', icon: Cog },
                 { label: 'Pedidos de intervenção', href: '/tickets', icon: Ticket },
                 { label: 'Equipa', href: '/condominio/equipa', icon: Users },
                 { label: 'Minhas quotas', href: '/minhas-quotas', icon: Wallet },
