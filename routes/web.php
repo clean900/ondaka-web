@@ -501,6 +501,17 @@ Route::middleware(['auth', 'verified', '2fa'])->group(function () {
             Route::post('/planos/{plano}/intervencao', [$c, 'registarIntervencao'])->whereNumber('plano')->name('planos.intervencao');
         });
 
+    // === Importação Massiva ===
+    Route::middleware('role:super-admin|admin-empresa|gestor')
+        ->prefix('importacao')
+        ->name('importacao.')
+        ->group(function () {
+            $ci = \App\Domains\Importacao\Http\Controllers\Web\ImportacaoController::class;
+            Route::get('/', [$ci, 'index'])->name('index');
+            Route::post('/condominos/analisar', [$ci, 'analisar'])->name('condominos.analisar');
+            Route::post('/condominos/importar', [$ci, 'importar'])->name('condominos.importar');
+        });
+
 
     // === Tickets ===
     Route::middleware('role:super-admin|admin-empresa|gestor|administrador-condominio')
