@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domains\Importacao\Http\Controllers\Web;
 
+use App\Domains\Feature\Services\FeatureGate;
 use App\Domains\Importacao\Services\ImportacaoCondominosService;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
@@ -15,8 +16,13 @@ class ImportacaoController extends Controller
 {
     public function __construct(protected ImportacaoCondominosService $service) {}
 
-    public function index(): Response
+    public function index(): Response|RedirectResponse
     {
+        $empresa = app('empresa_gestora_actual');
+        if (! $empresa || ! FeatureGate::has($empresa, 'importacao_massiva')) {
+            return redirect()->route('funcionalidades.show', 'importacao_massiva');
+        }
+
         return Inertia::render('Importacao/Condominos', ['preview' => null]);
     }
 

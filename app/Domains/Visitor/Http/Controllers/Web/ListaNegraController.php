@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domains\Visitor\Http\Controllers\Web;
 
+use App\Domains\Feature\Services\FeatureGate;
 use App\Domains\Visitor\Models\VisitanteBanido;
 use App\Domains\Visitor\Services\ListaNegraService;
 use App\Http\Controllers\Controller;
@@ -19,8 +20,13 @@ class ListaNegraController extends Controller
 {
     public function __construct(protected ListaNegraService $service) {}
 
-    public function index(Request $request): Response
+    public function index(Request $request): Response|RedirectResponse
     {
+        $empresa = app('empresa_gestora_actual');
+        if (! $empresa || ! FeatureGate::has($empresa, 'lista_negra_visitantes')) {
+            return redirect()->route('funcionalidades.show', 'lista_negra_visitantes');
+        }
+
         $empresaId = (int) $request->user()->empresa_gestora_id;
 
         $itens = $this->service->listar($empresaId)

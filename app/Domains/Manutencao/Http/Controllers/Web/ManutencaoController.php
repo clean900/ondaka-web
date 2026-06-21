@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domains\Manutencao\Http\Controllers\Web;
 
+use App\Domains\Feature\Services\FeatureGate;
 use App\Domains\Manutencao\Models\Equipamento;
 use App\Domains\Manutencao\Models\ManutencaoPlano;
 use App\Domains\Manutencao\Services\ManutencaoService;
@@ -17,8 +18,13 @@ class ManutencaoController extends Controller
 {
     public function __construct(protected ManutencaoService $service) {}
 
-    public function index(Request $request): Response
+    public function index(Request $request): Response|RedirectResponse
     {
+        $empresa = app('empresa_gestora_actual');
+        if (! $empresa || ! FeatureGate::has($empresa, 'manutencao_preventiva')) {
+            return redirect()->route('funcionalidades.show', 'manutencao_preventiva');
+        }
+
         $empresaId = (int) $request->user()->empresa_gestora_id;
 
         $equipamentos = $this->service->equipamentos($empresaId)
