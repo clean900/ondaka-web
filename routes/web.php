@@ -489,6 +489,18 @@ Route::middleware(['auth', 'verified', '2fa'])->group(function () {
             Route::get('/', [EncomendaWebController::class, 'index'])->name('index');
         });
 
+    // === Manutenção Preventiva ===
+    Route::middleware('role:super-admin|admin-empresa|gestor|administrador-condominio')
+        ->prefix('manutencao')
+        ->name('manutencao.')
+        ->group(function () {
+            $c = \App\Domains\Manutencao\Http\Controllers\Web\ManutencaoController::class;
+            Route::get('/', [$c, 'index'])->name('index');
+            Route::post('/equipamentos', [$c, 'storeEquipamento'])->name('equipamentos.store');
+            Route::post('/planos', [$c, 'storePlano'])->name('planos.store');
+            Route::post('/planos/{plano}/intervencao', [$c, 'registarIntervencao'])->whereNumber('plano')->name('planos.intervencao');
+        });
+
 
     // === Tickets ===
     Route::middleware('role:super-admin|admin-empresa|gestor|administrador-condominio')

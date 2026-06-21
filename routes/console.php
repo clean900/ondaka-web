@@ -150,3 +150,12 @@ Schedule::command('sms:reset-basico')
     ->withoutOverlapping()
     ->name('ondaka.sms-reset-basico')
     ->onFailure(fn () => $notificarFalhaCron('Reset mensal SMS básico'));
+
+// ============================================
+// Manutenção Preventiva — alertas 30/15/7 dias antes
+// ============================================
+Schedule::command('manutencao:alertas')
+    ->dailyAt('07:30')
+    ->withoutOverlapping()
+    ->name('ondaka.manutencao-alertas')
+    ->onFailure(fn () => $notificarFalhaCron('Alertas de manutenção preventiva'));
