@@ -83,6 +83,10 @@ export default function Show({ condominio, estatisticas }: Props) {
                             <Users className="h-4 w-4" />
                             Comissão
                         </Link>
+                        <Link href={`/condominios/${condominio.id}/facturacao`} className="btn-secondary">
+                            <CreditCard className="h-4 w-4" />
+                            Facturação
+                        </Link>
                         <Link href={`/condominios/${condominio.id}/edit`} className="btn-secondary">
                             <Edit className="h-4 w-4" />
                             Editar
