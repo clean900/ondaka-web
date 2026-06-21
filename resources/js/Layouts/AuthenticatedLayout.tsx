@@ -207,6 +207,7 @@ export default function AuthenticatedLayout({ children }: PropsWithChildren) {
             itens: [
                 { label: 'Assembleias', href: '/assembleias', icon: Users, feature_slug: 'assembleia_virtual' },
                 { label: 'Visitantes', href: '/visitantes/dentro-agora', icon: DoorOpen },
+                { label: 'Lista Negra', href: '/visitantes/lista-negra', icon: Shield },
                 { label: 'Encomendas', href: '/encomendas', icon: Package, feature_slug: 'encomendas_avancado' },
                 { label: 'Reservas', href: '/reservas', icon: CalendarCheck, feature_slug: 'reservas_areas_comuns' },
                 { label: 'Pedidos de intervenção', href: '/tickets', icon: Ticket },

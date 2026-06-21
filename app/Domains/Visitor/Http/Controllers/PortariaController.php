@@ -8,6 +8,7 @@ use App\Domains\Visitor\Http\Requests\EntradaManualRequest;
 use App\Domains\Visitor\Http\Requests\ValidarOtpRequest;
 use App\Domains\Visitor\Http\Requests\ValidarQrRequest;
 use App\Domains\Visitor\Models\Visita;
+use App\Domains\Visitor\Services\ListaNegraService;
 use App\Domains\Visitor\Services\ValidacaoService;
 use App\Domains\Visitor\Services\VisitaService;
 use App\Http\Controllers\Controller;
@@ -27,7 +28,50 @@ class PortariaController extends Controller
     public function __construct(
         protected ValidacaoService $validacaoService,
         protected VisitaService $visitaService,
+        protected ListaNegraService $listaNegra,
     ) {}
+
+    /**
+     * Pré-verificação na Lista Negra — o guarda confere ANTES de autorizar.
+     *
+     * POST /api/portaria/lista-negra/verificar
+     * Body: { "bi": "...", "matricula": "...", "nome": "..." } (qualquer um)
+     */
+    public function verificarListaNegra(Request $request): JsonResponse
+    {
+        $guarda = $request->user();
+        $alerta = $this->listaNegra->verificarParaApi(
+            empresaGestoraId: (int) $guarda->empresa_gestora_id,
+            condominioId: $guarda->condominio_activo_id,
+            dados: [
+                'bi' => $request->input('bi'),
+                'matricula' => $request->input('matricula'),
+                'nome' => $request->input('nome'),
+            ],
+        );
+
+        return response()->json(['lista_negra' => $alerta]);
+    }
+
+    /**
+     * Alerta de lista negra para uma visita já registada (nome/BI do visitante).
+     */
+    private function alertaParaVisita(Visita $visita, $guarda): ?array
+    {
+        $visitante = $visita->visitante;
+        if (! $visitante) {
+            return null;
+        }
+
+        return $this->listaNegra->verificarParaApi(
+            empresaGestoraId: (int) $guarda->empresa_gestora_id,
+            condominioId: $guarda->condominio_activo_id,
+            dados: [
+                'bi' => $visitante->bi_numero ?? null,
+                'nome' => $visitante->nome ?? null,
+            ],
+        );
+    }
 
     /**
      * Guarda scaneou um QR code.
@@ -48,6 +92,7 @@ class PortariaController extends Controller
             return response()->json([
                 'message' => 'Entrada autorizada.',
                 'data' => $visita->load(['visitante', 'fraccao', 'preAprovacao']),
+                'lista_negra' => $this->alertaParaVisita($visita, $guarda),
             ], 201);
         } catch (InvalidArgumentException $e) {
             return response()->json(['message' => $e->getMessage()], 422);
@@ -75,6 +120,7 @@ class PortariaController extends Controller
             return response()->json([
                 'message' => 'Entrada autorizada.',
                 'data' => $visita->load(['visitante', 'fraccao', 'preAprovacao']),
+                'lista_negra' => $this->alertaParaVisita($visita, $guarda),
             ], 201);
         } catch (InvalidArgumentException $e) {
             return response()->json(['message' => $e->getMessage()], 422);
@@ -105,6 +151,7 @@ class PortariaController extends Controller
             return response()->json([
                 'message' => 'Entrada manual registada.',
                 'data' => $visita->load(['visitante', 'fraccao']),
+                'lista_negra' => $this->alertaParaVisita($visita, $guarda),
             ], 201);
         } catch (InvalidArgumentException $e) {
             return response()->json(['message' => $e->getMessage()], 422);

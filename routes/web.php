@@ -476,6 +476,9 @@ Route::middleware(['auth', 'verified', '2fa'])->group(function () {
             Route::get('/historico', [VisitantesWebController::class, 'historico'])->name('historico');
             Route::get('/pre-aprovacoes', [VisitantesWebController::class, 'preAprovacoes'])->name('pre-aprovacoes');
             Route::post('/pre-aprovacoes', [VisitantesWebController::class, 'criarPreAprovacao'])->name('pre-aprovacoes.criar');
+            Route::get('/lista-negra', [\App\Domains\Visitor\Http\Controllers\Web\ListaNegraController::class, 'index'])->name('lista-negra');
+            Route::post('/lista-negra', [\App\Domains\Visitor\Http\Controllers\Web\ListaNegraController::class, 'store'])->name('lista-negra.store');
+            Route::delete('/lista-negra/{id}', [\App\Domains\Visitor\Http\Controllers\Web\ListaNegraController::class, 'destroy'])->whereNumber('id')->name('lista-negra.destroy');
         });
 
     // === Encomendas ===

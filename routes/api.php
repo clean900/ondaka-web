@@ -124,6 +124,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('validar-qr', [PortariaController::class, 'validarQr']);
         Route::post('validar-otp', [PortariaController::class, 'validarOtp']);
         Route::post('entrada-manual', [PortariaController::class, 'entradaManual']);
+        Route::post('lista-negra/verificar', [PortariaController::class, 'verificarListaNegra']);
         Route::get('dentro-agora', [PortariaController::class, 'dentroAgora']);
         Route::get('visitas', [PortariaController::class, 'historico']);
         Route::post('visitas/{id}/saida', [PortariaController::class, 'registarSaida']);
