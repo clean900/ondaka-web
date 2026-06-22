@@ -98,6 +98,7 @@ class PassesController extends Controller
                 'numero_documento' => $p->numero_documento,
                 'documento_anexo' => $p->documento_anexo_path ? '/ficheiros/' . $p->documento_anexo_path : null,
                 'condomino' => $p->condomino?->nome_completo,
+                'motivo' => $p->observacoes,
                 'valida_desde' => $p->valida_desde?->format('d/m/Y'),
                 'valida_ate' => $p->valida_ate?->format('d/m/Y'),
                 'estado' => $p->estado,

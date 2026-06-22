@@ -11,6 +11,7 @@ interface Passe {
     numero_documento: string | null;
     documento_anexo: string | null;
     condomino: string | null;
+    motivo: string | null;
     valida_desde: string | null;
     valida_ate: string | null;
     estado: string;
@@ -128,6 +129,7 @@ export default function Passes({ passes, condominios }: Props) {
                                                 <span className="text-xs px-2 py-0.5 rounded bg-zinc-800 text-zinc-400">{TIPO[p.tipo_acesso] ?? p.tipo_acesso}</span>
                                             </div>
                                             <p className="text-xs text-zinc-500 mt-0.5">
+                                                {p.motivo ? <span className="text-cyan-400">{p.motivo} · </span> : null}
                                                 {p.condomino} · {p.tipo_documento?.toUpperCase()} {p.numero_documento} · {p.valida_desde} → {p.valida_ate}
                                             </p>
                                         </div>

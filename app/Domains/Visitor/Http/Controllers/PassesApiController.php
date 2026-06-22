@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domains\Visitor\Http\Controllers;
 
+use App\Domains\Familiar\Support\CondominoResolver;
 use App\Domains\Visitor\Models\PreAprovacao;
 use App\Domains\Visitor\Services\PasseService;
 use App\Http\Controllers\Controller;
@@ -20,7 +21,7 @@ class PassesApiController extends Controller
 
     public function index(Request $request): JsonResponse
     {
-        $condomino = $request->user()->condomino;
+        $condomino = CondominoResolver::paraUser($request->user());
         abort_unless($condomino, 403, 'Apenas condóminos podem ver passes.');
 
         $passes = PreAprovacao::where('condomino_id', $condomino->id)
@@ -45,7 +46,7 @@ class PassesApiController extends Controller
 
     public function store(Request $request): JsonResponse
     {
-        $condomino = $request->user()->condomino;
+        $condomino = CondominoResolver::paraUser($request->user());
         abort_unless($condomino, 403, 'Apenas condóminos podem solicitar passes.');
 
         $dados = $request->validate([
@@ -75,7 +76,7 @@ class PassesApiController extends Controller
 
     public function estender(Request $request, int $id): JsonResponse
     {
-        $condomino = $request->user()->condomino;
+        $condomino = CondominoResolver::paraUser($request->user());
         abort_unless($condomino, 403);
 
         $passe = PreAprovacao::where('condomino_id', $condomino->id)->findOrFail($id);
