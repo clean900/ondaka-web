@@ -9,14 +9,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('pre_aprovacoes', function (Blueprint $table) {
-            $table->string('qr_token', 64)->nullable()->unique()->change();
+            $table->string('qr_token', 64)->nullable()->change();
         });
     }
 
     public function down(): void
     {
         Schema::table('pre_aprovacoes', function (Blueprint $table) {
-            $table->string('qr_token', 64)->nullable(false)->unique()->change();
+            $table->string('qr_token', 64)->nullable(false)->change();
         });
     }
 };
