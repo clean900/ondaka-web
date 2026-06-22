@@ -31,6 +31,7 @@ class PasseService
             'tipo_documento' => $dados['tipo_documento'] ?? null,
             'numero_documento' => $dados['numero_documento'] ?? null,
             'documento_anexo_path' => $dados['documento_anexo_path'] ?? null,
+            'foto_visitante_path' => $dados['foto_visitante_path'] ?? null,
             'requer_aprovacao' => true,
             'valida_desde' => Carbon::parse($dados['valida_desde']),
             'valida_ate' => Carbon::parse($dados['valida_ate']),

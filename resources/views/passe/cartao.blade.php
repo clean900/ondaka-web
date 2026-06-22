@@ -28,6 +28,9 @@
   </div>
 
   <div class="body">
+    @if(!empty($foto))
+      <img src="{{ $foto }}" style="width:90px;height:90px;border-radius:14px;object-fit:cover;margin-bottom:10px;">
+    @endif
     <div class="titulo-passe">ACESSO AUTORIZADO</div>
     <div class="nome">{{ $passe->nome_visitante }}</div>
     <div class="meta">

@@ -59,9 +59,11 @@ class PassesApiController extends Controller
             'valida_ate' => ['required', 'date', 'after_or_equal:valida_desde'],
             'observacoes' => ['nullable', 'string', 'max:1000'],
             'documento' => ['required', 'file', 'mimes:pdf,jpg,jpeg,png', 'max:8192'],
+            'foto_visitante' => ['required', 'file', 'mimes:jpg,jpeg,png', 'max:8192'],
         ]);
 
         $dados['documento_anexo_path'] = $request->file('documento')->store('passes', 'public');
+        $dados['foto_visitante_path'] = $request->file('foto_visitante')->store('passes', 'public');
 
         $passe = $this->service->solicitar($condomino, $dados);
 

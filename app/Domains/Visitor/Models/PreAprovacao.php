@@ -38,6 +38,7 @@ class PreAprovacao extends Model
         'tipo_documento',
         'numero_documento',
         'documento_anexo_path',
+        'foto_visitante_path',
         'requer_aprovacao',
         'aprovado_por_user_id',
         'aprovado_em',

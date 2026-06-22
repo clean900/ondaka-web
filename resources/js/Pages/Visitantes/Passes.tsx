@@ -25,6 +25,37 @@ const ESTADO: Record<string, { label: string; cls: string }> = {
 };
 const TIPO: Record<string, string> = { prestador: 'Prestador', trabalhador: 'Trabalhador', outro: 'Outro' };
 
+const TEMAS: Record<number, { card: string; cardT: string; head: string; headT: string; accent: string }> = {
+    1: { card: '#0a0a1a', cardT: '#fff', head: '#7c3aed', headT: '#fff', accent: '#c4b5fd' },
+    2: { card: '#fff', cardT: '#0f172a', head: '#1e3a8a', headT: '#fff', accent: '#1e3a8a' },
+    3: { card: '#111', cardT: '#f5e6c8', head: '#1a1a1a', headT: '#d4af37', accent: '#d4af37' },
+    4: { card: '#fff', cardT: '#14532d', head: '#166534', headT: '#fff', accent: '#166534' },
+    5: { card: '#9333ea', cardT: '#fff', head: '#db2777', headT: '#fff', accent: '#fff' },
+    6: { card: '#0ea5e9', cardT: '#fff', head: '#1e40af', headT: '#fff', accent: '#e0f2fe' },
+    7: { card: '#1a0c0c', cardT: '#fff', head: '#b91c1c', headT: '#fff', accent: '#fca5a5' },
+    8: { card: '#fafafa', cardT: '#18181b', head: '#18181b', headT: '#fff', accent: '#18181b' },
+    9: { card: '#ea580c', cardT: '#fff', head: '#db2777', headT: '#fff', accent: '#fff' },
+    10: { card: '#0a0f0d', cardT: '#d1fae5', head: '#06120e', headT: '#34d399', accent: '#6ee7b7' },
+    11: { card: '#fff', cardT: '#0f3d3a', head: '#0d9488', headT: '#fff', accent: '#0f766e' },
+    12: { card: '#0f172a', cardT: '#e2e8f0', head: '#1e293b', headT: '#fbbf24', accent: '#fcd34d' },
+};
+
+function MiniPasse({ modelo }: { modelo: number }) {
+    const t = TEMAS[modelo] ?? TEMAS[1];
+    return (
+        <div style={{ width: 110, borderRadius: 10, overflow: 'hidden', background: t.card, color: t.cardT, flexShrink: 0 }}>
+            <div style={{ background: t.head, color: t.headT, padding: '6px 8px', fontSize: 8, fontWeight: 700 }}>TORRES ATLÂNTICO</div>
+            <div style={{ padding: '8px', textAlign: 'center' }}>
+                <div style={{ width: 34, height: 34, borderRadius: 8, background: 'rgba(125,125,125,.25)', margin: '0 auto 5px' }} />
+                <div style={{ fontSize: 10, fontWeight: 700 }}>João Silva</div>
+                <div style={{ fontSize: 7, opacity: .7 }}>PRESTADOR</div>
+                <div style={{ marginTop: 5, padding: '3px', border: `1px solid ${t.accent}`, borderRadius: 5, fontSize: 7, color: t.accent }}>Válido até 21/09</div>
+                <div style={{ width: 26, height: 26, background: '#fff', margin: '5px auto 0', borderRadius: 4 }} />
+            </div>
+        </div>
+    );
+}
+
 export default function Passes({ passes, condominios }: Props) {
     const aprovar = (id: number) => router.post(route('visitantes.passes.aprovar', id), {}, { preserveScroll: true });
     const recusar = (id: number) => {
@@ -55,14 +86,18 @@ export default function Passes({ passes, condominios }: Props) {
                     </h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                         {condominios.map((c) => (
-                            <div key={c.id} className="flex items-center justify-between p-3 rounded-lg bg-zinc-950/40 border border-zinc-800">
-                                <span className="text-sm text-zinc-200">{c.nome}</span>
-                                <select value={c.modelo_passe} onChange={(e) => setModelo(c.id, Number(e.target.value))}
-                                    className="rounded-lg bg-zinc-900 border border-zinc-700 text-sm text-zinc-200 px-3 py-1.5">
-                                    {Array.from({ length: 12 }, (_, i) => i + 1).map((m) => (
-                                        <option key={m} value={m}>Modelo {m}</option>
-                                    ))}
-                                </select>
+                            <div key={c.id} className="flex items-center gap-3 p-3 rounded-lg bg-zinc-950/40 border border-zinc-800">
+                                <MiniPasse modelo={c.modelo_passe} />
+                                <div className="flex-1 min-w-0">
+                                    <p className="text-sm text-zinc-200 mb-2 truncate">{c.nome}</p>
+                                    <select value={c.modelo_passe} onChange={(e) => setModelo(c.id, Number(e.target.value))}
+                                        className="w-full rounded-lg bg-zinc-900 border border-zinc-700 text-sm text-zinc-200 px-3 py-1.5">
+                                        {Array.from({ length: 12 }, (_, i) => i + 1).map((m) => (
+                                            <option key={m} value={m}>Modelo {m}</option>
+                                        ))}
+                                    </select>
+                                    <p className="text-xs text-zinc-500 mt-1">Pré-visualização ao lado</p>
+                                </div>
                             </div>
                         ))}
                     </div>

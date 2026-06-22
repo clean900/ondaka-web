@@ -56,12 +56,19 @@ class PassesController extends Controller
         $tema = self::TEMAS[$condominio->modelo_passe ?? 1] ?? self::TEMAS[1];
         $qrSvg = base64_encode((string) QrCode::format('svg')->size(280)->margin(0)->generate($qrToken));
 
+        $foto = null;
+        if ($passe->foto_visitante_path && \Storage::disk('public')->exists($passe->foto_visitante_path)) {
+            $foto = 'data:' . \Storage::disk('public')->mimeType($passe->foto_visitante_path)
+                . ';base64,' . base64_encode(\Storage::disk('public')->get($passe->foto_visitante_path));
+        }
+
         $pdf = Pdf::loadView('passe.cartao', [
             'passe' => $passe,
             'condominio' => $condominio,
             'tema' => $tema,
             'qrSvg' => $qrSvg,
-        ])->setPaper([0, 0, 280, 440]);
+            'foto' => $foto,
+        ])->setPaper([0, 0, 280, 480]);
 
         return $pdf->stream('passe-' . str_replace(' ', '-', (string) $passe->nome_visitante) . '.pdf');
     }
