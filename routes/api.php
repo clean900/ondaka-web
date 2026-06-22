@@ -115,6 +115,13 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/{id}/cancelar', [PreAprovacaoController::class, 'cancelar']);
     });
 
+    // Passes de visitante (prestadores/trabalhadores) — condómino
+    Route::prefix('passes')->controller(\App\Domains\Visitor\Http\Controllers\PassesApiController::class)->group(function () {
+        Route::get('/', 'index');
+        Route::post('/', 'store')->middleware('condomino.semdivida');
+        Route::post('/{id}/estender', 'estender')->whereNumber('id');
+    });
+
     /*
     |--------------------------------------------------------------------------
     | Módulo Visitor — Portaria (funcionário/guarda)
