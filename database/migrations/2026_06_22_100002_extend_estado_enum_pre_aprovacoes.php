@@ -7,7 +7,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        DB::statement("ALTER TABLE pre_aprovacoes MODIFY COLUMN estado ENUM('pendente','usada','expirada','aprovado','recusado') NOT NULL DEFAULT 'pendente'");
+        DB::statement("ALTER TABLE pre_aprovacoes MODIFY COLUMN estado ENUM('pendente','usada','expirada','cancelada','aprovado','recusado') NOT NULL DEFAULT 'pendente'");
     }
 
     public function down(): void
