@@ -278,34 +278,69 @@ function passosGestor() {
         {
             popover: {
                 title: '💼 23. Loja de Add-ons',
-                description: 'Para mais funcionalidades (ANPR, biometria ZKTeco, WhatsApp Business, White Label) visite a nossa Loja em ondaka.ao/loja. IPC 6.5%.',
+                description: 'Expanda o ONDAKA com funcionalidades premium: Passe de Visitante, Lista Negra, Manutenção Preventiva, Dashboard BI, Importação Massiva e mais. Aceda em Funcionalidades no menu lateral.',
                 side: 'over' as const, align: 'center' as const,
             },
         },
         {
             popover: {
-                title: '⚖️ 24. Conformidade legal',
+                title: '🚫 24. Lista Negra de Visitantes',
+                description: 'Bloqueie visitantes indesejados por BI, matrícula ou nome. Quando um visitante bloqueado tenta entrar, a portaria recebe alerta imediato. Aplica-se a todos os condomínios da empresa.',
+                side: 'over' as const, align: 'center' as const,
+            },
+        },
+        {
+            popover: {
+                title: '🪪 25. Passe de Visitante com Branding',
+                description: 'O condómino solicita um passe digital para prestadores e trabalhadores — com foto, documento e QR Code. O gestor aprova e escolhe entre 12 modelos visuais por condomínio. Partilhável via WhatsApp.',
+                side: 'over' as const, align: 'center' as const,
+            },
+        },
+        {
+            popover: {
+                title: '🔧 26. Manutenção Preventiva',
+                description: 'Registe equipamentos (elevadores, geradores, piscinas) com periodicidade de manutenção. Receba alertas automáticos a 30, 15 e 7 dias antes da data prevista. Histórico completo de manutenções.',
+                side: 'over' as const, align: 'center' as const,
+            },
+        },
+        {
+            popover: {
+                title: '📊 27. Dashboard BI Executivo',
+                description: 'Painel de análise avançada com indicadores financeiros e operacionais em tempo real: receita cobrada vs prevista, taxa de cobrança, imóveis em dívida e evolução de pagamentos por condomínio.',
+                side: 'over' as const, align: 'center' as const,
+            },
+        },
+        {
+            popover: {
+                title: '📥 28. Importação Massiva',
+                description: 'Adicione dezenas de condóminos de uma vez via ficheiro CSV. Descarregue o modelo, preencha e faça upload — com pré-visualização antes de confirmar. Poupa horas de trabalho manual.',
+                side: 'over' as const, align: 'center' as const,
+            },
+        },
+        {
+            popover: {
+                title: '⚖️ 29. Conformidade legal',
                 description: 'A plataforma cumpre integralmente o Decreto Presidencial 141/15 (gestão de condomínios em Angola) — fundo de reserva, UCF, actas como título executivo.',
                 side: 'over' as const, align: 'center' as const,
             },
         },
         {
             popover: {
-                title: '💡 25. Dica importante',
+                title: '💡 30. Dica importante',
                 description: 'Comece sempre pelos CONDOMÍNIOS, depois EDIFÍCIOS, depois FRACÇÕES, depois CONDÓMINOS. Só depois disso pode gerar quotas. Esta sequência é fundamental.',
                 side: 'over' as const, align: 'center' as const,
             },
         },
         {
             popover: {
-                title: '🔄 26. Subscrição e plano',
+                title: '🔄 31. Subscrição e plano',
                 description: 'No menu CONTA, em Subscrição, pode mudar de plano (Mensal/Semestral/Anual), adicionar imóveis, ver facturas da plataforma e gerir pagamento.',
                 side: 'over' as const, align: 'center' as const,
             },
         },
         {
             popover: {
-                title: '🎯 27. Pronto para começar!',
+                title: '🎯 32. Pronto para começar!',
                 description: 'Comece pela criação do seu primeiro condomínio. Se precisar de ajuda, lembra-se: 🎓 Aprenda a Usar, 🗺️ Tour ou 💬 Suporte na top bar.',
                 side: 'over' as const, align: 'center' as const,
             },
