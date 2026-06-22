@@ -70,6 +70,10 @@ Route::get('/apagar-conta', function () {
     return response()->file(public_path('apagar-conta.html'));
 })->name('apagar-conta');
 
+// Passe de visitante — PDF público (o qr_token é o segredo; o condómino partilha o link)
+Route::get('/passe/{qrToken}/pdf', [\App\Domains\Visitor\Http\Controllers\Web\PassesController::class, 'pdfPublico'])
+    ->name('passe.pdf');
+
 // Servir ficheiros do disco public via /ficheiros/ (symlinks /storage/ bloqueados
 // pelo LiteSpeed). Cobre logos de prestadores, anexos de avisos, fotos de pedidos,
 // comprovativos, etc. O controller valida path traversal.
@@ -479,6 +483,11 @@ Route::middleware(['auth', 'verified', '2fa'])->group(function () {
             Route::get('/lista-negra', [\App\Domains\Visitor\Http\Controllers\Web\ListaNegraController::class, 'index'])->name('lista-negra');
             Route::post('/lista-negra', [\App\Domains\Visitor\Http\Controllers\Web\ListaNegraController::class, 'store'])->name('lista-negra.store');
             Route::delete('/lista-negra/{id}', [\App\Domains\Visitor\Http\Controllers\Web\ListaNegraController::class, 'destroy'])->whereNumber('id')->name('lista-negra.destroy');
+            $pc = \App\Domains\Visitor\Http\Controllers\Web\PassesController::class;
+            Route::get('/passes', [$pc, 'index'])->name('passes');
+            Route::post('/passes/{passe}/aprovar', [$pc, 'aprovar'])->whereNumber('passe')->name('passes.aprovar');
+            Route::post('/passes/{passe}/recusar', [$pc, 'recusar'])->whereNumber('passe')->name('passes.recusar');
+            Route::patch('/passes/modelo/{condominio}', [$pc, 'definirModelo'])->whereNumber('condominio')->name('passes.modelo');
         });
 
     // === Encomendas ===

@@ -209,6 +209,7 @@ export default function AuthenticatedLayout({ children }: PropsWithChildren) {
                 { label: 'Assembleias', href: '/assembleias', icon: Users, feature_slug: 'assembleia_virtual' },
                 { label: 'Visitantes', href: '/visitantes/dentro-agora', icon: DoorOpen },
                 { label: 'Lista Negra', href: '/visitantes/lista-negra', icon: Shield, feature_slug: 'lista_negra_visitantes' },
+                { label: 'Passes', href: '/visitantes/passes', icon: CreditCard, feature_slug: 'passe_visitante_branding' },
                 { label: 'Encomendas', href: '/encomendas', icon: Package, feature_slug: 'encomendas_avancado' },
                 { label: 'Reservas', href: '/reservas', icon: CalendarCheck, feature_slug: 'reservas_areas_comuns' },
                 { label: 'Manutenção', href: '/manutencao', icon: Cog, feature_slug: 'manutencao_preventiva' },
