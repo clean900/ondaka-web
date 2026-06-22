@@ -1,6 +1,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, router } from '@inertiajs/react';
 import { IdCard, Check, X, FileText, Palette } from 'lucide-react';
+import { useState } from 'react';
 
 interface Passe {
     id: number;
@@ -40,17 +41,17 @@ const TEMAS: Record<number, { card: string; cardT: string; head: string; headT: 
     12: { card: '#0f172a', cardT: '#e2e8f0', head: '#1e293b', headT: '#fbbf24', accent: '#fcd34d' },
 };
 
-function MiniPasse({ modelo }: { modelo: number }) {
+function MiniPasse({ modelo, nome }: { modelo: number; nome: string }) {
     const t = TEMAS[modelo] ?? TEMAS[1];
     return (
-        <div style={{ width: 110, borderRadius: 10, overflow: 'hidden', background: t.card, color: t.cardT, flexShrink: 0 }}>
-            <div style={{ background: t.head, color: t.headT, padding: '6px 8px', fontSize: 8, fontWeight: 700 }}>TORRES ATLÂNTICO</div>
-            <div style={{ padding: '8px', textAlign: 'center' }}>
-                <div style={{ width: 34, height: 34, borderRadius: 8, background: 'rgba(125,125,125,.25)', margin: '0 auto 5px' }} />
-                <div style={{ fontSize: 10, fontWeight: 700 }}>João Silva</div>
-                <div style={{ fontSize: 7, opacity: .7 }}>PRESTADOR</div>
-                <div style={{ marginTop: 5, padding: '3px', border: `1px solid ${t.accent}`, borderRadius: 5, fontSize: 7, color: t.accent }}>Válido até 21/09</div>
-                <div style={{ width: 26, height: 26, background: '#fff', margin: '5px auto 0', borderRadius: 4 }} />
+        <div style={{ width: 128, borderRadius: 12, overflow: 'hidden', background: t.card, color: t.cardT, flexShrink: 0 }}>
+            <div style={{ background: t.head, color: t.headT, padding: '7px 9px', fontSize: 9, fontWeight: 700, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{nome.toUpperCase()}</div>
+            <div style={{ padding: '10px 8px', textAlign: 'center' }}>
+                <div style={{ width: 40, height: 40, borderRadius: 8, background: 'rgba(125,125,125,.25)', margin: '0 auto 6px' }} />
+                <div style={{ fontSize: 11, fontWeight: 700 }}>João Silva</div>
+                <div style={{ fontSize: 8, opacity: .7 }}>PRESTADOR</div>
+                <div style={{ marginTop: 6, padding: '3px', border: `1px solid ${t.accent}`, borderRadius: 5, fontSize: 8, color: t.accent }}>Válido até 21/09</div>
+                <div style={{ width: 30, height: 30, background: '#fff', margin: '6px auto 0', borderRadius: 4 }} />
             </div>
         </div>
     );
@@ -62,8 +63,13 @@ export default function Passes({ passes, condominios }: Props) {
         const motivo = prompt('Motivo da recusa (opcional):') ?? '';
         router.post(route('visitantes.passes.recusar', id), { motivo }, { preserveScroll: true });
     };
-    const setModelo = (condId: number, modelo: number) =>
-        router.patch(route('visitantes.passes.modelo', condId), { modelo_passe: modelo }, { preserveScroll: true });
+    const [modelos, setModelos] = useState<Record<number, number>>(
+        Object.fromEntries(condominios.map((c) => [c.id, c.modelo_passe])),
+    );
+    const setModelo = (condId: number, modelo: number) => {
+        setModelos((m) => ({ ...m, [condId]: modelo }));
+        router.patch(route('visitantes.passes.modelo', condId), { modelo_passe: modelo }, { preserveScroll: true, preserveState: true });
+    };
 
     return (
         <AuthenticatedLayout>
@@ -87,10 +93,10 @@ export default function Passes({ passes, condominios }: Props) {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                         {condominios.map((c) => (
                             <div key={c.id} className="flex items-center gap-3 p-3 rounded-lg bg-zinc-950/40 border border-zinc-800">
-                                <MiniPasse modelo={c.modelo_passe} />
+                                <MiniPasse modelo={modelos[c.id] ?? c.modelo_passe} nome={c.nome} />
                                 <div className="flex-1 min-w-0">
                                     <p className="text-sm text-zinc-200 mb-2 truncate">{c.nome}</p>
-                                    <select value={c.modelo_passe} onChange={(e) => setModelo(c.id, Number(e.target.value))}
+                                    <select value={modelos[c.id] ?? c.modelo_passe} onChange={(e) => setModelo(c.id, Number(e.target.value))}
                                         className="w-full rounded-lg bg-zinc-900 border border-zinc-700 text-sm text-zinc-200 px-3 py-1.5">
                                         {Array.from({ length: 12 }, (_, i) => i + 1).map((m) => (
                                             <option key={m} value={m}>Modelo {m}</option>
