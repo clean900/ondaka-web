@@ -81,9 +81,40 @@ class ChatbotService
      * 
      * FAQs do condomínio têm prioridade ligeira (bonus +2pts) por serem específicas.
      */
+    /** Detecta saudações e retorna resposta especial sem fazer search. */
+    private function detectarSaudacao(string $textoLower): ?string
+    {
+        $saudacoes = [
+            'ola', 'olá', 'oi', 'hey', 'ei', 'hello', 'hi',
+            'bom dia', 'boa tarde', 'boa noite', 'boas',
+            'tudo bem', 'tudo bom', 'como está', 'como estás',
+        ];
+
+        foreach ($saudacoes as $s) {
+            if ($textoLower === $s || str_starts_with($textoLower, $s . ' ') || str_ends_with($textoLower, ' ' . $s)) {
+                return $s;
+            }
+        }
+
+        // Só saudação (sem outra palavra útil com >=4 chars)
+        $tokens = $this->tokenizar($textoLower);
+        $tokensLongos = array_filter($tokens, fn($t) => mb_strlen($t) >= 4);
+        if (empty($tokensLongos) && mb_strlen($textoLower) <= 20) {
+            return $textoLower;
+        }
+
+        return null;
+    }
+
     public function procurarMelhorResposta(string $texto, User $user): array
     {
         $textoLower = mb_strtolower(trim($texto));
+
+        // Responder a saudações directamente
+        if ($this->detectarSaudacao($textoLower) !== null) {
+            return ['melhor' => null, 'relacionadas' => [], 'score' => 0, 'saudacao' => true];
+        }
+
         $tokens = $this->tokenizar($textoLower);
 
         if (empty($tokens)) {

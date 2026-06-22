@@ -73,6 +73,20 @@ class ChatbotController extends Controller
 
         $r = $this->service->procurarMelhorResposta($texto, $user);
 
+        if (!empty($r['saudacao'])) {
+            $nome = $user->primeiro_nome ?? explode(' ', $user->name)[0] ?? '';
+            $cumprimento = $nome ? "Olá {$nome}! 👋" : 'Olá! 👋';
+            return response()->json([
+                'resposta' => [
+                    'id' => 0,
+                    'pergunta' => null,
+                    'resposta' => "{$cumprimento} Estou aqui para ajudar. Pode perguntar sobre taxas, visitas, pedidos, assembleias ou qualquer funcionalidade do ONDAKA.",
+                    'formato' => 'markdown',
+                ],
+                'relacionadas' => [],
+            ]);
+        }
+
         $thresholdMin = 3;
         if (!$r['melhor'] || $r['score'] < $thresholdMin) {
             return response()->json([
