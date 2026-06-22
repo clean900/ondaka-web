@@ -10,6 +10,7 @@ use App\Domains\Notifications\Services\FcmSenderService;
 use App\Domains\Visitor\Models\PreAprovacao;
 use App\Domains\Visitor\Services\PasseService;
 use App\Http\Controllers\Controller;
+use App\Domains\Condomino\Models\Condomino;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\RedirectResponse;
@@ -153,7 +154,7 @@ class PassesController extends Controller
         if (! $passe->condomino_id) {
             return;
         }
-        $user = User::whereHas('condomino', fn ($q) => $q->where('id', $passe->condomino_id))->first();
+        $user = Condomino::find($passe->condomino_id)?->user;
         if (! $user) {
             return;
         }
