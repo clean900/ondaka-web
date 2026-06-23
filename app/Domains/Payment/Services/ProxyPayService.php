@@ -472,6 +472,19 @@ class ProxyPayService
             return;
         }
 
+        // Defesa-em-profundidade: o montante do webhook tem de bater com o
+        // valor devido. A referencia ProxyPay tem valor fixo, mas validamos
+        // para nunca dar baixa de um montante divergente.
+        if (isset($payload['amount'])
+            && bccomp((string) $payload['amount'], (string) $pagamento->valor, 2) !== 0) {
+            \Log::error('ProxyPay B2C: montante do webhook diverge do pagamento — NAO confirmado', [
+                'pagamento_id' => $pagamentoId,
+                'amount_webhook' => $payload['amount'],
+                'valor_pagamento' => $pagamento->valor,
+            ]);
+            return;
+        }
+
         // Resolver conta bancaria do condominio: aceita_proxypay -> fallback principal
         $conta = \App\Domains\Financas\Models\ContaBancaria::where('condominio_id', $pagamento->condominio_id)
             ->where('activa', true)

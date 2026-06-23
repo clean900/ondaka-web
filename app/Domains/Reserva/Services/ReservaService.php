@@ -22,28 +22,34 @@ class ReservaService
      */
     public function pedir(int $userId, ?int $condominioId, int $espacoId, string $data, string $horaInicio, string $horaFim, ?string $motivo = null): array
     {
-        $espaco = ReservaEspaco::where('activo', true)->find($espacoId);
-        if (! $espaco) {
-            return ['ok' => false, 'erro' => 'Espaço indisponível.', 'reserva' => null];
-        }
+        // Lock pessimista no espaço dentro de uma transação: serializa pedidos
+        // concorrentes para o mesmo espaço, fechando a janela de corrida entre
+        // a verificação de conflito e a criação (duas reservas sobrepostas no
+        // mesmo instante). O 2.º pedido espera o 1.º e já vê a reserva criada.
+        return DB::transaction(function () use ($userId, $condominioId, $espacoId, $data, $horaInicio, $horaFim, $motivo) {
+            $espaco = ReservaEspaco::where('activo', true)->lockForUpdate()->find($espacoId);
+            if (! $espaco) {
+                return ['ok' => false, 'erro' => 'Espaço indisponível.', 'reserva' => null];
+            }
 
-        $erro = $this->validarPedido($espaco, $data, $horaInicio, $horaFim);
-        if ($erro !== null) {
-            return ['ok' => false, 'erro' => $erro, 'reserva' => null];
-        }
+            $erro = $this->validarPedido($espaco, $data, $horaInicio, $horaFim);
+            if ($erro !== null) {
+                return ['ok' => false, 'erro' => $erro, 'reserva' => null];
+            }
 
-        $reserva = Reserva::create([
-            'espaco_id' => $espaco->id,
-            'user_id' => $userId,
-            'condominio_id' => $condominioId,
-            'data' => $data,
-            'hora_inicio' => $horaInicio,
-            'hora_fim' => $horaFim,
-            'estado' => 'pendente',
-            'motivo' => $motivo,
-        ]);
+            $reserva = Reserva::create([
+                'espaco_id' => $espaco->id,
+                'user_id' => $userId,
+                'condominio_id' => $condominioId,
+                'data' => $data,
+                'hora_inicio' => $horaInicio,
+                'hora_fim' => $horaFim,
+                'estado' => 'pendente',
+                'motivo' => $motivo,
+            ]);
 
-        return ['ok' => true, 'erro' => null, 'reserva' => $reserva];
+            return ['ok' => true, 'erro' => null, 'reserva' => $reserva];
+        });
     }
 
     /** Aplica todas as regras do espaço. Devolve null se OK, ou a mensagem de erro. */

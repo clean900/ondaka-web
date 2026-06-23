@@ -46,10 +46,11 @@ class TicketFoto extends Model
     }
 
     /**
-     * URL completa para acesso (signed URL).
+     * URL completa para acesso. Servida via /ficheiros/ (não /storage/),
+     * porque o LiteSpeed bloqueia os symlinks /storage/ (403).
      */
     public function getUrlAttribute(): string
     {
-        return Storage::disk('public')->url($this->path);
+        return url('ficheiros/'.$this->path);
     }
 }
