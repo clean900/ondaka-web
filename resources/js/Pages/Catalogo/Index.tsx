@@ -69,7 +69,7 @@ const categorias: Categoria[] = [
         features: [
             { nome: "Assembleias Digitais", desc: "Convocatórias, votações online, presença, quorum automático.", estado: "pronto" },
             { nome: "Geração automática de Acta PDF", desc: "Acta como título executivo conforme DP 141/15 art.7.", estado: "pronto" },
-            { nome: "Sistema de Votos", desc: "Resultados em tempo real com Pusher Channels.", estado: "pronto" },
+            { nome: "Sistema de Votos", desc: "Apuramento por quota proporcional (permilagem), com acta automática.", estado: "pronto" },
             { nome: "Pedidos de Intervenção", desc: "Manutenção rastreada, fotos, comentários, timeline.", estado: "pronto" },
             { nome: "Reservas de Áreas Comuns", desc: "Calendário com aprovação por gestor.", estado: "pronto" },
             { nome: "Layout PDF profissional Acta", desc: "Logo, fonte serif, NIF rodapé, paginação.", estado: "breve", quando: "Junho 2026" },
@@ -83,7 +83,7 @@ const categorias: Categoria[] = [
         cor: "pink",
         descricao: "Comunicação entre condóminos, gestores e administração",
         features: [
-            { nome: "Chat Tempo Real", desc: "Comunicação directa via Pusher Channels. Anexos suportados.", estado: "pronto" },
+            { nome: "Chat Tempo Real", desc: "Comunicação directa entre condóminos e gestão. Anexos suportados.", estado: "breve" },
             { nome: "Avisos Comunidade", desc: "Broadcasts segmentados por edifício/fracção.", estado: "pronto" },
             { nome: "Confirmação de Leitura", desc: "Tracking automático de quem leu cada aviso.", estado: "pronto" },
             { nome: "Notificações Push (FCM)", desc: "Push em iOS e Android via Firebase Cloud Messaging.", estado: "pronto" },
@@ -154,7 +154,7 @@ const categorias: Categoria[] = [
             { nome: "ProxyPay RPS v2", desc: "Multicaixa Express, ATM, homebanking. Webhook HMAC.", estado: "pronto" },
             { nome: "TelcoSMS Angola", desc: "SMS para 2FA e notificações críticas.", estado: "pronto" },
             { nome: "Firebase FCM", desc: "Push notifications iOS e Android.", estado: "pronto" },
-            { nome: "Pusher Channels", desc: "Real-time chat, votos, notificações.", estado: "pronto" },
+            { nome: "Pusher Channels", desc: "Infraestrutura de tempo real (chat, votos, notificações).", estado: "breve" },
             { nome: "ProxyPay DDS", desc: "Débito Directo automático mensal.", estado: "roadmap", quando: "Maio 2027" },
         ]
     },
