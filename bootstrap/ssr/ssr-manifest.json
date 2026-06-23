@@ -1,104 +1,104 @@
 {
   "node_modules/driver.js/dist/driver.css": [
-    "/build/assets/AuthenticatedLayout-C7SEgtpD.js",
+    "/build/assets/AuthenticatedLayout-BevyWQSg.js",
     "/build/assets/AuthenticatedLayout-DB0Q8XAf.css"
   ],
   "node_modules/laravel-vite-plugin/inertia-helpers/index.js": [],
   "resources/js/Components/AddonPremiumModal.tsx": [
-    "/build/assets/AuthenticatedLayout-C7SEgtpD.js",
+    "/build/assets/AuthenticatedLayout-BevyWQSg.js",
     "/build/assets/AuthenticatedLayout-DB0Q8XAf.css"
   ],
   "resources/js/Components/AprendaUsar.tsx": [
-    "/build/assets/AuthenticatedLayout-C7SEgtpD.js",
+    "/build/assets/AuthenticatedLayout-BevyWQSg.js",
     "/build/assets/AuthenticatedLayout-DB0Q8XAf.css"
   ],
   "resources/js/Components/BellNotificacoes.tsx": [
-    "/build/assets/AuthenticatedLayout-C7SEgtpD.js",
+    "/build/assets/AuthenticatedLayout-BevyWQSg.js",
     "/build/assets/AuthenticatedLayout-DB0Q8XAf.css"
   ],
   "resources/js/Components/Chatbot/ChatbotDrawer.tsx": [
-    "/build/assets/AuthenticatedLayout-C7SEgtpD.js",
+    "/build/assets/AuthenticatedLayout-BevyWQSg.js",
     "/build/assets/AuthenticatedLayout-DB0Q8XAf.css"
   ],
   "resources/js/Components/Chatbot/ChatbotFab.tsx": [
-    "/build/assets/AuthenticatedLayout-C7SEgtpD.js",
+    "/build/assets/AuthenticatedLayout-BevyWQSg.js",
     "/build/assets/AuthenticatedLayout-DB0Q8XAf.css"
   ],
   "resources/js/Components/FeatureGate.tsx": [
-    "/build/assets/Dashboard-Cr1n37Zc.js"
+    "/build/assets/Dashboard-BdILQgCC.js"
   ],
   "resources/js/Components/OnboardingTour.tsx": [
-    "/build/assets/AuthenticatedLayout-C7SEgtpD.js",
+    "/build/assets/AuthenticatedLayout-BevyWQSg.js",
     "/build/assets/AuthenticatedLayout-DB0Q8XAf.css"
   ],
   "resources/js/Components/SubscricaoBanner.tsx": [
-    "/build/assets/AuthenticatedLayout-C7SEgtpD.js",
+    "/build/assets/AuthenticatedLayout-BevyWQSg.js",
     "/build/assets/AuthenticatedLayout-DB0Q8XAf.css"
   ],
   "resources/js/Hooks/useFeature.ts": [
-    "/build/assets/AuthenticatedLayout-C7SEgtpD.js",
+    "/build/assets/AuthenticatedLayout-BevyWQSg.js",
     "/build/assets/AuthenticatedLayout-DB0Q8XAf.css"
   ],
   "resources/js/Layouts/AuthenticatedLayout.tsx": [
-    "/build/assets/AuthenticatedLayout-C7SEgtpD.js",
+    "/build/assets/AuthenticatedLayout-BevyWQSg.js",
     "/build/assets/AuthenticatedLayout-DB0Q8XAf.css"
   ],
   "resources/js/Pages/Admin/Chatbot/Faqs/Index.tsx": [
-    "/build/assets/Index-DOevmEAq.js"
+    "/build/assets/Index-giG-SFN5.js"
   ],
   "resources/js/Pages/Admin/Features/Index.tsx": [
-    "/build/assets/Index-DyvMURCs.js"
+    "/build/assets/Index-B8tU-7rw.js"
   ],
   "resources/js/Pages/Admin/Features/Nova.tsx": [
-    "/build/assets/Nova-DroSuHTj.js"
+    "/build/assets/Nova-C-DYM0d3.js"
   ],
   "resources/js/Pages/Admin/Features/Show.tsx": [
-    "/build/assets/Show-BKFQovXw.js"
+    "/build/assets/Show-BZJrEhWv.js"
   ],
   "resources/js/Pages/Admin/Marketplace/Anuncios.tsx": [
-    "/build/assets/Anuncios-CVTso5xw.js"
+    "/build/assets/Anuncios-CmNEjwPB.js"
   ],
   "resources/js/Pages/Admin/Marketplace/Index.tsx": [
-    "/build/assets/Index-YxmjgpmH.js"
+    "/build/assets/Index-BxO6MxwP.js"
   ],
   "resources/js/Pages/Admin/Nps/Configuracao.tsx": [
-    "/build/assets/Configuracao-B28NnecK.js"
+    "/build/assets/Configuracao-91pw59tU.js"
   ],
   "resources/js/Pages/Admin/Nps/Index.tsx": [
-    "/build/assets/Index-qNEAVYt8.js"
+    "/build/assets/Index-D4U1t4ji.js"
   ],
   "resources/js/Pages/Admin/Ordens/Index.tsx": [
-    "/build/assets/Index-BNxaA2te.js"
+    "/build/assets/Index-CJ6JEC_1.js"
   ],
   "resources/js/Pages/Admin/Ordens/Show.tsx": [
-    "/build/assets/Show-C9OtXIK5.js"
+    "/build/assets/Show-BNlztX3T.js"
   ],
   "resources/js/Pages/Admin/Sms/Index.tsx": [
-    "/build/assets/Index-cJReLlr0.js"
+    "/build/assets/Index-Cra-qwZF.js"
   ],
   "resources/js/Pages/Admin/Sms/Show.tsx": [
-    "/build/assets/Show-C2fL0ggl.js"
+    "/build/assets/Show-BeR8ZT4y.js"
   ],
   "resources/js/Pages/Admin/SmsSender/Index.tsx": [
-    "/build/assets/Index-E1jRmRBI.js"
+    "/build/assets/Index-CKyTEMVS.js"
   ],
   "resources/js/Pages/Admin/Subscricoes/Index.tsx": [
-    "/build/assets/Index-BJl-b_Wf.js"
+    "/build/assets/Index-C7w3MJU3.js"
   ],
   "resources/js/Pages/Admin/Subscricoes/Show.tsx": [
-    "/build/assets/Show-mek9_-eC.js"
+    "/build/assets/Show-CH9qGR_V.js"
   ],
   "resources/js/Pages/Assembleias/Entrar.tsx": [
-    "/build/assets/Entrar-omPFX_jx.js"
+    "/build/assets/Entrar-CKgJyMeH.js"
   ],
   "resources/js/Pages/Assembleias/Form.tsx": [
-    "/build/assets/Form-BkX1EmiD.js"
+    "/build/assets/Form-DJzqdDpd.js"
   ],
   "resources/js/Pages/Assembleias/Index.tsx": [
-    "/build/assets/Index-BCOnUlsf.js"
+    "/build/assets/Index-D-bUcBO3.js"
   ],
   "resources/js/Pages/Assembleias/Show.tsx": [
-    "/build/assets/Show-Dv1FCgtt.js"
+    "/build/assets/Show-CVCPWkDa.js"
   ],
   "resources/js/Pages/Assembleias/VotacoesPanel.tsx": [
     "/build/assets/VotacoesPanel-DZjgzv9q.js"
@@ -113,67 +113,67 @@
     "/build/assets/RecuperarPassword-DRx-lFls.js"
   ],
   "resources/js/Pages/Avisos/Create.tsx": [
-    "/build/assets/Create-CdIcS5qw.js"
+    "/build/assets/Create-BL83qDOT.js"
   ],
   "resources/js/Pages/Avisos/Index.tsx": [
-    "/build/assets/Index-dSN-7ZsQ.js"
+    "/build/assets/Index-DXpXF8xd.js"
   ],
   "resources/js/Pages/Avisos/Show.tsx": [
-    "/build/assets/Show-DqJAwMiF.js"
+    "/build/assets/Show-BPp2ACeT.js"
   ],
   "resources/js/Pages/Bi/Dashboard.tsx": [
-    "/build/assets/Dashboard-DwB8aqvG.js"
+    "/build/assets/Dashboard-Ox5f7cWM.js"
   ],
   "resources/js/Pages/Bi/Upgrade.tsx": [
-    "/build/assets/Upgrade-2ws3lRPD.js"
+    "/build/assets/Upgrade-BfPNu9Pm.js"
   ],
   "resources/js/Pages/Catalogo/Index.tsx": [
-    "/build/assets/Index-C65FsyQJ.js"
+    "/build/assets/Index-BjwMgDaH.js"
   ],
   "resources/js/Pages/Condominio/Comissao.tsx": [
-    "/build/assets/Comissao-D1lACzvj.js"
+    "/build/assets/Comissao-Df7Fmrzh.js"
   ],
   "resources/js/Pages/Condominio/Equipa.tsx": [
-    "/build/assets/Equipa-7q8-ie-h.js"
+    "/build/assets/Equipa-CHJDWJgy.js"
   ],
   "resources/js/Pages/Condominio/MinhasQuotas.tsx": [
-    "/build/assets/MinhasQuotas-fUSeG_t_.js"
+    "/build/assets/MinhasQuotas-D-40lptE.js"
   ],
   "resources/js/Pages/Condominio/Regulamento.tsx": [
-    "/build/assets/Regulamento-DhjXhcEA.js"
+    "/build/assets/Regulamento-CKBCk4p6.js"
   ],
   "resources/js/Pages/Condominios/Form.tsx": [
-    "/build/assets/Form-BAJBd0-E.js"
+    "/build/assets/Form-CScEb89v.js"
   ],
   "resources/js/Pages/Condominios/Index.tsx": [
-    "/build/assets/Index-CClXZsga.js"
+    "/build/assets/Index-zuAPwBBI.js"
   ],
   "resources/js/Pages/Condominios/Show.tsx": [
-    "/build/assets/Show-Dqyn6mvX.js"
+    "/build/assets/Show-DNQhYuOS.js"
   ],
   "resources/js/Pages/Condominos/Form.tsx": [
-    "/build/assets/Form-CKnXzwZz.js"
+    "/build/assets/Form-B3T_WiUw.js"
   ],
   "resources/js/Pages/Condominos/Index.tsx": [
-    "/build/assets/Index-Dy1XpT7j.js"
+    "/build/assets/Index-CXaucH_J.js"
   ],
   "resources/js/Pages/Condominos/Show.tsx": [
-    "/build/assets/Show-BUObq0kL.js"
+    "/build/assets/Show-BQfgPfFu.js"
   ],
   "resources/js/Pages/Configuracoes/CategoriasPedidos.tsx": [
-    "/build/assets/CategoriasPedidos-Bv2r1m4h.js"
+    "/build/assets/CategoriasPedidos-Cz0LROMX.js"
   ],
   "resources/js/Pages/Configuracoes/ContactosSuporte.tsx": [
-    "/build/assets/ContactosSuporte-DwTCHLAc.js"
+    "/build/assets/ContactosSuporte-BwceoM_O.js"
   ],
   "resources/js/Pages/Configuracoes/EmpresasPrestadoras.tsx": [
-    "/build/assets/EmpresasPrestadoras-B7Y_1w1H.js"
+    "/build/assets/EmpresasPrestadoras-BZe8qk9M.js"
   ],
   "resources/js/Pages/Configuracoes/SmsSender.tsx": [
-    "/build/assets/SmsSender-8SNXLT-O.js"
+    "/build/assets/SmsSender-DPY9xL4W.js"
   ],
   "resources/js/Pages/Contratos/Form.tsx": [
-    "/build/assets/Form-DQntPGdr.js"
+    "/build/assets/Form-DZiOYoYd.js"
   ],
   "resources/js/Pages/Convite/Aceitar.tsx": [
     "/build/assets/Aceitar-DM_jSLHT.js"
@@ -182,76 +182,82 @@
     "/build/assets/Invalido-VjVBTMtv.js"
   ],
   "resources/js/Pages/Creditos/Index.tsx": [
-    "/build/assets/Index-bsYeTcEO.js"
+    "/build/assets/Index-Cb8bL25u.js"
   ],
   "resources/js/Pages/Dashboard.tsx": [
-    "/build/assets/Dashboard-Cr1n37Zc.js"
+    "/build/assets/Dashboard-BdILQgCC.js"
   ],
   "resources/js/Pages/Despesas/Categorias.tsx": [
-    "/build/assets/Categorias-B3D6-9-0.js"
+    "/build/assets/Categorias-fEvpiwc_.js"
   ],
   "resources/js/Pages/Despesas/Index.tsx": [
-    "/build/assets/Index-BPQmlu2o.js"
+    "/build/assets/Index-CBbsw8-v.js"
   ],
   "resources/js/Pages/Documentos/Contratos.tsx": [
-    "/build/assets/Contratos-D58QvwxB.js"
+    "/build/assets/Contratos-BR1D3Cot.js"
   ],
   "resources/js/Pages/Documentos/Outros.tsx": [
-    "/build/assets/Outros-Cyg1f2zo.js"
+    "/build/assets/Outros-hYte1067.js"
   ],
   "resources/js/Pages/Documentos/Regulamentos.tsx": [
-    "/build/assets/Regulamentos-Bb6Hrt7i.js"
+    "/build/assets/Regulamentos-BAiRcZug.js"
   ],
   "resources/js/Pages/Documentos/RepositorioDocumentos.tsx": [
-    "/build/assets/RepositorioDocumentos-ClWpk48S.js"
+    "/build/assets/RepositorioDocumentos-CsqTl74l.js"
   ],
   "resources/js/Pages/Edificios/Form.tsx": [
-    "/build/assets/Form-CsqMdnT6.js"
+    "/build/assets/Form-MnU8GYRv.js"
   ],
   "resources/js/Pages/Edificios/Show.tsx": [
-    "/build/assets/Show-BfZs3_51.js"
+    "/build/assets/Show-DkNDsVFX.js"
   ],
   "resources/js/Pages/Encomendas/Index.tsx": [
-    "/build/assets/Index-BTQHzZra.js"
+    "/build/assets/Index-fpuxmo9Y.js"
   ],
   "resources/js/Pages/Facturacao/Acordos/Index.tsx": [
-    "/build/assets/Index-CW51qo1T.js"
+    "/build/assets/Index-CMhaoBS-.js"
+  ],
+  "resources/js/Pages/Facturacao/Config.tsx": [
+    "/build/assets/Config-DBLVjNgG.js"
   ],
   "resources/js/Pages/Facturacao/Quotas/Index.tsx": [
-    "/build/assets/Index-Bvj9JvYA.js"
+    "/build/assets/Index-D9_VjeSV.js"
   ],
   "resources/js/Pages/Facturacao/Quotas/Show.tsx": [
-    "/build/assets/Show-O4CWE5br.js"
+    "/build/assets/Show-CF7c6Nk9.js"
   ],
   "resources/js/Pages/Faqs/Form.tsx": [
-    "/build/assets/Form-Da3ogoe1.js"
+    "/build/assets/Form-GAiQRe2S.js"
   ],
   "resources/js/Pages/Faqs/Index.tsx": [
-    "/build/assets/Index-wc9i4YRc.js"
+    "/build/assets/Index-DzPPd59i.js"
   ],
   "resources/js/Pages/Financas/ContasBancarias/Index.tsx": [
-    "/build/assets/Index-CA0Q46CW.js"
+    "/build/assets/Index-nUBzf5SQ.js"
   ],
   "resources/js/Pages/Fraccoes/Form.tsx": [
-    "/build/assets/Form-BcHLQOOQ.js"
+    "/build/assets/Form-D7V3ZJox.js"
   ],
   "resources/js/Pages/Fraccoes/Show.tsx": [
-    "/build/assets/Show-BX-_hK8-.js"
+    "/build/assets/Show-C8JxWmGP.js"
   ],
   "resources/js/Pages/Funcionalidades/Index.tsx": [
-    "/build/assets/Index-CQo5bGrP.js"
+    "/build/assets/Index-ClVMDfWj.js"
   ],
   "resources/js/Pages/Funcionalidades/Minhas.tsx": [
-    "/build/assets/Minhas-D3CjMJbi.js"
+    "/build/assets/Minhas-BP9slpTS.js"
   ],
   "resources/js/Pages/Funcionalidades/Show.tsx": [
-    "/build/assets/Show-DvKEv2pF.js"
+    "/build/assets/Show-Cbk9A2bY.js"
   ],
   "resources/js/Pages/Funcionalidades/ShowComercial.tsx": [
-    "/build/assets/ShowComercial-Cc0ugJ4e.js"
+    "/build/assets/ShowComercial-BSbjePJ9.js"
+  ],
+  "resources/js/Pages/Importacao/Condominos.tsx": [
+    "/build/assets/Condominos-RvpNysI3.js"
   ],
   "resources/js/Pages/Lancamentos/Index.tsx": [
-    "/build/assets/Index-UqCgC9hi.js"
+    "/build/assets/Index-DBeLIBC0.js"
   ],
   "resources/js/Pages/Landing/Index.tsx": [
     "/build/assets/Index-CDP3IwFB.js"
@@ -259,123 +265,132 @@
   "resources/js/Pages/Loja/Index.tsx": [
     "/build/assets/Index-g3Rn63MY.js"
   ],
+  "resources/js/Pages/Manutencao/Index.tsx": [
+    "/build/assets/Index-CBdZteq_.js"
+  ],
   "resources/js/Pages/Mobile/UsarApp.tsx": [
     "/build/assets/UsarApp-DDGwbCUa.js"
   ],
   "resources/js/Pages/Nps/Configuracao.tsx": [
-    "/build/assets/Configuracao-DBsvVelX.js"
+    "/build/assets/Configuracao-DiLEl-dm.js"
   ],
   "resources/js/Pages/Nps/Dashboard.tsx": [
-    "/build/assets/Dashboard-DyngDiku.js"
+    "/build/assets/Dashboard-BqGemWqy.js"
   ],
   "resources/js/Pages/Ordens/Confirmar.tsx": [
-    "/build/assets/Confirmar-BQbqa_QQ.js"
+    "/build/assets/Confirmar-1GYDsK9B.js"
   ],
   "resources/js/Pages/Ordens/Minhas.tsx": [
-    "/build/assets/Minhas-Cdq4hJDQ.js"
+    "/build/assets/Minhas-C3Jb6PD1.js"
   ],
   "resources/js/Pages/Ordens/Show.tsx": [
-    "/build/assets/Show-8pInl8WK.js"
+    "/build/assets/Show-Q04O27CU.js"
   ],
   "resources/js/Pages/Pagamentos/Index.tsx": [
-    "/build/assets/Index-DB83KqBz.js"
+    "/build/assets/Index-Dffg8Ry0.js"
   ],
   "resources/js/Pages/Pagamentos/Show.tsx": [
-    "/build/assets/Show-Cky60NFq.js"
+    "/build/assets/Show-BwH_EeCK.js"
   ],
   "resources/js/Pages/Perfil/Index.tsx": [
-    "/build/assets/Index-B5LkLNuw.js"
+    "/build/assets/Index-DiPrRzI8.js"
   ],
   "resources/js/Pages/Perfil/Password.tsx": [
-    "/build/assets/Password-vXSUCNVD.js"
+    "/build/assets/Password-BrgQBwSl.js"
   ],
   "resources/js/Pages/Registo/Index.tsx": [
     "/build/assets/Index-CRGsw2T_.js"
   ],
   "resources/js/Pages/Reservas/Espaco.tsx": [
-    "/build/assets/Espaco-qenLXcfI.js"
+    "/build/assets/Espaco-akSGHDkL.js"
   ],
   "resources/js/Pages/Reservas/Index.tsx": [
-    "/build/assets/Index-BrMDDC7m.js"
+    "/build/assets/Index-Cv06CSga.js"
   ],
   "resources/js/Pages/Reservas/Upgrade.tsx": [
-    "/build/assets/Upgrade-TrNsmSdA.js"
+    "/build/assets/Upgrade-BqD9AExr.js"
   ],
   "resources/js/Pages/Sos/Index.tsx": [
-    "/build/assets/Index-C4eA7j-j.js"
+    "/build/assets/Index-C-q6n_8n.js"
   ],
   "resources/js/Pages/Sos/Show.tsx": [
-    "/build/assets/Show-DiDmjNLE.js"
+    "/build/assets/Show-CjN-i9Si.js"
   ],
   "resources/js/Pages/Subscricao/Expirada.tsx": [
-    "/build/assets/Expirada-BBWhJxAw.js"
+    "/build/assets/Expirada-ByLwrnsq.js"
   ],
   "resources/js/Pages/Subscricao/FacturaShow.tsx": [
-    "/build/assets/FacturaShow---w2ERxJ.js"
+    "/build/assets/FacturaShow-DJeag2px.js"
   ],
   "resources/js/Pages/Subscricao/Facturas.tsx": [
-    "/build/assets/Facturas-7xP7k9Ft.js"
+    "/build/assets/Facturas-DKqLXe6d.js"
   ],
   "resources/js/Pages/Subscricao/Index.tsx": [
-    "/build/assets/Index-BEcl3sRe.js"
+    "/build/assets/Index-CSpJaAKW.js"
   ],
   "resources/js/Pages/SuperAdmin/Clientes/Index.tsx": [
-    "/build/assets/Index-5TCRXYTH.js"
+    "/build/assets/Index-SXNZnjUH.js"
   ],
   "resources/js/Pages/SuperAdmin/Clientes/Show.tsx": [
-    "/build/assets/Show-C0wmLol5.js"
+    "/build/assets/Show-sTSYr2No.js"
   ],
   "resources/js/Pages/SuperAdmin/Comunicados/Index.tsx": [
-    "/build/assets/Index-IuVpktUs.js"
+    "/build/assets/Index-BRgrzeAR.js"
   ],
   "resources/js/Pages/SuperAdmin/Dashboard/Index.tsx": [
-    "/build/assets/Index-DXYy5yrt.js"
+    "/build/assets/Index-D6nfolbW.js"
   ],
   "resources/js/Pages/SuperAdmin/FacturasPlataforma/Index.tsx": [
-    "/build/assets/Index-DjWfcpj-.js"
+    "/build/assets/Index-Decd87_5.js"
   ],
   "resources/js/Pages/SuperAdmin/Permissoes/Index.tsx": [
-    "/build/assets/Index-BkdsnCOd.js"
+    "/build/assets/Index-Dh9X_Oax.js"
   ],
   "resources/js/Pages/SuperAdmin/Subscricoes/Config.tsx": [
-    "/build/assets/Config-BPKgzO9v.js"
+    "/build/assets/Config-CcaJ7BUw.js"
   ],
   "resources/js/Pages/Tickets/Index.tsx": [
-    "/build/assets/Index-BOYWtF-Z.js"
+    "/build/assets/Index-D7sMPmqc.js"
   ],
   "resources/js/Pages/Tickets/Show.tsx": [
-    "/build/assets/Show-B7gUWran.js"
+    "/build/assets/Show-C86tuM2s.js"
   ],
   "resources/js/Pages/Turnos/Escala.tsx": [
-    "/build/assets/Escala-OTj2lkAN.js"
+    "/build/assets/Escala-tiB7R_xG.js"
   ],
   "resources/js/Pages/Turnos/Modelos.tsx": [
-    "/build/assets/Modelos-C0ERJ82F.js"
+    "/build/assets/Modelos-D4b0lfTj.js"
   ],
   "resources/js/Pages/Turnos/Presenca.tsx": [
-    "/build/assets/Presenca-ERk_qORG.js"
+    "/build/assets/Presenca-RUZNDbc_.js"
   ],
   "resources/js/Pages/Turnos/Relatorio.tsx": [
-    "/build/assets/Relatorio-DobtY0HA.js"
+    "/build/assets/Relatorio-DFvxHvl1.js"
   ],
   "resources/js/Pages/Utilizadores/Index.tsx": [
-    "/build/assets/Index-DPp69Kuf.js"
+    "/build/assets/Index-CYOQuQz4.js"
   ],
   "resources/js/Pages/Visitantes/DentroAgora.tsx": [
-    "/build/assets/DentroAgora-B8irKjZY.js"
+    "/build/assets/DentroAgora-Dr0ooNRs.js"
   ],
   "resources/js/Pages/Visitantes/Historico.tsx": [
-    "/build/assets/Historico-oYaSV_-6.js"
+    "/build/assets/Historico-KzA-JiwO.js"
+  ],
+  "resources/js/Pages/Visitantes/ListaNegra.tsx": [
+    "/build/assets/ListaNegra-RYvDgmF2.js"
+  ],
+  "resources/js/Pages/Visitantes/Passes.tsx": [
+    "/build/assets/Passes-CoS3lqLM.js"
   ],
   "resources/js/Pages/Visitantes/PreAprovacoes.tsx": [
-    "/build/assets/PreAprovacoes-LQ1YzzyO.js"
+    "/build/assets/PreAprovacoes-BPmQU_68.js"
   ],
   "resources/js/config/suporte.ts": [
-    "/build/assets/AuthenticatedLayout-C7SEgtpD.js",
+    "/build/assets/AuthenticatedLayout-BevyWQSg.js",
     "/build/assets/AuthenticatedLayout-DB0Q8XAf.css"
   ],
   "resources/js/lib/utils.ts": [
-    "/build/assets/AuthenticatedLayout-C7SEgtpD.js",
+    "/build/assets/AuthenticatedLayout-BevyWQSg.js",
     "/build/assets/AuthenticatedLayout-DB0Q8XAf.css"
   ],
   "resources/js/ssr.tsx": []
