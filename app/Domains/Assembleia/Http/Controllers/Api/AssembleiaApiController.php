@@ -153,6 +153,10 @@ class AssembleiaApiController extends Controller
             return response()->json(['message' => 'Votação não está aberta.'], 422);
         }
 
+        // Quem vota está presente — corrige acta/quórum no fluxo mobile
+        // (antes, votar pelo telemóvel deixava o participante como ausente).
+        $participante->marcarPresente($request->ip(), $request->userAgent());
+
         AssembleiaVoto::updateOrCreate(
             ['ponto_votacao_id' => $pontoId, 'participante_id' => $participante->id],
             [
@@ -164,5 +168,67 @@ class AssembleiaApiController extends Controller
         );
 
         return response()->json(['message' => 'Voto registado.']);
+    }
+
+    /**
+     * POST /api/assembleias/{id}/entrar — Marca o participante como presente
+     * (entrou na sala virtual). Idempotente. Conta para quórum e acta.
+     */
+    public function entrar(Request $request, int $id): JsonResponse
+    {
+        $user = $request->user();
+        $condomino = CondominoResolver::paraUser($user);
+        if (! $condomino) {
+            return response()->json(['message' => 'User não é condómino.'], 403);
+        }
+
+        $participante = AssembleiaParticipante::where('assembleia_id', $id)
+            ->where('condomino_id', $condomino->id)
+            ->first();
+
+        if (! $participante) {
+            return response()->json(['message' => 'Não és participante desta assembleia.'], 403);
+        }
+
+        $participante->marcarPresente($request->ip(), $request->userAgent());
+
+        return response()->json(['message' => 'Presença registada.']);
+    }
+
+    /**
+     * GET /api/assembleias/{id}/acta — Stream do PDF da acta.
+     * Servido aqui (autenticado, só participantes) porque a acta vive no
+     * disco privado e NÃO pode passar por /ficheiros/ (disco público sem auth).
+     */
+    public function baixarActa(Request $request, int $id)
+    {
+        $user = $request->user();
+        $condomino = CondominoResolver::paraUser($user);
+        if (! $condomino) {
+            return response()->json(['message' => 'User não é condómino.'], 403);
+        }
+
+        $assembleia = Assembleia::find($id);
+        if (! $assembleia) {
+            return response()->json(['message' => 'Assembleia não encontrada.'], 404);
+        }
+
+        $participante = AssembleiaParticipante::where('assembleia_id', $id)
+            ->where('condomino_id', $condomino->id)
+            ->first();
+
+        if (! $participante) {
+            return response()->json(['message' => 'Não és participante desta assembleia.'], 403);
+        }
+
+        $pdf = app(\App\Domains\Assembleia\Services\ActaService::class)->obterPdf($assembleia);
+        if ($pdf === null) {
+            return response()->json(['message' => 'Acta ainda não disponível.'], 404);
+        }
+
+        return response($pdf, 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'inline; filename="acta-assembleia-'.$assembleia->numero.'.pdf"',
+        ]);
     }
 }

@@ -199,6 +199,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('assembleias')->controller(\App\Domains\Assembleia\Http\Controllers\Api\AssembleiaApiController::class)->group(function () {
         Route::get('/', 'index');
         Route::get('/{id}', 'show');
+        Route::get('/{id}/acta', 'baixarActa');
+        Route::post('/{id}/entrar', 'entrar');
         Route::post('/{id}/pontos/{ponto}/votar', 'votar');
     });
 
