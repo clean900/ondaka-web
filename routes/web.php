@@ -419,8 +419,8 @@ Route::middleware(['auth', 'verified', '2fa'])->group(function () {
         Route::delete('/contratos/{contrato}', [ContratoOcupacaoController::class, 'destroy'])
             ->name('contratos.destroy');
 
-        // Assembleias
-        Route::prefix('assembleias')->name('assembleias.')->group(function () {
+        // Assembleias (addon: assembleia_virtual — gate consistente com o mobile)
+        Route::middleware('feature:assembleia_virtual')->prefix('assembleias')->name('assembleias.')->group(function () {
             Route::get('/', [AssembleiaController::class, 'index'])->name('index');
             Route::get('/nova', [AssembleiaController::class, 'create'])->name('create');
             Route::post('/', [AssembleiaController::class, 'store'])->name('store');
@@ -480,14 +480,20 @@ Route::middleware(['auth', 'verified', '2fa'])->group(function () {
             Route::get('/historico', [VisitantesWebController::class, 'historico'])->name('historico');
             Route::get('/pre-aprovacoes', [VisitantesWebController::class, 'preAprovacoes'])->name('pre-aprovacoes');
             Route::post('/pre-aprovacoes', [VisitantesWebController::class, 'criarPreAprovacao'])->name('pre-aprovacoes.criar');
-            Route::get('/lista-negra', [\App\Domains\Visitor\Http\Controllers\Web\ListaNegraController::class, 'index'])->name('lista-negra');
-            Route::post('/lista-negra', [\App\Domains\Visitor\Http\Controllers\Web\ListaNegraController::class, 'store'])->name('lista-negra.store');
-            Route::delete('/lista-negra/{id}', [\App\Domains\Visitor\Http\Controllers\Web\ListaNegraController::class, 'destroy'])->whereNumber('id')->name('lista-negra.destroy');
+            // Lista Negra (addon: lista_negra_visitantes)
+            Route::middleware('feature:lista_negra_visitantes')->group(function () {
+                Route::get('/lista-negra', [\App\Domains\Visitor\Http\Controllers\Web\ListaNegraController::class, 'index'])->name('lista-negra');
+                Route::post('/lista-negra', [\App\Domains\Visitor\Http\Controllers\Web\ListaNegraController::class, 'store'])->name('lista-negra.store');
+                Route::delete('/lista-negra/{id}', [\App\Domains\Visitor\Http\Controllers\Web\ListaNegraController::class, 'destroy'])->whereNumber('id')->name('lista-negra.destroy');
+            });
+            // Passes de Visitante (addon: passe_visitante_branding)
             $pc = \App\Domains\Visitor\Http\Controllers\Web\PassesController::class;
-            Route::get('/passes', [$pc, 'index'])->name('passes');
-            Route::post('/passes/{passe}/aprovar', [$pc, 'aprovar'])->whereNumber('passe')->name('passes.aprovar');
-            Route::post('/passes/{passe}/recusar', [$pc, 'recusar'])->whereNumber('passe')->name('passes.recusar');
-            Route::patch('/passes/modelo/{condominio}', [$pc, 'definirModelo'])->whereNumber('condominio')->name('passes.modelo');
+            Route::middleware('feature:passe_visitante_branding')->group(function () use ($pc) {
+                Route::get('/passes', [$pc, 'index'])->name('passes');
+                Route::post('/passes/{passe}/aprovar', [$pc, 'aprovar'])->whereNumber('passe')->name('passes.aprovar');
+                Route::post('/passes/{passe}/recusar', [$pc, 'recusar'])->whereNumber('passe')->name('passes.recusar');
+                Route::patch('/passes/modelo/{condominio}', [$pc, 'definirModelo'])->whereNumber('condominio')->name('passes.modelo');
+            });
         });
 
     // === Encomendas ===
@@ -499,7 +505,7 @@ Route::middleware(['auth', 'verified', '2fa'])->group(function () {
         });
 
     // === Manutenção Preventiva ===
-    Route::middleware('role:super-admin|admin-empresa|gestor|administrador-condominio')
+    Route::middleware(['role:super-admin|admin-empresa|gestor|administrador-condominio', 'feature:manutencao_preventiva'])
         ->prefix('manutencao')
         ->name('manutencao.')
         ->group(function () {
@@ -511,7 +517,7 @@ Route::middleware(['auth', 'verified', '2fa'])->group(function () {
         });
 
     // === Importação Massiva ===
-    Route::middleware('role:super-admin|admin-empresa|gestor')
+    Route::middleware(['role:super-admin|admin-empresa|gestor', 'feature:importacao_massiva'])
         ->prefix('importacao')
         ->name('importacao.')
         ->group(function () {
