@@ -222,7 +222,7 @@ const TUTORIAIS: Tutorial[] = [
             { elemento: '[href="/assembleias"]', titulo: '1. Abrir Assembleias', descricao: 'No menu Operação, clique em "Assembleias".', side: 'right' },
             { titulo: '2. Nova assembleia', descricao: 'Clique em "+ Nova assembleia".', side: 'over' },
             { titulo: '3. Tipo + data', descricao: 'Ordinária ou extraordinária, data, hora, local físico (se aplicável).', side: 'over' },
-            { titulo: '4. Modo', descricao: 'Virtual (Jitsi automático), presencial, ou híbrida.', side: 'over' },
+            { titulo: '4. Modo', descricao: 'Virtual (videoconferência automática), presencial, ou híbrida.', side: 'over' },
             { titulo: '5. Ordem do dia', descricao: 'Liste pontos a discutir. Cada ponto pode ter uma votação associada.', side: 'over' },
             { titulo: '6. Convocatórias', descricao: 'Sistema envia convocatória automática a todos os condóminos por email.', side: 'over' },
         ],
@@ -319,7 +319,7 @@ const TUTORIAIS: Tutorial[] = [
         passos: [
             { elemento: '[href="/assembleias"]', titulo: '1. Abrir Assembleias', descricao: 'No menu, clique em "Assembleias".', side: 'right' },
             { titulo: '2. Assembleia activa', descricao: 'Veja a assembleia em curso ou agendada.', side: 'over' },
-            { titulo: '3. Participar', descricao: 'Clique para entrar na videoconferência (Jitsi) ou ler ordem do dia.', side: 'over' },
+            { titulo: '3. Participar', descricao: 'Clique para entrar na videoconferência ou ler ordem do dia.', side: 'over' },
             { titulo: '4. Votar', descricao: 'Em cada ponto da ordem do dia com votação, escolha "A favor", "Contra" ou "Abstenção".', side: 'over' },
         ],
     },

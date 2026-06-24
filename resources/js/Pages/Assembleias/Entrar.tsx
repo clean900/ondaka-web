@@ -107,7 +107,7 @@ export default function AssembleiaEntrar({ assembleia, participante, erro }: Pro
                             <Video className="h-16 w-16 text-cyan-400 mx-auto mb-4" />
                             <h3 className="text-lg font-semibold text-zinc-100 mb-2">A entrar na sala virtual...</h3>
                             <p className="text-sm text-zinc-400 mb-6">
-                                A abrir Jitsi Meet numa nova aba. Se não abrir automaticamente, clique no botão:
+                                A abrir a sala de vídeo numa nova aba. Se não abrir automaticamente, clique no botão:
                             </p>
 
                             <a
@@ -117,7 +117,7 @@ export default function AssembleiaEntrar({ assembleia, participante, erro }: Pro
                                 className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-cyan-500 to-purple-500 hover:opacity-90 text-white px-6 py-3 text-base font-semibold"
                             >
                                 <Video className="h-5 w-5" />
-                                Abrir sala Jitsi
+                                Abrir sala de vídeo
                             </a>
 
                             <p className="text-xs text-zinc-600 mt-6 font-mono break-all">{assembleia.url_jitsi}</p>

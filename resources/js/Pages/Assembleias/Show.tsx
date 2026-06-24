@@ -201,7 +201,7 @@ export default function AssembleiaShow({ assembleia }: { assembleia: Assembleia 
                                 className="inline-flex items-center gap-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-emerald-950 px-5 py-2.5 text-sm font-semibold"
                             >
                                 <Video className="h-4 w-4" />
-                                Abrir Jitsi numa nova tab
+                                Abrir vídeo numa nova aba
                             </a>
                             <p className="text-xs text-zinc-500 font-mono break-all">{assembleia.url_jitsi}</p>
                         </div>

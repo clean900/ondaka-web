@@ -15,7 +15,7 @@ export default function AssembleiaForm({ condominios }: PageProps) {
         observacoes: '',
         data_agendada: '',
         data_segunda_convocatoria: '',
-        local: 'Virtual (Jitsi)',
+        local: 'Virtual',
         modo: 'virtual',
         quorum_minimo_percent: 50,
         enviar_convocatorias_ja: false,
@@ -88,7 +88,7 @@ export default function AssembleiaForm({ condominios }: PageProps) {
                                     onChange={(e) => setData('modo', e.target.value)}
                                     className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-sm text-zinc-200"
                                 >
-                                    <option value="virtual">Virtual (Jitsi)</option>
+                                    <option value="virtual">Virtual</option>
                                     <option value="presencial">Presencial</option>
                                     <option value="hibrida">Híbrida</option>
                                 </select>

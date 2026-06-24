@@ -137,7 +137,7 @@ function passosGestor() {
             permissaoNecessaria: 'votacoes.ver', element: '[href="/assembleias"]',
             popover: {
                 title: '🗳️ 5. Assembleias virtuais',
-                description: 'Agende assembleias gerais, conduza com Jitsi (videoconferência), faça votações electrónicas. Acta em PDF gerada automaticamente. Cumpre Decreto 141/15.',
+                description: 'Agende assembleias gerais, conduza por videoconferência, faça votações electrónicas. Acta em PDF gerada automaticamente. Cumpre Decreto 141/15.',
                 side: 'right' as const,
             },
         },
@@ -403,7 +403,7 @@ function passosCondomino() {
             permissaoNecessaria: 'votacoes.ver', element: '[href="/assembleias"]',
             popover: {
                 title: '🗳️ Assembleias',
-                description: 'Veja convocatórias, participe online via Jitsi e vote electronicamente. As suas decisões contam!',
+                description: 'Veja convocatórias, participe online por videoconferência e vote electronicamente. As suas decisões contam!',
                 side: 'right' as const,
             },
         },
