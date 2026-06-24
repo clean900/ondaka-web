@@ -91,6 +91,8 @@ return [
 
     'jitsi' => [
         'base_url' => env('JITSI_BASE_URL', 'https://video.ondaka.ao'),
+        'jwt_app_id' => env('JITSI_JWT_APP_ID', 'ondaka_video'),
+        'jwt_secret' => env('JITSI_JWT_SECRET', ''),
     ],
 
 ];

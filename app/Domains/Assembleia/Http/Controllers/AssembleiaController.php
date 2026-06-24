@@ -138,6 +138,7 @@ class AssembleiaController extends Controller
         $quorum = $assembleia->calcularQuorum();
 
         $userId = $request->user()->id;
+        $urlJitsi = $this->jitsiUrl($assembleia, $request->user(), true);
 
         // Participante do user actual (se existir) para decidir UI de votação
         $participanteActual = $assembleia->participantes->first(function ($p) use ($userId) {
@@ -185,7 +186,7 @@ class AssembleiaController extends Controller
                 'local' => $assembleia->local,
                 'modo' => $assembleia->modo,
                 'sala_jitsi' => $assembleia->sala_jitsi,
-                'url_jitsi' => $assembleia->url_jitsi,
+                'url_jitsi' => $urlJitsi,
                 'estado' => $assembleia->estado,
                 'estado_label' => $assembleia->estado_label,
                 'iniciada_em' => $assembleia->iniciada_em?->toIso8601String(),
@@ -313,9 +314,23 @@ class AssembleiaController extends Controller
     /**
      * Rota de entrada do condómino: redirecciona para Jitsi e regista presença.
      */
+    private function jitsiUrl(Assembleia $assembleia, $user, bool $moderator): ?string
+    {
+        if (! $assembleia->sala_jitsi) {
+            return null;
+        }
+
+        return app(\App\Domains\Assembleia\Services\JitsiTokenService::class)->urlComToken(
+            $assembleia->sala_jitsi,
+            ['id' => $user->id, 'name' => $user->name, 'email' => $user->email],
+            $moderator,
+        );
+    }
+
     public function entrar(Assembleia $assembleia, Request $request): mixed
     {
         $user = $request->user();
+        $urlJitsi = $this->jitsiUrl($assembleia, $user, false);
 
         // Verifica se o user tem condomino associado
         $condomino = \App\Domains\Condomino\Models\Condomino::where('user_id', $user->id)->first();
@@ -325,7 +340,7 @@ class AssembleiaController extends Controller
                 'assembleia' => [
                     'numero' => $assembleia->numero,
                     'titulo' => $assembleia->titulo,
-                    'url_jitsi' => $assembleia->url_jitsi,
+                    'url_jitsi' => $urlJitsi,
                     'estado' => $assembleia->estado,
                 ],
                 'erro' => 'Não foi possível identificar o seu registo de condómino. Contacte a administração.',
@@ -345,7 +360,7 @@ class AssembleiaController extends Controller
                 'assembleia' => [
                     'numero' => $assembleia->numero,
                     'titulo' => $assembleia->titulo,
-                    'url_jitsi' => $assembleia->url_jitsi,
+                    'url_jitsi' => $urlJitsi,
                     'estado' => $assembleia->estado,
                 ],
                 'erro' => 'Não consta como participante convocado. Contacte a administração.',
@@ -358,7 +373,7 @@ class AssembleiaController extends Controller
                 'numero' => $assembleia->numero,
                 'titulo' => $assembleia->titulo,
                 'sala_jitsi' => $assembleia->sala_jitsi,
-                'url_jitsi' => $assembleia->url_jitsi,
+                'url_jitsi' => $urlJitsi,
                 'estado' => $assembleia->estado,
                 'modo' => $assembleia->modo,
                 'data_agendada' => $assembleia->data_agendada->toIso8601String(),

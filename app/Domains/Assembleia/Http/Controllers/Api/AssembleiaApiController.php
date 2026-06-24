@@ -96,13 +96,25 @@ class AssembleiaApiController extends Controller
             ];
         });
 
+        // URL da sala de vídeo já com token JWT (entrada autenticada pela plataforma).
+        $jitsiUrl = $assembleia->sala_jitsi
+            ? app(\App\Domains\Assembleia\Services\JitsiTokenService::class)->urlComToken(
+                $assembleia->sala_jitsi,
+                ['id' => $condomino->id, 'name' => $user->name, 'email' => $user->email],
+                false, // condómino não é moderador
+            )
+            : null;
+
         return response()->json([
             'data' => [
-                'assembleia' => $assembleia->only([
-                    'id', 'numero', 'tipo', 'titulo', 'ordem_do_dia',
-                    'data_agendada', 'local', 'modo', 'estado',
-                    'acta_gerada', 'acta_path', 'sala_jitsi',
-                ]),
+                'assembleia' => array_merge(
+                    $assembleia->only([
+                        'id', 'numero', 'tipo', 'titulo', 'ordem_do_dia',
+                        'data_agendada', 'local', 'modo', 'estado',
+                        'acta_gerada', 'acta_path', 'sala_jitsi',
+                    ]),
+                    ['jitsi_url' => $jitsiUrl],
+                ),
                 'participante' => [
                     'id' => $participante->id,
                     'numero_fraccoes' => $participante->numero_fraccoes,
