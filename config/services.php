@@ -89,4 +89,8 @@ return [
         'service_account_path' => env('FCM_SERVICE_ACCOUNT_PATH'),
     ],
 
+    'jitsi' => [
+        'base_url' => env('JITSI_BASE_URL', 'https://video.ondaka.ao'),
+    ],
+
 ];

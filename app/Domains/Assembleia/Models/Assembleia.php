@@ -83,7 +83,7 @@ class Assembleia extends Model
 
     public function getUrlJitsiAttribute(): string
     {
-        return 'https://meet.jit.si/'.$this->sala_jitsi;
+        return rtrim(config('services.jitsi.base_url'), '/').'/'.$this->sala_jitsi;
     }
 
     public function getTipoLabelAttribute(): string
