@@ -135,7 +135,13 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('dentro-agora', [PortariaController::class, 'dentroAgora']);
         Route::get('visitas', [PortariaController::class, 'historico']);
         Route::post('visitas/{id}/saida', [PortariaController::class, 'registarSaida']);
+        // Chamadas de voz: guarda liga ao condómino
+        Route::get('fraccoes', [\App\Domains\Visitor\Http\Controllers\ChamadaApiController::class, 'fraccoes']);
+        Route::post('chamadas', [\App\Domains\Visitor\Http\Controllers\ChamadaApiController::class, 'ligarCondomino']);
     });
+
+    // Chamadas de voz: condómino liga à portaria
+    Route::post('chamadas/portaria', [\App\Domains\Visitor\Http\Controllers\ChamadaApiController::class, 'ligarPortaria']);
 
 
     /*
