@@ -95,4 +95,18 @@ return [
         'jwt_secret' => env('JITSI_JWT_SECRET', ''),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Chamadas de voz WebRTC (coturn + signaling no VPS)
+    |--------------------------------------------------------------------------
+    */
+    'webrtc' => [
+        'stun' => env('WEBRTC_STUN', 'stun:167.86.114.64:3478'),
+        'turn_host' => env('WEBRTC_TURN_HOST', '167.86.114.64:3478'),
+        'turn_secret' => env('WEBRTC_TURN_SECRET', ''),
+        'turn_ttl' => (int) env('WEBRTC_TURN_TTL', 3600),
+        'signaling_url' => env('WEBRTC_SIGNALING_URL', 'wss://signal.ondaka.ao'),
+        'signaling_secret' => env('WEBRTC_SIGNALING_SECRET', ''),
+    ],
+
 ];

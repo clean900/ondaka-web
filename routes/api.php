@@ -143,6 +143,10 @@ Route::middleware('auth:sanctum')->group(function () {
     // Chamadas de voz: condómino liga à portaria
     Route::post('chamadas/portaria', [\App\Domains\Visitor\Http\Controllers\ChamadaApiController::class, 'ligarPortaria']);
 
+    // Chamadas de voz WebRTC (matriz morador↔guarda↔gestor)
+    Route::get('chamadas/destinos', [\App\Domains\Visitor\Http\Controllers\ChamadaWebrtcController::class, 'destinos']);
+    Route::post('chamadas', [\App\Domains\Visitor\Http\Controllers\ChamadaWebrtcController::class, 'iniciar']);
+
 
     /*
     |--------------------------------------------------------------------------
