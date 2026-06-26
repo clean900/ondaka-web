@@ -45,7 +45,6 @@
   }
   .wrap { position: relative; z-index: 1; max-width: 1180px; margin: 0 auto; padding: 0 24px; }
 
-  /* NAV */
   nav {
     position: sticky; top: 0; z-index: 50;
     backdrop-filter: blur(14px);
@@ -60,7 +59,6 @@
   .nav-links a:hover { color: var(--cyan); }
   @media (max-width: 760px) { .nav-links { display: none; } }
 
-  /* HERO */
   header.hero { padding: 90px 0 70px; text-align: center; }
   .pill {
     display: inline-block; padding: 6px 16px; border-radius: 999px;
@@ -71,7 +69,6 @@
   .hero h1 .g { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
   .hero p.sub { max-width: 640px; margin: 22px auto 0; color: var(--text-muted); font-size: 18px; }
 
-  /* STATS */
   .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin: 50px 0 10px; }
   @media (max-width: 760px) { .stats { grid-template-columns: repeat(2, 1fr); } }
   .stat {
@@ -81,14 +78,12 @@
   .stat .n { font-size: 34px; font-weight: 800; background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
   .stat .l { color: var(--text-muted); font-size: 13px; margin-top: 4px; }
 
-  /* SECTIONS */
   section { padding: 64px 0 10px; }
   .sec-head { margin-bottom: 34px; }
   .sec-head .tag { color: var(--cyan); font-weight: 700; font-size: 13px; letter-spacing: 1.5px; text-transform: uppercase; }
   .sec-head h2 { font-size: clamp(28px, 4vw, 40px); font-weight: 800; letter-spacing: -0.8px; margin-top: 8px; }
   .sec-head p { color: var(--text-muted); margin-top: 10px; max-width: 720px; font-size: 16px; }
 
-  /* CORE vs ADDON explainer */
   .vs { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
   @media (max-width: 760px) { .vs { grid-template-columns: 1fr; } }
   .vs-card { border-radius: var(--r-lg); padding: 30px; border: 1px solid var(--border); background: var(--surface); position: relative; overflow: hidden; }
@@ -105,7 +100,6 @@
   .vs-card li::before { content: '✓'; color: var(--success); font-weight: 800; }
   .vs-card.addon li::before { content: '＋'; color: var(--magenta); }
 
-  /* GROUP grid */
   .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
   @media (max-width: 980px) { .grid { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 620px) { .grid { grid-template-columns: 1fr; } }
@@ -120,18 +114,16 @@
   .card h4 { font-size: 16px; font-weight: 700; }
   .card p { color: var(--text-muted); font-size: 13.5px; margin-top: 10px; }
 
-  /* group label */
   .group-label { display: flex; align-items: center; gap: 12px; margin: 40px 0 18px; }
   .group-label .bar { width: 4px; height: 26px; border-radius: 3px; background: var(--grad); }
   .group-label h3 { font-size: 19px; font-weight: 800; }
   .group-label .count { color: var(--text-muted); font-size: 13px; font-weight: 500; }
 
-  /* ADDON card */
-  .addon-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-md); padding: 20px; display: flex; flex-direction: column; transition: transform .18s, border-color .18s; }
+  .addon-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-md); padding: 22px; display: flex; flex-direction: column; transition: transform .18s, border-color .18s; }
   .addon-card:hover { transform: translateY(-3px); border-color: rgba(236,72,153,0.45); }
   .addon-card .top { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
-  .addon-card h4 { font-size: 15.5px; font-weight: 700; line-height: 1.3; }
-  .addon-card p { color: var(--text-muted); font-size: 13px; margin-top: 10px; flex: 1; }
+  .addon-card h4 { font-size: 16px; font-weight: 700; line-height: 1.3; }
+  .addon-card p { color: var(--text-muted); font-size: 13.5px; margin-top: 10px; flex: 1; }
   .price { font-weight: 800; font-size: 15px; white-space: nowrap;
     background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
   .meta { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
@@ -139,9 +131,7 @@
   .b-emp { background: rgba(0,212,255,0.12); color: var(--cyan); }
   .b-cond { background: rgba(168,85,247,0.14); color: #c89bf9; }
   .b-ambos { background: rgba(236,72,153,0.12); color: #f48fc0; }
-  .b-soon { background: rgba(245,158,11,0.14); color: var(--warning); }
 
-  /* glossary */
   .gloss { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
   @media (max-width: 760px) { .gloss { grid-template-columns: 1fr; } }
   .gloss-item { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
@@ -161,7 +151,7 @@
     <div class="nav-links">
       <a href="#conceito">Core vs Add-on</a>
       <a href="#core">Funcionalidades Core</a>
-      <a href="#addons">Loja de Add-ons</a>
+      <a href="#addons">Add-ons</a>
       <a href="#glossario">Glossário</a>
     </div>
   </div>
@@ -174,9 +164,9 @@
     <p class="sub">O ONDAKA reúne tudo o que uma empresa gestora, um administrador e um condómino precisam — finanças, comunicação, segurança e comunidade — numa só plataforma web e mobile.</p>
 
     <div class="stats">
-      <div class="stat"><div class="n">35+</div><div class="l">Módulos incluídos (Core)</div></div>
-      <div class="stat"><div class="n">37</div><div class="l">Add-ons na loja</div></div>
+      <div class="stat"><div class="n">20+</div><div class="l">Módulos incluídos (Core)</div></div>
       <div class="stat"><div class="n">2</div><div class="l">Apps (Web + Mobile)</div></div>
+      <div class="stat"><div class="n">SMS</div><div class="l">+ Multicaixa / ProxyPay</div></div>
       <div class="stat"><div class="n">100%</div><div class="l">Pensado para Angola</div></div>
     </div>
   </div>
@@ -208,7 +198,7 @@
           <li>Pagos à parte — mensalidade e/ou taxa de activação</li>
           <li>Activáveis e canceláveis na loja, a qualquer momento</li>
           <li>Permitem adaptar a plataforma a cada cliente</li>
-          <li>Alguns são consumíveis (ex.: SMS, leituras de contador)</li>
+          <li>Alguns são consumíveis (ex.: pacotes de SMS)</li>
         </ul>
       </div>
     </div>
@@ -227,6 +217,7 @@
     <div class="group-label"><span class="bar"></span><h3>Financeiro</h3><span class="count">— o coração da gestão</span></div>
     <div class="grid">
       <div class="card"><div class="ct"><span class="dot">💳</span><h4>Taxas de Condomínio</h4></div><p>Gerar e cobrar as taxas mensais, com cálculo por quota proporcional, multas e juros. Os condóminos veem o saldo e pagam pela app.</p></div>
+      <div class="card"><div class="ct"><span class="dot">🏧</span><h4>Pagamentos Multicaixa</h4></div><p>Pagamento das taxas via Multicaixa/ProxyPay, com confirmação automática por webhook. Integração já em produção.</p></div>
       <div class="card"><div class="ct"><span class="dot">📊</span><h4>Finanças & Despesas</h4></div><p>Registar contas bancárias, movimentos e despesas, com aprovação pela comissão de moradores. Transparência total das contas.</p></div>
       <div class="card"><div class="ct"><span class="dot">🤝</span><h4>Acordos de Pagamento</h4></div><p>Negociar parcelamentos com condóminos em atraso, com contrapropostas e acompanhamento das prestações.</p></div>
       <div class="card"><div class="ct"><span class="dot">🧾</span><h4>Lançamentos & Recibos</h4></div><p>Lançamentos manuais, recibos e facturas gerados automaticamente, com histórico para o condómino.</p></div>
@@ -234,15 +225,14 @@
 
     <div class="group-label"><span class="bar"></span><h3>Comunicação & Comunidade</h3></div>
     <div class="grid">
-      <div class="card"><div class="ct"><span class="dot">📢</span><h4>Avisos & Comunicados</h4></div><p>Publicar avisos para os condóminos com comentários e estatísticas de leitura — todos ficam informados.</p></div>
-      <div class="card"><div class="ct"><span class="dot">🛒</span><h4>Marketplace Condominial</h4></div><p>Compra, venda e serviços entre vizinhos (Vendo / Procuro / Serviços) com chat e moderação.</p></div>
-      <div class="card"><div class="ct"><span class="dot">❓</span><h4>FAQ & Notificações</h4></div><p>Perguntas frequentes e notificações in-app para reduzir dúvidas e manter todos a par.</p></div>
-      <div class="card"><div class="ct"><span class="dot">😊</span><h4>NPS / Satisfação</h4></div><p>Inquéritos de satisfação aos condóminos e às empresas gestoras, para medir a qualidade do serviço.</p></div>
+      <div class="card"><div class="ct"><span class="dot">📢</span><h4>Avisos & Comunicados</h4></div><p>Publicar avisos para os condóminos com anexos, comentários e estatísticas de leitura — todos ficam informados.</p></div>
+      <div class="card"><div class="ct"><span class="dot">🛒</span><h4>Marketplace Condominial</h4></div><p>Compra, venda e serviços entre vizinhos (Vendo / Procuro / Serviços) com moderação.</p></div>
+      <div class="card"><div class="ct"><span class="dot">❓</span><h4>FAQ & Notificações</h4></div><p>Perguntas frequentes e notificações push (app) para reduzir dúvidas e manter todos a par.</p></div>
     </div>
 
     <div class="group-label"><span class="bar"></span><h3>Segurança & Acesso</h3></div>
     <div class="grid">
-      <div class="card"><div class="ct"><span class="dot">🆘</span><h4>SOS / Emergências</h4></div><p>Alertas de emergência por condómino, guarda ou gestor, com notificação crítica imediata. Sempre activo.</p></div>
+      <div class="card"><div class="ct"><span class="dot">🆘</span><h4>SOS / Emergências</h4></div><p>Alertas de emergência por condómino, guarda ou gestor, com notificação crítica imediata (full-screen). Sempre activo.</p></div>
       <div class="card"><div class="ct"><span class="dot">🚪</span><h4>Portaria & Visitantes</h4></div><p>Pré-aprovação de visitas, passes com QR Code, validação na entrada e chamada de voz portaria↔morador.</p></div>
       <div class="card"><div class="ct"><span class="dot">📦</span><h4>Encomendas</h4></div><p>Registo de encomendas recebidas na portaria e alerta ao condómino para levantamento.</p></div>
     </div>
@@ -259,78 +249,25 @@
 
     <div class="group-label"><span class="bar"></span><h3>Gestão & Administração</h3></div>
     <div class="grid">
-      <div class="card"><div class="ct"><span class="dot">📈</span><h4>Dashboard</h4></div><p>Painel com KPIs, gráficos e resumo da actividade do condomínio e da empresa gestora.</p></div>
+      <div class="card"><div class="ct"><span class="dot">📈</span><h4>Dashboard</h4></div><p>Painel com indicadores, gráficos e resumo da actividade do condomínio e da empresa gestora.</p></div>
       <div class="card"><div class="ct"><span class="dot">👥</span><h4>Utilizadores & Convites</h4></div><p>Criar utilizadores, convidar, gerir roles e permissões (gestor, guarda, condómino…).</p></div>
-      <div class="card"><div class="ct"><span class="dot">🏛️</span><h4>Empresa Gestora</h4></div><p>Dados da empresa, contactos de suporte e configurações multi-condomínio.</p></div>
-      <div class="card"><div class="ct"><span class="dot">🔁</span><h4>Subscrições</h4></div><p>Planos, escalões, trial, facturas e pagamentos da subscrição da plataforma.</p></div>
+      <div class="card"><div class="ct"><span class="dot">🏛️</span><h4>Empresa Gestora</h4></div><p>Dados da empresa, contactos de suporte e gestão multi-condomínio.</p></div>
     </div>
   </div>
 </section>
 
-<!-- ADDONS -->
+<!-- ADDONS (só os disponíveis em produção) -->
 <section id="addons">
   <div class="wrap">
     <div class="sec-head">
       <div class="tag">Loja de Add-ons</div>
-      <h2>Funcionalidades extra, à medida</h2>
-      <p>37 add-ons que cada cliente activa quando precisa. Preços indicativos em Kwanzas (Kz). Legenda: <span class="badge b-emp">Empresa</span> <span class="badge b-cond">Condomínio</span> <span class="badge b-ambos">Ambos</span> <span class="badge b-soon">Em breve</span></p>
+      <h2>Add-ons disponíveis</h2>
+      <p>Funcionalidades extra que já podes activar hoje. Preços indicativos em Kwanzas (Kz). Legenda: <span class="badge b-emp">Empresa</span> <span class="badge b-cond">Condomínio</span> <span class="badge b-ambos">Ambos</span></p>
     </div>
-
-    <div class="group-label"><span class="bar"></span><h3>Pagamentos & Facturação</h3><span class="count">7 add-ons</span></div>
     <div class="grid">
-      <div class="addon-card"><div class="top"><h4>Pagar Tudo Multicaixa</h4><span class="price">3.000/mês</span></div><p>Botão único para liquidar todas as taxas em aberto numa só transacção ProxyPay, com cálculo automático de saldo, multas e juros.</p><div class="meta"><span class="badge b-cond">Condomínio</span></div></div>
-      <div class="addon-card"><div class="top"><h4>Cobrança Judicial Automática</h4><span class="price">6.000/mês</span></div><p>Geração automática de documentação legal para acção judicial contra morosos (&gt;90 dias): certidão de dívida e audit trail para tribunal.</p><div class="meta"><span class="badge b-emp">Empresa</span></div></div>
-      <div class="addon-card"><div class="top"><h4>Sistema de Créditos / Saldo</h4><span class="price">4.000/mês</span></div><p>Saldo positivo do imóvel usado automaticamente em pagamentos futuros, com histórico transparente para o condómino.</p><div class="meta"><span class="badge b-emp">Empresa</span></div></div>
-      <div class="addon-card"><div class="top"><h4>ProxyPay Referências (RPS)</h4><span class="price">Por transação</span></div><p>Cada factura gera referência Multicaixa. Condóminos pagam em ATM, balcão ou banca online, com confirmação por webhook.</p><div class="meta"><span class="badge b-cond">Condomínio</span></div></div>
-      <div class="addon-card"><div class="top"><h4>ProxyPay Débito Directo (DDS)</h4><span class="price">Por débito</span></div><p>Débito automático mensal na conta do condómino. Reduz drasticamente a inadimplência (requer mandato assinado).</p><div class="meta"><span class="badge b-cond">Condomínio</span></div></div>
-      <div class="addon-card"><div class="top"><h4>Multicaixa Express na app</h4><span class="price">Por transação</span></div><p>Condómino paga a factura directamente dentro da app ONDAKA via Multicaixa Express — experiência de banca móvel.</p><div class="meta"><span class="badge b-cond">Condomínio</span></div></div>
-      <div class="addon-card"><div class="top"><h4>Serviço SMS (ONDAKA)</h4><span class="price">5.000/mês</span></div><p>Activação do serviço de SMS com remetente "ONDAKA". Inclui 200 SMS por mês para avisos e cobranças.</p><div class="meta"><span class="badge b-ambos">Ambos</span></div></div>
-    </div>
-
-    <div class="group-label"><span class="bar"></span><h3>Gestão, Operação & Compliance</h3><span class="count">15 add-ons</span></div>
-    <div class="grid">
-      <div class="addon-card"><div class="top"><h4>Importação Massiva Avançada</h4><span class="price">3.000/mês</span></div><p>Importar condóminos, imóveis e histórico de pagamentos via Excel/CSV, com validação, mapeamento de colunas e preview.</p><div class="meta"><span class="badge b-emp">Empresa</span></div></div>
-      <div class="addon-card"><div class="top"><h4>Módulo de RH Completo</h4><span class="price">7.000/mês</span></div><p>Funcionários, turnos, presenças, faltas, cálculo de INSS e IRT, subsídios e recibo de vencimento em PDF.</p><div class="meta"><span class="badge b-emp">Empresa</span></div></div>
-      <div class="addon-card"><div class="top"><h4>Gestão de Documentos</h4><span class="price">5.000/mês</span></div><p>Repositório central (regulamento, plantas, contratos, seguros) com versões, permissões por role e pesquisa em PDF.</p><div class="meta"><span class="badge b-emp">Empresa</span></div></div>
-      <div class="addon-card"><div class="top"><h4>Manutenção Preventiva</h4><span class="price">2.000/mês</span></div><p>Calendário de manutenções (elevadores, gerador, bombas) com alertas 30/15/7 dias antes e histórico por equipamento.</p><div class="meta"><span class="badge b-emp">Empresa</span></div></div>
-      <div class="addon-card"><div class="top"><h4>Reservas Áreas Comuns (Avançado)</h4><span class="price">5.000/mês</span></div><p>Calendário visual com regras complexas, conflitos automáticos, taxa por reserva, aprovação do gestor e estatísticas.</p><div class="meta"><span class="badge b-ambos">Ambos</span></div></div>
-      <div class="addon-card"><div class="top"><h4>Checklist Diária de Inspecção</h4><span class="price">4.000/mês</span></div><p>Guarda preenche checklist no mobile (áreas comuns, ronda) com foto, assinatura e GPS. Alerta automático ao gestor.</p><div class="meta"><span class="badge b-emp">Empresa</span></div></div>
-      <div class="addon-card"><div class="top"><h4>Fornecedores Certificados</h4><span class="price">3.000/mês</span></div><p>Catálogo de fornecedores avaliados, com histórico, avaliações 5 estrelas, contactos e preços médios.</p><div class="meta"><span class="badge b-emp">Empresa</span></div></div>
-      <div class="addon-card"><div class="top"><h4>Anomaly Detection (ML)</h4><span class="price">8.000/mês</span><span class="badge b-soon">Em breve</span></div><p>Machine Learning deteta padrões anómalos de pagamento e picos de despesas, com alerta proactivo ao gestor.</p><div class="meta"><span class="badge b-emp">Empresa</span></div></div>
-      <div class="addon-card"><div class="top"><h4>Relatórios Personalizados</h4><span class="price">6.000/mês</span></div><p>Construtor visual de relatórios (drag-and-drop), filtros próprios e agendamento de envio por email. Sem SQL.</p><div class="meta"><span class="badge b-emp">Empresa</span></div></div>
-      <div class="addon-card"><div class="top"><h4>Livro de Reclamações Electrónico</h4><span class="price">5.000/mês</span></div><p>Reclamações digitais conforme regulamento angolano, com resposta em prazo legal e export PDF para autoridades.</p><div class="meta"><span class="badge b-ambos">Ambos</span></div></div>
-      <div class="addon-card"><div class="top"><h4>RGPD & Privacidade Avançada</h4><span class="price">7.000/mês</span></div><p>Conformidade total: consentimentos granulares, export de dados 1-clique e direito a ser esquecido automatizado.</p><div class="meta"><span class="badge b-emp">Empresa</span></div></div>
-      <div class="addon-card"><div class="top"><h4>Audit Log Centralizado</h4><span class="price">6.000/mês</span></div><p>Registo imutável de acções críticas (pagamentos, alterações, deletes) com user, IP e timestamp. Export para auditor.</p><div class="meta"><span class="badge b-emp">Empresa</span></div></div>
-      <div class="addon-card"><div class="top"><h4>Histórico de Alterações</h4><span class="price">2.000/mês</span></div><p>Histórico de 12 meses (vs 30 dias do core) com filtros por user/data/tipo e export CSV simples.</p><div class="meta"><span class="badge b-emp">Empresa</span></div></div>
-      <div class="addon-card"><div class="top"><h4>OCR Leitura de Contadores</h4><span class="price">Consumível</span><span class="badge b-soon">Em breve</span></div><p>Condómino fotografa o contador de água/luz e o sistema extrai o valor automaticamente para a factura.</p><div class="meta"><span class="badge b-cond">Condomínio</span></div></div>
-      <div class="addon-card"><div class="top"><h4>Chatbot FAQ Inteligente</h4><span class="price">8.000/mês</span><span class="badge b-soon">Em breve</span></div><p>Bot 24h responde a condóminos (saldo, próxima assembleia, pré-autorizar visita) e encaminha ao admin quando preciso.</p><div class="meta"><span class="badge b-emp">Empresa</span></div></div>
-    </div>
-
-    <div class="group-label"><span class="bar"></span><h3>Comunicação</h3><span class="count">6 add-ons</span></div>
-    <div class="grid">
-      <div class="addon-card"><div class="top"><h4>Sender ID personalizado (SMS)</h4><span class="price">5.000 activação</span></div><p>SMS enviados com o nome da empresa/condomínio (ex.: "TALATONA") em vez de "ONDAKA". Mais reconhecimento e confiança.</p><div class="meta"><span class="badge b-ambos">Ambos</span></div></div>
-      <div class="addon-card"><div class="top"><h4>Pacote extra de SMS</h4><span class="price">25 Kz/SMS</span></div><p>SMS adicionais com remetente "ONDAKA" para quando o pacote mensal de 200 termina. Escolhe a quantidade.</p><div class="meta"><span class="badge b-ambos">Ambos</span></div></div>
-      <div class="addon-card"><div class="top"><h4>WhatsApp Business API</h4><span class="price">Consumível</span><span class="badge b-soon">Em breve</span></div><p>Notificações via WhatsApp Business — mais barato e eficaz que SMS em Angola (requer conta verificada pela Meta).</p><div class="meta"><span class="badge b-emp">Empresa</span></div></div>
-      <div class="addon-card"><div class="top"><h4>Assembleia Virtual</h4><span class="price">6.000/assembleia</span></div><p>Videochamada integrada + convocatória digital + votação em tempo real + acta automática com assinaturas dos presentes.</p><div class="meta"><span class="badge b-cond">Condomínio</span></div></div>
-      <div class="addon-card"><div class="top"><h4>Email Marketing & Newsletters</h4><span class="price">7.000/mês</span><span class="badge b-soon">Em breve</span></div><p>Newsletters segmentadas com editor visual, templates ONDAKA, analytics de abertura/cliques e agendamento.</p><div class="meta"><span class="badge b-emp">Empresa</span></div></div>
-      <div class="addon-card"><div class="top"><h4>Realtime (Notificações Instantâneas)</h4><span class="price">4.000/mês</span></div><p>Push instantâneo (1-3s) para avisos, votações e dashboards em tempo real. O SOS é sempre instantâneo, sem este add-on.</p><div class="meta"><span class="badge b-ambos">Ambos</span></div></div>
-    </div>
-
-    <div class="group-label"><span class="bar"></span><h3>Segurança & Controlo de Acesso</h3><span class="count">5 add-ons</span></div>
-    <div class="grid">
-      <div class="addon-card"><div class="top"><h4>Lista Negra de Visitantes</h4><span class="price">3.000/mês</span></div><p>Banir visitantes por BI/passaporte/matrícula, com alerta visual e sonoro na portaria quando tentam entrar.</p><div class="meta"><span class="badge b-emp">Empresa</span></div></div>
-      <div class="addon-card"><div class="top"><h4>Passe de Visitante com Branding</h4><span class="price">3.000/mês</span></div><p>PDF do passe com logótipo, morada e cores do condomínio, com QR Code para validação na entrada.</p><div class="meta"><span class="badge b-cond">Condomínio</span></div></div>
-      <div class="addon-card"><div class="top"><h4>ANPR Hikvision (matrículas)</h4><span class="price">10.000/mês</span><span class="badge b-soon">Em breve</span></div><p>Integração com câmaras Hikvision: residentes entram sem parar, visitas registadas e abertura de cancela via relay.</p><div class="meta"><span class="badge b-cond">Condomínio</span></div></div>
-      <div class="addon-card"><div class="top"><h4>ZKTeco (controlo de acessos)</h4><span class="price">8.000/mês</span><span class="badge b-soon">Em breve</span></div><p>Sincronização com leitores biométricos ZKBio CVAccess: horários, cartões, impressão digital e reconhecimento facial.</p><div class="meta"><span class="badge b-cond">Condomínio</span></div></div>
-      <div class="addon-card"><div class="top"><h4>Encomendas Avançado</h4><span class="price">4.000/mês</span></div><p>Registo com foto da embalagem, dimensões, peso e prazo de levantamento, com alerta automático ao condómino.</p><div class="meta"><span class="badge b-cond">Condomínio</span></div></div>
-    </div>
-
-    <div class="group-label"><span class="bar"></span><h3>Personalização & Integrações</h3><span class="count">4 add-ons</span></div>
-    <div class="grid">
-      <div class="addon-card"><div class="top"><h4>White Label (logo próprio)</h4><span class="price">10.000/mês</span></div><p>Substitui o logo ONDAKA pelo da empresa gestora em toda a plataforma web e na app mobile.</p><div class="meta"><span class="badge b-emp">Empresa</span></div></div>
-      <div class="addon-card"><div class="top"><h4>Dashboard BI Avançado</h4><span class="price">10.000/mês</span></div><p>KPIs cross-condomínio, comparativos, previsões e exportação automática semanal em Excel/PDF.</p><div class="meta"><span class="badge b-emp">Empresa</span></div></div>
-      <div class="addon-card"><div class="top"><h4>Integração Contabilidade</h4><span class="price">10.000/mês</span><span class="badge b-soon">Em breve</span></div><p>Sincronização com PHC/Primavera ou export SAF-T, reduzindo o trabalho manual do contabilista.</p><div class="meta"><span class="badge b-emp">Empresa</span></div></div>
-      <div class="addon-card"><div class="top"><h4>API Pública (Webhooks)</h4><span class="price">7.000/mês</span><span class="badge b-soon">Em breve</span></div><p>Acesso programático via REST API + webhooks, com token auth e sandbox. Para empresas com BI próprio ou ERPs.</p><div class="meta"><span class="badge b-emp">Empresa</span></div></div>
+      <div class="addon-card"><div class="top"><h4>Serviço SMS (ONDAKA)</h4><span class="price">desde 5.000</span></div><p>Envio de SMS para condóminos (avisos, cobranças, lembretes) com remetente "ONDAKA". Inclui pacote mensal, com opção de Sender ID personalizado (nome do condomínio) e pacotes extra.</p><div class="meta"><span class="badge b-ambos">Ambos</span></div></div>
+      <div class="addon-card"><div class="top"><h4>Assembleia Virtual</h4><span class="price">6.000/assembleia</span></div><p>Videochamada integrada para a assembleia + convocatória digital + votação em tempo real + acta automática com registo dos presentes. Pack de 5 com desconto.</p><div class="meta"><span class="badge b-cond">Condomínio</span></div></div>
+      <div class="addon-card"><div class="top"><h4>Passe de Visitante com Branding</h4><span class="price">3.000/mês</span></div><p>O PDF do passe de visitante passa a ter o logótipo, morada e cores do condomínio, com QR Code para validação rápida na entrada.</p><div class="meta"><span class="badge b-cond">Condomínio</span></div></div>
     </div>
   </div>
 </section>
