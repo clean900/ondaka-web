@@ -111,8 +111,9 @@ class ChamadaWebrtcService
         }
 
         if ($destino === 'gestor') {
+            // Mesmas roles que papel() considera "gestor" (inclui admin-empresa).
             $gestores = User::where('empresa_gestora_id', $empresa)
-                ->whereHas('roles', fn ($q) => $q->whereIn('name', ['gestor', 'administrador-condominio']))
+                ->whereHas('roles', fn ($q) => $q->whereIn('name', ['gestor', 'administrador-condominio', 'admin-empresa']))
                 ->get();
             return [$gestores, 'Gestão', null];
         }
