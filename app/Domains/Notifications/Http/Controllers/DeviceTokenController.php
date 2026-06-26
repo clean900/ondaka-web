@@ -18,7 +18,7 @@ class DeviceTokenController extends Controller
     {
         $validated = $request->validate([
             'token' => ['required', 'string', 'max:500'],
-            'platform' => ['required', 'string', 'in:android,ios,web'],
+            'platform' => ['required', 'string', 'in:android,ios,web,ios-voip'],
         ]);
 
         $user = $request->user();
