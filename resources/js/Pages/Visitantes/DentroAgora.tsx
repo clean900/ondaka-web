@@ -1,7 +1,6 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link, router } from '@inertiajs/react';
-import { useState } from 'react';
-import { Users, DoorOpen, Clock, Key, User, Home, Package, Plus, AlertTriangle } from 'lucide-react';
+import { Users, DoorOpen, Clock, Key, User, Home, Package, AlertTriangle } from 'lucide-react';
 
 interface Visitante {
     id: number;
@@ -181,31 +180,15 @@ const ESTADO_BADGE: Record<string, string> = {
 
 function ItensVisita({ visita }: { visita: Visita }) {
     const itens = visita.itens ?? [];
-    const [descricao, setDescricao] = useState('');
-    const [quantidade, setQuantidade] = useState('1');
-    const [aAdicionar, setAAdicionar] = useState(false);
-
     const base = `/visitantes/visitas/${visita.id}/itens`;
     const opts = { preserveScroll: true };
-
-    const adicionar = () => {
-        if (descricao.trim().length < 2) return;
-        router.post(base, { descricao: descricao.trim(), quantidade: Number(quantidade) || 1 }, {
-            ...opts,
-            onSuccess: () => {
-                setDescricao('');
-                setQuantidade('1');
-                setAAdicionar(false);
-            },
-        });
-    };
 
     const resolver = (itemId: number, resolucao: 'saiu' | 'ficou') => {
         router.post(`${base}/${itemId}/resolver`, { resolucao }, opts);
     };
 
     const naoDeclarado = () => {
-        const d = window.prompt('Item não declarado à entrada (descrição):');
+        const d = window.prompt('Item que o visitante leva mas NÃO declarou à entrada (descrição):');
         if (!d || d.trim().length < 2) return;
         router.post(`${base}/nao-declarado`, { descricao: d.trim(), quantidade: 1 }, opts);
     };
@@ -215,7 +198,7 @@ function ItensVisita({ visita }: { visita: Visita }) {
             <div className="flex items-center justify-between mb-2">
                 <span className="flex items-center gap-1.5 text-xs font-medium text-zinc-400">
                     <Package className="h-3.5 w-3.5" />
-                    Itens {itens.length > 0 && `(${itens.length})`}
+                    Itens à entrada {itens.length > 0 && `(${itens.length})`}
                 </span>
                 <button
                     onClick={naoDeclarado}
@@ -226,8 +209,10 @@ function ItensVisita({ visita }: { visita: Visita }) {
                 </button>
             </div>
 
-            {itens.length > 0 && (
-                <ul className="space-y-1.5 mb-2">
+            {itens.length === 0 ? (
+                <p className="text-xs text-zinc-600">Sem itens registados à entrada.</p>
+            ) : (
+                <ul className="space-y-1.5">
                     {itens.map((item) => (
                         <li key={item.id} className="flex items-center justify-between gap-2 text-sm">
                             <span className="text-zinc-300 truncate">
@@ -250,36 +235,6 @@ function ItensVisita({ visita }: { visita: Visita }) {
                         </li>
                     ))}
                 </ul>
-            )}
-
-            {aAdicionar ? (
-                <div className="flex items-center gap-2">
-                    <input
-                        autoFocus
-                        value={descricao}
-                        onChange={(e) => setDescricao(e.target.value)}
-                        onKeyDown={(e) => e.key === 'Enter' && adicionar()}
-                        placeholder="Descrição (ex.: computador portátil)"
-                        className="flex-1 rounded-md bg-zinc-900 border border-zinc-800 text-zinc-200 text-sm px-2.5 py-1.5"
-                    />
-                    <input
-                        value={quantidade}
-                        onChange={(e) => setQuantidade(e.target.value)}
-                        type="number"
-                        min={1}
-                        className="w-16 rounded-md bg-zinc-900 border border-zinc-800 text-zinc-200 text-sm px-2 py-1.5"
-                    />
-                    <button onClick={adicionar} className="px-3 py-1.5 rounded-md text-sm bg-cyan-500/15 text-cyan-300 hover:bg-cyan-500/25">Guardar</button>
-                    <button onClick={() => setAAdicionar(false)} className="px-2 py-1.5 rounded-md text-sm text-zinc-500 hover:text-zinc-300">✕</button>
-                </div>
-            ) : (
-                <button
-                    onClick={() => setAAdicionar(true)}
-                    className="inline-flex items-center gap-1 text-xs text-cyan-400 hover:text-cyan-300"
-                >
-                    <Plus className="h-3.5 w-3.5" />
-                    Adicionar item
-                </button>
             )}
         </div>
     );
