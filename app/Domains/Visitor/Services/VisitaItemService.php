@@ -6,8 +6,10 @@ namespace App\Domains\Visitor\Services;
 
 use App\Domains\Visitor\Models\Visita;
 use App\Domains\Visitor\Models\VisitaItem;
+use App\Domains\Visitor\Notifications\ItemNaoDeclaradoNotification;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Log;
 use InvalidArgumentException;
 use RuntimeException;
 
@@ -55,6 +57,56 @@ class VisitaItemService
             'registado_por' => $guarda->id,
             'observacoes' => $dados['observacoes'] ?? null,
         ]);
+    }
+
+    /**
+     * Regista um item DETECTADO na saída que não foi declarado à entrada
+     * (anomalia). Fica saiu + registado_na_entrada=false e notifica os gestores.
+     *
+     * @throws RuntimeException Multi-tenant
+     * @throws InvalidArgumentException Visita já encerrada
+     */
+    public function registarNaoDeclarado(Visita $visita, User $guarda, array $dados): VisitaItem
+    {
+        $this->garantirMesmaEmpresa($visita, $guarda);
+
+        if (! $visita->aindaDentro()) {
+            throw new InvalidArgumentException('Esta visita já saiu.');
+        }
+
+        $item = $visita->itens()->create([
+            'empresa_gestora_id' => $visita->empresa_gestora_id,
+            'descricao' => $dados['descricao'],
+            'quantidade' => $dados['quantidade'] ?? 1,
+            'identificador' => $dados['identificador'] ?? null,
+            'estado' => VisitaItem::ESTADO_SAIU,
+            'registado_na_entrada' => false,
+            'registado_por' => $guarda->id,
+            'resolvido_por' => $guarda->id,
+            'resolvido_em' => now(),
+            'observacoes' => $dados['observacoes'] ?? null,
+        ]);
+
+        $this->notificarGestores($visita, $item);
+
+        return $item;
+    }
+
+    private function notificarGestores(Visita $visita, VisitaItem $item): void
+    {
+        try {
+            $gestores = User::where('empresa_gestora_id', $visita->empresa_gestora_id)
+                ->whereHas('roles', fn ($q) => $q->whereIn('name', ['gestor', 'administrador-condominio', 'admin-empresa']))
+                ->get();
+
+            $nome = $visita->loadMissing('visitante')->visitante?->nome ?? 'Visitante';
+
+            foreach ($gestores as $gestor) {
+                $gestor->notify(new ItemNaoDeclaradoNotification($visita->id, $item->descricao, $nome));
+            }
+        } catch (\Throwable $e) {
+            Log::warning('[VisitaItemService] Falha a notificar gestores de item não declarado: '.$e->getMessage());
+        }
     }
 
     /**

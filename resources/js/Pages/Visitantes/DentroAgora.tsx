@@ -1,6 +1,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head, Link } from '@inertiajs/react';
-import { Users, DoorOpen, Clock, Key, User, Home } from 'lucide-react';
+import { Head, Link, router } from '@inertiajs/react';
+import { useState } from 'react';
+import { Users, DoorOpen, Clock, Key, User, Home, Package, Plus, AlertTriangle } from 'lucide-react';
 
 interface Visitante {
     id: number;
@@ -19,6 +20,15 @@ interface GuardaEntrada {
     name: string;
 }
 
+interface VisitaItem {
+    id: number;
+    descricao: string;
+    quantidade: number;
+    identificador: string | null;
+    estado: 'dentro' | 'saiu' | 'ficou';
+    registado_na_entrada: boolean;
+}
+
 interface Visita {
     id: number;
     entrou_em: string;
@@ -27,11 +37,13 @@ interface Visita {
     visitante: Visitante | null;
     fraccao: Fraccao | null;
     guarda_entrada: GuardaEntrada | null;
+    itens?: VisitaItem[];
 }
 
 interface PageProps {
     visitas: Visita[];
     total: number;
+    controloBensActivo?: boolean;
 }
 
 const METODO_CONFIG: Record<string, { label: string; color: string }> = {
@@ -40,7 +52,7 @@ const METODO_CONFIG: Record<string, { label: string; color: string }> = {
     manual: { label: 'Manual', color: 'text-amber-400 bg-amber-500/10 border-amber-500/30' },
 };
 
-export default function DentroAgora({ visitas, total }: PageProps) {
+export default function DentroAgora({ visitas, total, controloBensActivo }: PageProps) {
     const formatarHora = (iso: string) => {
         const d = new Date(iso);
         return d.toLocaleTimeString('pt-PT', { hour: '2-digit', minute: '2-digit' });
@@ -149,6 +161,7 @@ export default function DentroAgora({ visitas, total }: PageProps) {
                                                 )}
                                             </div>
                                         </div>
+                                        {controloBensActivo && <ItensVisita visita={visita} />}
                                     </div>
                                 );
                             })}
@@ -157,5 +170,117 @@ export default function DentroAgora({ visitas, total }: PageProps) {
                 </div>
             </div>
         </AuthenticatedLayout>
+    );
+}
+
+const ESTADO_BADGE: Record<string, string> = {
+    dentro: 'text-cyan-400 bg-cyan-500/10',
+    saiu: 'text-emerald-400 bg-emerald-500/10',
+    ficou: 'text-amber-400 bg-amber-500/10',
+};
+
+function ItensVisita({ visita }: { visita: Visita }) {
+    const itens = visita.itens ?? [];
+    const [descricao, setDescricao] = useState('');
+    const [quantidade, setQuantidade] = useState('1');
+    const [aAdicionar, setAAdicionar] = useState(false);
+
+    const base = `/visitantes/visitas/${visita.id}/itens`;
+    const opts = { preserveScroll: true };
+
+    const adicionar = () => {
+        if (descricao.trim().length < 2) return;
+        router.post(base, { descricao: descricao.trim(), quantidade: Number(quantidade) || 1 }, {
+            ...opts,
+            onSuccess: () => {
+                setDescricao('');
+                setQuantidade('1');
+                setAAdicionar(false);
+            },
+        });
+    };
+
+    const resolver = (itemId: number, resolucao: 'saiu' | 'ficou') => {
+        router.post(`${base}/${itemId}/resolver`, { resolucao }, opts);
+    };
+
+    const naoDeclarado = () => {
+        const d = window.prompt('Item não declarado à entrada (descrição):');
+        if (!d || d.trim().length < 2) return;
+        router.post(`${base}/nao-declarado`, { descricao: d.trim(), quantidade: 1 }, opts);
+    };
+
+    return (
+        <div className="mt-3 ml-13 rounded-lg border border-zinc-800 bg-zinc-950/40 p-3">
+            <div className="flex items-center justify-between mb-2">
+                <span className="flex items-center gap-1.5 text-xs font-medium text-zinc-400">
+                    <Package className="h-3.5 w-3.5" />
+                    Itens {itens.length > 0 && `(${itens.length})`}
+                </span>
+                <button
+                    onClick={naoDeclarado}
+                    className="inline-flex items-center gap-1 text-xs text-amber-400 hover:text-amber-300"
+                >
+                    <AlertTriangle className="h-3.5 w-3.5" />
+                    Item não declarado
+                </button>
+            </div>
+
+            {itens.length > 0 && (
+                <ul className="space-y-1.5 mb-2">
+                    {itens.map((item) => (
+                        <li key={item.id} className="flex items-center justify-between gap-2 text-sm">
+                            <span className="text-zinc-300 truncate">
+                                {item.quantidade > 1 ? `${item.quantidade}× ` : ''}{item.descricao}
+                                {item.identificador && <span className="text-zinc-600"> · {item.identificador}</span>}
+                                {!item.registado_na_entrada && (
+                                    <span className="ml-1.5 text-amber-400 text-xs">⚠ não declarado</span>
+                                )}
+                            </span>
+                            {item.estado === 'dentro' ? (
+                                <span className="flex gap-1 flex-shrink-0">
+                                    <button onClick={() => resolver(item.id, 'saiu')} className="px-2 py-0.5 rounded text-xs text-emerald-400 bg-emerald-500/10 hover:bg-emerald-500/20">Saiu</button>
+                                    <button onClick={() => resolver(item.id, 'ficou')} className="px-2 py-0.5 rounded text-xs text-amber-400 bg-amber-500/10 hover:bg-amber-500/20">Ficou</button>
+                                </span>
+                            ) : (
+                                <span className={`px-2 py-0.5 rounded text-xs font-medium flex-shrink-0 ${ESTADO_BADGE[item.estado]}`}>
+                                    {item.estado === 'saiu' ? 'Saiu' : 'Ficou'}
+                                </span>
+                            )}
+                        </li>
+                    ))}
+                </ul>
+            )}
+
+            {aAdicionar ? (
+                <div className="flex items-center gap-2">
+                    <input
+                        autoFocus
+                        value={descricao}
+                        onChange={(e) => setDescricao(e.target.value)}
+                        onKeyDown={(e) => e.key === 'Enter' && adicionar()}
+                        placeholder="Descrição (ex.: computador portátil)"
+                        className="flex-1 rounded-md bg-zinc-900 border border-zinc-800 text-zinc-200 text-sm px-2.5 py-1.5"
+                    />
+                    <input
+                        value={quantidade}
+                        onChange={(e) => setQuantidade(e.target.value)}
+                        type="number"
+                        min={1}
+                        className="w-16 rounded-md bg-zinc-900 border border-zinc-800 text-zinc-200 text-sm px-2 py-1.5"
+                    />
+                    <button onClick={adicionar} className="px-3 py-1.5 rounded-md text-sm bg-cyan-500/15 text-cyan-300 hover:bg-cyan-500/25">Guardar</button>
+                    <button onClick={() => setAAdicionar(false)} className="px-2 py-1.5 rounded-md text-sm text-zinc-500 hover:text-zinc-300">✕</button>
+                </div>
+            ) : (
+                <button
+                    onClick={() => setAAdicionar(true)}
+                    className="inline-flex items-center gap-1 text-xs text-cyan-400 hover:text-cyan-300"
+                >
+                    <Plus className="h-3.5 w-3.5" />
+                    Adicionar item
+                </button>
+            )}
+        </div>
     );
 }

@@ -486,6 +486,13 @@ Route::middleware(['auth', 'verified', '2fa'])->group(function () {
                 Route::post('/lista-negra', [\App\Domains\Visitor\Http\Controllers\Web\ListaNegraController::class, 'store'])->name('lista-negra.store');
                 Route::delete('/lista-negra/{id}', [\App\Domains\Visitor\Http\Controllers\Web\ListaNegraController::class, 'destroy'])->whereNumber('id')->name('lista-negra.destroy');
             });
+            // Controlo de Bens (addon: controlo_bens) — itens à entrada/saída
+            Route::middleware('feature:controlo_bens')->group(function () {
+                Route::post('/visitas/{visitaId}/itens', [VisitantesWebController::class, 'registarItem'])->whereNumber('visitaId')->name('itens.registar');
+                Route::post('/visitas/{visitaId}/itens/nao-declarado', [VisitantesWebController::class, 'itemNaoDeclarado'])->whereNumber('visitaId')->name('itens.nao-declarado');
+                Route::post('/visitas/{visitaId}/itens/{itemId}/resolver', [VisitantesWebController::class, 'resolverItem'])->whereNumber('visitaId')->whereNumber('itemId')->name('itens.resolver');
+            });
+
             // Passes de Visitante (addon: passe_visitante_branding)
             $pc = \App\Domains\Visitor\Http\Controllers\Web\PassesController::class;
             Route::middleware('feature:passe_visitante_branding')->group(function () use ($pc) {

@@ -73,6 +73,35 @@ class VisitaItemController extends Controller
         }
     }
 
+    /** POST /api/portaria/visitas/{id}/itens/nao-declarado */
+    public function naoDeclarado(Request $request, int $id): JsonResponse
+    {
+        $visita = Visita::find($id);
+        if ($visita === null) {
+            return response()->json(['message' => 'Visita não encontrada.'], 404);
+        }
+
+        $dados = $request->validate([
+            'descricao' => ['required', 'string', 'min:2', 'max:150'],
+            'quantidade' => ['nullable', 'integer', 'min:1', 'max:9999'],
+            'identificador' => ['nullable', 'string', 'max:100'],
+            'observacoes' => ['nullable', 'string', 'max:255'],
+        ]);
+
+        try {
+            $item = $this->service->registarNaoDeclarado($visita, $request->user(), $dados);
+
+            return response()->json([
+                'message' => 'Item não declarado registado. Gestor notificado.',
+                'data' => $item,
+            ], 201);
+        } catch (InvalidArgumentException $e) {
+            return response()->json(['message' => $e->getMessage()], 422);
+        } catch (RuntimeException $e) {
+            return response()->json(['message' => $e->getMessage()], 403);
+        }
+    }
+
     /** POST /api/portaria/visitas/{id}/itens/{itemId}/saida */
     public function resolver(Request $request, int $id, int $itemId): JsonResponse
     {

@@ -2,6 +2,7 @@
 
 namespace App\Domains\Visitor\Http\Controllers\Web;
 
+use App\Domains\Feature\Services\FeatureGate;
 use App\Domains\Visitor\Models\PreAprovacao;
 use App\Domains\Visitor\Models\Visita;
 use App\Http\Controllers\Controller;
@@ -14,6 +15,7 @@ use App\Domains\Condominio\Models\Fraccao;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Validator;
 use App\Domains\Visitor\Services\PreAprovacaoService;
+use App\Domains\Visitor\Services\VisitaItemService;
 
 /**
  * Controller para as páginas web do módulo Visitantes.
@@ -32,7 +34,9 @@ class VisitantesWebController extends Controller
     {
         $empresaId = $request->user()->empresa_gestora_id;
 
-        $visitas = Visita::with(['visitante', 'fraccao', 'guardaEntrada'])
+        $controloBens = FeatureGate::has($request->user(), 'controlo_bens');
+
+        $visitas = Visita::with(['visitante', 'fraccao', 'guardaEntrada', 'itens'])
             ->paraEmpresa($empresaId)
             ->whereNull('saiu_em')
             ->orderBy('entrou_em', 'desc')
@@ -41,6 +45,7 @@ class VisitantesWebController extends Controller
         return Inertia::render('Visitantes/DentroAgora', [
             'visitas' => $visitas,
             'total' => $visitas->count(),
+            'controloBensActivo' => $controloBens,
         ]);
     }
 
@@ -51,7 +56,9 @@ class VisitantesWebController extends Controller
     {
         $empresaId = $request->user()->empresa_gestora_id;
 
-        $query = Visita::with(['visitante', 'fraccao', 'guardaEntrada', 'guardaSaida'])
+        $controloBens = FeatureGate::has($request->user(), 'controlo_bens');
+
+        $query = Visita::with(['visitante', 'fraccao', 'guardaEntrada', 'guardaSaida', 'itens'])
             ->paraEmpresa($empresaId)
             ->orderBy('entrou_em', 'desc');
 
@@ -87,6 +94,7 @@ class VisitantesWebController extends Controller
 
         return Inertia::render('Visitantes/Historico', [
             'visitas' => $paginada,
+            'controloBensActivo' => $controloBens,
             'filtros' => [
                 'desde' => $request->query('desde', ''),
                 'ate' => $request->query('ate', ''),
@@ -94,6 +102,76 @@ class VisitantesWebController extends Controller
                 'metodo' => $request->query('metodo', ''),
             ],
         ]);
+    }
+
+    // =========================================================================
+    // Add-on Controlo de Bens — acções web (registar/resolver itens)
+    // =========================================================================
+
+    public function registarItem(Request $request, int $visitaId): RedirectResponse
+    {
+        $dados = $request->validate([
+            'descricao' => ['required', 'string', 'min:2', 'max:150'],
+            'quantidade' => ['nullable', 'integer', 'min:1', 'max:9999'],
+            'identificador' => ['nullable', 'string', 'max:100'],
+        ]);
+
+        $visita = $this->visitaDaEmpresa($request, $visitaId);
+        if (! $visita) {
+            return back()->with('error', 'Visita não encontrada.');
+        }
+
+        try {
+            app(VisitaItemService::class)->registar($visita, $request->user(), $dados);
+            return back()->with('success', 'Item registado.');
+        } catch (\Throwable $e) {
+            return back()->with('error', $e->getMessage());
+        }
+    }
+
+    public function resolverItem(Request $request, int $visitaId, int $itemId): RedirectResponse
+    {
+        $dados = $request->validate([
+            'resolucao' => ['required', 'string', 'in:saiu,ficou'],
+        ]);
+
+        $item = \App\Domains\Visitor\Models\VisitaItem::where('visita_id', $visitaId)->find($itemId);
+        if (! $item) {
+            return back()->with('error', 'Item não encontrado.');
+        }
+
+        try {
+            app(VisitaItemService::class)->resolver($item, $request->user(), $dados['resolucao']);
+            return back()->with('success', 'Item resolvido.');
+        } catch (\Throwable $e) {
+            return back()->with('error', $e->getMessage());
+        }
+    }
+
+    public function itemNaoDeclarado(Request $request, int $visitaId): RedirectResponse
+    {
+        $dados = $request->validate([
+            'descricao' => ['required', 'string', 'min:2', 'max:150'],
+            'quantidade' => ['nullable', 'integer', 'min:1', 'max:9999'],
+            'identificador' => ['nullable', 'string', 'max:100'],
+        ]);
+
+        $visita = $this->visitaDaEmpresa($request, $visitaId);
+        if (! $visita) {
+            return back()->with('error', 'Visita não encontrada.');
+        }
+
+        try {
+            app(VisitaItemService::class)->registarNaoDeclarado($visita, $request->user(), $dados);
+            return back()->with('success', 'Item não declarado registado. Gestor notificado.');
+        } catch (\Throwable $e) {
+            return back()->with('error', $e->getMessage());
+        }
+    }
+
+    private function visitaDaEmpresa(Request $request, int $visitaId): ?Visita
+    {
+        return Visita::paraEmpresa($request->user()->empresa_gestora_id)->find($visitaId);
     }
 
     /**

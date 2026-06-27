@@ -140,6 +140,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::middleware('feature:controlo_bens')->group(function () {
             Route::get('visitas/{id}/itens', [\App\Domains\Visitor\Http\Controllers\VisitaItemController::class, 'index']);
             Route::post('visitas/{id}/itens', [\App\Domains\Visitor\Http\Controllers\VisitaItemController::class, 'store']);
+            Route::post('visitas/{id}/itens/nao-declarado', [\App\Domains\Visitor\Http\Controllers\VisitaItemController::class, 'naoDeclarado']);
             Route::post('visitas/{id}/itens/{itemId}/saida', [\App\Domains\Visitor\Http\Controllers\VisitaItemController::class, 'resolver']);
             Route::delete('visitas/{id}/itens/{itemId}', [\App\Domains\Visitor\Http\Controllers\VisitaItemController::class, 'destroy']);
         });

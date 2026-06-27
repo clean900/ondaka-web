@@ -31,6 +31,7 @@ class VisitaItem extends Model
         'foto_entrada_path',
         'foto_saida_path',
         'estado',
+        'registado_na_entrada',
         'registado_por',
         'resolvido_por',
         'resolvido_em',
@@ -39,6 +40,7 @@ class VisitaItem extends Model
 
     protected $casts = [
         'quantidade' => 'integer',
+        'registado_na_entrada' => 'boolean',
         'resolvido_em' => 'datetime',
     ];
 
@@ -64,5 +66,11 @@ class VisitaItem extends Model
     public function estaDentro(): bool
     {
         return $this->estado === self::ESTADO_DENTRO;
+    }
+
+    /** Item detectado na saída sem ter sido declarado à entrada (anomalia). */
+    public function eAnomalia(): bool
+    {
+        return $this->registado_na_entrada === false;
     }
 }

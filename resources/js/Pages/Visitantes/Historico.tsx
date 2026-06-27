@@ -1,6 +1,6 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link, router } from '@inertiajs/react';
-import { Clock, Users, User, Home, Key, LogIn, LogOut, Search, Filter } from 'lucide-react';
+import { Clock, Users, User, Home, Key, LogIn, LogOut, Search, Filter, Package, AlertTriangle } from 'lucide-react';
 import { useState } from 'react';
 
 interface Visitante {
@@ -20,6 +20,14 @@ interface Guarda {
     name: string;
 }
 
+interface VisitaItem {
+    id: number;
+    descricao: string;
+    quantidade: number;
+    estado: 'dentro' | 'saiu' | 'ficou';
+    registado_na_entrada: boolean;
+}
+
 interface Visita {
     id: number;
     entrou_em: string;
@@ -30,6 +38,7 @@ interface Visita {
     fraccao: Fraccao | null;
     guarda_entrada: Guarda | null;
     guarda_saida: Guarda | null;
+    itens?: VisitaItem[];
 }
 
 interface Paginacao<T> {
@@ -241,6 +250,21 @@ export default function Historico({ visitas, filtros }: PageProps) {
                                                             <span className="text-emerald-400 font-medium">AINDA DENTRO</span>
                                                         )}
                                                     </div>
+                                                    {v.itens && v.itens.length > 0 && (
+                                                        <div className="mt-2 flex flex-wrap gap-1.5">
+                                                            {v.itens.map((it) => (
+                                                                <span
+                                                                    key={it.id}
+                                                                    className={`inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded ${it.estado === 'saiu' ? 'text-emerald-400 bg-emerald-500/10' : it.estado === 'ficou' ? 'text-amber-400 bg-amber-500/10' : 'text-cyan-400 bg-cyan-500/10'}`}
+                                                                >
+                                                                    <Package className="h-3 w-3" />
+                                                                    {it.quantidade > 1 ? `${it.quantidade}× ` : ''}
+                                                                    {it.descricao}
+                                                                    {!it.registado_na_entrada && <AlertTriangle className="h-3 w-3 text-amber-400" />}
+                                                                </span>
+                                                            ))}
+                                                        </div>
+                                                    )}
                                                 </div>
                                             </div>
 
