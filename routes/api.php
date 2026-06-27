@@ -135,6 +135,15 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('dentro-agora', [PortariaController::class, 'dentroAgora']);
         Route::get('visitas', [PortariaController::class, 'historico']);
         Route::post('visitas/{id}/saida', [PortariaController::class, 'registarSaida']);
+
+        // Add-on Controlo de Bens — itens à entrada/saída (gated)
+        Route::middleware('feature:controlo_bens')->group(function () {
+            Route::get('visitas/{id}/itens', [\App\Domains\Visitor\Http\Controllers\VisitaItemController::class, 'index']);
+            Route::post('visitas/{id}/itens', [\App\Domains\Visitor\Http\Controllers\VisitaItemController::class, 'store']);
+            Route::post('visitas/{id}/itens/{itemId}/saida', [\App\Domains\Visitor\Http\Controllers\VisitaItemController::class, 'resolver']);
+            Route::delete('visitas/{id}/itens/{itemId}', [\App\Domains\Visitor\Http\Controllers\VisitaItemController::class, 'destroy']);
+        });
+
         // Chamadas de voz: guarda liga ao condómino
         Route::get('fraccoes', [\App\Domains\Visitor\Http\Controllers\ChamadaApiController::class, 'fraccoes']);
         Route::post('chamadas', [\App\Domains\Visitor\Http\Controllers\ChamadaApiController::class, 'ligarCondomino']);

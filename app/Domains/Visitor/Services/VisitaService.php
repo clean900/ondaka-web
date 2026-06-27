@@ -25,8 +25,12 @@ class VisitaService
      * @throws RuntimeException Se guarda não pertence à mesma empresa
      * @throws InvalidArgumentException Se visita já saiu ou não existe
      */
-    public function registarSaida(Visita $visita, User $guarda, ?string $observacoes = null): Visita
-    {
+    public function registarSaida(
+        Visita $visita,
+        User $guarda,
+        ?string $observacoes = null,
+        bool $exigirReconciliacao = false,
+    ): Visita {
         // 1. Multi-tenant: guarda só pode marcar saídas da sua empresa
         if ($visita->empresa_gestora_id !== $guarda->empresa_gestora_id) {
             throw new RuntimeException('Esta visita não pertence à empresa do guarda.');
@@ -40,7 +44,17 @@ class VisitaService
             );
         }
 
-        // 3. Marcar saída
+        // 3. Add-on Controlo de Bens: não fecha enquanto houver itens por resolver
+        if ($exigirReconciliacao) {
+            $porResolver = $visita->itensPorResolver();
+            if ($porResolver > 0) {
+                throw new InvalidArgumentException(
+                    "Há {$porResolver} item(ns) por resolver. Marque cada um como saiu ou ficou antes de fechar a saída."
+                );
+            }
+        }
+
+        // 4. Marcar saída
         $visita->update([
             'saiu_em' => now(),
             'guarda_saida_id' => $guarda->id,

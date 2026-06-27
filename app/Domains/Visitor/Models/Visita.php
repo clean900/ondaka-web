@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -81,6 +82,23 @@ class Visita extends Model
     public function guardaSaida(): BelongsTo
     {
         return $this->belongsTo(User::class, 'guarda_saida_id');
+    }
+
+    /**
+     * Itens/bens registados nesta visita (add-on Controlo de Bens).
+     */
+    public function itens(): HasMany
+    {
+        return $this->hasMany(VisitaItem::class);
+    }
+
+    /**
+     * Nº de itens ainda por resolver (estado 'dentro') — bloqueiam a saída
+     * quando o add-on de Controlo de Bens está activo.
+     */
+    public function itensPorResolver(): int
+    {
+        return $this->itens()->where('estado', VisitaItem::ESTADO_DENTRO)->count();
     }
 
     // === Scopes ===

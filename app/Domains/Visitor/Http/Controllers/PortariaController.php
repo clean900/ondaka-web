@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Domains\Visitor\Http\Controllers;
 
+use App\Domains\Empresa\Models\EmpresaGestora;
+use App\Domains\Feature\Services\FeatureGate;
 use App\Domains\Visitor\Http\Requests\EntradaManualRequest;
 use App\Domains\Visitor\Http\Requests\ValidarOtpRequest;
 use App\Domains\Visitor\Http\Requests\ValidarQrRequest;
@@ -206,11 +208,16 @@ class PortariaController extends Controller
             return response()->json(['message' => 'Visita não encontrada.'], 404);
         }
 
+        // Add-on Controlo de Bens: se activo, exige reconciliação dos itens.
+        $empresa = EmpresaGestora::find($guarda->empresa_gestora_id);
+        $exigirReconciliacao = $empresa !== null && FeatureGate::has($empresa, 'controlo_bens');
+
         try {
             $visita = $this->visitaService->registarSaida(
                 visita: $visita,
                 guarda: $guarda,
                 observacoes: $request->input('observacoes'),
+                exigirReconciliacao: $exigirReconciliacao,
             );
 
             return response()->json([
