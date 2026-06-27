@@ -35,6 +35,8 @@ class VisitaItem extends Model
         'registado_por',
         'resolvido_por',
         'resolvido_em',
+        'autorizado_por',
+        'autorizado_em',
         'observacoes',
     ];
 
@@ -42,11 +44,17 @@ class VisitaItem extends Model
         'quantidade' => 'integer',
         'registado_na_entrada' => 'boolean',
         'resolvido_em' => 'datetime',
+        'autorizado_em' => 'datetime',
     ];
 
     public const ESTADO_DENTRO = 'dentro';
     public const ESTADO_SAIU = 'saiu';
     public const ESTADO_FICOU = 'ficou';
+    public const ESTADO_AGUARDA_AUTORIZACAO = 'aguarda_autorizacao';
+    public const ESTADO_RETIDO = 'retido';
+
+    /** Estados que bloqueiam o fecho da saída (por resolver). */
+    public const ESTADOS_POR_RESOLVER = [self::ESTADO_DENTRO, self::ESTADO_AGUARDA_AUTORIZACAO];
 
     public function visita(): BelongsTo
     {
@@ -61,6 +69,11 @@ class VisitaItem extends Model
     public function resolvidoPor(): BelongsTo
     {
         return $this->belongsTo(User::class, 'resolvido_por');
+    }
+
+    public function autorizadoPor(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'autorizado_por');
     }
 
     public function estaDentro(): bool

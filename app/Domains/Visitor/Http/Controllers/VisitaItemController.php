@@ -86,13 +86,18 @@ class VisitaItemController extends Controller
             'quantidade' => ['nullable', 'integer', 'min:1', 'max:9999'],
             'identificador' => ['nullable', 'string', 'max:100'],
             'observacoes' => ['nullable', 'string', 'max:255'],
+            'foto' => ['nullable', 'image', 'max:5120'],
         ]);
+
+        if ($request->hasFile('foto')) {
+            $dados['foto_entrada_path'] = $request->file('foto')->store('controlo-bens', 'public');
+        }
 
         try {
             $item = $this->service->registarNaoDeclarado($visita, $request->user(), $dados);
 
             return response()->json([
-                'message' => 'Item não declarado registado. Gestor notificado.',
+                'message' => 'Registado. A aguardar autorização do condómino.',
                 'data' => $item,
             ], 201);
         } catch (InvalidArgumentException $e) {
@@ -146,6 +151,40 @@ class VisitaItemController extends Controller
             $this->service->remover($item, $request->user());
 
             return response()->json(['message' => 'Item removido.']);
+        } catch (InvalidArgumentException $e) {
+            return response()->json(['message' => $e->getMessage()], 422);
+        } catch (RuntimeException $e) {
+            return response()->json(['message' => $e->getMessage()], 403);
+        }
+    }
+
+    // === Autorização de saída de bem (condómino / gestor) ===
+
+    /** GET /api/visitas/itens/pendentes-autorizacao */
+    public function pendentes(Request $request): JsonResponse
+    {
+        return response()->json([
+            'data' => $this->service->pendentesAutorizacao($request->user()),
+        ]);
+    }
+
+    /** POST /api/visitas/itens/{itemId}/autorizar  body: { aprovar: bool } */
+    public function autorizar(Request $request, int $itemId): JsonResponse
+    {
+        $item = VisitaItem::find($itemId);
+        if ($item === null) {
+            return response()->json(['message' => 'Item não encontrado.'], 404);
+        }
+
+        $dados = $request->validate(['aprovar' => ['required', 'boolean']]);
+
+        try {
+            $item = $this->service->autorizarSaida($item, $request->user(), $dados['aprovar']);
+
+            return response()->json([
+                'message' => $dados['aprovar'] ? 'Saída autorizada.' : 'Saída recusada — bem retido.',
+                'data' => $item,
+            ]);
         } catch (InvalidArgumentException $e) {
             return response()->json(['message' => $e->getMessage()], 422);
         } catch (RuntimeException $e) {

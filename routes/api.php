@@ -157,6 +157,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('chamadas/destinos', [\App\Domains\Visitor\Http\Controllers\ChamadaWebrtcController::class, 'destinos']);
     Route::post('chamadas', [\App\Domains\Visitor\Http\Controllers\ChamadaWebrtcController::class, 'iniciar']);
 
+    // Controlo de Bens — autorização de saída de bem (condómino/gestor, gated)
+    Route::middleware('feature:controlo_bens')->group(function () {
+        Route::get('visitas/itens/pendentes-autorizacao', [\App\Domains\Visitor\Http\Controllers\VisitaItemController::class, 'pendentes']);
+        Route::post('visitas/itens/{itemId}/autorizar', [\App\Domains\Visitor\Http\Controllers\VisitaItemController::class, 'autorizar'])->whereNumber('itemId');
+    });
+
 
     /*
     |--------------------------------------------------------------------------

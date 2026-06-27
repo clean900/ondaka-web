@@ -98,7 +98,7 @@ class Visita extends Model
      */
     public function itensPorResolver(): int
     {
-        return $this->itens()->where('estado', VisitaItem::ESTADO_DENTRO)->count();
+        return $this->itens()->whereIn('estado', VisitaItem::ESTADOS_POR_RESOLVER)->count();
     }
 
     // === Scopes ===
