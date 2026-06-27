@@ -76,7 +76,11 @@ const ESTADO_CONFIG: Record<string, { label: string; color: string; icon: typeof
     usada: { label: 'Utilizada', color: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/30', icon: CheckCircle2 },
     expirada: { label: 'Expirada', color: 'text-amber-400 bg-amber-500/10 border-amber-500/30', icon: AlertCircle },
     cancelada: { label: 'Cancelada', color: 'text-red-400 bg-red-500/10 border-red-500/30', icon: XCircle },
+    aprovado: { label: 'Aprovado', color: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/30', icon: CheckCircle2 },
+    recusado: { label: 'Recusado', color: 'text-red-400 bg-red-500/10 border-red-500/30', icon: XCircle },
 };
+
+const ESTADO_FALLBACK = { label: 'Desconhecido', color: 'text-zinc-400 bg-zinc-500/10 border-zinc-500/30', icon: AlertCircle };
 
 export default function PreAprovacoes({ preAprovacoes, filtros, meta, minhasFraccoes, condominos }: PageProps) {
     const [modalAberto, setModalAberto] = useState(false);
@@ -208,7 +212,7 @@ export default function PreAprovacoes({ preAprovacoes, filtros, meta, minhasFrac
                     ) : (
                         <div className="divide-y divide-zinc-800">
                             {preAprovacoes.data.map((pa) => {
-                                const estadoConfig = ESTADO_CONFIG[pa.estado];
+                                const estadoConfig = ESTADO_CONFIG[pa.estado] ?? ESTADO_FALLBACK;
                                 const EstadoIcon = estadoConfig.icon;
                                 return (
                                     <div key={pa.id} className="p-4 md:p-5">
