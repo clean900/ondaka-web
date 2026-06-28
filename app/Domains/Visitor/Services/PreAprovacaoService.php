@@ -72,6 +72,16 @@ class PreAprovacaoService
             );
         }
 
+        // Add-on #9: só persiste horários/áreas se o add-on estiver activo para a
+        // empresa (choke point — vale para qualquer caminho que crie pré-aprovações).
+        if (! empty($horarios) || ! empty($areas)) {
+            $empresa = \App\Domains\Empresa\Models\EmpresaGestora::find($condomino->empresa_gestora_id);
+            if ($empresa === null || ! \App\Domains\Feature\Services\FeatureGate::has($empresa, 'acesso_horario_area')) {
+                $horarios = null;
+                $areas = null;
+            }
+        }
+
         // 3. Criação atómica (DB transaction)
         return DB::transaction(function () use (
             $condomino, $fraccaoId, $nomeVisitante, $telefoneVisitante,

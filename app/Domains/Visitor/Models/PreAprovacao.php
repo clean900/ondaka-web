@@ -157,26 +157,62 @@ class PreAprovacao extends Model
             return true;
         }
         $quando ??= now();
-        $diaIso = $quando->dayOfWeekIso; // 1=segunda ... 7=domingo
-        $hora = $quando->format('H:i');
+        // dayOfWeekIso: 1=Segunda ... 7=Domingo (ISO 8601). NÃO usar dayOfWeek() (0=Domingo).
+        $diaIso = $quando->dayOfWeekIso;
+        $agoraMin = (int) $quando->format('H') * 60 + (int) $quando->format('i');
 
         foreach ($this->horarios_json as $regra) {
             $dias = array_map('intval', (array) ($regra['dias'] ?? []));
             if (! in_array($diaIso, $dias, true)) {
                 continue;
             }
-            $inicio = $regra['inicio'] ?? null;
-            $fim = $regra['fim'] ?? null;
-            if ($inicio !== null && $hora < $inicio) {
+            $iniMin = $this->minutosHora($regra['inicio'] ?? null);
+            $fimMin = $this->minutosHora($regra['fim'] ?? null);
+
+            // Sem faixa horária → dia inteiro permitido.
+            if ($iniMin === null && $fimMin === null) {
+                return true;
+            }
+            // Só início → a partir de X.
+            if ($iniMin !== null && $fimMin === null) {
+                if ($agoraMin >= $iniMin) {
+                    return true;
+                }
                 continue;
             }
-            if ($fim !== null && $hora > $fim) {
+            // Só fim → até X.
+            if ($iniMin === null && $fimMin !== null) {
+                if ($agoraMin <= $fimMin) {
+                    return true;
+                }
                 continue;
             }
-            return true;
+            // Ambos definidos: faixa normal ou a atravessar a meia-noite (fim < início).
+            if ($fimMin >= $iniMin) {
+                if ($agoraMin >= $iniMin && $agoraMin <= $fimMin) {
+                    return true;
+                }
+            } else {
+                if ($agoraMin >= $iniMin || $agoraMin <= $fimMin) {
+                    return true;
+                }
+            }
         }
 
         return false;
+    }
+
+    /** "HH:MM" → minutos desde a meia-noite (null se vazio/inválido). */
+    private function minutosHora(?string $hhmm): ?int
+    {
+        if ($hhmm === null || $hhmm === '') {
+            return null;
+        }
+        $p = explode(':', $hhmm);
+        if (count($p) < 2) {
+            return null;
+        }
+        return ((int) $p[0]) * 60 + ((int) $p[1]);
     }
 
     /** Nomes das áreas autorizadas (para mostrar ao guarda). */
@@ -204,12 +240,24 @@ class PreAprovacao extends Model
         foreach ($this->horarios_json as $regra) {
             $dias = array_map('intval', (array) ($regra['dias'] ?? []));
             sort($dias);
+            if (empty($dias)) {
+                continue;
+            }
             $diasTxt = implode(', ', array_map(fn ($d) => $nomes[$d] ?? (string) $d, $dias));
-            $inicio = $regra['inicio'] ?? '00:00';
-            $fim = $regra['fim'] ?? '23:59';
-            $partes[] = trim("$diasTxt $inicio-$fim");
+            $inicio = $regra['inicio'] ?? null;
+            $fim = $regra['fim'] ?? null;
+            if ($inicio && $fim) {
+                $faixa = "$inicio-$fim";
+            } elseif ($inicio) {
+                $faixa = "desde $inicio";
+            } elseif ($fim) {
+                $faixa = "até $fim";
+            } else {
+                $faixa = 'dia inteiro';
+            }
+            $partes[] = trim("$diasTxt $faixa");
         }
 
-        return implode(' · ', array_filter($partes));
+        return $partes ? implode(' · ', $partes) : null;
     }
 }
