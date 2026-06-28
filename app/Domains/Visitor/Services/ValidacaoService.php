@@ -106,6 +106,99 @@ class ValidacaoService
         });
     }
 
+    /**
+     * Sincroniza UMA entrada criada OFFLINE pelo guarda. É deliberadamente
+     * LENIENTE: a entrada já aconteceu fisicamente (o guarda autorizou contra o
+     * cache local), por isso registamos a visita com a hora offline em vez de
+     * re-impor a janela/estado. A idempotency_key evita duplicar.
+     *
+     * @param array{idempotency_key?:string, qr_token?:string, otp_code?:string, entrou_em?:string, metodo?:string} $item
+     * @return array{ok:bool, idempotency_key:?string, visita_id?:int, duplicada?:bool, erro?:string}
+     */
+    public function sincronizarEntradaOffline(User $guarda, array $item): array
+    {
+        $idem = $item['idempotency_key'] ?? null;
+        $temQr = ! empty($item['qr_token']);
+        $temOtp = ! empty($item['otp_code']);
+
+        // Tem de trazer um código (qr ou otp); falha cedo sem abortar o lote.
+        if (! $temQr && ! $temOtp) {
+            return ['ok' => false, 'idempotency_key' => $idem, 'erro' => 'Entrada offline sem código (qr/otp).'];
+        }
+
+        // Idempotência: já sincronizada com esta chave?
+        if ($idem) {
+            $existe = Visita::where('idempotency_key', $idem)->first();
+            if ($existe) {
+                return ['ok' => true, 'duplicada' => true, 'visita_id' => $existe->id, 'idempotency_key' => $idem];
+            }
+        }
+
+        // Resolver a pré-aprovação pelo token/otp (sempre dentro da empresa do guarda)
+        $pa = null;
+        if ($temQr) {
+            $pa = PreAprovacao::where('qr_token', $item['qr_token'])
+                ->where('empresa_gestora_id', $guarda->empresa_gestora_id)->first();
+        } elseif ($temOtp) {
+            $pa = PreAprovacao::where('otp_code', $item['otp_code'])
+                ->where('empresa_gestora_id', $guarda->empresa_gestora_id)->first();
+        }
+
+        if ($pa === null) {
+            return ['ok' => false, 'idempotency_key' => $idem, 'erro' => 'Pré-aprovação não encontrada.'];
+        }
+
+        // Pontual (não-passe): uma única entrada por pré-aprovação. Se já existe visita
+        // para esta PA, devolve idempotente — impede reuso offline em 2 guardas/sessões.
+        if (! $pa->ehPasse()) {
+            $jaEntrou = Visita::where('pre_aprovacao_id', $pa->id)->first();
+            if ($jaEntrou) {
+                return ['ok' => true, 'duplicada' => true, 'visita_id' => $jaEntrou->id, 'idempotency_key' => $idem];
+            }
+        }
+
+        // Hora de entrada offline (relógio do dispositivo); fora de uma janela sã → now().
+        $entrouEm = ! empty($item['entrou_em']) ? \Illuminate\Support\Carbon::parse($item['entrou_em']) : now();
+        if ($entrouEm->isAfter(now()->addMinutes(10)) || $entrouEm->isBefore(now()->subDays(7))) {
+            $entrouEm = now();
+        }
+        $metodo = $item['metodo'] ?? ($temQr ? Visita::METODO_QR : Visita::METODO_OTP);
+
+        try {
+            $visita = DB::transaction(function () use ($pa, $guarda, $entrouEm, $metodo, $idem) {
+                $visitante = $this->encontrarOuCriarVisitantePorPreAprovacao($pa);
+
+                $v = Visita::create([
+                    'empresa_gestora_id' => $pa->empresa_gestora_id,
+                    'pre_aprovacao_id' => $pa->id,
+                    'visitante_id' => $visitante->id,
+                    'fraccao_id' => $pa->fraccao_id,
+                    'guarda_entrada_id' => $guarda->id,
+                    'entrou_em' => $entrouEm,
+                    'metodo_validacao' => $metodo,
+                    'idempotency_key' => $idem,
+                ]);
+
+                if (! $pa->ehPasse() && $pa->estado !== PreAprovacao::ESTADO_USADA) {
+                    $pa->update(['estado' => PreAprovacao::ESTADO_USADA]);
+                }
+
+                return $v;
+            });
+        } catch (\Illuminate\Database\QueryException $e) {
+            // Corrida na unique idempotency_key: outra request criou-a primeiro → idempotente.
+            if ($idem) {
+                $existe = Visita::where('idempotency_key', $idem)->first();
+                if ($existe) {
+                    return ['ok' => true, 'duplicada' => true, 'visita_id' => $existe->id, 'idempotency_key' => $idem];
+                }
+            }
+            throw $e;
+        }
+
+        return ['ok' => true, 'idempotency_key' => $idem, 'visita_id' => $visita->id];
+    }
+
     /* ======================================================
        PRIVADOS
        ====================================================== */

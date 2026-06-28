@@ -40,6 +40,7 @@ class Visita extends Model
         'foto_entrada_path',
         'observacoes',
         'matricula',
+        'idempotency_key',
     ];
 
     protected $casts = [

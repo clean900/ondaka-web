@@ -129,6 +129,9 @@ Route::middleware('auth:sanctum')->group(function () {
     */
     Route::prefix('portaria')->group(function () {
         Route::get('features', [PortariaController::class, 'features']);
+        // Modo offline (#6) — core, não gated
+        Route::get('sync', [\App\Domains\Visitor\Http\Controllers\PortariaSyncController::class, 'pull']);
+        Route::post('sync/entradas', [\App\Domains\Visitor\Http\Controllers\PortariaSyncController::class, 'pushEntradas']);
         Route::post('validar-qr', [PortariaController::class, 'validarQr']);
         Route::post('validar-otp', [PortariaController::class, 'validarOtp']);
         Route::post('entrada-manual', [PortariaController::class, 'entradaManual']);
