@@ -1,6 +1,6 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link, router } from '@inertiajs/react';
-import { Users, DoorOpen, Clock, Key, User, Home, Package, Car } from 'lucide-react';
+import { Users, DoorOpen, Clock, Key, User, Home, Package, Car, BarChart3, ClipboardList } from 'lucide-react';
 
 interface Visitante {
     id: number;
@@ -45,6 +45,8 @@ interface PageProps {
     visitas: Visita[];
     total: number;
     controloBensActivo?: boolean;
+    livroOcorrenciasActivo?: boolean;
+    dashboardPortariaActivo?: boolean;
 }
 
 const METODO_CONFIG: Record<string, { label: string; color: string }> = {
@@ -53,7 +55,7 @@ const METODO_CONFIG: Record<string, { label: string; color: string }> = {
     manual: { label: 'Manual', color: 'text-amber-400 bg-amber-500/10 border-amber-500/30' },
 };
 
-export default function DentroAgora({ visitas, total, controloBensActivo }: PageProps) {
+export default function DentroAgora({ visitas, total, controloBensActivo, livroOcorrenciasActivo, dashboardPortariaActivo }: PageProps) {
     const formatarHora = (iso: string) => {
         const d = new Date(iso);
         return d.toLocaleTimeString('pt-PT', { hour: '2-digit', minute: '2-digit' });
@@ -87,7 +89,25 @@ export default function DentroAgora({ visitas, total, controloBensActivo }: Page
                         </div>
                     </div>
 
-                    <div className="flex gap-2">
+                    <div className="flex gap-2 flex-wrap">
+                        {dashboardPortariaActivo && (
+                            <Link
+                                href="/visitantes/dashboard"
+                                className="inline-flex items-center gap-2 rounded-lg bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 text-zinc-200 px-4 py-2 text-sm font-medium"
+                            >
+                                <BarChart3 className="h-4 w-4" />
+                                Dashboard
+                            </Link>
+                        )}
+                        {livroOcorrenciasActivo && (
+                            <Link
+                                href="/visitantes/livro-ocorrencias"
+                                className="inline-flex items-center gap-2 rounded-lg bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 text-zinc-200 px-4 py-2 text-sm font-medium"
+                            >
+                                <ClipboardList className="h-4 w-4" />
+                                Ocorrências
+                            </Link>
+                        )}
                         <Link
                             href="/visitantes/historico"
                             className="inline-flex items-center gap-2 rounded-lg bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 text-zinc-200 px-4 py-2 text-sm font-medium"

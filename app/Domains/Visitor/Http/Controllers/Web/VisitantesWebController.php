@@ -46,6 +46,8 @@ class VisitantesWebController extends Controller
             'visitas' => $visitas,
             'total' => $visitas->count(),
             'controloBensActivo' => $controloBens,
+            'livroOcorrenciasActivo' => FeatureGate::has($request->user(), 'livro_ocorrencias'),
+            'dashboardPortariaActivo' => FeatureGate::has($request->user(), 'dashboard_portaria'),
         ]);
     }
 

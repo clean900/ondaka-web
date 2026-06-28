@@ -486,6 +486,11 @@ Route::middleware(['auth', 'verified', '2fa'])->group(function () {
                 Route::post('/lista-negra', [\App\Domains\Visitor\Http\Controllers\Web\ListaNegraController::class, 'store'])->name('lista-negra.store');
                 Route::delete('/lista-negra/{id}', [\App\Domains\Visitor\Http\Controllers\Web\ListaNegraController::class, 'destroy'])->whereNumber('id')->name('lista-negra.destroy');
             });
+            // Dashboard de Portaria (addon: dashboard_portaria)
+            Route::middleware('feature:dashboard_portaria')->group(function () {
+                Route::get('/dashboard', [\App\Domains\Visitor\Http\Controllers\Web\PortariaDashboardController::class, 'index'])->name('dashboard');
+            });
+
             // Livro de Ocorrências (addon: livro_ocorrencias)
             Route::middleware('feature:livro_ocorrencias')->group(function () {
                 Route::get('/livro-ocorrencias', [VisitantesWebController::class, 'livroOcorrencias'])->name('livro-ocorrencias');
