@@ -19,11 +19,21 @@ class SaudeFinanceiraService
             ->where('estado', '!=', 'cancelado')
             ->when($condominioId, fn ($q) => $q->where('condominio_id', $condominioId));
 
-        // Fundo de reserva: cobrado em fundo_reserva vs contribuições base (quota_base + fundo_reserva)
-        $fundoCobrado = (float) (clone $lanc())->where('tipo', 'fundo_reserva')->sum('valor');
+        // Fundo de reserva (opção A): saldo REAL nas contas marcadas como fundo de
+        // reserva (e_fundo_reserva), comparado com o mínimo legal de 10% das contribuições.
+        $fundoReservaSaldo = (float) DB::table('contas_bancarias')
+            ->join('condominios', 'condominios.id', '=', 'contas_bancarias.condominio_id')
+            ->where('condominios.empresa_gestora_id', $empresaGestoraId)
+            ->when($condominioId, fn ($q) => $q->where('contas_bancarias.condominio_id', $condominioId))
+            ->where('contas_bancarias.e_fundo_reserva', true)
+            ->sum('contas_bancarias.saldo_actual');
+
         $quotaBase = (float) (clone $lanc())->where('tipo', 'quota_base')->sum('valor');
-        $contribuicoes = $quotaBase + $fundoCobrado;
-        $pctReserva = $contribuicoes > 0 ? round(($fundoCobrado / $contribuicoes) * 100, 1) : 0.0;
+        $fundoEmQuotas = (float) (clone $lanc())->where('tipo', 'fundo_reserva')->sum('valor');
+        $contribuicoes = $quotaBase + $fundoEmQuotas;
+        $pctReserva = $contribuicoes > 0
+            ? round(($fundoReservaSaldo / $contribuicoes) * 100, 1)
+            : ($fundoReservaSaldo > 0 ? 100.0 : 0.0);
         $cumpreReserva = $pctReserva >= self::MIN_RESERVA_PCT;
 
         // Liquidez: saldo actual das contas dos condominios (filtrado)
@@ -45,7 +55,7 @@ class SaudeFinanceiraService
 
         return [
             'fundo_reserva' => [
-                'cobrado' => round($fundoCobrado, 2),
+                'cobrado' => round($fundoReservaSaldo, 2),
                 'contribuicoes' => round($contribuicoes, 2),
                 'pct' => $pctReserva,
                 'min_legal' => self::MIN_RESERVA_PCT,

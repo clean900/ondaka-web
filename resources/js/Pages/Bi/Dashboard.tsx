@@ -280,7 +280,7 @@ function AreaSaude({ d }: { d: any }) {
                     <div className={`h-full rounded-full ${fr.cumpre ? 'bg-emerald-500' : 'bg-red-500'}`} style={{ width: `${pctBar}%` }} />
                     <div className="absolute top-0 bottom-0 w-0.5 bg-white/60" style={{ left: `${Math.min(100, (fr.min_legal / Math.max(fr.min_legal * 2, fr.pct)) * 100)}%` }} title={`Mínimo legal ${fr.min_legal}%`} />
                 </div>
-                <p className="text-xs text-white/40 mt-2">Fundo cobrado: {kz(fr.cobrado)} de {kz(fr.contribuicoes)} em contribuições.</p>
+                <p className="text-xs text-white/40 mt-2">Saldo nas contas de fundo de reserva: {kz(fr.cobrado)} · base de contribuições: {kz(fr.contribuicoes)}.</p>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
