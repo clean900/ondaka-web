@@ -130,7 +130,7 @@ export default function Passes({ passes, condominios }: Props) {
                                             </div>
                                             <p className="text-xs text-zinc-500 mt-0.5">
                                                 {p.motivo ? <span className="text-cyan-400">{p.motivo} · </span> : null}
-                                                {p.condomino} · {p.tipo_documento?.toUpperCase()} {p.numero_documento} · {p.valida_desde} → {p.valida_ate}
+                                                {p.condomino ?? '—'} · {p.tipo_documento?.toUpperCase() ?? '—'} {p.numero_documento ?? ''} · {p.valida_desde ?? '—'} → {p.valida_ate ?? '—'}
                                             </p>
                                         </div>
                                         {p.documento_anexo && (

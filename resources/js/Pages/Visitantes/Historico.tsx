@@ -223,7 +223,7 @@ export default function Historico({ visitas, filtros }: PageProps) {
                                             <div className="flex items-start gap-3 flex-1">
                                                 {v.foto_entrada_path ? (
                                                     <img
-                                                        src={`https://ondaka.ao/ficheiros/${v.foto_entrada_path}`}
+                                                        src={`/ficheiros/${v.foto_entrada_path}`}
                                                         alt="Visitante"
                                                         className="h-10 w-10 rounded-lg object-cover flex-shrink-0"
                                                     />

@@ -192,7 +192,7 @@ class PreAprovacaoController extends Controller
 
             return response()->json([
                 'message' => 'Pré-aprovação cancelada.',
-                'data' => $pa->fresh(),
+                'data' => $pa->fresh()->load(['fraccao', 'condomino.user']),
             ]);
         } catch (InvalidArgumentException $e) {
             return response()->json([

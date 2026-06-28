@@ -73,7 +73,7 @@ export default function LivroOcorrencias({ ocorrencias, passagens }: PageProps) 
                                             </div>
                                             <p className="text-zinc-200 text-sm mt-2">{o.descricao}</p>
                                             {o.foto_path && (
-                                                <img src={`https://ondaka.ao/ficheiros/${o.foto_path}`} alt="" className="mt-2 rounded-lg max-h-44 object-cover" />
+                                                <img src={`/ficheiros/${o.foto_path}`} alt="" className="mt-2 rounded-lg max-h-44 object-cover" />
                                             )}
                                             <div className="flex items-center justify-between mt-2">
                                                 <span className="text-xs text-zinc-500 flex items-center gap-1">

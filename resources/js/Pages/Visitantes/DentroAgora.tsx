@@ -142,7 +142,7 @@ export default function DentroAgora({ visitas, total, controloBensActivo, livroO
                                             <div className="flex items-start gap-3 flex-1">
                                                 {visita.foto_entrada_path ? (
                                                     <img
-                                                        src={`https://ondaka.ao/ficheiros/${visita.foto_entrada_path}`}
+                                                        src={`/ficheiros/${visita.foto_entrada_path}`}
                                                         alt="Visitante"
                                                         className="h-10 w-10 rounded-lg object-cover flex-shrink-0"
                                                     />
