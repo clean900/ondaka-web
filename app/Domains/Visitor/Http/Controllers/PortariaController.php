@@ -43,7 +43,7 @@ class PortariaController extends Controller
     public function features(Request $request): JsonResponse
     {
         $empresa = EmpresaGestora::find($request->user()->empresa_gestora_id);
-        $slugs = ['controlo_bens', 'livro_ocorrencias', 'registo_viaturas', 'dashboard_portaria', 'foto_conferencia'];
+        $slugs = ['controlo_bens', 'livro_ocorrencias', 'registo_viaturas', 'dashboard_portaria', 'foto_conferencia', 'acesso_horario_area'];
 
         $out = [];
         foreach ($slugs as $slug) {
@@ -96,6 +96,41 @@ class PortariaController extends Controller
     }
 
     /**
+     * Add-on #9 — aviso/info de acesso por horário/área para uma visita validada.
+     * Só devolve algo se o add-on estiver activo E a pré-aprovação tiver restrições.
+     * Nunca bloqueia: o horário fora-de-janela é um aviso; a área é informativa.
+     */
+    private function alertaAcessoHorarioArea(Visita $visita, $guarda): ?array
+    {
+        $pa = $visita->preAprovacao;
+        if (! $pa) {
+            return null;
+        }
+
+        $empresa = EmpresaGestora::find($guarda->empresa_gestora_id);
+        if ($empresa === null || ! FeatureGate::has($empresa, 'acesso_horario_area')) {
+            return null;
+        }
+
+        $temHorario = $pa->temRestricaoHorario();
+        $temArea = $pa->temRestricaoArea();
+        if (! $temHorario && ! $temArea) {
+            return null;
+        }
+
+        $foraHorario = $temHorario && ! $pa->dentroDoHorario();
+
+        return [
+            'tem_horario' => $temHorario,
+            'horario_descricao' => $pa->horarioDescricaoCurta(),
+            'fora_horario' => $foraHorario,
+            'tem_area' => $temArea,
+            'areas' => $pa->areasNomes(),
+            'mensagem' => $foraHorario ? 'Entrada FORA do horário autorizado.' : null,
+        ];
+    }
+
+    /**
      * Guarda scaneou um QR code.
      *
      * POST /api/portaria/validar-qr
@@ -115,6 +150,7 @@ class PortariaController extends Controller
                 'message' => 'Entrada autorizada.',
                 'data' => $visita->load(['visitante', 'fraccao', 'preAprovacao']),
                 'lista_negra' => $this->alertaParaVisita($visita, $guarda),
+                'acesso' => $this->alertaAcessoHorarioArea($visita, $guarda),
             ], 201);
         } catch (InvalidArgumentException $e) {
             return response()->json(['message' => $e->getMessage()], 422);
@@ -143,6 +179,7 @@ class PortariaController extends Controller
                 'message' => 'Entrada autorizada.',
                 'data' => $visita->load(['visitante', 'fraccao', 'preAprovacao']),
                 'lista_negra' => $this->alertaParaVisita($visita, $guarda),
+                'acesso' => $this->alertaAcessoHorarioArea($visita, $guarda),
             ], 201);
         } catch (InvalidArgumentException $e) {
             return response()->json(['message' => $e->getMessage()], 422);

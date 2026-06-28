@@ -46,6 +46,8 @@ class PreAprovacao extends Model
         'otp_code',
         'valida_desde',
         'valida_ate',
+        'horarios_json',
+        'areas_json',
         'estado',
         'observacoes',
         'sms_enviado',
@@ -55,6 +57,8 @@ class PreAprovacao extends Model
     protected $casts = [
         'valida_desde' => 'datetime',
         'valida_ate' => 'datetime',
+        'horarios_json' => 'array',
+        'areas_json' => 'array',
         'aprovado_em' => 'datetime',
         'requer_aprovacao' => 'boolean',
         'sms_enviado' => 'boolean',
@@ -127,5 +131,85 @@ class PreAprovacao extends Model
     {
         return $this->valida_ate->isPast()
             && $this->estado === self::ESTADO_PENDENTE;
+    }
+
+    // === Add-on #9: Acesso por horário/área ===
+
+    /** Tem restrição de horário recorrente definida? */
+    public function temRestricaoHorario(): bool
+    {
+        return is_array($this->horarios_json) && count($this->horarios_json) > 0;
+    }
+
+    /** Tem restrição de área/zona definida? */
+    public function temRestricaoArea(): bool
+    {
+        return is_array($this->areas_json) && count($this->areas_json) > 0;
+    }
+
+    /**
+     * Está dentro do horário permitido neste momento? Sem restrição → sempre true.
+     * Regra: { dias: [1..7 ISO], inicio: "HH:MM", fim: "HH:MM" } — basta UMA regra permitir.
+     */
+    public function dentroDoHorario(?\Illuminate\Support\Carbon $quando = null): bool
+    {
+        if (! $this->temRestricaoHorario()) {
+            return true;
+        }
+        $quando ??= now();
+        $diaIso = $quando->dayOfWeekIso; // 1=segunda ... 7=domingo
+        $hora = $quando->format('H:i');
+
+        foreach ($this->horarios_json as $regra) {
+            $dias = array_map('intval', (array) ($regra['dias'] ?? []));
+            if (! in_array($diaIso, $dias, true)) {
+                continue;
+            }
+            $inicio = $regra['inicio'] ?? null;
+            $fim = $regra['fim'] ?? null;
+            if ($inicio !== null && $hora < $inicio) {
+                continue;
+            }
+            if ($fim !== null && $hora > $fim) {
+                continue;
+            }
+            return true;
+        }
+
+        return false;
+    }
+
+    /** Nomes das áreas autorizadas (para mostrar ao guarda). */
+    public function areasNomes(): array
+    {
+        if (! $this->temRestricaoArea()) {
+            return [];
+        }
+
+        return array_values(array_filter(array_map(
+            fn ($a) => is_array($a) ? ($a['nome'] ?? null) : null,
+            $this->areas_json,
+        )));
+    }
+
+    /** Descrição curta do horário para a portaria (ex.: "Seg-Sex 08:00-12:00"). */
+    public function horarioDescricaoCurta(): ?string
+    {
+        if (! $this->temRestricaoHorario()) {
+            return null;
+        }
+
+        $nomes = ['', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'];
+        $partes = [];
+        foreach ($this->horarios_json as $regra) {
+            $dias = array_map('intval', (array) ($regra['dias'] ?? []));
+            sort($dias);
+            $diasTxt = implode(', ', array_map(fn ($d) => $nomes[$d] ?? (string) $d, $dias));
+            $inicio = $regra['inicio'] ?? '00:00';
+            $fim = $regra['fim'] ?? '23:59';
+            $partes[] = trim("$diasTxt $inicio-$fim");
+        }
+
+        return implode(' · ', array_filter($partes));
     }
 }
