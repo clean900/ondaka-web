@@ -11,6 +11,9 @@ class PreditivoService
     /** IPC / inflação anual usada para sugestão de quota (%). */
     public const IPC_PCT = 6.5;
 
+    /** Mínimo legal do fundo de reserva (DP 141/15): 10% da quota base. */
+    public const MIN_RESERVA_PCT = 10.0;
+
     public function calcular(int $empresaGestoraId, ?int $condominioId): array
     {
         return [
@@ -38,15 +41,27 @@ class PreditivoService
         }
 
         $factor = 1 + (self::IPC_PCT / 100);
+        $baseSugerida = round($mediaBase * $factor, 2);
+
+        // Fundo de reserva: ajusta ao IPC, mas nunca abaixo do mínimo legal
+        // (10% da quota base — DP 141/15). Assim a sugestão guia para a conformidade
+        // mesmo quando o condomínio ainda não cobra componente de fundo.
+        $fundoPorInflacao = $mediaFundo * $factor;
+        $fundoMinimoLegal = $baseSugerida * (self::MIN_RESERVA_PCT / 100);
+        $fundoSugerido = round(max($fundoPorInflacao, $fundoMinimoLegal), 2);
+        $fundoAjustadoMinimo = $fundoSugerido > round($fundoPorInflacao, 2);
+
         return [
             'disponivel' => true,
             'ipc_pct' => self::IPC_PCT,
             'base_actual' => round($mediaBase, 2),
-            'base_sugerida' => round($mediaBase * $factor, 2),
+            'base_sugerida' => $baseSugerida,
             'fundo_actual' => round($mediaFundo, 2),
-            'fundo_sugerido' => round($mediaFundo * $factor, 2),
+            'fundo_sugerido' => $fundoSugerido,
+            'fundo_min_legal_pct' => self::MIN_RESERVA_PCT,
+            'fundo_ajustado_minimo' => $fundoAjustadoMinimo,
             'total_actual' => round($mediaBase + $mediaFundo, 2),
-            'total_sugerido' => round(($mediaBase + $mediaFundo) * $factor, 2),
+            'total_sugerido' => round($baseSugerida + $fundoSugerido, 2),
         ];
     }
 

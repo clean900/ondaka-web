@@ -313,6 +313,9 @@ function AreaPreditivo({ d }: { d: any }) {
                                 <p className="text-xs text-white/50">Fundo reserva</p>
                                 <p className="text-sm text-white/70 mt-1">{kz(ipc.fundo_actual)} <span className="text-white/40">→</span></p>
                                 <p className="text-lg font-bold text-cyan-400">{kz(ipc.fundo_sugerido)}</p>
+                                {ipc.fundo_ajustado_minimo && (
+                                    <p className="text-[11px] text-amber-300/80 mt-1">Ajustado ao mínimo legal ({ipc.fundo_min_legal_pct}% da base — DP 141/15)</p>
+                                )}
                             </div>
                             <div className="p-4 rounded-lg bg-cyan-500/10 border border-cyan-500/20">
                                 <p className="text-xs text-white/50">Total</p>
