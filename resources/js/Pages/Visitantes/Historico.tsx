@@ -35,6 +35,7 @@ interface Visita {
     metodo_validacao: 'qr' | 'otp' | 'manual';
     observacoes: string | null;
     matricula: string | null;
+    foto_entrada_path: string | null;
     visitante: Visitante | null;
     fraccao: Fraccao | null;
     guarda_entrada: Guarda | null;
@@ -220,9 +221,17 @@ export default function Historico({ visitas, filtros }: PageProps) {
                                     <div key={v.id} className="p-4 md:p-5">
                                         <div className="flex items-start justify-between gap-4">
                                             <div className="flex items-start gap-3 flex-1">
-                                                <div className="h-10 w-10 rounded-lg bg-cyan-500/10 flex items-center justify-center flex-shrink-0">
-                                                    <User className="h-5 w-5 text-cyan-400" />
-                                                </div>
+                                                {v.foto_entrada_path ? (
+                                                    <img
+                                                        src={`https://ondaka.ao/ficheiros/${v.foto_entrada_path}`}
+                                                        alt="Visitante"
+                                                        className="h-10 w-10 rounded-lg object-cover flex-shrink-0"
+                                                    />
+                                                ) : (
+                                                    <div className="h-10 w-10 rounded-lg bg-cyan-500/10 flex items-center justify-center flex-shrink-0">
+                                                        <User className="h-5 w-5 text-cyan-400" />
+                                                    </div>
+                                                )}
                                                 <div className="flex-1 min-w-0">
                                                     <p className="font-semibold text-zinc-100">{v.visitante?.nome ?? 'Visitante'}</p>
                                                     {v.fraccao && (

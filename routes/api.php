@@ -142,6 +142,11 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::post('visitas/{id}/matricula', [PortariaController::class, 'registarMatricula']);
         });
 
+        // Add-on Foto + conferência — foto do visitante na entrada (gated)
+        Route::middleware('feature:foto_conferencia')->group(function () {
+            Route::post('visitas/{id}/foto-entrada', [PortariaController::class, 'registarFotoEntrada']);
+        });
+
         // Add-on Controlo de Bens — itens à entrada/saída (gated)
         Route::middleware('feature:controlo_bens')->group(function () {
             Route::get('visitas/{id}/itens', [\App\Domains\Visitor\Http\Controllers\VisitaItemController::class, 'index']);

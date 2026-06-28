@@ -252,6 +252,26 @@ class PortariaController extends Controller
     }
 
     /**
+     * Guarda tira foto do visitante na entrada (add-on foto_conferencia) — mostrada
+     * na saída para confirmar que quem sai é quem entrou.
+     *
+     * POST /api/portaria/visitas/{id}/foto-entrada  (multipart: foto)
+     */
+    public function registarFotoEntrada(Request $request, int $id): JsonResponse
+    {
+        $visita = Visita::paraEmpresa($request->user()->empresa_gestora_id)->find($id);
+        if ($visita === null) {
+            return response()->json(['message' => 'Visita não encontrada.'], 404);
+        }
+
+        $request->validate(['foto' => ['required', 'image', 'max:8192']]);
+        $path = $request->file('foto')->store('visitas-foto', 'public');
+        $visita->update(['foto_entrada_path' => $path]);
+
+        return response()->json(['message' => 'Foto registada.', 'data' => $visita]);
+    }
+
+    /**
      * Regista/atualiza a matrícula do veículo de uma visita (add-on registo_viaturas).
      *
      * POST /api/portaria/visitas/{id}/matricula  body: { matricula }
