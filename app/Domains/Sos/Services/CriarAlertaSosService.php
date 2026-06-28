@@ -51,36 +51,46 @@ class CriarAlertaSosService
             throw new InvalidArgumentException("Tipo de SOS inválido: {$tipo}");
         }
 
-        // 2. Resolver condomínio do user
+        // 2. Resolver condomínio: condómino (via contrato/fracção) OU
+        //    funcionário/guarda (via condominio_activo_id, sem condómino).
         $condomino = CondominoResolver::paraUser($user);
+        $condominoId = null;
+        $condominioId = null;
 
-        if (! $condomino) {
-            throw new RuntimeException('User não está associado a nenhum condómino.');
-        }
+        if ($condomino) {
+            $contrato = $condomino->contratos()
+                ->where('estado', 'activo')
+                ->latest('data_inicio')
+                ->first()
+                ?? $condomino->contratos()->latest('data_inicio')->first();
 
-        $contrato = $condomino->contratos()
-            ->where('estado', 'activo')
-            ->latest('data_inicio')
-            ->first()
-            ?? $condomino->contratos()->latest('data_inicio')->first();
+            if (! $contrato || ! $contrato->fraccao_id) {
+                throw new RuntimeException('Condómino não tem contrato activo / fracção.');
+            }
 
-        if (! $contrato || ! $contrato->fraccao_id) {
-            throw new RuntimeException('Condómino não tem contrato activo / fracção.');
-        }
+            $fraccao = $contrato->fraccao;
+            if (! $fraccao || ! $fraccao->condominio_id) {
+                throw new RuntimeException('Fracção não tem condomínio associado.');
+            }
 
-        $fraccao = $contrato->fraccao;
-        if (! $fraccao || ! $fraccao->condominio_id) {
-            throw new RuntimeException('Fracção não tem condomínio associado.');
+            $condominioId = $fraccao->condominio_id;
+            $condominoId = $condomino->id;
+        } else {
+            // Guarda/funcionário: usa o condomínio activo (botão de pânico da portaria).
+            $condominioId = $user->condominio_activo_id;
+            if (! $condominioId || ! \App\Domains\Condominio\Models\Condominio::whereKey($condominioId)->exists()) {
+                throw new RuntimeException('User não está associado a um condomínio válido.');
+            }
         }
 
         // 3. Determinar gravidade do catálogo
         $gravidade = TiposSos::gravidade($tipo);
 
         // 4. Criar alerta numa transacção
-        $alerta = DB::transaction(function () use ($user, $condomino, $fraccao, $tipo, $gravidade, $descricao, $localizacao, $fotos) {
+        $alerta = DB::transaction(function () use ($user, $condominioId, $condominoId, $tipo, $gravidade, $descricao, $localizacao, $fotos) {
             $alerta = SosAlerta::create([
-                'condominio_id' => $fraccao->condominio_id,
-                'condomino_id' => $condomino->id,
+                'condominio_id' => $condominioId,
+                'condomino_id' => $condominoId,
                 'user_id' => $user->id,
                 'tipo' => $tipo,
                 'gravidade' => $gravidade,

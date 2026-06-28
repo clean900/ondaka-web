@@ -27,6 +27,12 @@ class TiposSos
     {
         return [
             // 🔴 CRÍTICOS — vida em perigo
+            'panico' => [
+                'label' => 'Botão de pânico (portaria)',
+                'gravidade' => self::CRITICO,
+                'icone' => 'alert-triangle',
+                'cor' => '#DC2626',
+            ],
             'incendio' => [
                 'label' => 'Incêndio',
                 'gravidade' => self::CRITICO,
