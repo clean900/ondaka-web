@@ -486,6 +486,12 @@ Route::middleware(['auth', 'verified', '2fa'])->group(function () {
                 Route::post('/lista-negra', [\App\Domains\Visitor\Http\Controllers\Web\ListaNegraController::class, 'store'])->name('lista-negra.store');
                 Route::delete('/lista-negra/{id}', [\App\Domains\Visitor\Http\Controllers\Web\ListaNegraController::class, 'destroy'])->whereNumber('id')->name('lista-negra.destroy');
             });
+            // Livro de Ocorrências (addon: livro_ocorrencias)
+            Route::middleware('feature:livro_ocorrencias')->group(function () {
+                Route::get('/livro-ocorrencias', [VisitantesWebController::class, 'livroOcorrencias'])->name('livro-ocorrencias');
+                Route::post('/ocorrencias/{id}/resolver', [VisitantesWebController::class, 'resolverOcorrencia'])->whereNumber('id')->name('ocorrencias.resolver');
+            });
+
             // Controlo de Bens (addon: controlo_bens) — itens à entrada/saída
             Route::middleware('feature:controlo_bens')->group(function () {
                 Route::post('/visitas/{visitaId}/itens', [VisitantesWebController::class, 'registarItem'])->whereNumber('visitaId')->name('itens.registar');

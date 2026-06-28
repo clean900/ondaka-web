@@ -104,6 +104,46 @@ class VisitantesWebController extends Controller
         ]);
     }
 
+    /**
+     * Livro de Ocorrências (web, gestor) — só leitura + resolver.
+     */
+    public function livroOcorrencias(Request $request): Response
+    {
+        $empresaId = $request->user()->empresa_gestora_id;
+
+        $ocorrencias = \App\Domains\Visitor\Models\OcorrenciaPortaria::with(['guarda:id,name', 'resolvidaPor:id,name'])
+            ->where('empresa_gestora_id', $empresaId)
+            ->latest('id')
+            ->limit(200)
+            ->get();
+
+        $passagens = \App\Domains\Visitor\Models\PassagemTurno::with(['guarda:id,name'])
+            ->where('empresa_gestora_id', $empresaId)
+            ->latest('id')
+            ->limit(30)
+            ->get();
+
+        return Inertia::render('Visitantes/LivroOcorrencias', [
+            'ocorrencias' => $ocorrencias,
+            'passagens' => $passagens,
+        ]);
+    }
+
+    public function resolverOcorrencia(Request $request, int $id): RedirectResponse
+    {
+        $oc = \App\Domains\Visitor\Models\OcorrenciaPortaria::where('empresa_gestora_id', $request->user()->empresa_gestora_id)->find($id);
+        if (! $oc) {
+            return back()->with('error', 'Ocorrência não encontrada.');
+        }
+        try {
+            app(\App\Domains\Visitor\Services\OcorrenciaPortariaService::class)
+                ->resolver($oc, $request->user(), $request->input('notas'));
+            return back()->with('success', 'Ocorrência resolvida.');
+        } catch (\Throwable $e) {
+            return back()->with('error', $e->getMessage());
+        }
+    }
+
     // =========================================================================
     // Add-on Controlo de Bens — acções web (registar/resolver itens)
     // =========================================================================

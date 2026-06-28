@@ -147,6 +147,16 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::post('visitas/{id}/foto-entrada', [PortariaController::class, 'registarFotoEntrada']);
         });
 
+        // Add-on Livro de Ocorrências + Passagem de Turno (gated)
+        Route::middleware('feature:livro_ocorrencias')->group(function () {
+            $oc = \App\Domains\Visitor\Http\Controllers\OcorrenciaPortariaController::class;
+            Route::get('ocorrencias', [$oc, 'index']);
+            Route::post('ocorrencias', [$oc, 'store']);
+            Route::post('ocorrencias/{id}/resolver', [$oc, 'resolver'])->whereNumber('id');
+            Route::get('passagens-turno', [$oc, 'passagens']);
+            Route::post('passagem-turno', [$oc, 'passagem']);
+        });
+
         // Add-on Controlo de Bens — itens à entrada/saída (gated)
         Route::middleware('feature:controlo_bens')->group(function () {
             Route::get('visitas/{id}/itens', [\App\Domains\Visitor\Http\Controllers\VisitaItemController::class, 'index']);

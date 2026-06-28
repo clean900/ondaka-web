@@ -379,6 +379,9 @@
   "resources/js/Pages/Visitantes/ListaNegra.tsx": [
     "/build/assets/ListaNegra-DWI4NeHe.js"
   ],
+  "resources/js/Pages/Visitantes/LivroOcorrencias.tsx": [
+    "/build/assets/LivroOcorrencias-82bII5Yx.js"
+  ],
   "resources/js/Pages/Visitantes/Passes.tsx": [
     "/build/assets/Passes-GfD7ComZ.js"
   ],
