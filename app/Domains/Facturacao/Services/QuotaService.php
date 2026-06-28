@@ -103,11 +103,10 @@ class QuotaService
         string $origem,
         ?User $por,
     ): array {
-        // 1. Já existe?
+        // 1. Já existe uma quota ACTIVA para o período?
         $existe = Quota::where('fraccao_id', $fraccao->id)
             ->where('ano', $ano)
             ->where('mes', $mes)
-            ->whereNull('deleted_at')
             ->exists();
 
         if ($existe) {
@@ -160,6 +159,20 @@ class QuotaService
             $origem,
             $por,
         ) {
+            // Se houver uma quota CANCELADA (soft-deleted) para o mesmo período,
+            // a unique constraint (fraccao, ano, mes) conta-a e o insert daria
+            // "1062 Duplicate entry". Liberta o lugar (remove a cancelada + os
+            // lançamentos dela) antes de criar a nova — tudo dentro da transacção.
+            $cancelada = Quota::onlyTrashed()
+                ->where('fraccao_id', $fraccao->id)
+                ->where('ano', $ano)
+                ->where('mes', $mes)
+                ->first();
+            if ($cancelada !== null) {
+                Lancamento::withTrashed()->where('quota_id', $cancelada->id)->forceDelete();
+                $cancelada->forceDelete();
+            }
+
             $quota = Quota::create([
                 'empresa_gestora_id' => $empresaGestoraId,
                 'condominio_id' => $fraccao->condominio_id,
