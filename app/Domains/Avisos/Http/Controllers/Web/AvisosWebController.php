@@ -95,6 +95,11 @@ class AvisosWebController extends Controller
         $condominioIds = $dados['condominio_ids'];
         unset($dados['condominio_ids']);
 
+        // Sem condomínio seleccionado não se cria nada — evita "sucesso" enganoso.
+        if (empty($condominioIds)) {
+            return back()->withInput()->withErrors(['condominio_ids' => 'Seleccione pelo menos um condomínio.']);
+        }
+
         $anexos = $request->file('anexos', []);
         unset($dados['anexos']);
 

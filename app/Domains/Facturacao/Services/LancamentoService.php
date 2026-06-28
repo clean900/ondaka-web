@@ -67,6 +67,12 @@ class LancamentoService
             ->orderBy('created_at')
             ->first();
 
+        // Sem condómino activo não há a quem imputar a despesa (evita lançamento
+        // órfão que parte o extrato do condómino).
+        if ($contrato === null) {
+            throw new InvalidArgumentException('Esta fracção não tem condómino activo. Atribua um contrato antes de lançar despesas.');
+        }
+
         return DB::transaction(function () use ($dados, $tipo, $valor, $fraccao, $contrato, $criadoPor) {
             return Lancamento::create([
                 'empresa_gestora_id' => $fraccao->empresa_gestora_id,
