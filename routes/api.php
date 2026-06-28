@@ -142,6 +142,7 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::post('visitas/{id}/itens', [\App\Domains\Visitor\Http\Controllers\VisitaItemController::class, 'store']);
             Route::post('visitas/{id}/itens/nao-declarado', [\App\Domains\Visitor\Http\Controllers\VisitaItemController::class, 'naoDeclarado']);
             Route::post('visitas/{id}/itens/{itemId}/saida', [\App\Domains\Visitor\Http\Controllers\VisitaItemController::class, 'resolver']);
+            Route::post('visitas/{id}/itens/{itemId}/reter', [\App\Domains\Visitor\Http\Controllers\VisitaItemController::class, 'reter']);
             Route::delete('visitas/{id}/itens/{itemId}', [\App\Domains\Visitor\Http\Controllers\VisitaItemController::class, 'destroy']);
         });
 

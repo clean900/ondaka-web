@@ -1,6 +1,6 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link, router } from '@inertiajs/react';
-import { Users, DoorOpen, Clock, Key, User, Home, Package, AlertTriangle } from 'lucide-react';
+import { Users, DoorOpen, Clock, Key, User, Home, Package } from 'lucide-react';
 
 interface Visitante {
     id: number;
@@ -176,6 +176,16 @@ const ESTADO_BADGE: Record<string, string> = {
     dentro: 'text-cyan-400 bg-cyan-500/10',
     saiu: 'text-emerald-400 bg-emerald-500/10',
     ficou: 'text-amber-400 bg-amber-500/10',
+    aguarda_autorizacao: 'text-purple-400 bg-purple-500/10',
+    retido: 'text-red-400 bg-red-500/10',
+};
+
+const ESTADO_LABEL: Record<string, string> = {
+    saiu: 'Saiu',
+    ficou: 'Ficou',
+    aguarda_autorizacao: 'Aguarda autorização',
+    retido: 'Retido',
+    dentro: 'Dentro',
 };
 
 function ItensVisita({ visita }: { visita: Visita }) {
@@ -187,12 +197,6 @@ function ItensVisita({ visita }: { visita: Visita }) {
         router.post(`${base}/${itemId}/resolver`, { resolucao }, opts);
     };
 
-    const naoDeclarado = () => {
-        const d = window.prompt('Item que o visitante leva mas NÃO declarou à entrada (descrição):');
-        if (!d || d.trim().length < 2) return;
-        router.post(`${base}/nao-declarado`, { descricao: d.trim(), quantidade: 1 }, opts);
-    };
-
     return (
         <div className="mt-3 ml-13 rounded-lg border border-zinc-800 bg-zinc-950/40 p-3">
             <div className="flex items-center justify-between mb-2">
@@ -200,13 +204,6 @@ function ItensVisita({ visita }: { visita: Visita }) {
                     <Package className="h-3.5 w-3.5" />
                     Itens à entrada {itens.length > 0 && `(${itens.length})`}
                 </span>
-                <button
-                    onClick={naoDeclarado}
-                    className="inline-flex items-center gap-1 text-xs text-amber-400 hover:text-amber-300"
-                >
-                    <AlertTriangle className="h-3.5 w-3.5" />
-                    Item não declarado
-                </button>
             </div>
 
             {itens.length === 0 ? (
@@ -228,8 +225,8 @@ function ItensVisita({ visita }: { visita: Visita }) {
                                     <button onClick={() => resolver(item.id, 'ficou')} className="px-2 py-0.5 rounded text-xs text-amber-400 bg-amber-500/10 hover:bg-amber-500/20">Ficou</button>
                                 </span>
                             ) : (
-                                <span className={`px-2 py-0.5 rounded text-xs font-medium flex-shrink-0 ${ESTADO_BADGE[item.estado]}`}>
-                                    {item.estado === 'saiu' ? 'Saiu' : 'Ficou'}
+                                <span className={`px-2 py-0.5 rounded text-xs font-medium flex-shrink-0 ${ESTADO_BADGE[item.estado] ?? ESTADO_BADGE.dentro}`}>
+                                    {ESTADO_LABEL[item.estado] ?? item.estado}
                                 </span>
                             )}
                         </li>

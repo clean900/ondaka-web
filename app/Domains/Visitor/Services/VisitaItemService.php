@@ -131,6 +131,31 @@ class VisitaItemService
     }
 
     /**
+     * O guarda retém um bem que ficou à espera de autorização (sem resposta do
+     * condómino, ou recusa verbal). O visitante sai sem o bem; a saída desbloqueia.
+     *
+     * @throws RuntimeException Multi-tenant
+     * @throws InvalidArgumentException Item não está à espera de autorização
+     */
+    public function reterItem(VisitaItem $item, User $guarda): VisitaItem
+    {
+        if ($item->empresa_gestora_id !== $guarda->empresa_gestora_id) {
+            throw new RuntimeException('Este item não pertence à empresa do guarda.');
+        }
+        if ($item->estado !== VisitaItem::ESTADO_AGUARDA_AUTORIZACAO) {
+            throw new InvalidArgumentException('Só itens à espera de autorização podem ser retidos.');
+        }
+
+        $item->update([
+            'estado' => VisitaItem::ESTADO_RETIDO,
+            'resolvido_por' => $guarda->id,
+            'resolvido_em' => now(),
+        ]);
+
+        return $item->fresh();
+    }
+
+    /**
      * Itens à espera de autorização para um utilizador (condómino vê os seus;
      * gestor vê os da empresa).
      *

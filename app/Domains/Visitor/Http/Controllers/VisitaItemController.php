@@ -86,12 +86,10 @@ class VisitaItemController extends Controller
             'quantidade' => ['nullable', 'integer', 'min:1', 'max:9999'],
             'identificador' => ['nullable', 'string', 'max:100'],
             'observacoes' => ['nullable', 'string', 'max:255'],
-            'foto' => ['nullable', 'image', 'max:5120'],
+            'foto' => ['required', 'image', 'max:5120'],
         ]);
 
-        if ($request->hasFile('foto')) {
-            $dados['foto_entrada_path'] = $request->file('foto')->store('controlo-bens', 'public');
-        }
+        $dados['foto_entrada_path'] = $request->file('foto')->store('controlo-bens', 'public');
 
         try {
             $item = $this->service->registarNaoDeclarado($visita, $request->user(), $dados);
@@ -100,6 +98,26 @@ class VisitaItemController extends Controller
                 'message' => 'Registado. A aguardar autorização do condómino.',
                 'data' => $item,
             ], 201);
+        } catch (InvalidArgumentException $e) {
+            return response()->json(['message' => $e->getMessage()], 422);
+        } catch (RuntimeException $e) {
+            return response()->json(['message' => $e->getMessage()], 403);
+        }
+    }
+
+    /** POST /api/portaria/visitas/{id}/itens/{itemId}/reter
+     *  O guarda retém o bem (não autorizado / sem resposta) → liberta a saída. */
+    public function reter(Request $request, int $id, int $itemId): JsonResponse
+    {
+        $item = VisitaItem::where('visita_id', $id)->find($itemId);
+        if ($item === null) {
+            return response()->json(['message' => 'Item não encontrado.'], 404);
+        }
+
+        try {
+            $item = $this->service->reterItem($item, $request->user());
+
+            return response()->json(['message' => 'Bem retido na portaria.', 'data' => $item]);
         } catch (InvalidArgumentException $e) {
             return response()->json(['message' => $e->getMessage()], 422);
         } catch (RuntimeException $e) {
@@ -163,15 +181,21 @@ class VisitaItemController extends Controller
     /** GET /api/visitas/itens/pendentes-autorizacao */
     public function pendentes(Request $request): JsonResponse
     {
+        $user = $request->user();
+        if (! $user->hasAnyRole(['condomino', 'gestor', 'administrador-condominio', 'admin-empresa', 'super-admin'])) {
+            return response()->json(['message' => 'Sem permissão.'], 403);
+        }
+
         return response()->json([
-            'data' => $this->service->pendentesAutorizacao($request->user()),
+            'data' => $this->service->pendentesAutorizacao($user),
         ]);
     }
 
     /** POST /api/visitas/itens/{itemId}/autorizar  body: { aprovar: bool } */
     public function autorizar(Request $request, int $itemId): JsonResponse
     {
-        $item = VisitaItem::find($itemId);
+        // Multi-tenant cedo: só itens da empresa do utilizador.
+        $item = VisitaItem::where('empresa_gestora_id', $request->user()->empresa_gestora_id)->find($itemId);
         if ($item === null) {
             return response()->json(['message' => 'Item não encontrado.'], 404);
         }
