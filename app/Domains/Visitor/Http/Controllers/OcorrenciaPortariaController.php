@@ -35,9 +35,9 @@ class OcorrenciaPortariaController extends Controller
         $dados = $request->validate([
             'tipo' => ['nullable', 'string', 'in:observacao,incidente,alerta'],
             'descricao' => ['required', 'string', 'min:3', 'max:1000'],
-            'foto' => ['nullable', 'image', 'max:8192'],
-            'latitude' => ['nullable', 'numeric'],
-            'longitude' => ['nullable', 'numeric'],
+            'foto' => ['nullable', 'image', 'mimes:jpeg,png,webp', 'max:5120'],
+            'latitude' => ['nullable', 'numeric', 'between:-90,90'],
+            'longitude' => ['nullable', 'numeric', 'between:-180,180'],
         ]);
 
         if ($request->hasFile('foto')) {

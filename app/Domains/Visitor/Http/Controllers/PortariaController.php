@@ -264,7 +264,7 @@ class PortariaController extends Controller
             return response()->json(['message' => 'Visita não encontrada.'], 404);
         }
 
-        $request->validate(['foto' => ['required', 'image', 'max:8192']]);
+        $request->validate(['foto' => ['required', 'image', 'mimes:jpeg,png,webp', 'max:5120']]);
         $path = $request->file('foto')->store('visitas-foto', 'public');
         $visita->update(['foto_entrada_path' => $path]);
 

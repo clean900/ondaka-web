@@ -18,14 +18,14 @@ return new class extends Migration
             $table->id();
             $table->foreignId('empresa_gestora_id')->constrained('empresas_gestoras')->cascadeOnDelete();
             $table->unsignedBigInteger('condominio_id')->nullable();
-            $table->foreignId('guarda_id')->constrained('users');
+            $table->foreignId('guarda_id')->constrained('users')->restrictOnDelete();
             $table->enum('tipo', ['observacao', 'incidente', 'alerta'])->default('observacao');
             $table->text('descricao');
             $table->string('foto_path')->nullable();
             $table->decimal('latitude', 10, 7)->nullable();
             $table->decimal('longitude', 10, 7)->nullable();
             $table->timestamp('resolvida_em')->nullable();
-            $table->foreignId('resolvida_por')->nullable()->constrained('users');
+            $table->foreignId('resolvida_por')->nullable()->constrained('users')->nullOnDelete();
             $table->string('notas_resolucao', 500)->nullable();
             $table->timestamps();
             $table->softDeletes();
@@ -37,7 +37,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('empresa_gestora_id')->constrained('empresas_gestoras')->cascadeOnDelete();
             $table->unsignedBigInteger('condominio_id')->nullable();
-            $table->foreignId('guarda_id')->constrained('users');
+            $table->foreignId('guarda_id')->constrained('users')->restrictOnDelete();
             $table->text('resumo');
             $table->unsignedInteger('total_dentro')->default(0);
             $table->unsignedInteger('ocorrencias_abertas')->default(0);
