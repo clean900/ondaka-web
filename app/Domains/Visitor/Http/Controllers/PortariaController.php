@@ -34,6 +34,26 @@ class PortariaController extends Controller
     ) {}
 
     /**
+     * Add-ons da portaria activos para a empresa do utilizador.
+     * O mobile usa isto para mostrar/esconder funcionalidades (matrícula, foto,
+     * controlo de bens, livro de ocorrências, etc.).
+     *
+     * GET /api/portaria/features
+     */
+    public function features(Request $request): JsonResponse
+    {
+        $empresa = EmpresaGestora::find($request->user()->empresa_gestora_id);
+        $slugs = ['controlo_bens', 'livro_ocorrencias', 'registo_viaturas', 'dashboard_portaria', 'foto_conferencia'];
+
+        $out = [];
+        foreach ($slugs as $slug) {
+            $out[$slug] = $empresa !== null && FeatureGate::has($empresa, $slug);
+        }
+
+        return response()->json(['data' => $out]);
+    }
+
+    /**
      * Pré-verificação na Lista Negra — o guarda confere ANTES de autorizar.
      *
      * POST /api/portaria/lista-negra/verificar
@@ -229,6 +249,24 @@ class PortariaController extends Controller
         } catch (RuntimeException $e) {
             return response()->json(['message' => $e->getMessage()], 403);
         }
+    }
+
+    /**
+     * Regista/atualiza a matrícula do veículo de uma visita (add-on registo_viaturas).
+     *
+     * POST /api/portaria/visitas/{id}/matricula  body: { matricula }
+     */
+    public function registarMatricula(Request $request, int $id): JsonResponse
+    {
+        $visita = Visita::paraEmpresa($request->user()->empresa_gestora_id)->find($id);
+        if ($visita === null) {
+            return response()->json(['message' => 'Visita não encontrada.'], 404);
+        }
+
+        $dados = $request->validate(['matricula' => ['required', 'string', 'max:20']]);
+        $visita->update(['matricula' => mb_strtoupper(trim($dados['matricula']))]);
+
+        return response()->json(['message' => 'Matrícula registada.', 'data' => $visita]);
     }
 
     /**

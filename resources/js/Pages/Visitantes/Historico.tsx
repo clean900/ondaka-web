@@ -1,6 +1,6 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link, router } from '@inertiajs/react';
-import { Clock, Users, User, Home, Key, LogIn, LogOut, Search, Filter, Package, AlertTriangle } from 'lucide-react';
+import { Clock, Users, User, Home, Key, LogIn, LogOut, Search, Filter, Package, AlertTriangle, Car } from 'lucide-react';
 import { useState } from 'react';
 
 interface Visitante {
@@ -34,6 +34,7 @@ interface Visita {
     saiu_em: string | null;
     metodo_validacao: 'qr' | 'otp' | 'manual';
     observacoes: string | null;
+    matricula: string | null;
     visitante: Visitante | null;
     fraccao: Fraccao | null;
     guarda_entrada: Guarda | null;
@@ -248,6 +249,12 @@ export default function Historico({ visitas, filtros }: PageProps) {
                                                             </>
                                                         ) : (
                                                             <span className="text-emerald-400 font-medium">AINDA DENTRO</span>
+                                                        )}
+                                                        {v.matricula && (
+                                                            <span className="flex items-center gap-1 text-zinc-400">
+                                                                <Car className="h-3 w-3" />
+                                                                {v.matricula}
+                                                            </span>
                                                         )}
                                                     </div>
                                                     {v.itens && v.itens.length > 0 && (

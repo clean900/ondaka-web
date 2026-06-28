@@ -128,6 +128,7 @@ Route::middleware('auth:sanctum')->group(function () {
     |--------------------------------------------------------------------------
     */
     Route::prefix('portaria')->group(function () {
+        Route::get('features', [PortariaController::class, 'features']);
         Route::post('validar-qr', [PortariaController::class, 'validarQr']);
         Route::post('validar-otp', [PortariaController::class, 'validarOtp']);
         Route::post('entrada-manual', [PortariaController::class, 'entradaManual']);
@@ -135,6 +136,11 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('dentro-agora', [PortariaController::class, 'dentroAgora']);
         Route::get('visitas', [PortariaController::class, 'historico']);
         Route::post('visitas/{id}/saida', [PortariaController::class, 'registarSaida']);
+
+        // Add-on Registo de Viaturas — matrícula na visita (gated)
+        Route::middleware('feature:registo_viaturas')->group(function () {
+            Route::post('visitas/{id}/matricula', [PortariaController::class, 'registarMatricula']);
+        });
 
         // Add-on Controlo de Bens — itens à entrada/saída (gated)
         Route::middleware('feature:controlo_bens')->group(function () {

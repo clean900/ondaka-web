@@ -39,6 +39,7 @@ class Visita extends Model
         'metodo_validacao',
         'foto_entrada_path',
         'observacoes',
+        'matricula',
     ];
 
     protected $casts = [

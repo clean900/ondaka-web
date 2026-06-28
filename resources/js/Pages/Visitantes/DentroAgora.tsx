@@ -1,6 +1,6 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link, router } from '@inertiajs/react';
-import { Users, DoorOpen, Clock, Key, User, Home, Package } from 'lucide-react';
+import { Users, DoorOpen, Clock, Key, User, Home, Package, Car } from 'lucide-react';
 
 interface Visitante {
     id: number;
@@ -33,6 +33,7 @@ interface Visita {
     entrou_em: string;
     metodo_validacao: 'qr' | 'otp' | 'manual';
     observacoes: string | null;
+    matricula: string | null;
     visitante: Visitante | null;
     fraccao: Fraccao | null;
     guarda_entrada: GuardaEntrada | null;
@@ -137,6 +138,12 @@ export default function DentroAgora({ visitas, total, controloBensActivo }: Page
                                                             <Clock className="h-3.5 w-3.5" />
                                                             {formatarHora(visita.entrou_em)} · {formatarDuracao(visita.entrou_em)}
                                                         </span>
+                                                        {visita.matricula && (
+                                                            <span className="flex items-center gap-1 text-zinc-300">
+                                                                <Car className="h-3.5 w-3.5" />
+                                                                {visita.matricula}
+                                                            </span>
+                                                        )}
                                                     </div>
                                                     {visita.observacoes && (
                                                         <p className="text-xs text-zinc-600 mt-1 italic">
