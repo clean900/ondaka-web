@@ -1,6 +1,6 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link, router } from '@inertiajs/react';
-import { Users, Clock, User, Home, Phone, Calendar, Filter, Search, CheckCircle2, XCircle, AlertCircle, Plus, X, Send } from 'lucide-react';
+import { Users, Clock, User, Home, Phone, Calendar, Filter, Search, CheckCircle2, XCircle, AlertCircle, Plus, X, Send, CalendarClock } from 'lucide-react';
 import { toast } from 'sonner';
 import { useState } from 'react';
 
@@ -69,7 +69,14 @@ interface PageProps {
     meta: Meta;
     minhasFraccoes: MinhaFraccao[];
     condominos: CondominoSelect[];
+    acessoHorarioAreaActivo?: boolean;
 }
+
+// Add-on #9: dias da semana em ISO (1=segunda ... 7=domingo)
+const DIAS_SEMANA = [
+    { iso: 1, label: 'Seg' }, { iso: 2, label: 'Ter' }, { iso: 3, label: 'Qua' },
+    { iso: 4, label: 'Qui' }, { iso: 5, label: 'Sex' }, { iso: 6, label: 'Sáb' }, { iso: 7, label: 'Dom' },
+];
 
 const ESTADO_CONFIG: Record<string, { label: string; color: string; icon: typeof CheckCircle2 }> = {
     pendente: { label: 'Pendente', color: 'text-cyan-400 bg-cyan-500/10 border-cyan-500/30', icon: Clock },
@@ -82,7 +89,7 @@ const ESTADO_CONFIG: Record<string, { label: string; color: string; icon: typeof
 
 const ESTADO_FALLBACK = { label: 'Desconhecido', color: 'text-zinc-400 bg-zinc-500/10 border-zinc-500/30', icon: AlertCircle };
 
-export default function PreAprovacoes({ preAprovacoes, filtros, meta, minhasFraccoes, condominos }: PageProps) {
+export default function PreAprovacoes({ preAprovacoes, filtros, meta, minhasFraccoes, condominos, acessoHorarioAreaActivo = false }: PageProps) {
     const [modalAberto, setModalAberto] = useState(false);
     const [form, setForm] = useState<Filtros>(filtros);
 
@@ -312,6 +319,7 @@ export default function PreAprovacoes({ preAprovacoes, filtros, meta, minhasFrac
                     isCondomino={meta?.is_condomino ?? false}
                     minhasFraccoes={minhasFraccoes ?? []}
                     condominos={condominos ?? []}
+                    acessoHorarioAreaActivo={acessoHorarioAreaActivo}
                 />
             )}
         </AuthenticatedLayout>
@@ -328,9 +336,10 @@ interface ModalProps {
     isCondomino: boolean;
     minhasFraccoes: MinhaFraccao[];
     condominos: CondominoSelect[];
+    acessoHorarioAreaActivo: boolean;
 }
 
-function ModalNovaPreAprovacao({ aberto, onClose, isCondomino, minhasFraccoes, condominos }: ModalProps) {
+function ModalNovaPreAprovacao({ aberto, onClose, isCondomino, minhasFraccoes, condominos, acessoHorarioAreaActivo }: ModalProps) {
     const [condominoId, setCondominoId] = useState<number | null>(null);
     const [fraccaoId, setFraccaoId] = useState<number | null>(
         isCondomino && minhasFraccoes.length > 0 ? minhasFraccoes[0].id : null
@@ -340,6 +349,12 @@ function ModalNovaPreAprovacao({ aberto, onClose, isCondomino, minhasFraccoes, c
     const [validaDesde, setValidaDesde] = useState('');
     const [validaAte, setValidaAte] = useState('');
     const [observacoes, setObservacoes] = useState('');
+    // Add-on #9: horário recorrente + áreas
+    const [diasSel, setDiasSel] = useState<number[]>([]);
+    const [horaInicio, setHoraInicio] = useState('');
+    const [horaFim, setHoraFim] = useState('');
+    const [areas, setAreas] = useState<string[]>([]);
+    const [areaInput, setAreaInput] = useState('');
     const [enviando, setEnviando] = useState(false);
     const [erros, setErros] = useState<Record<string, string>>({});
 
@@ -348,6 +363,15 @@ function ModalNovaPreAprovacao({ aberto, onClose, isCondomino, minhasFraccoes, c
     // Para gestor: ao escolher condomino, mostrar fraccoes deste
     const condominoSelecionado = condominos.find((c) => c.id === condominoId);
     const fraccoesDisponiveis = isCondomino ? minhasFraccoes : (condominoSelecionado?.fraccoes ?? []);
+
+    const toggleDia = (iso: number) =>
+        setDiasSel((prev) => (prev.includes(iso) ? prev.filter((d) => d !== iso) : [...prev, iso]));
+    const adicionarArea = () => {
+        const v = areaInput.trim();
+        if (v && !areas.includes(v)) setAreas([...areas, v]);
+        setAreaInput('');
+    };
+    const removerArea = (a: string) => setAreas(areas.filter((x) => x !== a));
 
     const submit = async () => {
         const novosErros: Record<string, string> = {};
@@ -375,6 +399,17 @@ function ModalNovaPreAprovacao({ aberto, onClose, isCondomino, minhasFraccoes, c
         if (!isCondomino) payload.condomino_id = condominoId;
         if (validaDesde) payload.valida_desde = validaDesde;
         if (observacoes.trim()) payload.observacoes = observacoes;
+
+        // Add-on #9: horário recorrente (1 regra) + áreas
+        if (acessoHorarioAreaActivo) {
+            if (diasSel.length > 0) {
+                const regra: Record<string, unknown> = { dias: [...diasSel].sort((a, b) => a - b) };
+                if (horaInicio) regra.inicio = horaInicio;
+                if (horaFim) regra.fim = horaFim;
+                payload.horarios = [regra];
+            }
+            if (areas.length > 0) payload.areas = areas;
+        }
 
         router.post('/visitantes/pre-aprovacoes', payload, {
             preserveScroll: true,
@@ -535,6 +570,108 @@ function ModalNovaPreAprovacao({ aberto, onClose, isCondomino, minhasFraccoes, c
                             className="w-full rounded-lg bg-white/5 border border-white/10 px-3 py-2 text-sm text-white focus:outline-none focus:border-cyan-500/50 resize-none"
                         />
                     </div>
+
+                    {/* Add-on #9: Acesso por horário/área */}
+                    {acessoHorarioAreaActivo && (
+                        <div className="rounded-lg border border-cyan-500/20 bg-cyan-500/5 p-3 space-y-3">
+                            <p className="text-xs font-semibold text-cyan-300 flex items-center gap-1.5">
+                                <CalendarClock className="h-3.5 w-3.5" /> Acesso por horário/área (opcional)
+                            </p>
+
+                            {/* Dias permitidos */}
+                            <div>
+                                <label className="text-[11px] text-white/60 block mb-1">Dias permitidos</label>
+                                <div className="flex flex-wrap gap-1.5">
+                                    {DIAS_SEMANA.map((d) => (
+                                        <button
+                                            key={d.iso}
+                                            type="button"
+                                            onClick={() => toggleDia(d.iso)}
+                                            className={`px-2.5 py-1 rounded-md text-xs font-medium border transition ${
+                                                diasSel.includes(d.iso)
+                                                    ? 'bg-cyan-500/20 border-cyan-500/50 text-cyan-200'
+                                                    : 'bg-white/5 border-white/10 text-white/50 hover:text-white'
+                                            }`}
+                                        >
+                                            {d.label}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* Faixa horária */}
+                            <div className="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label className="text-[11px] text-white/60 block mb-1">Das</label>
+                                    <input
+                                        type="time"
+                                        value={horaInicio}
+                                        onChange={(e) => setHoraInicio(e.target.value)}
+                                        className="w-full rounded-lg bg-white/5 border border-white/10 px-3 py-2 text-sm text-white focus:outline-none focus:border-cyan-500/50"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="text-[11px] text-white/60 block mb-1">Até</label>
+                                    <input
+                                        type="time"
+                                        value={horaFim}
+                                        onChange={(e) => setHoraFim(e.target.value)}
+                                        className="w-full rounded-lg bg-white/5 border border-white/10 px-3 py-2 text-sm text-white focus:outline-none focus:border-cyan-500/50"
+                                    />
+                                </div>
+                            </div>
+                            <p className="text-[10px] text-white/40">
+                                Sem dias/horas = sem limite. Fora do horário, a portaria é avisada (não bloqueia).
+                            </p>
+
+                            {/* Áreas autorizadas (texto livre, informativo) */}
+                            <div>
+                                <label className="text-[11px] text-white/60 block mb-1">Áreas autorizadas</label>
+                                <div className="flex gap-1.5">
+                                    <input
+                                        type="text"
+                                        value={areaInput}
+                                        onChange={(e) => setAreaInput(e.target.value)}
+                                        onKeyDown={(e) => {
+                                            if (e.key === 'Enter') {
+                                                e.preventDefault();
+                                                adicionarArea();
+                                            }
+                                        }}
+                                        placeholder="Ex: Piscina"
+                                        className="flex-1 rounded-lg bg-white/5 border border-white/10 px-3 py-2 text-sm text-white focus:outline-none focus:border-cyan-500/50"
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={adicionarArea}
+                                        className="px-3 py-2 rounded-lg bg-white/10 text-white/80 text-sm hover:bg-white/20"
+                                    >
+                                        Adicionar
+                                    </button>
+                                </div>
+                                {areas.length > 0 && (
+                                    <div className="flex flex-wrap gap-1.5 mt-2">
+                                        {areas.map((a) => (
+                                            <span
+                                                key={a}
+                                                className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-purple-500/15 border border-purple-500/30 text-purple-200 text-xs"
+                                            >
+                                                {a}
+                                                <button
+                                                    type="button"
+                                                    onClick={() => removerArea(a)}
+                                                    className="text-purple-300/70 hover:text-white"
+                                                >
+                                                    ×
+                                                </button>
+                                            </span>
+                                        ))}
+                                    </div>
+                                )}
+                                <p className="text-[10px] text-white/40 mt-1">Mostradas ao guarda na validação (informativo).</p>
+                            </div>
+                        </div>
+                    )}
                 </div>
 
                 <div className="p-5 border-t border-white/5 flex gap-2 justify-end">

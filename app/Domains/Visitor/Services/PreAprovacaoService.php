@@ -40,6 +40,8 @@ class PreAprovacaoService
      * @param Carbon $validaAte Até quando a pré-aprovação é válida
      * @param Carbon|null $validaDesde A partir de quando (null = imediatamente)
      * @param string|null $observacoes Notas do condómino
+     * @param array|null $horarios Add-on #9: restrição de horário recorrente
+     * @param array|null $areas Add-on #9: áreas autorizadas (informativo)
      *
      * @throws InvalidArgumentException Se condómino não tem acesso à fracção
      */
@@ -51,6 +53,8 @@ class PreAprovacaoService
         Carbon $validaAte,
         ?Carbon $validaDesde = null,
         ?string $observacoes = null,
+        ?array $horarios = null,
+        ?array $areas = null,
     ): PreAprovacao {
         // 1. Validação: condómino está associado à fracção?
         $this->validarAcessoFraccao($condomino, $fraccaoId);
@@ -71,7 +75,7 @@ class PreAprovacaoService
         // 3. Criação atómica (DB transaction)
         return DB::transaction(function () use (
             $condomino, $fraccaoId, $nomeVisitante, $telefoneVisitante,
-            $validaDesde, $validaAte, $observacoes,
+            $validaDesde, $validaAte, $observacoes, $horarios, $areas,
         ) {
             $preAprovacao = PreAprovacao::create([
                 'empresa_gestora_id' => $condomino->empresa_gestora_id,
@@ -83,6 +87,8 @@ class PreAprovacaoService
                 'otp_code' => $this->gerarOtpCode(),
                 'valida_desde' => $validaDesde,
                 'valida_ate' => $validaAte,
+                'horarios_json' => ! empty($horarios) ? array_values($horarios) : null,
+                'areas_json' => ! empty($areas) ? array_values($areas) : null,
                 'estado' => PreAprovacao::ESTADO_PENDENTE,
                 'observacoes' => $observacoes,
                 'sms_enviado' => false,

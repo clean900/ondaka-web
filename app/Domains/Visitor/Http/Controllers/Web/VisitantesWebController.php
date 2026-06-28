@@ -299,6 +299,10 @@ class VisitantesWebController extends Controller
                 })->all();
         }
 
+        // Add-on #9: acesso por horário/área activo para esta empresa?
+        $empresa = \App\Domains\Empresa\Models\EmpresaGestora::find($empresaId);
+        $acessoHorarioAreaActivo = $empresa !== null && FeatureGate::has($empresa, 'acesso_horario_area');
+
         return Inertia::render('Visitantes/PreAprovacoes', [
             'preAprovacoes' => $paginada,
             'filtros' => [
@@ -312,6 +316,7 @@ class VisitantesWebController extends Controller
             ],
             'minhasFraccoes' => $minhasFraccoes,
             'condominos' => $condominosLista,
+            'acessoHorarioAreaActivo' => $acessoHorarioAreaActivo,
         ]);
     }
 
@@ -334,6 +339,14 @@ class VisitantesWebController extends Controller
             'valida_ate' => 'required|date|after:now',
             'valida_desde' => 'nullable|date|before:valida_ate',
             'observacoes' => 'nullable|string|max:500',
+            // Add-on #9: acesso por horário/área (opcional)
+            'horarios' => 'nullable|array|max:7',
+            'horarios.*.dias' => 'required_with:horarios|array|min:1',
+            'horarios.*.dias.*' => 'integer|between:1,7',
+            'horarios.*.inicio' => 'nullable|date_format:H:i',
+            'horarios.*.fim' => 'nullable|date_format:H:i',
+            'areas' => 'nullable|array|max:20',
+            'areas.*' => 'string|max:60',
         ];
         if ($isGestor && !$isCondomino) {
             $regras['condomino_id'] = 'required|integer|exists:condominos,id';
@@ -359,6 +372,16 @@ class VisitantesWebController extends Controller
             }
         }
 
+        // Add-on #9: normalizar horários/áreas (áreas como texto livre informativo)
+        $horarios = $this->normalizarHorarios($request->input('horarios'));
+        $areas = collect($request->input('areas', []))
+            ->map(fn ($n) => trim((string) $n))
+            ->filter()
+            ->unique()
+            ->map(fn ($n) => ['tipo' => 'livre', 'nome' => $n])
+            ->values()
+            ->all();
+
         try {
             $service->criar(
                 condomino: $condomino,
@@ -370,6 +393,8 @@ class VisitantesWebController extends Controller
                     ? Carbon::parse($request->input('valida_desde'))
                     : null,
                 observacoes: $request->input('observacoes'),
+                horarios: $horarios ?: null,
+                areas: $areas ?: null,
             );
             return back()->with('success', 'Pre-aprovacao criada com sucesso.');
         } catch (\InvalidArgumentException $e) {
@@ -377,6 +402,41 @@ class VisitantesWebController extends Controller
         } catch (\Throwable $e) {
             return back()->with('error', 'Erro: ' . $e->getMessage());
         }
+    }
+
+    /**
+     * Add-on #9: limpa as regras de horário recorrente vindas do formulário,
+     * descartando regras sem dias. Formato: [{ dias:[1..7], inicio?, fim? }].
+     */
+    private function normalizarHorarios($raw): array
+    {
+        if (! is_array($raw)) {
+            return [];
+        }
+
+        $out = [];
+        foreach ($raw as $r) {
+            if (! is_array($r)) {
+                continue;
+            }
+            $dias = array_values(array_unique(array_filter(
+                array_map('intval', (array) ($r['dias'] ?? [])),
+                fn ($d) => $d >= 1 && $d <= 7,
+            )));
+            if (empty($dias)) {
+                continue;
+            }
+            $regra = ['dias' => $dias];
+            if (! empty($r['inicio'])) {
+                $regra['inicio'] = (string) $r['inicio'];
+            }
+            if (! empty($r['fim'])) {
+                $regra['fim'] = (string) $r['fim'];
+            }
+            $out[] = $regra;
+        }
+
+        return $out;
     }
 
 }
