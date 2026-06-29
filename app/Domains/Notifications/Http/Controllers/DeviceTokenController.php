@@ -8,6 +8,7 @@ use App\Domains\Notifications\Models\DeviceToken;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class DeviceTokenController extends Controller
 {
@@ -32,6 +33,12 @@ class DeviceTokenController extends Controller
                 'last_used_at' => now(),
             ],
         );
+
+        Log::info('[Devices] token registado', [
+            'user_id' => $user->id,
+            'platform' => $validated['platform'],
+            'token_prefixo' => substr($validated['token'], 0, 12),
+        ]);
 
         return response()->json([
             'message' => 'Token registado com sucesso.',
