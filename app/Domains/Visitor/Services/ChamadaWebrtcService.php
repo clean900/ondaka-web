@@ -34,7 +34,7 @@ class ChamadaWebrtcService
 
     public function papel(User $u): string
     {
-        if ($u->hasRole('guarda')) return 'guarda';
+        if ($u->hasAnyRole(['guarda', 'funcionario'])) return 'guarda';
         if ($u->hasRole('gestor') || $u->hasRole('administrador-condominio') || $u->hasRole('admin-empresa')) return 'gestor';
         return 'condomino';
     }
@@ -105,7 +105,7 @@ class ChamadaWebrtcService
             $condominioId = $this->condominioDoUser($caller);
             $guardas = User::where('empresa_gestora_id', $empresa)
                 ->when($condominioId, fn ($q) => $q->where('condominio_activo_id', $condominioId))
-                ->whereHas('roles', fn ($q) => $q->where('name', 'guarda'))
+                ->whereHas('roles', fn ($q) => $q->whereIn('name', ['guarda', 'funcionario']))
                 ->get();
             return [$guardas, 'Portaria', null];
         }

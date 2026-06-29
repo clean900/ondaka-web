@@ -36,9 +36,9 @@ class SosNotificationService
      * @return array<string,array<string>>
      */
     private const REGRAS_POR_GRAVIDADE = [
-        'critico' => ['guarda', 'administrador-condominio', 'gestor', 'admin-empresa'],
-        'alto'    => ['guarda', 'administrador-condominio', 'gestor'],
-        'medio'   => ['guarda', 'administrador-condominio'],
+        'critico' => ['guarda', 'funcionario', 'administrador-condominio', 'gestor', 'admin-empresa'],
+        'alto'    => ['guarda', 'funcionario', 'administrador-condominio', 'gestor'],
+        'medio'   => ['guarda', 'funcionario', 'administrador-condominio'],
         'baixo'   => ['administrador-condominio'],
     ];
 
@@ -86,7 +86,7 @@ class SosNotificationService
                 try {
                     // Guardas recebem alarme full-screen (data-only → a app constrói o
                     // ecrã vermelho + sirene em loop). Restantes (admins/gestores): push normal.
-                    $ehGuarda = $user->hasRole('guarda');
+                    $ehGuarda = $user->hasAnyRole(['guarda', 'funcionario']);
                     $envios = $this->fcmSender->enviarParaUser(
                         $user,
                         $titulo,
