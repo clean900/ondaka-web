@@ -279,6 +279,9 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/condomino/estado-acesso', 'estadoAcesso');
     });
 
+    // Relatório financeiro de transparência do condomínio (dirigido ao condómino)
+    Route::get('/condomino/relatorio-financeiro', [\App\Domains\Bi\Http\Controllers\Api\RelatorioCondominoController::class, 'financeiro']);
+
     /*
     |--------------------------------------------------------------------------
     | Extracto Financeiro (Condomino)
