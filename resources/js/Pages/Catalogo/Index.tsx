@@ -219,23 +219,30 @@ const corClasses: Record<string, string> = {
     pink: "from-pink-500/20 to-pink-700/10 ring-pink-500/30 text-pink-400",
 };
 
+// Catálogo PÚBLICO: não mostrar a categoria interna SaaS B2B (gestão da
+// plataforma), nem funcionalidades em desenvolvimento ou no roadmap.
+// Só "Em produção" e "Em breve".
+const ESTADOS_PUBLICOS: Estado[] = ["pronto", "breve"];
+const categoriasPublicas: Categoria[] = categorias
+    .filter((c) => c.id !== "saas")
+    .map((c) => ({ ...c, features: c.features.filter((f) => ESTADOS_PUBLICOS.includes(f.estado)) }))
+    .filter((c) => c.features.length > 0);
+
 export default function Catalogo() {
     const [filtroEstado, setFiltroEstado] = useState<Estado | "todos">("todos");
     const [busca, setBusca] = useState("");
 
     const stats = useMemo(() => {
-        const all = categorias.flatMap(c => c.features);
+        const all = categoriasPublicas.flatMap(c => c.features);
         return {
             total: all.length,
             pronto: all.filter(f => f.estado === "pronto").length,
-            curso: all.filter(f => f.estado === "curso").length,
             breve: all.filter(f => f.estado === "breve").length,
-            roadmap: all.filter(f => f.estado === "roadmap").length,
         };
     }, []);
 
     const filtradas = useMemo(() => {
-        return categorias.map(cat => ({
+        return categoriasPublicas.map(cat => ({
             ...cat,
             features: cat.features.filter(f => {
                 const matchEstado = filtroEstado === "todos" || f.estado === filtroEstado;
@@ -287,11 +294,11 @@ export default function Catalogo() {
                             <span className="bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">completo</span>
                         </h1>
                         <p className="mb-8 mx-auto max-w-2xl text-zinc-400">
-                            Tudo o que a plataforma ONDAKA oferece. Em produção, em desenvolvimento, em breve e no roadmap.
+                            Tudo o que a plataforma ONDAKA oferece — já em produção e a chegar em breve.
                         </p>
 
                         {/* Stats */}
-                        <div className="mx-auto grid max-w-4xl grid-cols-2 gap-4 md:grid-cols-5">
+                        <div className="mx-auto grid max-w-2xl grid-cols-3 gap-4">
                             <div className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-4">
                                 <div className="text-3xl font-bold">{stats.total}</div>
                                 <div className="text-[10px] uppercase tracking-wider text-zinc-500">Total</div>
@@ -300,17 +307,9 @@ export default function Catalogo() {
                                 <div className="text-3xl font-bold text-green-300">{stats.pronto}</div>
                                 <div className="text-[10px] uppercase tracking-wider text-green-400">Em produção</div>
                             </div>
-                            <div className="rounded-xl border border-yellow-500/30 bg-yellow-500/5 p-4">
-                                <div className="text-3xl font-bold text-yellow-300">{stats.curso}</div>
-                                <div className="text-[10px] uppercase tracking-wider text-yellow-400">Em curso</div>
-                            </div>
                             <div className="rounded-xl border border-blue-500/30 bg-blue-500/5 p-4">
                                 <div className="text-3xl font-bold text-blue-300">{stats.breve}</div>
                                 <div className="text-[10px] uppercase tracking-wider text-blue-400">Em breve</div>
-                            </div>
-                            <div className="rounded-xl border border-purple-500/30 bg-purple-500/5 p-4">
-                                <div className="text-3xl font-bold text-purple-300">{stats.roadmap}</div>
-                                <div className="text-[10px] uppercase tracking-wider text-purple-400">Roadmap</div>
                             </div>
                         </div>
                     </div>
@@ -334,7 +333,7 @@ export default function Catalogo() {
                             {/* Filtros estado */}
                             <div className="flex items-center gap-2 overflow-x-auto">
                                 <Filter className="h-4 w-4 flex-shrink-0 text-zinc-500" />
-                                {(["todos", "pronto", "curso", "breve", "roadmap"] as const).map((e) => (
+                                {(["todos", "pronto", "breve"] as const).map((e) => (
                                     <button
                                         key={e}
                                         onClick={() => setFiltroEstado(e)}
