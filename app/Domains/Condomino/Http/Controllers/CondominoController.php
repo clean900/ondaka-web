@@ -21,12 +21,16 @@ class CondominoController extends Controller
     {
         $this->authorize('viewAny', Condomino::class);
 
+        $condominioFiltro = $request->string('condominio')->toString();
+
         $condominos = Condomino::query()
             ->withCount([
                 'contratosActivos',
                 'propriedades',
                 'arrendamentos',
             ])
+            // Condomínio(s) a que pertence — via contratos activos → fracção → condomínio.
+            ->with(['contratosActivos.fraccao.condominio:id,nome'])
             ->when($request->string('pesquisa')->toString(), function ($q, $pesquisa) {
                 $q->where(function ($sub) use ($pesquisa) {
                     $sub->where('nome_completo', 'like', "%{$pesquisa}%")
@@ -39,13 +43,31 @@ class CondominoController extends Controller
             })
             ->when($request->string('tipo')->toString(), fn ($q, $t) => $q->where('tipo', $t))
             ->when($request->string('estado')->toString(), fn ($q, $e) => $q->where('estado', $e))
+            ->when($condominioFiltro, function ($q, $condominioId) {
+                $q->whereHas('contratosActivos.fraccao', fn ($sub) => $sub->where('condominio_id', $condominioId));
+            })
             ->orderBy('nome_completo')
             ->paginate(20)
-            ->withQueryString();
+            ->withQueryString()
+            ->through(function ($c) {
+                // Nome(s) do condomínio para identificar no cartão.
+                $nomes = $c->contratosActivos
+                    ->map(fn ($ct) => $ct->fraccao?->condominio?->nome)
+                    ->filter()
+                    ->unique()
+                    ->values();
+                $c->setAttribute('condominio_nome', $nomes->first());
+                $c->setAttribute('condominios_nomes', $nomes->all());
+                $c->unsetRelation('contratosActivos'); // não enviar a relação pesada ao frontend
+                return $c;
+            });
 
         return Inertia::render('Condominos/Index', [
             'condominos' => $condominos,
-            'filtros' => $request->only(['pesquisa', 'tipo', 'estado']),
+            'filtros' => $request->only(['pesquisa', 'tipo', 'estado', 'condominio']),
+            'condominios' => \App\Domains\Condominio\Models\Condominio::query()
+                ->orderBy('nome')
+                ->get(['id', 'nome']),
             'contagens' => [
                 'total' => Condomino::count(),
                 'singulares' => Condomino::where('tipo', 'singular')->count(),

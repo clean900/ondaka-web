@@ -2,15 +2,21 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link, router } from '@inertiajs/react';
 import {
     Plus, Search, Users, UserCircle, Building, ChevronRight,
-    Phone, Mail, Home,
+    Phone, Mail, Home, MapPin,
 } from 'lucide-react';
 import { FormEvent, useState } from 'react';
 import type { Condomino, Paginated } from '@/types';
 import { gradientDeNome, iniciais } from '@/lib/utils';
 
+type CondominoComCondominio = Condomino & {
+    condominio_nome?: string | null;
+    condominios_nomes?: string[];
+};
+
 interface Props {
-    condominos: Paginated<Condomino>;
-    filtros: { pesquisa?: string; tipo?: string; estado?: string };
+    condominos: Paginated<CondominoComCondominio>;
+    filtros: { pesquisa?: string; tipo?: string; estado?: string; condominio?: string };
+    condominios: { id: number; nome: string }[];
     contagens: {
         total: number;
         singulares: number;
@@ -19,14 +25,15 @@ interface Props {
     };
 }
 
-export default function Index({ condominos, filtros, contagens }: Props) {
+export default function Index({ condominos, filtros, condominios, contagens }: Props) {
     const [pesquisa, setPesquisa] = useState(filtros.pesquisa ?? '');
     const [tipo, setTipo] = useState(filtros.tipo ?? '');
     const [estado, setEstado] = useState(filtros.estado ?? '');
+    const [condominio, setCondominio] = useState(filtros.condominio ?? '');
 
     const submeter = (e: FormEvent) => {
         e.preventDefault();
-        router.get('/condominos', { pesquisa, tipo, estado }, { preserveState: true });
+        router.get('/condominos', { pesquisa, tipo, estado, condominio }, { preserveState: true });
     };
 
     return (
@@ -77,6 +84,20 @@ export default function Index({ condominos, filtros, contagens }: Props) {
                     <option value="activo">Activo</option>
                     <option value="inactivo">Inactivo</option>
                     <option value="arquivado">Arquivado</option>
+                </select>
+                <select
+                    value={condominio}
+                    onChange={(e) => {
+                        const v = e.target.value;
+                        setCondominio(v);
+                        router.get('/condominos', { pesquisa, tipo, estado, condominio: v }, { preserveState: true });
+                    }}
+                    className="input sm:w-48"
+                >
+                    <option value="">Todos os condomínios</option>
+                    {condominios.map((cond) => (
+                        <option key={cond.id} value={cond.id}>{cond.nome}</option>
+                    ))}
                 </select>
                 <button type="submit" className="btn-secondary">Filtrar</button>
             </form>
@@ -172,7 +193,7 @@ function StatPill({
     );
 }
 
-function CondominoCard({ condomino }: { condomino: Condomino }) {
+function CondominoCard({ condomino }: { condomino: CondominoComCondominio }) {
     const nomeExibicao = condomino.tipo === 'empresa' && condomino.nome_comercial
         ? condomino.nome_comercial
         : condomino.nome_completo;
@@ -203,6 +224,15 @@ function CondominoCard({ condomino }: { condomino: Condomino }) {
                         <TipoBadge tipo={condomino.tipo} />
                         <EstadoDot estado={condomino.estado} />
                     </div>
+                    {condomino.condominio_nome && (
+                        <div className="mt-1.5 inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-medium bg-[#00D4FF]/10 text-[#00D4FF] border border-[#00D4FF]/20 max-w-full">
+                            <MapPin className="w-2.5 h-2.5 flex-shrink-0" />
+                            <span className="truncate">{condomino.condominio_nome}</span>
+                            {(condomino.condominios_nomes?.length ?? 0) > 1 && (
+                                <span className="text-[#00D4FF]/70">+{(condomino.condominios_nomes!.length - 1)}</span>
+                            )}
+                        </div>
+                    )}
                 </div>
             </div>
 
