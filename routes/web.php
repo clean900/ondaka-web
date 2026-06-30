@@ -579,6 +579,7 @@ Route::middleware(['auth', 'verified', '2fa'])->group(function () {
         ->group(function () {
             Route::get('/', [TicketsWebController::class, 'index'])->name('index');
             Route::get('/condominos', [TicketsWebController::class, 'pesquisarCondominos'])->name('condominos');
+            Route::get('/atribuiveis', [TicketsWebController::class, 'atribuiveis'])->name('atribuiveis');
             Route::post('/{id}/comentarios', [TicketsWebController::class, 'comentar'])->name('comentar');
             Route::patch('/{id}/estado', [TicketsWebController::class, 'mudarEstado'])->name('mudar-estado');
             Route::patch('/{id}/atribuir', [TicketsWebController::class, 'atribuir'])->name('atribuir');

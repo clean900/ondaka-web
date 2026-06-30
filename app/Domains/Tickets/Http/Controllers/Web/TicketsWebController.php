@@ -93,6 +93,21 @@ class TicketsWebController extends Controller
     }
 
     /**
+     * Colaboradores da empresa a quem se pode atribuir um pedido (não condóminos).
+     * GET /tickets/atribuiveis  → { data: [{id,name,email}] }
+     */
+    public function atribuiveis(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $empresaId = $request->user()->empresa_gestora_id;
+        $users = \App\Models\User::where('empresa_gestora_id', $empresaId)
+            ->whereHas('roles', fn ($q) => $q->whereIn('name', ['gestor', 'admin-empresa', 'administrador-condominio', 'funcionario']))
+            ->orderBy('name')
+            ->get(['id', 'name', 'email']);
+
+        return response()->json(['data' => $users]);
+    }
+
+    /**
      * Atribui o pedido a um colaborador (modo user) ou a um fornecedor (modo
      * empresa), registando o custo da intervenção quando aplicável.
      * PATCH /tickets/{id}/atribuir
