@@ -41,8 +41,8 @@ const categorias: Categoria[] = [
             { nome: "Lista de Pagamentos com filtros", desc: "Busca, paginação, anular pagamento.", estado: "pronto" },
             { nome: "Email com factura PDF", desc: "Anexa PDF profissional na confirmação de pagamento.", estado: "pronto" },
             { nome: "Reverter pagamentos", desc: "Anular operação completa com auditoria.", estado: "pronto" },
-            { nome: "Uso automático de saldo", desc: "Sistema deduz saldo da fracção em novo pagamento.", estado: "breve", quando: "Junho 2026" },
-            { nome: "Relatórios contabilísticos", desc: "Export Excel/PDF com filtros por período/condomínio.", estado: "breve", quando: "Julho 2026" },
+            { nome: "Uso automático de saldo", desc: "Sistema deduz saldo da fracção em novo pagamento.", estado: "breve", quando: "Agosto 2026" },
+            { nome: "Relatórios contabilísticos", desc: "Export Excel/PDF com filtros por período/condomínio.", estado: "pronto" },
         ]
     },
     {
@@ -72,8 +72,8 @@ const categorias: Categoria[] = [
             { nome: "Sistema de Votos", desc: "Apuramento por quota proporcional (permilagem), com acta automática.", estado: "pronto" },
             { nome: "Pedidos de Intervenção", desc: "Manutenção rastreada, fotos, comentários, timeline.", estado: "pronto" },
             { nome: "Reservas de Áreas Comuns", desc: "Calendário com aprovação por gestor.", estado: "pronto" },
-            { nome: "Layout PDF profissional Acta", desc: "Logo, fonte serif, NIF rodapé, paginação.", estado: "breve", quando: "Junho 2026" },
-            { nome: "Relatórios operacionais", desc: "KPIs de pedidos resolvidos, tempo médio, satisfação.", estado: "breve", quando: "Julho 2026" },
+            { nome: "Layout PDF profissional Acta", desc: "Logo, fonte serif, NIF rodapé, paginação.", estado: "breve", quando: "Julho 2026" },
+            { nome: "Relatórios operacionais", desc: "KPIs de pedidos resolvidos, tempo médio, por estado e categoria.", estado: "pronto" },
         ]
     },
     {
@@ -83,7 +83,7 @@ const categorias: Categoria[] = [
         cor: "pink",
         descricao: "Comunicação entre condóminos, gestores e administração",
         features: [
-            { nome: "Chat Tempo Real", desc: "Comunicação directa entre condóminos e gestão. Anexos suportados.", estado: "breve" },
+            { nome: "Chat Tempo Real", desc: "Comunicação directa entre condóminos e gestão. Anexos suportados.", estado: "breve", quando: "Q4 2026" },
             { nome: "Avisos Comunidade", desc: "Broadcasts segmentados por edifício/fracção.", estado: "pronto" },
             { nome: "Confirmação de Leitura", desc: "Tracking automático de quem leu cada aviso.", estado: "pronto" },
             { nome: "Notificações Push (FCM)", desc: "Push em iOS e Android via Firebase Cloud Messaging.", estado: "pronto" },
@@ -106,7 +106,7 @@ const categorias: Categoria[] = [
             { nome: "Encomendas", desc: "Notificação ao destinatário quando guarda regista.", estado: "pronto" },
             { nome: "Pedidos com fotos", desc: "Anexar fotos directamente da câmara.", estado: "pronto" },
             { nome: "Chatbot 2-em-1 (v1)", desc: "Assistente Condomínio + Assistente ONDAKA.", estado: "pronto" },
-            { nome: "Sincronização total Mobile/Web", desc: "Replicar todas as funcionalidades web no mobile.", estado: "breve", quando: "Julho 2026" },
+            { nome: "Sincronização total Mobile/Web", desc: "Replicar todas as funcionalidades web no mobile.", estado: "curso", quando: "Q4 2026" },
             { nome: "Personalização visual", desc: "Tema/branding por empresa, dark/light mode.", estado: "breve", quando: "Setembro 2026" },
         ]
     },
@@ -121,8 +121,11 @@ const categorias: Categoria[] = [
             { nome: "Scanner QR Code", desc: "Validação automática de visitantes pré-aprovados.", estado: "pronto" },
             { nome: "Registo de Encomendas", desc: "Captura entrega + foto + notificação automática.", estado: "pronto" },
             { nome: "Histórico de Entradas", desc: "Quem entrou, quando, autorizado por quem.", estado: "pronto" },
-            { nome: "Lista Negra Visitantes", desc: "Bloqueio por nome/telefone/BI/matrícula. Alerta no check-in.", estado: "roadmap", quando: "Q3 2026" },
-            { nome: "Revistas Check-in/out", desc: "Pré-autorização de itens. Compliance privacy.", estado: "roadmap", quando: "Novembro 2026" },
+            { nome: "Chamadas de Voz na App", desc: "Portaria↔morador↔gestão por voz dentro da app, sem custos de operadora.", estado: "pronto" },
+            { nome: "Portaria em Modo Offline", desc: "Valida QR/OTP sem internet contra cópia local e sincroniza ao voltar a rede.", estado: "pronto" },
+            { nome: "Acesso por Horário e Área", desc: "Pré-aprovações com horários recorrentes e áreas autorizadas; alerta fora de horário.", estado: "pronto" },
+            { nome: "Lista Negra Visitantes", desc: "Bloqueio por nome/BI/matrícula. Alerta no check-in.", estado: "pronto" },
+            { nome: "Controlo de Saída de Bens", desc: "Regista bens à entrada; na saída só liberta o declarado. Não declarados aguardam autorização do morador.", estado: "pronto" },
             { nome: "ANPR Hikvision", desc: "Leitura automática de matrículas (≥98.5% precisão).", estado: "roadmap", quando: "Agosto 2027" },
             { nome: "Biometria ZKTeco", desc: "SpeedFace facial + impressão digital.", estado: "roadmap", quando: "Agosto 2027" },
         ]
@@ -154,7 +157,7 @@ const categorias: Categoria[] = [
             { nome: "ProxyPay RPS v2", desc: "Multicaixa Express, ATM, homebanking. Webhook HMAC.", estado: "pronto" },
             { nome: "TelcoSMS Angola", desc: "SMS para 2FA e notificações críticas.", estado: "pronto" },
             { nome: "Firebase FCM", desc: "Push notifications iOS e Android.", estado: "pronto" },
-            { nome: "Pusher Channels", desc: "Infraestrutura de tempo real (chat, votos, notificações).", estado: "breve" },
+            { nome: "Pusher Channels", desc: "Infraestrutura de tempo real (chat, votos, notificações).", estado: "breve", quando: "Q4 2026" },
             { nome: "ProxyPay DDS", desc: "Débito Directo automático mensal.", estado: "roadmap", quando: "Maio 2027" },
         ]
     },
@@ -172,9 +175,9 @@ const categorias: Categoria[] = [
             { nome: "Multi-tenant seguro", desc: "Isolamento total entre empresas gestoras.", estado: "pronto" },
             { nome: "Roles & Permissões", desc: "7 roles: super-admin, admin-empresa, gestor, etc.", estado: "pronto" },
             { nome: "RGPD compliance", desc: "Consentimentos, direito ao esquecimento, exportação dados.", estado: "pronto" },
-            { nome: "Bloqueio Inteligente", desc: "Modo limitado para incumprimento. Configurável por condomínio.", estado: "roadmap", quando: "Setembro 2026" },
-            { nome: "Lista Negra Devedores", desc: "Histórico de dívida, acordos negociados, acção em massa.", estado: "roadmap", quando: "Setembro 2026" },
-            { nome: "SOS 13 Tipos por Gravidade", desc: "Botão emergência: incêndio, médica, segurança, etc.", estado: "roadmap", quando: "Outubro 2026" },
+            { nome: "Bloqueio Inteligente", desc: "Modo limitado para incumprimento. Configurável por condomínio.", estado: "pronto" },
+            { nome: "Lista Negra Devedores", desc: "Histórico de dívida, acordos negociados, acção em massa.", estado: "curso", quando: "Setembro 2026" },
+            { nome: "SOS 13 Tipos por Gravidade", desc: "Botão emergência por gravidade com localização GPS. Alerta guarda e gestão em tempo real.", estado: "pronto" },
         ]
     },
     {
@@ -194,10 +197,10 @@ const categorias: Categoria[] = [
             { nome: "Histórico Imóveis (Crédito/Acréscimo)", desc: "Aumento/redução com pro-rata automático. Glossário PT-AO.", estado: "pronto" },
             { nome: "Dashboard Super-Admin", desc: "MRR, ARR, churn, pipeline, clientes recentes.", estado: "pronto" },
             { nome: "Distinção Empresa/Admin Independente", desc: "tipo_cliente diferencia UI e workflow.", estado: "pronto" },
-            { nome: "Auto-registo + Wizard Onboarding", desc: "Visitantes podem criar conta sem aprovação manual.", estado: "breve", quando: "Junho 2026" },
-            { nome: "Cancelamento subscrição", desc: "Modal confirmação + razão. Termina fim do período pago.", estado: "breve", quando: "Junho 2026" },
-            { nome: "Templates email 5 tipos", desc: "Trial, factura emitida, pagamento, cancelamento, recuperação.", estado: "breve", quando: "Junho 2026" },
-            { nome: "Mudança de plano", desc: "Mensal↔Semestral↔Anual com pro-rata.", estado: "breve", quando: "Julho 2026" },
+            { nome: "Auto-registo + Wizard Onboarding", desc: "Visitantes podem criar conta sem aprovação manual.", estado: "pronto" },
+            { nome: "Cancelamento subscrição", desc: "Modal confirmação + razão. Termina fim do período pago.", estado: "pronto" },
+            { nome: "Templates email 5 tipos", desc: "Trial, factura emitida, pagamento, cancelamento, recuperação.", estado: "pronto" },
+            { nome: "Mudança de plano", desc: "Mensal↔Semestral↔Anual com pro-rata.", estado: "pronto" },
         ]
     }
 ];
@@ -262,6 +265,7 @@ export default function Catalogo() {
                         <nav className="hidden gap-8 text-sm md:flex">
                             <Link href="/#features" className="bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text font-semibold text-transparent transition hover:opacity-80">Funcionalidades</Link>
                             <Link href="/catalogo" className="bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text font-semibold text-transparent transition hover:opacity-80">Catálogo</Link>
+                            <Link href="/loja" className="bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text font-semibold text-transparent transition hover:opacity-80">Loja</Link>
                             <Link href="/#pricing" className="bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text font-semibold text-transparent transition hover:opacity-80">Preços</Link>
                             <Link href="/login" className="bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text font-semibold text-transparent transition hover:opacity-80">Entrar</Link>
                         </nav>

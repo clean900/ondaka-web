@@ -57,6 +57,10 @@ Route::get('/', function () {
 
 Route::get('/catalogo', [\App\Http\Controllers\CatalogoController::class, 'index'])->name('catalogo');
 
+// Loja pública de add-ons (data-driven da tabela features). A rota faltava →
+// o link "Loja" no nav da landing dava 404.
+Route::get('/loja', [\App\Http\Controllers\LojaController::class, 'index'])->name('loja');
+
 // Páginas legais (HTML estático em public/)
 Route::get('/privacidade', function () {
     return response()->file(public_path('privacidade.html'));
