@@ -153,12 +153,14 @@ class PrestadoresService
                 'media_estrelas' => $p->media_estrelas,
                 'total_avaliacoes' => $p->total_avaliacoes,
                 'destacado' => in_array($p->id, $destacadosIds),
+                'certificado' => (bool) $p->certificado,
                 'distancia_km' => $distancia !== null ? round($distancia, 1) : null,
             ];
         });
 
-        // Destacados primeiro, depois por distância (nulls no fim), depois por estrelas
+        // Certificados primeiro, depois destacados, distância (nulls no fim), estrelas
         $ordenado = $resultado->sortBy([
+            fn ($a, $b) => $b['certificado'] <=> $a['certificado'],
             fn ($a, $b) => $b['destacado'] <=> $a['destacado'],
             fn ($a, $b) => ($a['distancia_km'] ?? PHP_INT_MAX) <=> ($b['distancia_km'] ?? PHP_INT_MAX),
             fn ($a, $b) => $b['media_estrelas'] <=> $a['media_estrelas'],
