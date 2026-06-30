@@ -234,7 +234,7 @@ class FeaturesLojaFinalSeeder extends Seeder
             [
                 'slug' => 'relatorios_personalizados',
                 'nome' => 'Relatórios Personalizados',
-                'descricao' => 'Construtor visual de relatórios próprios. Drag-and-drop de campos, filtros customizados, agendamento de envio por email. Sem necessidade de SQL.',
+                'descricao' => 'Gere relatórios PDF à medida: escolha as secções (receitas vs despesas, cobrança e devedores, despesas por categoria, saúde financeira), o período e o condomínio, com título próprio.',
                 'icone' => 'FileBarChart',
                 'categoria' => 'gestao',
                 'comprador' => 'empresa_gestora',
@@ -244,7 +244,7 @@ class FeaturesLojaFinalSeeder extends Seeder
                 'duracao_dias' => 30,
                 'preco_activacao' => 0,
                 'activa' => true,
-                'em_breve' => true,
+                'em_breve' => false,
                 'ordem_listagem' => 280,
             ],
             [

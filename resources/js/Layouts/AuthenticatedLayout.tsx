@@ -5,7 +5,7 @@ import {
     LayoutDashboard, Building2, Users, UserCog, Receipt, MessageSquare,
     FileText, Shield, Menu, X, LogOut, Bell, Settings, Search, CreditCard, Ticket, DollarSign, GraduationCap, Map, MessageCircle, Megaphone,
     Sparkles, Package, DoorOpen, Wallet, Clock, Tag, Briefcase, FileBarChart, Calendar, LifeBuoy, Siren, Lock,
-    Flag, ShoppingBag, Gauge, ChartBar, ClipboardList, CalendarCheck, Handshake, Cog, Wrench, Upload, Calculator,
+    Flag, ShoppingBag, Gauge, ChartBar, ClipboardList, CalendarCheck, Handshake, Cog, Wrench, Upload, Calculator, FileBarChart,
 } from 'lucide-react';
 import type { PageProps } from '@/types';
 import { cn, iniciais, gradientDeNome } from '@/lib/utils';
@@ -287,6 +287,7 @@ export default function AuthenticatedLayout({ children }: PropsWithChildren) {
             itens: [
                 { label: 'Dashboard BI', href: '/bi', icon: ChartBar, urgentBadge: numAlertas, feature_slug: 'dashboard_bi' },
                 { label: 'Contabilidade', href: '/contabilidade', icon: Calculator, feature_slug: 'integracao_contabilidade' },
+                { label: 'Relatórios', href: '/relatorios', icon: FileBarChart, feature_slug: 'relatorios_personalizados' },
                 { label: 'NPS do Condomínio', href: '/nps/dashboard', icon: Gauge },
                 { label: 'Configurar NPS', href: '/nps/configuracao', icon: Settings },
             ],

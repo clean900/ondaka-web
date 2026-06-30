@@ -276,6 +276,16 @@ Route::middleware(['auth', 'verified', '2fa'])->group(function () {
             Route::get('/exportar/{tipo}', [$cc, 'exportar'])->whereIn('tipo', ['pagamentos', 'lancamentos', 'despesas'])->name('exportar');
         });
 
+    // === Relatórios Personalizados — addon relatorios_personalizados ===
+    Route::middleware(['role:super-admin|admin-empresa|gestor', 'feature:relatorios_personalizados'])
+        ->prefix('relatorios')
+        ->name('relatorios.')
+        ->group(function () {
+            $rc = \App\Domains\Bi\Http\Controllers\Web\RelatorioPersonalizadoController::class;
+            Route::get('/', [$rc, 'index'])->name('index');
+            Route::get('/gerar', [$rc, 'gerar'])->name('gerar');
+        });
+
     // === Super-admin: Permissoes ===
     Route::middleware('role:super-admin')
         ->prefix('super-admin/permissoes')
