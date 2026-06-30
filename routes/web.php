@@ -266,6 +266,16 @@ Route::middleware(['auth', 'verified', '2fa'])->group(function () {
             Route::post('/alertas/config', [BiDashboardController::class, 'guardarConfigAlertas'])->name('alertas.config.guardar');
         });
 
+    // === Integração Contabilidade (PHC/Primavera) — addon integracao_contabilidade ===
+    Route::middleware(['role:super-admin|admin-empresa|gestor', 'feature:integracao_contabilidade'])
+        ->prefix('contabilidade')
+        ->name('contabilidade.')
+        ->group(function () {
+            $cc = \App\Domains\Contabilidade\Http\Controllers\Web\ContabilidadeController::class;
+            Route::get('/', [$cc, 'index'])->name('index');
+            Route::get('/exportar/{tipo}', [$cc, 'exportar'])->whereIn('tipo', ['pagamentos', 'lancamentos', 'despesas'])->name('exportar');
+        });
+
     // === Super-admin: Permissoes ===
     Route::middleware('role:super-admin')
         ->prefix('super-admin/permissoes')

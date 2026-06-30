@@ -390,7 +390,7 @@ class FeaturesLojaFinalSeeder extends Seeder
             [
                 'slug' => 'integracao_contabilidade',
                 'nome' => 'Integração Contabilidade (PHC/Primavera)',
-                'descricao' => 'Sincronização automática com software de contabilidade comum em Angola (PHC, Primavera) ou export SAF-T. Reduz trabalho manual do contabilista.',
+                'descricao' => 'Export dos movimentos financeiros (recibos, taxas, despesas) em CSV para importar no PHC, Primavera ou outro ERP. Filtrável por período e condomínio. Reduz o trabalho manual do contabilista.',
                 'icone' => 'Briefcase',
                 'categoria' => 'outros',
                 'comprador' => 'empresa_gestora',
@@ -400,7 +400,7 @@ class FeaturesLojaFinalSeeder extends Seeder
                 'duracao_dias' => 30,
                 'preco_activacao' => 60000.00,
                 'activa' => true,
-                'em_breve' => true,
+                'em_breve' => false,
                 'requer_aprovacao_manual' => true,
                 'ordem_listagem' => 600,
             ],
