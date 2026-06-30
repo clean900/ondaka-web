@@ -37,6 +37,8 @@ class RelatorioPersonalizadoController extends Controller
         return Inertia::render('Relatorios/Index', [
             'condominios' => Condominio::query()->orderBy('nome')->get(['id', 'nome']),
             'seccoes' => collect(self::SECCOES)->map(fn ($label, $slug) => ['slug' => $slug, 'nome' => $label])->values(),
+            'blocos' => collect(\App\Domains\Bi\Services\RelatorioPersonalizadoService::BLOCOS)
+                ->map(fn ($label, $slug) => ['slug' => $slug, 'nome' => $label])->values(),
             'agendados' => \App\Domains\Bi\Models\RelatorioAgendado::query()
                 ->where('empresa_gestora_id', $request->user()->empresa_gestora_id)
                 ->orderByDesc('id')
@@ -53,6 +55,51 @@ class RelatorioPersonalizadoController extends Controller
                     'ativo' => $a->ativo,
                     'ultimo_envio_em' => $a->ultimo_envio_em?->toIso8601String(),
                 ]),
+        ]);
+    }
+
+    /**
+     * Gera o PDF a partir do construtor visual (blocos ordenados em JSON).
+     * POST /relatorios/construtor
+     */
+    public function gerarConstrutor(Request $request)
+    {
+        $dados = $request->validate([
+            'titulo' => ['nullable', 'string', 'max:120'],
+            'condominio_id' => ['nullable', 'integer'],
+            'meses' => ['nullable', 'integer', 'in:3,6,12,24'],
+            'blocos' => ['required', 'string'],
+        ]);
+
+        $blocos = json_decode($dados['blocos'], true);
+        $tiposValidos = array_keys(\App\Domains\Bi\Services\RelatorioPersonalizadoService::BLOCOS);
+        $blocos = is_array($blocos)
+            ? array_values(array_filter($blocos, fn ($b) => is_array($b) && in_array($b['tipo'] ?? '', $tiposValidos, true)))
+            : [];
+        if (empty($blocos)) {
+            return back()->with('flash.error', 'Adicione pelo menos um bloco ao relatório.');
+        }
+        // Sanear: manter só tipo + titulo (texto).
+        $blocos = array_map(fn ($b) => [
+            'tipo' => $b['tipo'],
+            'titulo' => isset($b['titulo']) ? mb_substr((string) $b['titulo'], 0, 120) : null,
+        ], $blocos);
+
+        $empresaId = (int) $request->user()->empresa_gestora_id;
+        abort_if(! $empresaId, 403);
+
+        $condominioId = null;
+        if (! empty($dados['condominio_id'])) {
+            $condominioId = Condominio::where('id', $dados['condominio_id'])->value('id');
+            $condominioId = $condominioId ? (int) $condominioId : null;
+        }
+
+        $bytes = (new \App\Domains\Bi\Services\RelatorioPersonalizadoService())
+            ->pdfBytesConstrutor($empresaId, $condominioId, (int) ($dados['meses'] ?? 12), $blocos, $dados['titulo'] ?? null);
+
+        return response($bytes, 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'attachment; filename="relatorio-' . now()->format('Ymd-Hi') . '.pdf"',
         ]);
     }
 

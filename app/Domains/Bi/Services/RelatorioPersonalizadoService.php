@@ -43,4 +43,41 @@ class RelatorioPersonalizadoService
     {
         return Pdf::loadView('relatorios.personalizado', $this->payload($empresaId, $condominioId, $meses, $seccoes, $titulo))->output();
     }
+
+    /** Tipos de blocos disponíveis no construtor visual (drag-and-drop). */
+    public const BLOCOS = [
+        'titulo' => 'Título / cabeçalho',
+        'financeiro' => 'Receitas vs Despesas',
+        'cobranca' => 'Indicadores de cobrança',
+        'devedores' => 'Top devedores',
+        'despesas' => 'Despesas por categoria',
+        'saude' => 'Saúde financeira',
+        'operacional' => 'Operacional (pedidos)',
+    ];
+
+    /**
+     * PDF do construtor visual: rende os blocos pela ORDEM recebida.
+     * Cada bloco = ['tipo' => slug, 'titulo' => texto opcional (p/ tipo 'titulo')].
+     */
+    public function pdfBytesConstrutor(int $empresaId, ?int $condominioId, int $meses, array $blocos, ?string $tituloGeral): string
+    {
+        $tipos = array_column($blocos, 'tipo');
+        $usa = fn (string $t) => in_array($t, $tipos, true);
+
+        $dados = [
+            'tituloGeral' => $tituloGeral ?: 'Relatório Personalizado',
+            'empresa' => EmpresaGestora::find($empresaId),
+            'condominioNome' => $condominioId ? Condominio::where('id', $condominioId)->value('nome') : null,
+            'dataGeracao' => now()->format('d/m/Y H:i'),
+            'meses' => $meses,
+            'blocos' => array_values($blocos),
+            'receitas' => $usa('financeiro') ? (new ReceitasDespesasService())->calcular($empresaId, $condominioId, $meses) : null,
+            'cobranca' => ($usa('cobranca') || $usa('devedores')) ? (new CobrancaService())->calcular($empresaId, $condominioId) : null,
+            'despesas' => $usa('despesas') ? (new DespesasService())->calcular($empresaId, $condominioId, $meses) : null,
+            'saude' => $usa('saude') ? (new SaudeFinanceiraService())->calcular($empresaId, $condominioId) : null,
+            'operacional' => $usa('operacional') ? (new OperacionalService())->calcular($empresaId, $condominioId, $meses) : null,
+        ];
+
+        return Pdf::loadView('relatorios.construtor', $dados)->output();
+    }
 }

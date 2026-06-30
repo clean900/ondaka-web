@@ -1,9 +1,11 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, router } from '@inertiajs/react';
-import { useState } from 'react';
-import { FileText, FileBarChart, Download, Check, Mail, Trash2, Clock } from 'lucide-react';
+import { useState, useRef } from 'react';
+import { FileText, FileBarChart, Download, Check, Mail, Trash2, Clock, GripVertical, Plus, X, LayoutGrid } from 'lucide-react';
 
 interface Seccao { slug: string; nome: string; }
+interface Bloco { slug: string; nome: string; }
+interface BlocoLayout { key: number; tipo: string; titulo?: string; }
 
 interface Agendado {
     id: number;
@@ -21,6 +23,7 @@ interface Agendado {
 interface Props {
     condominios: { id: number; nome: string }[];
     seccoes: Seccao[];
+    blocos: Bloco[];
     agendados: Agendado[];
 }
 
@@ -31,7 +34,7 @@ const PERIODOS = [
     { v: 24, label: '24 meses' },
 ];
 
-export default function Index({ condominios, seccoes, agendados }: Props) {
+export default function Index({ condominios, seccoes, blocos, agendados }: Props) {
     const [titulo, setTitulo] = useState('');
     const [condominioId, setCondominioId] = useState('');
     const [meses, setMeses] = useState(12);
@@ -71,6 +74,72 @@ export default function Index({ condominios, seccoes, agendados }: Props) {
 
     const nomeCond = (id: number | null) => id ? (condominios.find((c) => c.id === id)?.nome ?? '—') : 'Todos';
 
+    // ── Construtor visual (drag-and-drop) ──
+    const [tituloGeral, setTituloGeral] = useState('');
+    const [layout, setLayout] = useState<BlocoLayout[]>([]);
+    const [aGerar, setAGerar] = useState(false);
+    const keyRef = useRef(1);
+    const dragIndex = useRef<number | null>(null);
+
+    const addBloco = (tipo: string) =>
+        setLayout((l) => [...l, { key: keyRef.current++, tipo, titulo: tipo === 'titulo' ? 'Nova secção' : undefined }]);
+    const removerBloco = (key: number) => setLayout((l) => l.filter((b) => b.key !== key));
+    const setTituloBloco = (key: number, v: string) =>
+        setLayout((l) => l.map((b) => (b.key === key ? { ...b, titulo: v } : b)));
+
+    const onDragStart = (i: number) => { dragIndex.current = i; };
+    const onDragOverItem = (e: React.DragEvent, i: number) => {
+        e.preventDefault();
+        const from = dragIndex.current;
+        if (from === null || from === i) return;
+        setLayout((l) => {
+            const copy = [...l];
+            const [moved] = copy.splice(from, 1);
+            copy.splice(i, 0, moved);
+            return copy;
+        });
+        dragIndex.current = i;
+    };
+
+    const nomeBloco = (tipo: string) => blocos.find((b) => b.slug === tipo)?.nome ?? tipo;
+
+    const gerarConstrutor = async () => {
+        if (layout.length === 0 || aGerar) return;
+        setAGerar(true);
+        try {
+            const cookie = document.cookie.split('; ').find((r) => r.startsWith('XSRF-TOKEN='))?.split('=')[1];
+            const res = await fetch('/relatorios/construtor', {
+                method: 'POST',
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/pdf',
+                    'X-XSRF-TOKEN': cookie ? decodeURIComponent(cookie) : '',
+                },
+                body: JSON.stringify({
+                    titulo: tituloGeral || null,
+                    condominio_id: condominioId || null,
+                    meses,
+                    blocos: JSON.stringify(layout.map((b) => ({ tipo: b.tipo, titulo: b.titulo ?? null }))),
+                }),
+            });
+            if (!res.ok) throw new Error('falhou');
+            const blob = await res.blob();
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `relatorio-${new Date().toISOString().slice(0, 10)}.pdf`;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            URL.revokeObjectURL(url);
+        } catch {
+            alert('Não foi possível gerar o relatório.');
+        } finally {
+            setAGerar(false);
+        }
+    };
+
     return (
         <AuthenticatedLayout>
             <Head title="Relatórios Personalizados" />
@@ -87,6 +156,97 @@ export default function Index({ condominios, seccoes, agendados }: Props) {
                     <p className="text-sm text-white/60 mt-1">
                         Escolha as secções, o período e o condomínio, e gere um relatório PDF à medida.
                     </p>
+                </div>
+            </div>
+
+            {/* Construtor visual (drag-and-drop) */}
+            <div className="card mb-4">
+                <div className="flex items-center gap-2 mb-1">
+                    <LayoutGrid className="w-4 h-4 text-[#A855F7]" />
+                    <h2 className="text-sm font-semibold text-white/80 uppercase tracking-wider">Construtor visual</h2>
+                </div>
+                <p className="text-xs text-white/50 mb-4">Adicione blocos (clique na paleta) e <strong>arraste para reordenar</strong>. Usa o período e o condomínio escolhidos abaixo.</p>
+
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                    {/* Paleta */}
+                    <div>
+                        <div className="text-[11px] text-white/40 uppercase tracking-wider mb-2">Blocos disponíveis</div>
+                        <div className="space-y-1.5">
+                            {blocos.map((b) => (
+                                <button
+                                    key={b.slug}
+                                    type="button"
+                                    onClick={() => addBloco(b.slug)}
+                                    className="w-full flex items-center justify-between gap-2 p-2.5 rounded-lg border border-white/10 bg-white/[0.02] hover:bg-white/[0.05] text-left transition"
+                                >
+                                    <span className="text-sm text-white">{b.nome}</span>
+                                    <Plus className="w-3.5 h-3.5 text-white/40" />
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Canvas */}
+                    <div className="lg:col-span-2">
+                        <div className="flex items-center justify-between mb-2">
+                            <div className="text-[11px] text-white/40 uppercase tracking-wider">Layout do relatório ({layout.length})</div>
+                            <input
+                                type="text"
+                                value={tituloGeral}
+                                onChange={(e) => setTituloGeral(e.target.value)}
+                                placeholder="Título do relatório"
+                                className="input !py-1 !text-xs max-w-[200px]"
+                            />
+                        </div>
+
+                        {layout.length === 0 ? (
+                            <div className="rounded-lg border border-dashed border-white/15 p-8 text-center text-white/40 text-sm">
+                                Adicione blocos da paleta para montar o relatório.
+                            </div>
+                        ) : (
+                            <div className="space-y-2">
+                                {layout.map((b, i) => (
+                                    <div
+                                        key={b.key}
+                                        draggable
+                                        onDragStart={() => onDragStart(i)}
+                                        onDragOver={(e) => onDragOverItem(e, i)}
+                                        onDragEnd={() => { dragIndex.current = null; }}
+                                        className="flex items-center gap-2 p-2.5 rounded-lg border border-white/10 bg-white/[0.04] cursor-move"
+                                    >
+                                        <GripVertical className="w-4 h-4 text-white/30 flex-shrink-0" />
+                                        <span className="text-[11px] text-white/40 w-5">{i + 1}</span>
+                                        {b.tipo === 'titulo' ? (
+                                            <input
+                                                type="text"
+                                                value={b.titulo ?? ''}
+                                                onChange={(e) => setTituloBloco(b.key, e.target.value)}
+                                                onDragStart={(e) => e.preventDefault()}
+                                                placeholder="Texto do título"
+                                                className="flex-1 bg-transparent border-b border-white/10 text-sm text-white focus:outline-none focus:border-[#A855F7]"
+                                            />
+                                        ) : (
+                                            <span className="flex-1 text-sm text-white">{nomeBloco(b.tipo)}</span>
+                                        )}
+                                        <button onClick={() => removerBloco(b.key)} className="text-white/40 hover:text-red-400 flex-shrink-0">
+                                            <X className="w-4 h-4" />
+                                        </button>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+
+                        <button
+                            type="button"
+                            onClick={gerarConstrutor}
+                            disabled={layout.length === 0 || aGerar}
+                            className="mt-4 inline-flex items-center justify-center gap-2 text-sm py-2 px-4 rounded-lg font-medium text-white transition disabled:opacity-40 disabled:cursor-not-allowed"
+                            style={{ background: 'linear-gradient(135deg, #00D4FF 0%, #A855F7 100%)' }}
+                        >
+                            <Download className="w-4 h-4" />
+                            {aGerar ? 'A gerar...' : 'Gerar PDF do construtor'}
+                        </button>
+                    </div>
                 </div>
             </div>
 

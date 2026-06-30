@@ -284,6 +284,7 @@ Route::middleware(['auth', 'verified', '2fa'])->group(function () {
             $rc = \App\Domains\Bi\Http\Controllers\Web\RelatorioPersonalizadoController::class;
             Route::get('/', [$rc, 'index'])->name('index');
             Route::get('/gerar', [$rc, 'gerar'])->name('gerar');
+            Route::post('/construtor', [$rc, 'gerarConstrutor'])->name('construtor');
             Route::post('/agendar', [$rc, 'agendar'])->name('agendar');
             Route::delete('/agendar/{id}', [$rc, 'removerAgendamento'])->whereNumber('id')->name('agendar.remover');
         });
