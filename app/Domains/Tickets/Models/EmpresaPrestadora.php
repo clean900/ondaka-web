@@ -29,6 +29,8 @@ class EmpresaPrestadora extends Model
         'longitude',
         'foto_path',
         'estado_aprovacao',
+        'certificado',
+        'certificado_em',
         'aprovado_por',
         'subscricao_activa',
         'subscricao_expira_em',
@@ -39,10 +41,17 @@ class EmpresaPrestadora extends Model
         'ativa' => 'boolean',
         'latitude' => 'decimal:7',
         'longitude' => 'decimal:7',
+        'certificado' => 'boolean',
+        'certificado_em' => 'datetime',
         'subscricao_activa' => 'boolean',
         'subscricao_expira_em' => 'date',
         'subscricao_valor' => 'decimal:2',
     ];
+
+    public function scopeCertificados($q)
+    {
+        return $q->where('certificado', true);
+    }
 
     // ─── Scopes existentes (Tickets) ───
     public function scopeAtivas($q)

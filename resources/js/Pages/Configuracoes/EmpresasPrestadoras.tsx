@@ -1,6 +1,6 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, router } from '@inertiajs/react';
-import { Briefcase, Plus, Pencil, Trash2, X, ToggleLeft, ToggleRight, Phone, Mail, Hash } from 'lucide-react';
+import { Briefcase, Plus, Pencil, Trash2, X, ToggleLeft, ToggleRight, Phone, Mail, Hash, BadgeCheck } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
@@ -13,14 +13,26 @@ interface Empresa {
     especialidades: string | null;
     observacoes: string | null;
     ativa: boolean;
+    certificado?: boolean;
+    certificado_em?: string | null;
 }
 
 interface PageProps {
     empresas: Empresa[];
+    podeCertificar?: boolean;
 }
 
-export default function EmpresasPrestadoras({ empresas }: PageProps) {
+export default function EmpresasPrestadoras({ empresas, podeCertificar = false }: PageProps) {
     const [modal, setModal] = useState<null | { tipo: 'novo' | 'editar'; emp?: Empresa }>(null);
+
+    const certificar = (e: Empresa) => {
+        router.post(`/configuracoes/empresas-prestadoras/${e.id}/certificar`, {
+            certificado: !e.certificado,
+        }, {
+            preserveScroll: true,
+            onSuccess: () => toast.success(e.certificado ? 'Certificação removida.' : 'Prestador certificado.'),
+        });
+    };
 
     const toggle = (e: Empresa) => {
         router.patch(`/configuracoes/empresas-prestadoras/${e.id}`, {
@@ -85,7 +97,17 @@ export default function EmpresasPrestadoras({ empresas }: PageProps) {
                         <tbody>
                             {empresas.map((e) => (
                                 <tr key={e.id} className="border-b border-zinc-800/50 hover:bg-zinc-900/40">
-                                    <td className="px-4 py-3 text-zinc-200 font-medium">{e.nome}</td>
+                                    <td className="px-4 py-3 text-zinc-200 font-medium">
+                                        <span className="inline-flex items-center gap-1.5">
+                                            {e.nome}
+                                            {e.certificado && (
+                                                <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-semibold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
+                                                    <BadgeCheck className="h-3 w-3" />
+                                                    Certificado
+                                                </span>
+                                            )}
+                                        </span>
+                                    </td>
                                     <td className="px-4 py-3 text-zinc-500 text-xs">{e.nif ?? '—'}</td>
                                     <td className="px-4 py-3 text-xs text-zinc-400 space-y-0.5">
                                         {e.telefone && <div><Phone className="inline h-3 w-3 mr-1" />{e.telefone}</div>}
@@ -103,6 +125,15 @@ export default function EmpresasPrestadoras({ empresas }: PageProps) {
                                         </button>
                                     </td>
                                     <td className="px-4 py-3 text-right">
+                                        {podeCertificar && (
+                                            <button
+                                                onClick={() => certificar(e)}
+                                                title={e.certificado ? 'Remover certificação' : 'Certificar prestador'}
+                                                className={`mr-2 ${e.certificado ? 'text-emerald-400 hover:text-emerald-300' : 'text-zinc-500 hover:text-emerald-400'}`}
+                                            >
+                                                <BadgeCheck className="h-4 w-4 inline" />
+                                            </button>
+                                        )}
                                         <button onClick={() => setModal({ tipo: 'editar', emp: e })} className="text-zinc-400 hover:text-zinc-200 mr-2">
                                             <Pencil className="h-4 w-4 inline" />
                                         </button>

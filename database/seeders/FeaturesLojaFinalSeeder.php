@@ -202,7 +202,7 @@ class FeaturesLojaFinalSeeder extends Seeder
             [
                 'slug' => 'fornecedores_certificados',
                 'nome' => 'Fornecedores Certificados',
-                'descricao' => 'Catálogo de fornecedores avaliados (canalizador, electricista, pintor) com histórico de intervenções, avaliações 5 estrelas, contactos e preços médios.',
+                'descricao' => 'Marque os seus prestadores como Certificados (selo + data) no diretório de prestadores, com avaliações 5 estrelas e contactos. Distingue os fornecedores de confiança do condomínio.',
                 'icone' => 'Briefcase',
                 'categoria' => 'gestao',
                 'comprador' => 'empresa_gestora',
@@ -212,7 +212,7 @@ class FeaturesLojaFinalSeeder extends Seeder
                 'duracao_dias' => 30,
                 'preco_activacao' => 0,
                 'activa' => true,
-                'em_breve' => true,
+                'em_breve' => false,
                 'ordem_listagem' => 260,
             ],
             [

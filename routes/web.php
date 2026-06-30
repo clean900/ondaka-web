@@ -720,6 +720,9 @@ Route::middleware(['auth', 'verified', '2fa'])->group(function () {
             Route::post('/', [\App\Domains\Tickets\Http\Controllers\Web\EmpresasPrestadorasController::class, 'criar'])->name('criar');
             Route::patch('/{id}', [\App\Domains\Tickets\Http\Controllers\Web\EmpresasPrestadorasController::class, 'actualizar'])->whereNumber('id')->name('actualizar');
             Route::delete('/{id}', [\App\Domains\Tickets\Http\Controllers\Web\EmpresasPrestadorasController::class, 'eliminar'])->whereNumber('id')->name('eliminar');
+            // Certificação = camada premium (add-on fornecedores_certificados).
+            Route::post('/{id}/certificar', [\App\Domains\Tickets\Http\Controllers\Web\EmpresasPrestadorasController::class, 'certificar'])
+                ->middleware('feature:fornecedores_certificados')->whereNumber('id')->name('certificar');
         });
 
     // === SOS: Emergências (admin-empresa, gestor, admin-condominio) ===

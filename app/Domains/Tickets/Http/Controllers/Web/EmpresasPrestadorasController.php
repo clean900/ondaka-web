@@ -16,12 +16,19 @@ class EmpresasPrestadorasController extends Controller
         $empresaId = $request->user()->empresa_gestora_id;
 
         $empresas = EmpresaPrestadora::paraEmpresa($empresaId)
+            ->orderByDesc('certificado')
             ->orderBy('ativa', 'desc')
             ->orderBy('nome')
             ->get();
 
+        $empresa = \App\Domains\Empresa\Models\EmpresaGestora::find($empresaId);
+        $podeCertificar = $empresa
+            ? \App\Domains\Feature\Services\FeatureGate::has($empresa, 'fornecedores_certificados')
+            : false;
+
         return Inertia::render('Configuracoes/EmpresasPrestadoras', [
             'empresas' => $empresas,
+            'podeCertificar' => $podeCertificar,
         ]);
     }
 
@@ -87,6 +94,25 @@ class EmpresasPrestadorasController extends Controller
             ->firstOrFail();
         $emp->delete();
         return back()->with('success', 'Empresa removida.');
+    }
+
+    /**
+     * Marca/desmarca um prestador como CERTIFICADO (add-on fornecedores_certificados).
+     * POST /configuracoes/empresas-prestadoras/{id}/certificar
+     */
+    public function certificar(Request $request, int $id): RedirectResponse
+    {
+        $emp = EmpresaPrestadora::where('id', $id)
+            ->where('empresa_gestora_id', $request->user()->empresa_gestora_id)
+            ->firstOrFail();
+
+        $certificar = $request->boolean('certificado', true);
+        $emp->update([
+            'certificado' => $certificar,
+            'certificado_em' => $certificar ? now() : null,
+        ]);
+
+        return back()->with('success', $certificar ? 'Prestador certificado.' : 'Certificação removida.');
     }
     /**
      * GET /api/empresas-prestadoras
