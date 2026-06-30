@@ -273,7 +273,7 @@ Route::middleware(['auth', 'verified', '2fa'])->group(function () {
         ->group(function () {
             $cc = \App\Domains\Contabilidade\Http\Controllers\Web\ContabilidadeController::class;
             Route::get('/', [$cc, 'index'])->name('index');
-            Route::get('/exportar/{tipo}', [$cc, 'exportar'])->whereIn('tipo', ['pagamentos', 'lancamentos', 'despesas'])->name('exportar');
+            Route::get('/exportar/{tipo}', [$cc, 'exportar'])->whereIn('tipo', ['pagamentos', 'lancamentos', 'despesas', 'saft'])->name('exportar');
         });
 
     // === Relatórios Personalizados — addon relatorios_personalizados ===

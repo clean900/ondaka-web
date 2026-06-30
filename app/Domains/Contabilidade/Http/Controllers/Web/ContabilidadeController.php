@@ -29,6 +29,7 @@ class ContabilidadeController extends Controller
                 ['slug' => 'pagamentos', 'nome' => 'Recibos / Pagamentos', 'descricao' => 'Pagamentos confirmados (receitas).'],
                 ['slug' => 'lancamentos', 'nome' => 'Taxas / Lançamentos', 'descricao' => 'Taxas de condomínio e lançamentos (a débito).'],
                 ['slug' => 'despesas', 'nome' => 'Despesas', 'descricao' => 'Despesas do condomínio (custos).'],
+                ['slug' => 'saft', 'nome' => 'SAF-T (AO) — XML', 'descricao' => 'Ficheiro SAF-T (AO) com clientes e documentos de venda. Validar com o schema AGT antes de submissão oficial.'],
             ],
         ]);
     }
@@ -59,8 +60,10 @@ class ContabilidadeController extends Controller
             $dados['ate'] ?? null,
         );
 
+        $contentType = str_ends_with($nome, '.xml') ? 'application/xml; charset=UTF-8' : 'text/csv; charset=UTF-8';
+
         return response($csv, 200, [
-            'Content-Type' => 'text/csv; charset=UTF-8',
+            'Content-Type' => $contentType,
             'Content-Disposition' => 'attachment; filename="' . $nome . '"',
         ]);
     }

@@ -109,7 +109,7 @@ export default function Index({ condominios, tipos }: Props) {
                                 style={{ background: `linear-gradient(135deg, ${cor} 0%, #A855F7 100%)` }}
                             >
                                 <Download className="w-4 h-4" />
-                                Exportar CSV
+                                {t.slug === 'saft' ? 'Exportar XML' : 'Exportar CSV'}
                             </a>
                         </div>
                     );

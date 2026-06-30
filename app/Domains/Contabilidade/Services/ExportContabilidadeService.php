@@ -20,12 +20,12 @@ use Illuminate\Support\Carbon;
 class ExportContabilidadeService
 {
     /** Tipos de export suportados. */
-    public const TIPOS = ['pagamentos', 'lancamentos', 'despesas'];
+    public const TIPOS = ['pagamentos', 'lancamentos', 'despesas', 'saft'];
 
     /**
-     * Gera o CSV do tipo pedido.
+     * Gera o ficheiro do tipo pedido.
      *
-     * @return array{0: string, 1: string} [conteudoCsv, nomeFicheiro]
+     * @return array{0: string, 1: string} [conteudo, nomeFicheiro]
      */
     public function gerar(string $tipo, int $empresaId, ?int $condominioId, ?string $de, ?string $ate): array
     {
@@ -35,6 +35,7 @@ class ExportContabilidadeService
             'pagamentos' => [$this->csvPagamentos($empresaId, $condominioId, $desde, $ateData), $this->nome('recibos', $desde, $ateData)],
             'lancamentos' => [$this->csvLancamentos($empresaId, $condominioId, $desde, $ateData), $this->nome('taxas', $desde, $ateData)],
             'despesas' => [$this->csvDespesas($empresaId, $condominioId, $desde, $ateData), $this->nome('despesas', $desde, $ateData)],
+            'saft' => [$this->saftXml($empresaId, $condominioId, $desde, $ateData), "ondaka_saft_{$desde->format('Ymd')}_{$ateData->format('Ymd')}.xml"],
             default => throw new \InvalidArgumentException("Tipo de export inválido: {$tipo}"),
         };
     }
@@ -124,6 +125,129 @@ class ExportContabilidadeService
             ['Data', 'Condomínio', 'Categoria', 'Fornecedor', 'Descrição', 'Método', 'Valor', 'Estado'],
             $linhas->all(),
         );
+    }
+
+    /**
+     * Gera um ficheiro no formato SAF-T (AO) — Header + MasterFiles (clientes) +
+     * SourceDocuments (SalesInvoices a partir dos lançamentos/taxas).
+     *
+     * NOTA: estrutura conforme o SAF-T (AO/PT); deve ser validada contra o schema
+     * AGT em vigor antes de submissão oficial. Cobre a importação de dados no ERP.
+     */
+    private function saftXml(int $empresaId, ?int $condominioId, Carbon $de, Carbon $ate): string
+    {
+        $empresa = \App\Domains\Empresa\Models\EmpresaGestora::find($empresaId);
+
+        $lancamentos = Lancamento::query()
+            ->where('empresa_gestora_id', $empresaId)
+            ->when($condominioId, fn ($q) => $q->where('condominio_id', $condominioId))
+            ->where('estado', '!=', 'cancelado')
+            ->whereBetween('data_lancamento', [$de, $ate])
+            ->with(['condomino:id,nome_completo,nome_comercial,numero_bi,nif,morada,email'])
+            ->orderBy('data_lancamento')
+            ->get();
+
+        // ── Clientes (condóminos distintos) ──
+        $clientes = $lancamentos
+            ->map(fn (Lancamento $l) => $l->condomino)
+            ->filter()
+            ->unique('id')
+            ->values();
+
+        $e = fn ($v) => htmlspecialchars((string) $v, ENT_XML1 | ENT_QUOTES, 'UTF-8');
+        $money = fn ($v) => number_format((float) $v, 2, '.', '');
+
+        $customersXml = '';
+        foreach ($clientes as $c) {
+            $nome = $c->nome_comercial ?: ($c->nome_completo ?: 'Condómino');
+            $nif = $c->nif ?: ($c->numero_bi ?: 'Desconhecido');
+            $customersXml .= "    <Customer>\n"
+                . "      <CustomerID>C{$c->id}</CustomerID>\n"
+                . "      <AccountID>Desconhecido</AccountID>\n"
+                . "      <CustomerTaxID>" . $e($nif) . "</CustomerTaxID>\n"
+                . "      <CompanyName>" . $e($nome) . "</CompanyName>\n"
+                . "      <BillingAddress>\n"
+                . "        <AddressDetail>" . $e($c->morada ?: 'Desconhecido') . "</AddressDetail>\n"
+                . "        <City>Desconhecido</City>\n"
+                . "        <Country>AO</Country>\n"
+                . "      </BillingAddress>\n"
+                . "      <SelfBillingIndicator>0</SelfBillingIndicator>\n"
+                . "    </Customer>\n";
+        }
+
+        // ── Documentos de venda (lançamentos = taxas) ──
+        $totalDebit = 0.0;
+        $invoicesXml = '';
+        foreach ($lancamentos as $i => $l) {
+            $valor = (float) $l->valor;
+            $totalDebit += $valor;
+            $cId = $l->condomino?->id ?? 0;
+            $data = $this->data($l->data_lancamento);
+            $num = 'FT ONDAKA/' . ($i + 1);
+            $invoicesXml .= "      <Invoice>\n"
+                . "        <InvoiceNo>" . $e($num) . "</InvoiceNo>\n"
+                . "        <InvoiceStatus>N</InvoiceStatus>\n"
+                . "        <Hash>0</Hash>\n"
+                . "        <InvoiceDate>{$data}</InvoiceDate>\n"
+                . "        <InvoiceType>FT</InvoiceType>\n"
+                . "        <CustomerID>C{$cId}</CustomerID>\n"
+                . "        <Line>\n"
+                . "          <LineNumber>1</LineNumber>\n"
+                . "          <Quantity>1</Quantity>\n"
+                . "          <UnitOfMeasure>UN</UnitOfMeasure>\n"
+                . "          <UnitPrice>" . $money($valor) . "</UnitPrice>\n"
+                . "          <Description>" . $e($l->descricao ?: 'Taxa de condomínio') . "</Description>\n"
+                . "          <DebitAmount>" . $money($valor) . "</DebitAmount>\n"
+                . "          <Tax>\n"
+                . "            <TaxType>ISE</TaxType>\n"
+                . "            <TaxCountryRegion>AO</TaxCountryRegion>\n"
+                . "            <TaxCode>ISE</TaxCode>\n"
+                . "            <TaxPercentage>0.00</TaxPercentage>\n"
+                . "          </Tax>\n"
+                . "        </Line>\n"
+                . "        <DocumentTotals>\n"
+                . "          <TaxPayable>0.00</TaxPayable>\n"
+                . "          <NetTotal>" . $money($valor) . "</NetTotal>\n"
+                . "          <GrossTotal>" . $money($valor) . "</GrossTotal>\n"
+                . "        </DocumentTotals>\n"
+                . "      </Invoice>\n";
+        }
+
+        $nif = $empresa?->nif ?: 'Desconhecido';
+        $nome = $empresa?->nome ?: 'Empresa Gestora';
+        $n = $lancamentos->count();
+
+        return '<?xml version="1.0" encoding="UTF-8"?>' . "\n"
+            . '<AuditFile xmlns="urn:OECD:StandardAuditFile-Tax:AO_1.01_01">' . "\n"
+            . "  <Header>\n"
+            . "    <AuditFileVersion>1.01_01</AuditFileVersion>\n"
+            . "    <CompanyID>" . $e($nif) . "</CompanyID>\n"
+            . "    <TaxRegistrationNumber>" . $e($nif) . "</TaxRegistrationNumber>\n"
+            . "    <TaxAccountingBasis>F</TaxAccountingBasis>\n"
+            . "    <CompanyName>" . $e($nome) . "</CompanyName>\n"
+            . "    <FiscalYear>" . $de->format('Y') . "</FiscalYear>\n"
+            . "    <StartDate>" . $de->format('Y-m-d') . "</StartDate>\n"
+            . "    <EndDate>" . $ate->format('Y-m-d') . "</EndDate>\n"
+            . "    <CurrencyCode>AOA</CurrencyCode>\n"
+            . "    <DateCreated>" . now()->format('Y-m-d') . "</DateCreated>\n"
+            . "    <TaxEntity>Global</TaxEntity>\n"
+            . "    <ProductCompanyTaxID>" . $e($nif) . "</ProductCompanyTaxID>\n"
+            . "    <SoftwareCertificateNumber>0</SoftwareCertificateNumber>\n"
+            . "    <ProductID>ONDAKA/Soluções Simples</ProductID>\n"
+            . "    <ProductVersion>1.0</ProductVersion>\n"
+            . "  </Header>\n"
+            . "  <MasterFiles>\n"
+            . $customersXml
+            . "  </MasterFiles>\n"
+            . "  <SourceDocuments>\n"
+            . "    <SalesInvoices>\n"
+            . "      <NumberOfEntries>{$n}</NumberOfEntries>\n"
+            . "      <TotalDebit>" . $money($totalDebit) . "</TotalDebit>\n"
+            . "      <TotalCredit>0.00</TotalCredit>\n"
+            . $invoicesXml
+            . "    </SalesInvoices>\n"
+            . "  </SourceDocuments>\n"
+            . "</AuditFile>\n";
     }
 
     /* ===================== helpers ===================== */
