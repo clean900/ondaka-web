@@ -29,7 +29,13 @@ class FcmSenderService
         ?string $som = null,
         bool $dataOnly = false,
     ): int {
-        $tokens = DeviceToken::where('user_id', $user->id)->pluck('token')->toArray();
+        // Só tokens FCM (android/ios/web). O token 'ios-voip' é um token APNs
+        // PushKit cru — NÃO é um token FCM; enviá-lo ao FCM dá erro e podia
+        // levar à sua eliminação por engano. (O envio VoIP é um caminho à parte.)
+        $tokens = DeviceToken::where('user_id', $user->id)
+            ->whereIn('platform', ['android', 'ios', 'web'])
+            ->pluck('token')
+            ->toArray();
 
         if (empty($tokens)) {
             Log::info("[FCM] User {$user->id} sem device tokens registados.");
@@ -55,6 +61,19 @@ class FcmSenderService
                     'corpo' => $corpo,
                 ])),
                 'android' => ['priority' => 'HIGH'],
+                // iOS: sem este bloco, uma mensagem data-only NÃO acorda a app em
+                // background/fechada (o APNs descarta-a). content-available:1 lança o
+                // background handler. (Silent push iOS é best-effort; para tocar a
+                // chamada com a app FECHADA é preciso push VoIP/PushKit à parte.)
+                'apns' => [
+                    'headers' => [
+                        'apns-push-type' => 'background',
+                        'apns-priority' => '5',
+                    ],
+                    'payload' => [
+                        'aps' => ['content-available' => 1],
+                    ],
+                ],
             ];
         } else {
             $mensagem = [
@@ -67,6 +86,13 @@ class FcmSenderService
                         'channel_id' => $canal,
                         'sound' => $som,
                     ], fn ($v) => $v !== null),
+                ],
+                // iOS: garante som + entrega imediata do alerta (ex.: SOS para o gestor).
+                'apns' => [
+                    'headers' => ['apns-push-type' => 'alert', 'apns-priority' => '10'],
+                    'payload' => [
+                        'aps' => ['sound' => $som ?? 'default'],
+                    ],
                 ],
             ];
         }
