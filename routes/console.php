@@ -55,6 +55,12 @@ Schedule::command('subscricoes:aplicar-downgrades-agendados')
     ->withoutOverlapping()
     ->name('ondaka.aplicar-downgrades');
 
+// Enviar Relatórios Personalizados agendados — 06h30 diário
+Schedule::command('relatorios:enviar-agendados')
+    ->dailyAt('06:30')
+    ->withoutOverlapping()
+    ->name('ondaka.relatorios-agendados');
+
 // Enviar avisos D-7, D-3, D0, D+1, D+3, D+7 - todos os dias às 07h
 Schedule::job(new \App\Domains\Subscription\Jobs\EnviarAvisosTrialJob)
     ->dailyAt('07:00')
