@@ -56,6 +56,7 @@ class CondominioFacturacaoConfig extends Model
         'proxypay_api_token',
         'proxypay_sandbox',
         'proxypay_activo',
+        'transparencia_financeira',
     ];
 
     protected $casts = [
@@ -70,6 +71,7 @@ class CondominioFacturacaoConfig extends Model
         'proxypay_entity_id' => 'integer',
         'proxypay_sandbox' => 'boolean',
         'proxypay_activo' => 'boolean',
+        'transparencia_financeira' => 'boolean',
     ];
 
     public function empresaGestora(): BelongsTo

@@ -27,6 +27,7 @@ interface Config {
     dia_vencimento: number;
     limitar_acesso_divida: boolean;
     meses_limite_acesso: number;
+    transparencia_financeira: boolean;
     acordo_min_prestacoes: number;
     acordo_max_prestacoes: number;
     acordo_entrada_minima_pct: string;
@@ -95,6 +96,7 @@ export default function FacturacaoConfig({ condominio, config, flash }: Props) {
         dia_vencimento: config.dia_vencimento,
         limitar_acesso_divida: config.limitar_acesso_divida ?? false,
         meses_limite_acesso: config.meses_limite_acesso ?? 3,
+        transparencia_financeira: config.transparencia_financeira ?? true,
         acordo_min_prestacoes: config.acordo_min_prestacoes ?? 2,
         acordo_max_prestacoes: config.acordo_max_prestacoes ?? 6,
         acordo_entrada_minima_pct: config.acordo_entrada_minima_pct ?? '0',
@@ -283,6 +285,14 @@ export default function FacturacaoConfig({ condominio, config, flash }: Props) {
                                         {quotasForm.errors.meses_limite_acesso && <p className="text-xs text-red-400 mt-1">{quotasForm.errors.meses_limite_acesso}</p>}
                                     </div>
                                 )}
+                                <div className="border-t border-zinc-800 pt-4 mt-4">
+                                    <h3 className="text-sm font-bold text-white mb-1">Transparência financeira</h3>
+                                    <p className="text-xs text-zinc-400 mb-3">Quando activo, os condóminos vêem no app o resumo financeiro do condomínio (receitas/despesas, fundo de reserva, cobrança e despesas por categoria — sem nomes de devedores) no ecrã "Contas do Condomínio".</p>
+                                    <label className="flex items-center gap-3 cursor-pointer">
+                                        <input type="checkbox" checked={quotasForm.data.transparencia_financeira} onChange={(e) => quotasForm.setData('transparencia_financeira', e.target.checked)} className="rounded bg-zinc-700 border-zinc-600 text-cyan-500" />
+                                        <span className="text-sm text-white">Publicar transparência financeira aos condóminos</span>
+                                    </label>
+                                </div>
                                 <div className="border-t border-zinc-800 pt-4 mt-4">
                                     <h4 className="text-sm font-bold text-white mb-1">Configuração de acordos</h4>
                                     <p className="text-xs text-zinc-400 mb-3">Regras para os planos de pagamento que os condóminos podem propor.</p>

@@ -37,6 +37,17 @@ class RelatorioCondominoController extends Controller
             return response()->json(['ok' => false, 'erro' => 'Sem imóvel activo.'], 404);
         }
 
+        // Toggle do gestor: publicar/ocultar a transparência (default: publicado).
+        $config = \App\Domains\Facturacao\Models\CondominioFacturacaoConfig::where('condominio_id', $condominioId)->first();
+        $publicado = $config === null ? true : ($config->transparencia_financeira === null ? true : (bool) $config->transparencia_financeira);
+        if (! $publicado) {
+            return response()->json([
+                'ok' => true,
+                'publicado' => false,
+                'mensagem' => 'A gestão ainda não publicou a transparência financeira deste condomínio.',
+            ]);
+        }
+
         $condominio = Condominio::find($condominioId);
         $empresaId = (int) ($condominio?->empresa_gestora_id ?? $condomino->empresa_gestora_id);
         $meses = (int) $request->integer('meses', 12);
@@ -51,6 +62,7 @@ class RelatorioCondominoController extends Controller
 
         return response()->json([
             'ok' => true,
+            'publicado' => true,
             'condominio' => $condominio?->nome,
             'meses' => $meses,
             'gerado_em' => now()->toIso8601String(),
