@@ -46,8 +46,11 @@ class EnviarRelatoriosAgendadosCommand extends Command
                     $a->titulo,
                 );
 
-                Mail::send('emails.relatorio-agendado', ['agendado' => $a], function ($m) use ($emails, $a, $pdf) {
-                    $m->to($emails)
+                // Bcc para não expor os destinatários uns aos outros.
+                $remetente = config('mail.from.address', 'noreply@ondaka.ao');
+                Mail::send('emails.relatorio-agendado', ['agendado' => $a], function ($m) use ($emails, $a, $pdf, $remetente) {
+                    $m->to($remetente)
+                        ->bcc($emails)
                         ->subject('Relatório ONDAKA · ' . $a->titulo)
                         ->attachData($pdf, 'relatorio.pdf', ['mime' => 'application/pdf']);
                 });

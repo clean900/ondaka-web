@@ -159,8 +159,8 @@ class ExportContabilidadeService
 
         $customersXml = '';
         foreach ($clientes as $c) {
-            $nome = $c->nome_comercial ?: ($c->nome_completo ?: 'Condómino');
-            $nif = $c->nif ?: ($c->numero_bi ?: 'Desconhecido');
+            $nome = $c->nome_comercial ?: ($c->nome_completo ?: 'Consumidor Final');
+            $nif = $c->nif ?: '999999999'; // convenção SAF-T para entidade sem NIF
             $customersXml .= "    <Customer>\n"
                 . "      <CustomerID>C{$c->id}</CustomerID>\n"
                 . "      <AccountID>Desconhecido</AccountID>\n"
@@ -175,21 +175,30 @@ class ExportContabilidadeService
                 . "    </Customer>\n";
         }
 
-        // ── Documentos de venda (lançamentos = taxas) ──
+        // ── Documentos de venda (lançamentos). Créditos → nota de crédito (NC). ──
         $totalDebit = 0.0;
+        $totalCredit = 0.0;
         $invoicesXml = '';
-        foreach ($lancamentos as $i => $l) {
-            $valor = (float) $l->valor;
-            $totalDebit += $valor;
+        foreach ($lancamentos as $l) {
+            $valorRaw = (float) $l->valor;
+            $ehCredito = $valorRaw < 0 || str_contains((string) $l->tipo, 'credito');
+            $valor = abs($valorRaw);
+            $tipoDoc = $ehCredito ? 'NC' : 'FT';
+            $campoMontante = $ehCredito ? 'CreditAmount' : 'DebitAmount';
+            if ($ehCredito) {
+                $totalCredit += $valor;
+            } else {
+                $totalDebit += $valor;
+            }
             $cId = $l->condomino?->id ?? 0;
             $data = $this->data($l->data_lancamento);
-            $num = 'FT ONDAKA/' . ($i + 1);
+            $num = "{$tipoDoc} ONDAKA/{$l->id}";
             $invoicesXml .= "      <Invoice>\n"
                 . "        <InvoiceNo>" . $e($num) . "</InvoiceNo>\n"
                 . "        <InvoiceStatus>N</InvoiceStatus>\n"
                 . "        <Hash>0</Hash>\n"
                 . "        <InvoiceDate>{$data}</InvoiceDate>\n"
-                . "        <InvoiceType>FT</InvoiceType>\n"
+                . "        <InvoiceType>{$tipoDoc}</InvoiceType>\n"
                 . "        <CustomerID>C{$cId}</CustomerID>\n"
                 . "        <Line>\n"
                 . "          <LineNumber>1</LineNumber>\n"
@@ -197,7 +206,7 @@ class ExportContabilidadeService
                 . "          <UnitOfMeasure>UN</UnitOfMeasure>\n"
                 . "          <UnitPrice>" . $money($valor) . "</UnitPrice>\n"
                 . "          <Description>" . $e($l->descricao ?: 'Taxa de condomínio') . "</Description>\n"
-                . "          <DebitAmount>" . $money($valor) . "</DebitAmount>\n"
+                . "          <{$campoMontante}>" . $money($valor) . "</{$campoMontante}>\n"
                 . "          <Tax>\n"
                 . "            <TaxType>ISE</TaxType>\n"
                 . "            <TaxCountryRegion>AO</TaxCountryRegion>\n"
@@ -213,7 +222,7 @@ class ExportContabilidadeService
                 . "      </Invoice>\n";
         }
 
-        $nif = $empresa?->nif ?: 'Desconhecido';
+        $nif = $empresa?->nif ?: '999999999';
         $nome = $empresa?->nome ?: 'Empresa Gestora';
         $n = $lancamentos->count();
 
@@ -243,7 +252,7 @@ class ExportContabilidadeService
             . "    <SalesInvoices>\n"
             . "      <NumberOfEntries>{$n}</NumberOfEntries>\n"
             . "      <TotalDebit>" . $money($totalDebit) . "</TotalDebit>\n"
-            . "      <TotalCredit>0.00</TotalCredit>\n"
+            . "      <TotalCredit>" . $money($totalCredit) . "</TotalCredit>\n"
             . $invoicesXml
             . "    </SalesInvoices>\n"
             . "  </SourceDocuments>\n"

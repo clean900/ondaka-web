@@ -32,12 +32,13 @@ class RelatorioPersonalizadoController extends Controller
         'saude' => 'Saúde financeira',
     ];
 
-    public function index(): InertiaResponse
+    public function index(Request $request): InertiaResponse
     {
         return Inertia::render('Relatorios/Index', [
             'condominios' => Condominio::query()->orderBy('nome')->get(['id', 'nome']),
             'seccoes' => collect(self::SECCOES)->map(fn ($label, $slug) => ['slug' => $slug, 'nome' => $label])->values(),
             'agendados' => \App\Domains\Bi\Models\RelatorioAgendado::query()
+                ->where('empresa_gestora_id', $request->user()->empresa_gestora_id)
                 ->orderByDesc('id')
                 ->get()
                 ->map(fn ($a) => [
@@ -65,16 +66,23 @@ class RelatorioPersonalizadoController extends Controller
             'seccoes' => ['required', 'array', 'min:1'],
             'seccoes.*' => ['string', 'in:' . implode(',', array_keys(self::SECCOES))],
             'frequencia' => ['required', 'in:mensal,semanal'],
-            'dia' => ['required', 'integer', 'min:1', 'max:28'],
+            // semanal → dia da semana (1-7); mensal → dia do mês (1-28).
+            'dia' => ['required', 'integer', 'min:1', $request->input('frequencia') === 'semanal' ? 'max:7' : 'max:28'],
             'destinatarios' => ['required', 'string', 'max:500'],
         ]);
 
         $empresaId = (int) $request->user()->empresa_gestora_id;
         abort_if(! $empresaId, 403);
 
+        // Garante que o condomínio (se indicado) pertence à empresa do gestor.
+        $condominioId = null;
+        if (! empty($dados['condominio_id'])) {
+            $condominioId = Condominio::where('id', $dados['condominio_id'])->value('id');
+        }
+
         \App\Domains\Bi\Models\RelatorioAgendado::create([
             'empresa_gestora_id' => $empresaId,
-            'condominio_id' => $dados['condominio_id'] ?: null,
+            'condominio_id' => $condominioId ? (int) $condominioId : null,
             'titulo' => $dados['titulo'] ?: 'Relatório Personalizado',
             'seccoes' => $dados['seccoes'],
             'meses' => $dados['meses'],
