@@ -25,6 +25,8 @@ class Ticket extends Model
         'aberto_por_user_id',
         'fraccao_id',
         'atribuido_a_user_id',
+        'atribuido_a_empresa_id',
+        'custo_intervencao',
         'titulo',
         'descricao',
         'tipo',
@@ -43,6 +45,7 @@ class Ticket extends Model
         'resolvido_em' => 'datetime',
         'fechado_em' => 'datetime',
         'threads_publicas' => 'boolean',
+        'custo_intervencao' => 'decimal:2',
     ];
 
     public function condominio(): BelongsTo
@@ -63,6 +66,11 @@ class Ticket extends Model
     public function atribuidoA(): BelongsTo
     {
         return $this->belongsTo(User::class, 'atribuido_a_user_id');
+    }
+
+    public function atribuidoEmpresa(): BelongsTo
+    {
+        return $this->belongsTo(EmpresaPrestadora::class, 'atribuido_a_empresa_id');
     }
 
     public function comentarios(): HasMany

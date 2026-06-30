@@ -53,6 +53,12 @@ class EmpresaPrestadora extends Model
         return $q->where('certificado', true);
     }
 
+    /** Pedidos (intervenções) atribuídos a este fornecedor. */
+    public function tickets(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Ticket::class, 'atribuido_a_empresa_id');
+    }
+
     // ─── Scopes existentes (Tickets) ───
     public function scopeAtivas($q)
     {

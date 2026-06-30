@@ -16,6 +16,8 @@ class EmpresasPrestadorasController extends Controller
         $empresaId = $request->user()->empresa_gestora_id;
 
         $empresas = EmpresaPrestadora::paraEmpresa($empresaId)
+            ->withCount('tickets as intervencoes_count')
+            ->withAvg(['tickets as preco_medio' => fn ($q) => $q->whereNotNull('custo_intervencao')], 'custo_intervencao')
             ->orderByDesc('certificado')
             ->orderBy('ativa', 'desc')
             ->orderBy('nome')

@@ -15,7 +15,11 @@ interface Empresa {
     ativa: boolean;
     certificado?: boolean;
     certificado_em?: string | null;
+    intervencoes_count?: number;
+    preco_medio?: number | null;
 }
+
+const fmtKz = (v: number) => new Intl.NumberFormat('pt-PT', { maximumFractionDigits: 0 }).format(v) + ' Kz';
 
 interface PageProps {
     empresas: Empresa[];
@@ -107,6 +111,12 @@ export default function EmpresasPrestadoras({ empresas, podeCertificar = false }
                                                 </span>
                                             )}
                                         </span>
+                                        {(e.intervencoes_count ?? 0) > 0 && (
+                                            <div className="text-[11px] text-zinc-500 mt-0.5">
+                                                {e.intervencoes_count} intervenç{e.intervencoes_count === 1 ? 'ão' : 'ões'}
+                                                {e.preco_medio != null && <> · média {fmtKz(Number(e.preco_medio))}</>}
+                                            </div>
+                                        )}
                                     </td>
                                     <td className="px-4 py-3 text-zinc-500 text-xs">{e.nif ?? '—'}</td>
                                     <td className="px-4 py-3 text-xs text-zinc-400 space-y-0.5">

@@ -73,6 +73,7 @@ class TicketsWebController extends Controller
         $ticket = Ticket::with([
             'abertoPor:id,name,email',
             'atribuidoA:id,name,email',
+            'atribuidoAEmpresa:id,nome',
             'fraccao:id,identificador,piso',
             'condominio:id,nome',
             'fotos',
@@ -83,7 +84,69 @@ class TicketsWebController extends Controller
 
         return Inertia::render('Tickets/Show', [
             'ticket' => $ticket,
+            'empresasPrestadoras' => \App\Domains\Tickets\Models\EmpresaPrestadora::paraEmpresa($user->empresa_gestora_id)
+                ->ativas()
+                ->orderByDesc('certificado')
+                ->orderBy('nome')
+                ->get(['id', 'nome', 'certificado']),
         ]);
+    }
+
+    /**
+     * Atribui o pedido a um colaborador (modo user) ou a um fornecedor (modo
+     * empresa), registando o custo da intervenção quando aplicável.
+     * PATCH /tickets/{id}/atribuir
+     */
+    public function atribuir(Request $request, string $id): RedirectResponse
+    {
+        $validated = $request->validate([
+            'modo' => ['required', 'in:user,empresa,remover'],
+            'atribuido_a_user_id' => ['nullable', 'integer'],
+            'atribuido_a_empresa_id' => ['nullable', 'integer'],
+            'custo_intervencao' => ['nullable', 'numeric', 'min:0', 'max:999999999'],
+        ]);
+
+        $user = $request->user();
+        $ticket = Ticket::paraEmpresa($user->empresa_gestora_id)->findOrFail($id);
+
+        if ($validated['modo'] === 'remover') {
+            $ticket->update([
+                'atribuido_a_user_id' => null,
+                'atribuido_a_empresa_id' => null,
+                'atribuido_em' => null,
+            ]);
+            return back()->with('success', 'Atribuição removida.');
+        }
+
+        if ($validated['modo'] === 'empresa') {
+            // Garante que o fornecedor pertence à empresa do gestor.
+            $empresaId = null;
+            if (! empty($validated['atribuido_a_empresa_id'])) {
+                $empresaId = \App\Domains\Tickets\Models\EmpresaPrestadora::paraEmpresa($user->empresa_gestora_id)
+                    ->where('id', $validated['atribuido_a_empresa_id'])
+                    ->value('id');
+            }
+            $ticket->update([
+                'atribuido_a_empresa_id' => $empresaId,
+                'atribuido_a_user_id' => null,
+                'custo_intervencao' => $validated['custo_intervencao'] ?? $ticket->custo_intervencao,
+                'atribuido_em' => now(),
+            ]);
+        } else {
+            $userId = null;
+            if (! empty($validated['atribuido_a_user_id'])) {
+                $userId = \App\Models\User::where('empresa_gestora_id', $user->empresa_gestora_id)
+                    ->where('id', $validated['atribuido_a_user_id'])
+                    ->value('id');
+            }
+            $ticket->update([
+                'atribuido_a_user_id' => $userId,
+                'atribuido_a_empresa_id' => null,
+                'atribuido_em' => now(),
+            ]);
+        }
+
+        return back()->with('success', 'Pedido atribuído.');
     }
 
     /**

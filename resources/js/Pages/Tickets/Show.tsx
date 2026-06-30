@@ -45,6 +45,7 @@ interface Ticket {
     cancelado_por?: UserBasic | null;
     atribuido_a: UserBasic | null;
     atribuido_empresa?: EmpresaPrestadora | null;
+    custo_intervencao?: number | string | null;
     fraccao: Fraccao | null;
     condominio: Condominio | null;
     fotos: Foto[];
@@ -98,6 +99,7 @@ export default function TicketShow({ ticket , meta , empresasPrestadoras = [] }:
     const [modoAtribuir, setModoAtribuir] = useState<'user' | 'empresa'>(ticket.atribuido_empresa ? 'empresa' : 'user');
     const [selecionadoId, setSelecionadoId] = useState<number | null>(ticket.atribuido_a?.id ?? null);
     const [empresaSelId, setEmpresaSelId] = useState<number | null>(ticket.atribuido_empresa?.id ?? null);
+    const [custo, setCusto] = useState<string>(ticket.custo_intervencao != null ? String(ticket.custo_intervencao) : '');
     const [aAtribuir, setAAtribuir] = useState(false);
 
     useEffect(() => {
@@ -178,7 +180,11 @@ export default function TicketShow({ ticket , meta , empresasPrestadoras = [] }:
             if (!empresaSelId) {
                 payload = { modo: 'remover' };
             } else {
-                payload = { modo: 'empresa', atribuido_a_empresa_id: empresaSelId };
+                payload = {
+                    modo: 'empresa',
+                    atribuido_a_empresa_id: empresaSelId,
+                    custo_intervencao: custo.trim() === '' ? null : Number(custo),
+                };
             }
         }
         router.patch(`/tickets/${ticket.id}/atribuir`, payload, {
@@ -445,6 +451,21 @@ export default function TicketShow({ ticket , meta , empresasPrestadoras = [] }:
                                         <option key={e.id} value={e.id}>{e.nome}</option>
                                     ))}
                                 </select>
+                            )}
+
+                            {modoAtribuir === 'empresa' && empresaSelId != null && (
+                                <div className="mb-2">
+                                    <label className="block text-[11px] text-zinc-500 mb-1">Custo da intervenção (Kz) — opcional</label>
+                                    <input
+                                        type="number" min={0} step="0.01"
+                                        value={custo}
+                                        onChange={(e) => setCusto(e.target.value)}
+                                        placeholder="ex.: 45000"
+                                        className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-sm text-zinc-200"
+                                        disabled={aAtribuir}
+                                    />
+                                    <p className="text-[10px] text-zinc-600 mt-1">Alimenta o preço médio do fornecedor no diretório.</p>
+                                </div>
                             )}
 
                             {modoAtribuir === 'empresa' && empresasPrestadoras.length === 0 && (
