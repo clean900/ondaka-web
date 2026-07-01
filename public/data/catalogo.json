@@ -58,16 +58,24 @@
           "estado": "pronto"
         },
         {
-          "nome": "Uso automático de saldo",
-          "desc": "Sistema deduz saldo da fracção em novo pagamento.",
-          "estado": "breve",
-          "quando": "Junho 2026"
+          "nome": "Integração Contabilidade (PHC/Primavera)",
+          "desc": "Exportação CSV e ficheiro SAF-T (AO) em XML.",
+          "estado": "pronto"
+        },
+        {
+          "nome": "Relatórios Personalizados",
+          "desc": "Construtor de relatórios PDF por secções ou drag-and-drop, com agendamento por email.",
+          "estado": "pronto"
+        },
+        {
+          "nome": "Transparência Financeira aos Condóminos",
+          "desc": "Condómino vê receitas/despesas, fundo de reserva e cobrança do seu condomínio.",
+          "estado": "pronto"
         },
         {
           "nome": "Relatórios contabilísticos",
           "desc": "Export Excel/PDF com filtros por período/condomínio.",
-          "estado": "breve",
-          "quando": "Julho 2026"
+          "estado": "pronto"
         }
       ]
     },
@@ -102,12 +110,6 @@
           "nome": "Histórico de alterações",
           "desc": "Auditoria completa de quem alterou o quê e quando.",
           "estado": "pronto"
-        },
-        {
-          "nome": "Cadastro de Funcionários",
-          "desc": "BI/Passaporte + foto + função + datas. Compliance RGPD.",
-          "estado": "roadmap",
-          "quando": "Março 2027"
         }
       ]
     },
@@ -144,16 +146,14 @@
           "estado": "pronto"
         },
         {
-          "nome": "Layout PDF profissional Acta",
-          "desc": "Logo, fonte serif, NIF rodapé, paginação.",
-          "estado": "breve",
-          "quando": "Junho 2026"
+          "nome": "Relatórios operacionais",
+          "desc": "KPIs de pedidos resolvidos, tempo médio, por estado e categoria.",
+          "estado": "pronto"
         },
         {
-          "nome": "Relatórios operacionais",
-          "desc": "KPIs de pedidos resolvidos, tempo médio, satisfação.",
-          "estado": "breve",
-          "quando": "Julho 2026"
+          "nome": "Fornecedores Certificados",
+          "desc": "Diretório de prestadores com selo, avaliações, nº de intervenções e preço médio.",
+          "estado": "pronto"
         }
       ]
     },
@@ -242,18 +242,6 @@
           "nome": "Chatbot 2-em-1 (v1)",
           "desc": "Assistente Condomínio + Assistente ONDAKA.",
           "estado": "pronto"
-        },
-        {
-          "nome": "Sincronização total Mobile/Web",
-          "desc": "Replicar todas as funcionalidades web no mobile.",
-          "estado": "breve",
-          "quando": "Julho 2026"
-        },
-        {
-          "nome": "Personalização visual",
-          "desc": "Tema/branding por empresa, dark/light mode.",
-          "estado": "breve",
-          "quando": "Setembro 2026"
         }
       ]
     },
@@ -285,28 +273,34 @@
           "estado": "pronto"
         },
         {
-          "nome": "Lista Negra Visitantes",
-          "desc": "Bloqueio por nome/telefone/BI/matrícula. Alerta no check-in.",
-          "estado": "roadmap",
-          "quando": "Q3 2026"
+          "nome": "Chamadas de Voz na App",
+          "desc": "Portaria, morador e gestão ligam-se por voz, sem custos de operadora.",
+          "estado": "pronto"
         },
         {
-          "nome": "Revistas Check-in/out",
-          "desc": "Pré-autorização de itens. Compliance privacy.",
-          "estado": "roadmap",
-          "quando": "Novembro 2026"
+          "nome": "Portaria em Modo Offline",
+          "desc": "Valida QR/OTP sem internet e sincroniza ao voltar a rede.",
+          "estado": "pronto"
         },
         {
-          "nome": "ANPR Hikvision",
-          "desc": "Leitura automática de matrículas (≥98.5% precisão).",
-          "estado": "roadmap",
-          "quando": "Agosto 2027"
+          "nome": "Acesso por Horário e Área",
+          "desc": "Pré-aprovações com horários recorrentes e áreas autorizadas.",
+          "estado": "pronto"
         },
         {
-          "nome": "Biometria ZKTeco",
-          "desc": "SpeedFace facial + impressão digital.",
-          "estado": "roadmap",
-          "quando": "Agosto 2027"
+          "nome": "Controlo de Saída de Bens",
+          "desc": "Regista bens à entrada; na saída só liberta o declarado.",
+          "estado": "pronto"
+        },
+        {
+          "nome": "Livro de Ocorrências + Passagem de Turno",
+          "desc": "Registo cronológico de ocorrências e resumo de passagem de turno.",
+          "estado": "pronto"
+        },
+        {
+          "nome": "Lista Negra de Visitantes",
+          "desc": "Bloqueio por nome/BI/matrícula com alerta no check-in.",
+          "estado": "pronto"
         }
       ]
     },
@@ -351,12 +345,6 @@
           "nome": "Audit Trail completo",
           "desc": "Eventos rastreados por subscrição, factura, pagamento.",
           "estado": "pronto"
-        },
-        {
-          "nome": "Chatbot v2 com imagens HTML",
-          "desc": "Respostas com screenshots, formatação rica.",
-          "estado": "breve",
-          "quando": "Q3 2026"
         }
       ]
     },
@@ -386,12 +374,6 @@
           "nome": "Pusher Channels",
           "desc": "Real-time chat, votos, notificações.",
           "estado": "pronto"
-        },
-        {
-          "nome": "ProxyPay DDS",
-          "desc": "Débito Directo automático mensal.",
-          "estado": "roadmap",
-          "quando": "Maio 2027"
         }
       ]
     },
@@ -438,105 +420,14 @@
           "estado": "pronto"
         },
         {
+          "nome": "SOS 13 Tipos com GPS",
+          "desc": "Botão de emergência por gravidade com localização GPS; alerta guarda e gestão.",
+          "estado": "pronto"
+        },
+        {
           "nome": "Bloqueio Inteligente",
-          "desc": "Modo limitado para incumprimento. Configurável por condomínio.",
-          "estado": "roadmap",
-          "quando": "Setembro 2026"
-        },
-        {
-          "nome": "Lista Negra Devedores",
-          "desc": "Histórico de dívida, acordos negociados, acção em massa.",
-          "estado": "roadmap",
-          "quando": "Setembro 2026"
-        },
-        {
-          "nome": "SOS 13 Tipos por Gravidade",
-          "desc": "Botão emergência: incêndio, médica, segurança, etc.",
-          "estado": "roadmap",
-          "quando": "Outubro 2026"
-        }
-      ]
-    },
-    {
-      "id": "saas",
-      "titulo": "SaaS B2B (Soluções Simples)",
-      "iconName": "briefcase",
-      "cor": "purple",
-      "descricao": "Gestão da plataforma e subscrições B2B",
-      "features": [
-        {
-          "nome": "Configuração de Preços",
-          "desc": "Preço base + 5 escalões CRUD + descontos + trial + imposto.",
+          "desc": "Modo limitado para incumprimento, configurável por condomínio.",
           "estado": "pronto"
-        },
-        {
-          "nome": "Calculadora Subscrição",
-          "desc": "Cálculo dinâmico AJAX com 3 períodos.",
-          "estado": "pronto"
-        },
-        {
-          "nome": "Trial 30 dias automático",
-          "desc": "Activação imediata para novas empresas.",
-          "estado": "pronto"
-        },
-        {
-          "nome": "Pagamento activa subscrição",
-          "desc": "Webhook ProxyPay processa custom_fields.tipo='factura_plataforma'.",
-          "estado": "pronto"
-        },
-        {
-          "nome": "Modo Limitado",
-          "desc": "Trial expirado sem pagamento → acesso restrito.",
-          "estado": "pronto"
-        },
-        {
-          "nome": "Banner Trial 3 cores",
-          "desc": "Verde/laranja/vermelho conforme dias restantes.",
-          "estado": "pronto"
-        },
-        {
-          "nome": "Lista Global Facturas Plataforma",
-          "desc": "Super-admin vê todas as facturas com filtros e anular.",
-          "estado": "pronto"
-        },
-        {
-          "nome": "Histórico Imóveis (Crédito/Acréscimo)",
-          "desc": "Aumento/redução com pro-rata automático. Glossário PT-AO.",
-          "estado": "pronto"
-        },
-        {
-          "nome": "Dashboard Super-Admin",
-          "desc": "MRR, ARR, churn, pipeline, clientes recentes.",
-          "estado": "pronto"
-        },
-        {
-          "nome": "Distinção Empresa/Admin Independente",
-          "desc": "tipo_cliente diferencia UI e workflow.",
-          "estado": "pronto"
-        },
-        {
-          "nome": "Auto-registo + Wizard Onboarding",
-          "desc": "Visitantes podem criar conta sem aprovação manual.",
-          "estado": "breve",
-          "quando": "Junho 2026"
-        },
-        {
-          "nome": "Cancelamento subscrição",
-          "desc": "Modal confirmação + razão. Termina fim do período pago.",
-          "estado": "breve",
-          "quando": "Junho 2026"
-        },
-        {
-          "nome": "Templates email 5 tipos",
-          "desc": "Trial, factura emitida, pagamento, cancelamento, recuperação.",
-          "estado": "breve",
-          "quando": "Junho 2026"
-        },
-        {
-          "nome": "Mudança de plano",
-          "desc": "Mensal↔Semestral↔Anual com pro-rata.",
-          "estado": "breve",
-          "quando": "Julho 2026"
         }
       ]
     }

@@ -5,6 +5,7 @@ import {
     GraduationCap, X, Search, ArrowRight, Building2, Users, UserPlus,
     Receipt, FileText, Bell, Wrench, Calendar, MessageSquare, KeyRound,
     Settings, CreditCard, Wallet, ChevronRight,
+    FileBarChart, Calculator, PieChart, BadgeCheck,
 } from 'lucide-react';
 
 interface Tutorial {
@@ -34,6 +35,64 @@ interface Props {
 }
 
 const TUTORIAIS: Tutorial[] = [
+    // ===== Relatórios & BI =====
+    {
+        id: 'gerar-relatorio',
+        titulo: 'Gerar um relatório personalizado',
+        descricao: 'Escolha secções ou use o construtor visual para um PDF à medida',
+        icon: FileBarChart,
+        cor: '#A855F7',
+        categoria: 'Relatórios & BI',
+        rolesPermitidos: ['admin-empresa', 'gestor', 'super-admin'],
+        passos: [
+            { elemento: '[href="/relatorios"]', titulo: '1. Abrir Relatórios', descricao: 'No menu, clique em "Relatórios".', side: 'right' },
+            { titulo: '2. Escolher secções', descricao: 'Selecione as secções (receitas/despesas, cobrança, devedores, despesas por categoria, saúde financeira), o período e o condomínio.', side: 'over' },
+            { titulo: '3. Construtor visual (opcional)', descricao: 'Em "Construtor visual", arraste blocos para montar o relatório na ordem que quiser.', side: 'over' },
+            { titulo: '4. Gerar PDF', descricao: 'Clique em "Gerar PDF". Pode ainda agendar o envio automático por email.', side: 'over' },
+        ],
+    },
+    {
+        id: 'exportar-contabilidade',
+        titulo: 'Exportar para a contabilidade',
+        descricao: 'CSV para Excel ou ficheiro SAF-T (AO) para o ERP',
+        icon: Calculator,
+        cor: '#10B981',
+        categoria: 'Relatórios & BI',
+        rolesPermitidos: ['admin-empresa', 'gestor', 'super-admin'],
+        passos: [
+            { elemento: '[href="/contabilidade"]', titulo: '1. Abrir Contabilidade', descricao: 'No menu Qualidade & BI, clique em "Contabilidade".', side: 'right' },
+            { titulo: '2. Escolher período', descricao: 'Defina o período e o condomínio.', side: 'over' },
+            { titulo: '3. Exportar', descricao: 'Exporte Recibos, Taxas ou Despesas em CSV, ou gere o SAF-T (AO) em XML para importar no PHC/Primavera.', side: 'over' },
+        ],
+    },
+    {
+        id: 'publicar-transparencia',
+        titulo: 'Publicar transparência financeira',
+        descricao: 'Dê aos condóminos acesso às contas do condomínio na app',
+        icon: PieChart,
+        cor: '#00D4FF',
+        categoria: 'Relatórios & BI',
+        rolesPermitidos: ['admin-empresa', 'gestor', 'super-admin'],
+        passos: [
+            { titulo: '1. Abrir o condomínio', descricao: 'Vá ao detalhe do condomínio → Configuração → separador Quotas.', side: 'over' },
+            { titulo: '2. Ativar transparência', descricao: 'Ative "Publicar transparência financeira aos condóminos".', side: 'over' },
+            { titulo: '3. Guardar', descricao: 'Os condóminos passam a ver as Contas do Condomínio na app (sem nomes de devedores).', side: 'over' },
+        ],
+    },
+    {
+        id: 'certificar-fornecedor',
+        titulo: 'Certificar um fornecedor',
+        descricao: 'Marque prestadores de confiança e acompanhe o preço médio',
+        icon: BadgeCheck,
+        cor: '#10B981',
+        categoria: 'Relatórios & BI',
+        rolesPermitidos: ['admin-empresa', 'gestor', 'super-admin'],
+        passos: [
+            { elemento: '[href="/configuracoes/empresas-prestadoras"]', titulo: '1. Empresas Prestadoras', descricao: 'Vá a Configurações → Empresas Prestadoras.', side: 'right' },
+            { titulo: '2. Certificar', descricao: 'Clique no ícone de certificação (selo) ao lado do fornecedor de confiança.', side: 'over' },
+            { titulo: '3. Custo nas intervenções', descricao: 'Ao atribuir um fornecedor a um Pedido, registe o custo — alimenta o nº de intervenções e o preço médio.', side: 'over' },
+        ],
+    },
     // ===== Configuração inicial =====
     {
         id: 'criar-condominio', permissaoNecessaria: 'condominios.criar',

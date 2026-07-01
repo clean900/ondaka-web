@@ -264,14 +264,14 @@ function passosGestor() {
         {
             popover: {
                 title: '📱 21. App mobile',
-                description: 'Existe app ONDAKA para Android (em breve iOS) onde os condóminos podem ver quotas, pagar, ver assembleias e receber avisos. Disponível no Google Play.',
+                description: 'A app ONDAKA está disponível para Android e iOS: os condóminos vêem quotas, pagam, consultam as contas do condomínio, recebem avisos e chamadas de voz. Portaria com SOS, chamadas e modo offline.',
                 side: 'over' as const, align: 'center' as const,
             },
         },
         {
             popover: {
-                title: '📊 22. Relatórios (em breve)',
-                description: 'Em breve poderá gerar relatórios financeiros mensais e anuais para apresentar em assembleia, exportáveis para PDF e Excel.',
+                title: '📊 22. Relatórios',
+                description: 'Gere relatórios financeiros à medida (secções à escolha ou construtor visual drag-and-drop), exporte em PDF e agende o envio automático por email. Inclui exportação para contabilidade (CSV e SAF-T).',
                 side: 'over' as const, align: 'center' as const,
             },
         },
