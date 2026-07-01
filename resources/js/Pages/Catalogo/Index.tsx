@@ -2,7 +2,7 @@ import { Head, Link } from '@inertiajs/react';
 import { useState, useMemo } from 'react';
 import {
     DollarSign, Building2, Users, Home, Smartphone, DoorOpen, Bot, Plug, ShieldCheck, Briefcase,
-    Search, CheckCircle2, Clock, Sparkles, Filter
+    Search, CheckCircle2, Clock, Sparkles
 } from 'lucide-react';
 
 type Estado = "pronto" | "curso" | "breve" | "roadmap";
@@ -219,25 +219,22 @@ const corClasses: Record<string, string> = {
     pink: "from-pink-500/20 to-pink-700/10 ring-pink-500/30 text-pink-400",
 };
 
-// Catálogo PÚBLICO: não mostrar a categoria interna SaaS B2B (gestão da
-// plataforma), nem funcionalidades em desenvolvimento ou no roadmap.
-// Só "Em produção" e "Em breve".
-const ESTADOS_PUBLICOS: Estado[] = ["pronto", "breve"];
+// Catálogo PÚBLICO: mostrar APENAS o que está em produção (a plataforma está
+// ~98% implementada). Esconde SaaS B2B interno, em desenvolvimento, em breve e roadmap.
+const ESTADOS_PUBLICOS: Estado[] = ["pronto"];
 const categoriasPublicas: Categoria[] = categorias
     .filter((c) => c.id !== "saas")
     .map((c) => ({ ...c, features: c.features.filter((f) => ESTADOS_PUBLICOS.includes(f.estado)) }))
     .filter((c) => c.features.length > 0);
 
 export default function Catalogo() {
-    const [filtroEstado, setFiltroEstado] = useState<Estado | "todos">("todos");
     const [busca, setBusca] = useState("");
 
     const stats = useMemo(() => {
         const all = categoriasPublicas.flatMap(c => c.features);
         return {
             total: all.length,
-            pronto: all.filter(f => f.estado === "pronto").length,
-            breve: all.filter(f => f.estado === "breve").length,
+            categorias: categoriasPublicas.length,
         };
     }, []);
 
@@ -245,14 +242,12 @@ export default function Catalogo() {
         return categoriasPublicas.map(cat => ({
             ...cat,
             features: cat.features.filter(f => {
-                const matchEstado = filtroEstado === "todos" || f.estado === filtroEstado;
-                const matchBusca = busca === "" ||
+                return busca === "" ||
                     f.nome.toLowerCase().includes(busca.toLowerCase()) ||
                     f.desc.toLowerCase().includes(busca.toLowerCase());
-                return matchEstado && matchBusca;
             })
         })).filter(cat => cat.features.length > 0);
-    }, [filtroEstado, busca]);
+    }, [busca]);
 
     return (
         <>
@@ -294,22 +289,18 @@ export default function Catalogo() {
                             <span className="bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">completo</span>
                         </h1>
                         <p className="mb-8 mx-auto max-w-2xl text-zinc-400">
-                            Tudo o que a plataforma ONDAKA oferece — já em produção e a chegar em breve.
+                            Tudo o que a plataforma ONDAKA oferece — <span className="text-green-300 font-semibold">já em produção</span>.
                         </p>
 
                         {/* Stats */}
-                        <div className="mx-auto grid max-w-2xl grid-cols-3 gap-4">
-                            <div className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-4">
-                                <div className="text-3xl font-bold">{stats.total}</div>
-                                <div className="text-[10px] uppercase tracking-wider text-zinc-500">Total</div>
-                            </div>
+                        <div className="mx-auto grid max-w-md grid-cols-2 gap-4">
                             <div className="rounded-xl border border-green-500/30 bg-green-500/5 p-4">
-                                <div className="text-3xl font-bold text-green-300">{stats.pronto}</div>
-                                <div className="text-[10px] uppercase tracking-wider text-green-400">Em produção</div>
+                                <div className="text-3xl font-bold text-green-300">{stats.total}</div>
+                                <div className="text-[10px] uppercase tracking-wider text-green-400">Funcionalidades em produção</div>
                             </div>
-                            <div className="rounded-xl border border-blue-500/30 bg-blue-500/5 p-4">
-                                <div className="text-3xl font-bold text-blue-300">{stats.breve}</div>
-                                <div className="text-[10px] uppercase tracking-wider text-blue-400">Em breve</div>
+                            <div className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-4">
+                                <div className="text-3xl font-bold">{stats.categorias}</div>
+                                <div className="text-[10px] uppercase tracking-wider text-zinc-500">Categorias</div>
                             </div>
                         </div>
                     </div>
@@ -320,7 +311,7 @@ export default function Catalogo() {
                     <div className="mx-auto max-w-7xl px-6 py-4">
                         <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                             {/* Busca */}
-                            <div className="relative flex-1 md:max-w-md">
+                            <div className="relative flex-1">
                                 <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-500" />
                                 <input
                                     type="text"
@@ -329,23 +320,6 @@ export default function Catalogo() {
                                     onChange={(e) => setBusca(e.target.value)}
                                     className="w-full rounded-lg border border-zinc-700 bg-zinc-900 py-2 pl-10 pr-3 text-sm focus:border-blue-500 focus:outline-none"
                                 />
-                            </div>
-                            {/* Filtros estado */}
-                            <div className="flex items-center gap-2 overflow-x-auto">
-                                <Filter className="h-4 w-4 flex-shrink-0 text-zinc-500" />
-                                {(["todos", "pronto", "breve"] as const).map((e) => (
-                                    <button
-                                        key={e}
-                                        onClick={() => setFiltroEstado(e)}
-                                        className={`flex-shrink-0 rounded-lg px-3 py-1.5 text-xs font-semibold transition ${
-                                            filtroEstado === e
-                                                ? "bg-gradient-to-r from-blue-500 to-purple-600 text-white"
-                                                : "bg-zinc-900 text-zinc-400 hover:text-white"
-                                        }`}
-                                    >
-                                        {e === "todos" ? "Todos" : estadoConfig[e].label}
-                                    </button>
-                                ))}
                             </div>
                         </div>
                     </div>

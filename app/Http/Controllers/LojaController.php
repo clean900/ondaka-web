@@ -13,6 +13,7 @@ class LojaController extends Controller
     public function index(): Response
     {
         $features = Feature::where('activa', true)
+            ->where('em_breve', false) // 98% implementado — só add-ons disponíveis
             ->orderBy('ordem_listagem')
             ->orderBy('nome')
             ->get(['id', 'slug', 'nome', 'descricao', 'icone', 'categoria',
