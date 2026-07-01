@@ -302,6 +302,7 @@ export default function AuthenticatedLayout({ children }: PropsWithChildren) {
                     { label: 'Dashboard', href: '/super-admin', icon: LayoutDashboard },
                     { label: 'Comunicados', href: '/admin/comunicados', icon: Megaphone },
                     { label: 'Clientes B2B', href: '/super-admin/clientes', icon: Users },
+                    { label: 'ERP Welwitschia', href: '/admin/welwitschia', icon: Building2 },
                     { label: 'Config subscrições', href: '/super-admin/subscricoes-config', icon: Settings },
                     { label: 'Permissões', href: '/super-admin/permissoes', icon: Shield },
                     { label: 'Facturas plataforma', href: '/super-admin/facturas-plataforma', icon: Receipt },
