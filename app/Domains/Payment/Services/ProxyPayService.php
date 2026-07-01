@@ -210,6 +210,9 @@ class ProxyPayService
                                 'updated_at' => $agora,
                             ]);
 
+                        // Actualiza a venda no ERP Welwitschia (pagamento). Resiliente.
+                        \App\Domains\Integracao\Welwitschia\FacturaWelwitschiaSync::sincronizar($facturaId);
+
                         // Activar/renovar subscrição
                         $subscricao = \App\Domains\Subscription\Models\Subscricao::find($factura->subscricao_id);
                         if ($subscricao) {

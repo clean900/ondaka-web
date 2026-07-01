@@ -52,6 +52,19 @@ class WelwitschiaClient
         return $this->req()->get('/clientes')->json() ?? [];
     }
 
+    /**
+     * Cria/actualiza uma factura na Welwitschia (idempotente por invoice_number).
+     * $dados: customer_name*, customer_email, invoice_number*, total_amount*,
+     *         paid_amount, invoice_date, due_date.
+     */
+    public function criarFactura(array $dados): Response
+    {
+        return $this->req()->post('/facturas', array_filter(
+            $dados,
+            fn ($v) => $v !== null && $v !== '',
+        ));
+    }
+
     public function facturas(): array
     {
         return $this->req()->get('/facturas')->json() ?? [];

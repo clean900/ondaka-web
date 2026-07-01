@@ -131,6 +131,9 @@ class FacturaPlataformaService
 
         Log::info("Factura plataforma emitida: {$numero} para subscrição {$subscricao->id}");
 
+        // Empurra a factura para o ERP Welwitschia (venda). Em fila e resiliente.
+        \App\Domains\Integracao\Welwitschia\FacturaWelwitschiaSync::sincronizar((int) $facturaId);
+
         // Notificação Email + SMS para o admin-empresa
         try {
             $empresa = \App\Domains\Empresa\Models\EmpresaGestora::find($subscricao->empresa_gestora_id);
