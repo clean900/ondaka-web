@@ -83,3 +83,5 @@ error_log
 
 APP-OLD/
 APP-OLD/
+/FETCH_HEAD
+storage/sms-backup-*.json
