@@ -51,6 +51,13 @@ class RegistoEmpresaService
                 'activa' => true,
             ]);
 
+            // Sincroniza a empresa como cliente na Welwitschia (só após commit; em fila e resiliente).
+            \App\Domains\Integracao\Welwitschia\Jobs\SincronizarClienteWelwitschiaJob::dispatch(
+                nome: $empresa->nome,
+                email: $empresa->email_contacto,
+                empresaGestoraId: $empresa->id,
+            )->afterCommit();
+
             // 1b. Semear tipos de fracção padrão para a nova empresa
             //     (falha não reverte o registo — apenas logada)
             try {

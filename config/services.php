@@ -97,6 +97,18 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Integração ERP Welwitschia — sync de clientes + reconciliação financeira.
+    | O ONDAKA é uma filial na Welwitschia; empurra as empresas gestoras como
+    | clientes (POST /clientes). Token por filial (Authorization: Bearer).
+    |--------------------------------------------------------------------------
+    */
+    'welwitschia' => [
+        'url' => env('WELWITSCHIA_URL', 'https://welwitschia.ao/api/integration/v1'),
+        'token' => env('WELWITSCHIA_TOKEN'),
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Chamadas de voz WebRTC (coturn + signaling no VPS)
     |--------------------------------------------------------------------------
     */

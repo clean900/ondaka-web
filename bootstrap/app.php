@@ -26,6 +26,7 @@ return Application::configure(basePath: dirname(__DIR__))
         \App\Domains\Feature\Console\ExpireTrialsCommand::class,
         \App\Domains\Feature\Console\ExpireSubscriptionsCommand::class,
         \App\Domains\Bi\Console\EnviarRelatoriosAgendadosCommand::class,
+        \App\Domains\Integracao\Welwitschia\Console\WelwitschiaSyncClientesCommand::class,
         \App\Domains\Payment\Console\ListarOrdensCommand::class,
         \App\Domains\Payment\Console\CriarOrdemTesteCommand::class,
         \App\Domains\Payment\Console\EmitirFacturaCommand::class,
