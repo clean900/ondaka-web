@@ -73,7 +73,7 @@ class TicketsWebController extends Controller
         $ticket = Ticket::with([
             'abertoPor:id,name,email',
             'atribuidoA:id,name,email',
-            'atribuidoAEmpresa:id,nome',
+            'atribuidoEmpresa:id,nome',
             'fraccao:id,identificador,piso',
             'condominio:id,nome',
             'fotos',

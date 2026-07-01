@@ -6,6 +6,7 @@ use App\Domains\Chatbot\Models\ChatbotFaqCondominio;
 use App\Domains\Chatbot\Models\ChatbotPergunta;
 use App\Models\User;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 
 class ChatbotService
 {
@@ -182,17 +183,21 @@ class ChatbotService
      */
     private function calcularScore($entry, string $textoLower, array $tokens): int
     {
-        $perguntaLower = mb_strtolower($entry->pergunta);
-        $respostaLower = mb_strtolower($entry->resposta);
+        // Normaliza acentos em ambos os lados → match insensível a acentos
+        // (quem escreve "importacao" encontra "importação").
+        $texto = $this->semAcentos($textoLower);
+        $tokens = array_map(fn ($t) => $this->semAcentos($t), $tokens);
+        $perguntaLower = $this->semAcentos($entry->pergunta);
+        $respostaLower = $this->semAcentos($entry->resposta);
+        $keywords = array_map(fn ($k) => $this->semAcentos((string) $k), $entry->palavras_chave ?? []);
         $score = 0;
 
         // Bonus: frase completa contida na pergunta
-        if (mb_strlen($textoLower) >= 4 && mb_strpos($perguntaLower, $textoLower) !== false) {
+        if (mb_strlen($texto) >= 4 && mb_strpos($perguntaLower, $texto) !== false) {
             $score += 5;
         }
 
         // Keywords (palavras_chave)
-        $keywords = $entry->palavras_chave ?? [];
         foreach ($tokens as $token) {
             foreach ($keywords as $kw) {
                 if (mb_stripos($kw, $token) !== false) {
@@ -217,6 +222,12 @@ class ChatbotService
         }
 
         return $score;
+    }
+
+    /** Minúsculas sem acentos (Str::ascii transliterá ç→c, ã→a, etc.). */
+    private function semAcentos(string $s): string
+    {
+        return Str::ascii(mb_strtolower($s));
     }
 
     /**
