@@ -120,7 +120,13 @@ class ProxyPayService
         }
     }
 
-    public function processarPagamentoWebhook(array $payload): void
+    /**
+     * Processa um pagamento ProxyPay. Devolve TRUE se a referência é do ONDAKA (processada
+     * ou já paga) e FALSE se é de outro sistema na conta ProxyPay partilhada. O poller usa
+     * isto para só dar ACK (DELETE) aos pagamentos do ONDAKA, deixando os restantes na fila
+     * para o Welwitschia/Academia os confirmarem.
+     */
+    public function processarPagamentoWebhook(array $payload): bool
     {
         $referenceId = $payload['reference_id'] ?? null;
 
@@ -131,16 +137,18 @@ class ProxyPayService
         $ref = PagamentoReferencia::where('reference_id', $referenceId)->first();
 
         if (! $ref) {
-            Log::warning('ProxyPay webhook: reference_id desconhecido', [
+            // Referência de OUTRO sistema (conta ProxyPay partilhada) → NÃO é nossa: não dar ACK.
+            Log::info('ProxyPay: reference_id não é do ONDAKA — deixado na fila', [
                 'reference_id' => $referenceId,
-                'payload' => $payload,
             ]);
-            return;
+
+            return false;
         }
 
         if ($ref->status === 'paga') {
             Log::info('ProxyPay webhook: referencia ja estava paga (duplicado)', ['reference_id' => $referenceId]);
-            return;
+
+            return true;
         }
 
         DB::transaction(function () use ($ref, $payload) {
@@ -304,6 +312,8 @@ class ProxyPayService
             'reference_id' => $referenceId,
             'ordem_id' => $ref->ordem_compra_id,
         ]);
+
+        return true;
     }
 
     public function validarAssinaturaWebhook(string $rawBody, string $signature): bool

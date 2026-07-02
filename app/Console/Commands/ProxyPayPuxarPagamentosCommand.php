@@ -73,7 +73,15 @@ class ProxyPayPuxarPagamentosCommand extends Command
             }
 
             try {
-                $service->processarPagamentoWebhook($payment);
+                $nosso = $service->processarPagamentoWebhook($payment);
+
+                if (! $nosso) {
+                    // Conta ProxyPay partilhada: este pagamento é de outro sistema (ex.: Welwitschia).
+                    // NÃO dar ACK — deixar na fila para o poller desse sistema o confirmar.
+                    $this->line('   ref não é do ONDAKA — deixado na fila.');
+
+                    continue;
+                }
 
                 $ackResponse = Http::withHeaders([
                     'Authorization' => 'Token '.$apiKey,
