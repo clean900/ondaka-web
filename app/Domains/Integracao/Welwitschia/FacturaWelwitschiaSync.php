@@ -34,6 +34,11 @@ class FacturaWelwitschiaSync
             $total = (float) $f->valor_total_kz;
             $pago = ($f->estado ?? null) === 'paga' ? $total : 0.0;
 
+            // Uma linha descritiva da subscrição (a fatura da plataforma não tem itens próprios).
+            $desc = 'Subscrição ONDAKA — '.$f->num_imoveis_facturado.' imóvel(is) ('
+                .substr((string) $f->periodo_referencia_inicio, 0, 10).' a '
+                .substr((string) $f->periodo_referencia_fim, 0, 10).')';
+
             SincronizarFacturaWelwitschiaJob::dispatch([
                 'customer_name' => $empresa->nome,
                 'customer_email' => $empresa->email_contacto,
@@ -42,6 +47,12 @@ class FacturaWelwitschiaSync
                 'paid_amount' => $pago,
                 'invoice_date' => $f->data_emissao ? substr((string) $f->data_emissao, 0, 10) : null,
                 'due_date' => $f->data_vencimento ? substr((string) $f->data_vencimento, 0, 10) : null,
+                'itens' => [[
+                    'descricao' => $desc,
+                    'quantidade' => 1,
+                    'preco' => (float) $f->subtotal_kz,
+                    'iva_percent' => (float) ($f->imposto_taxa_pct ?? 0),
+                ]],
             ])->afterCommit();
         } catch (\Throwable $e) {
             Log::warning('[Welwitschia] falha a preparar sync de factura', [
