@@ -160,6 +160,13 @@ class OrderService
                 \Log::warning("Falha ao emitir factura para ordem {$ordemFresh->numero}: ".$e->getMessage());
             }
 
+            // Sincroniza a venda da loja para o ERP Welwitschia (central AGT). Resiliente.
+            try {
+                \App\Domains\Integracao\Welwitschia\OrdemWelwitschiaSync::sincronizar($ordemFresh->fresh()->id);
+            } catch (\Throwable $e) {
+                \Log::warning("Falha ao sincronizar ordem {$ordemFresh->numero} para Welwitschia: ".$e->getMessage());
+            }
+
             // Enviar SMS ao cliente (se tem telefone)
             try {
                 $this->enviarSmsOrdemAprovada($ordemFresh);
