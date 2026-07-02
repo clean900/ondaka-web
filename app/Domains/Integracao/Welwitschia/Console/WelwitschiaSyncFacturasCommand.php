@@ -38,7 +38,9 @@ class WelwitschiaSyncFacturasCommand extends Command
             ->where('f.estado', '!=', 'anulada')
             ->orderBy('f.id')
             ->get([
-                'f.numero', 'f.valor_total_kz', 'f.estado', 'f.data_emissao', 'f.data_vencimento',
+                'f.numero', 'f.valor_total_kz', 'f.subtotal_kz', 'f.imposto_taxa_pct',
+                'f.num_imoveis_facturado', 'f.periodo_referencia_inicio', 'f.periodo_referencia_fim',
+                'f.estado', 'f.data_emissao', 'f.data_vencimento',
                 'e.nome as empresa_nome', 'e.email_contacto as empresa_email',
             ]);
 
@@ -49,6 +51,9 @@ class WelwitschiaSyncFacturasCommand extends Command
         foreach ($facturas as $f) {
             $total = (float) $f->valor_total_kz;
             $pago = $f->estado === 'paga' ? $total : 0.0;
+            $desc = 'Subscrição ONDAKA — ' . $f->num_imoveis_facturado . ' imóvel(is) ('
+                . substr((string) $f->periodo_referencia_inicio, 0, 10) . ' a '
+                . substr((string) $f->periodo_referencia_fim, 0, 10) . ')';
             $payload = [
                 'customer_name' => $f->empresa_nome,
                 'customer_email' => $f->empresa_email,
@@ -57,6 +62,12 @@ class WelwitschiaSyncFacturasCommand extends Command
                 'paid_amount' => $pago,
                 'invoice_date' => $f->data_emissao ? substr((string) $f->data_emissao, 0, 10) : null,
                 'due_date' => $f->data_vencimento ? substr((string) $f->data_vencimento, 0, 10) : null,
+                'itens' => [[
+                    'descricao' => $desc,
+                    'quantidade' => 1,
+                    'preco' => (float) $f->subtotal_kz,
+                    'iva_percent' => (float) ($f->imposto_taxa_pct ?? 0),
+                ]],
             ];
 
             if ($dry) {
