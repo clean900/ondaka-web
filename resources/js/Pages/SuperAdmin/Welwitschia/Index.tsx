@@ -1,152 +1,128 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head } from '@inertiajs/react';
-import { Building2, TrendingUp, Wallet, AlertCircle, FileText, Link2, Users } from 'lucide-react';
-
-interface Reconciliacao {
-    faturado: number;
-    recebido: number;
-    em_divida: number;
-    num_facturas: number;
-    gerado_em?: string;
-}
-interface Factura {
-    invoice_number: string;
-    total_amount: string;
-    paid_amount: string;
-    balance_amount: string;
-    status: string;
-    display_status: string;
-    invoice_date: string;
-}
-interface Cliente { id: number; name: string; email?: string | null; }
+import { Head, useForm, router } from '@inertiajs/react';
+import { Building2, Link2, KeyRound, Users, FileText, RefreshCw, ArrowRight, CheckCircle2, XCircle } from 'lucide-react';
 
 interface Props {
+    configurado: boolean;
     ligado: boolean;
-    erro: string | null;
     identidade: { filial: string | null; tenant_id: number | null; branch_id: number | null } | null;
-    reconciliacao: Reconciliacao | null;
-    facturas: Factura[];
-    clientes: Cliente[];
+    ondaka: { clientes: number; facturas: number };
+    url: string;
 }
 
-const kz = (v: number | string) =>
-    new Intl.NumberFormat('pt-PT', { maximumFractionDigits: 0 }).format(Number(v)) + ' Kz';
+export default function Index({ configurado, ligado, identidade, ondaka, url }: Props) {
+    const form = useForm({ token: '', url: '' });
 
-const estadoCor: Record<string, string> = {
-    paid: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30',
-    overdue: 'bg-red-500/15 text-red-300 border-red-500/30',
-    draft: 'bg-zinc-500/15 text-zinc-300 border-zinc-500/30',
-    partial: 'bg-amber-500/15 text-amber-300 border-amber-500/30',
-};
+    const guardar = (e: React.FormEvent) => {
+        e.preventDefault();
+        form.post('/admin/welwitschia/chave', { preserveScroll: true, onSuccess: () => form.reset('token') });
+    };
 
-export default function Index({ ligado, erro, identidade, reconciliacao, facturas, clientes }: Props) {
+    const sincronizar = () => {
+        router.post('/admin/welwitschia/sincronizar', {}, { preserveScroll: true });
+    };
+
     return (
         <AuthenticatedLayout>
-            <Head title="ERP Welwitschia" />
+            <Head title="Integração Welwitschia" />
 
             <div className="mb-6 flex items-center gap-3">
                 <div className="w-11 h-11 rounded-xl flex items-center justify-center" style={{ background: 'rgba(16,185,129,0.12)', border: '0.5px solid rgba(16,185,129,0.3)' }}>
                     <Building2 className="w-5 h-5 text-emerald-400" />
                 </div>
                 <div className="flex-1">
-                    <h1 className="text-3xl font-bold text-white tracking-tight">ERP Welwitschia</h1>
-                    <p className="text-sm text-white/60 mt-1">Consolidação financeira do ONDAKA no ERP central.</p>
+                    <h1 className="text-3xl font-bold text-white tracking-tight">Integração Welwitschia</h1>
+                    <p className="text-sm text-white/60 mt-1">Envia clientes e faturas do ONDAKA para o ERP central (certificado AGT).</p>
                 </div>
-                {ligado && identidade && (
+                {ligado ? (
                     <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-emerald-500/10 text-emerald-300 border border-emerald-500/20">
-                        <Link2 className="w-3.5 h-3.5" /> Ligado · filial {identidade.filial}
+                        <CheckCircle2 className="w-3.5 h-3.5" /> Ligado{identidade?.filial ? ` · filial ${identidade.filial}` : ''}
+                    </span>
+                ) : (
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-white/5 text-white/50 border border-white/10">
+                        <XCircle className="w-3.5 h-3.5" /> {configurado ? 'Sem ligação' : 'Não configurado'}
                     </span>
                 )}
             </div>
 
-            {!ligado ? (
-                <div className="card flex items-center gap-3 text-white/70">
-                    <AlertCircle className="w-5 h-5 text-red-400 flex-shrink-0" />
-                    <span>{erro ?? 'Sem ligação à Welwitschia.'}</span>
+            {/* Como funciona */}
+            <div className="card mb-4 flex items-start gap-3">
+                <ArrowRight className="w-5 h-5 text-[#00D4FF] flex-shrink-0 mt-0.5" />
+                <p className="text-sm text-white/70 leading-relaxed">
+                    Direção única: <strong className="text-white">ONDAKA → Welwitschia</strong>. Cada empresa gestora vira um <strong className="text-white">cliente</strong> e cada
+                    fatura da plataforma vira uma <strong className="text-white">venda</strong> na Welwitschia, que emite a faturação certificada pela AGT.
+                    O ONDAKA <strong className="text-white">não recebe</strong> dados da Welwitschia.
+                </p>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                {/* Chave */}
+                <div className="card">
+                    <div className="flex items-center gap-2 mb-3">
+                        <KeyRound className="w-4 h-4 text-white/60" />
+                        <h2 className="text-sm font-semibold text-white/80 uppercase tracking-wider">Chave de integração</h2>
+                    </div>
+                    <p className="text-xs text-white/50 mb-4">Cole a chave gerada na Welwitschia (Definições → Integrações). A integração arranca automaticamente.</p>
+                    <form onSubmit={guardar} className="space-y-3">
+                        <div>
+                            <label className="block text-xs text-white/50 mb-1.5 uppercase tracking-wider">Chave (token)</label>
+                            <input
+                                type="text"
+                                value={form.data.token}
+                                onChange={(e) => form.setData('token', e.target.value)}
+                                placeholder="wel_..."
+                                className="input font-mono text-sm"
+                            />
+                            {form.errors.token && <p className="text-xs text-red-400 mt-1">{form.errors.token}</p>}
+                        </div>
+                        <div>
+                            <label className="block text-xs text-white/50 mb-1.5 uppercase tracking-wider">URL da API (opcional)</label>
+                            <input
+                                type="text"
+                                value={form.data.url}
+                                onChange={(e) => form.setData('url', e.target.value)}
+                                placeholder={url}
+                                className="input text-sm"
+                            />
+                        </div>
+                        <button
+                            type="submit"
+                            disabled={form.processing || !form.data.token.trim()}
+                            className="inline-flex items-center justify-center gap-2 text-sm py-2 px-4 rounded-lg font-medium text-white transition disabled:opacity-40 disabled:cursor-not-allowed"
+                            style={{ background: 'linear-gradient(135deg, #00D4FF 0%, #A855F7 100%)' }}
+                        >
+                            <Link2 className="w-4 h-4" /> {form.processing ? 'A ligar...' : 'Guardar e ligar'}
+                        </button>
+                    </form>
                 </div>
-            ) : (
-                <>
-                    {/* KPIs */}
-                    {reconciliacao && (
-                        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
-                            <Kpi label="Faturado" valor={kz(reconciliacao.faturado)} icon={FileText} cor="#00D4FF" />
-                            <Kpi label="Recebido" valor={kz(reconciliacao.recebido)} icon={TrendingUp} cor="#10B981" />
-                            <Kpi label="Em dívida" valor={kz(reconciliacao.em_divida)} icon={AlertCircle} cor="#EF4444" />
-                            <Kpi label="Nº de faturas" valor={String(reconciliacao.num_facturas)} icon={Wallet} cor="#A855F7" />
-                        </div>
-                    )}
 
-                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-                        {/* Faturas */}
-                        <div className="lg:col-span-2 card">
-                            <h2 className="text-sm font-semibold text-white/80 uppercase tracking-wider mb-3">Faturas ({facturas.length})</h2>
-                            <div className="overflow-x-auto">
-                                <table className="w-full text-sm">
-                                    <thead>
-                                        <tr className="text-white/40 text-xs uppercase tracking-wider border-b border-white/10">
-                                            <th className="text-left py-2 pr-2">Fatura</th>
-                                            <th className="text-right px-2">Total</th>
-                                            <th className="text-right px-2">Pago</th>
-                                            <th className="text-right px-2">Saldo</th>
-                                            <th className="text-right pl-2">Estado</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {facturas.map((f) => (
-                                            <tr key={f.invoice_number} className="border-b border-white/5">
-                                                <td className="py-2 pr-2 text-white/80 font-mono text-[12px]">{f.invoice_number}</td>
-                                                <td className="text-right px-2 text-white/80">{kz(f.total_amount)}</td>
-                                                <td className="text-right px-2 text-emerald-300/90">{kz(f.paid_amount)}</td>
-                                                <td className="text-right px-2 text-white/70">{kz(f.balance_amount)}</td>
-                                                <td className="text-right pl-2">
-                                                    <span className={`inline-block px-2 py-0.5 rounded text-[10px] font-semibold border ${estadoCor[f.display_status] ?? estadoCor.draft}`}>
-                                                        {f.display_status}
-                                                    </span>
-                                                </td>
-                                            </tr>
-                                        ))}
-                                        {facturas.length === 0 && (
-                                            <tr><td colSpan={5} className="py-6 text-center text-white/40">Sem faturas.</td></tr>
-                                        )}
-                                    </tbody>
-                                </table>
-                            </div>
+                {/* Envio do ONDAKA */}
+                <div className="card">
+                    <h2 className="text-sm font-semibold text-white/80 uppercase tracking-wider mb-4">O que o ONDAKA envia</h2>
+                    <div className="grid grid-cols-2 gap-3 mb-4">
+                        <div className="rounded-xl p-4" style={{ background: 'rgba(0,212,255,0.08)', border: '0.5px solid rgba(0,212,255,0.25)' }}>
+                            <div className="flex items-center gap-2 mb-1"><Users className="w-4 h-4 text-[#00D4FF]" /><span className="text-[10px] uppercase tracking-wider text-white/50">Clientes</span></div>
+                            <div className="text-2xl font-bold text-white">{ondaka.clientes}</div>
+                            <div className="text-[11px] text-white/40">empresas gestoras</div>
                         </div>
-
-                        {/* Clientes */}
-                        <div className="card">
-                            <div className="flex items-center gap-2 mb-3">
-                                <Users className="w-4 h-4 text-white/60" />
-                                <h2 className="text-sm font-semibold text-white/80 uppercase tracking-wider">Clientes ({clientes.length})</h2>
-                            </div>
-                            <div className="space-y-1.5 max-h-[420px] overflow-y-auto">
-                                {clientes.map((c) => (
-                                    <div key={c.id} className="p-2.5 rounded-lg bg-white/[0.03] border border-white/5">
-                                        <div className="text-sm text-white truncate">{c.name}</div>
-                                        {c.email && <div className="text-[11px] text-white/40 truncate">{c.email}</div>}
-                                    </div>
-                                ))}
-                                {clientes.length === 0 && <div className="text-white/40 text-sm">Sem clientes.</div>}
-                            </div>
+                        <div className="rounded-xl p-4" style={{ background: 'rgba(168,85,247,0.08)', border: '0.5px solid rgba(168,85,247,0.25)' }}>
+                            <div className="flex items-center gap-2 mb-1"><FileText className="w-4 h-4 text-[#A855F7]" /><span className="text-[10px] uppercase tracking-wider text-white/50">Faturas</span></div>
+                            <div className="text-2xl font-bold text-white">{ondaka.facturas}</div>
+                            <div className="text-[11px] text-white/40">faturas da plataforma</div>
                         </div>
                     </div>
-                    {reconciliacao?.gerado_em && (
-                        <p className="text-[11px] text-white/30 mt-4">Dados da Welwitschia · atualizado {new Date(reconciliacao.gerado_em).toLocaleString('pt-PT')}</p>
-                    )}
-                </>
-            )}
-        </AuthenticatedLayout>
-    );
-}
-
-function Kpi({ label, valor, icon: Icon, cor }: { label: string; valor: string; icon: React.ElementType; cor: string }) {
-    return (
-        <div className="rounded-xl p-4" style={{ background: `linear-gradient(135deg, ${cor}12 0%, ${cor}04 100%)`, border: `0.5px solid ${cor}30` }}>
-            <div className="flex items-center gap-2 mb-1.5">
-                <Icon className="w-4 h-4" style={{ color: cor }} />
-                <span className="text-[10px] uppercase tracking-wider text-white/50">{label}</span>
+                    <p className="text-xs text-white/50 mb-3">Novos registos e faturas são enviados automaticamente. Use o botão para reenviar tudo (backfill).</p>
+                    <button
+                        type="button"
+                        onClick={sincronizar}
+                        disabled={!ligado}
+                        className="inline-flex items-center justify-center gap-2 text-sm py-2 px-4 rounded-lg font-medium text-white transition disabled:opacity-40 disabled:cursor-not-allowed bg-white/10 hover:bg-white/15"
+                    >
+                        <RefreshCw className="w-4 h-4" /> Sincronizar tudo agora
+                    </button>
+                    {!ligado && <p className="text-[11px] text-white/40 mt-2">Configure a chave para activar.</p>}
+                </div>
             </div>
-            <div className="text-xl font-bold text-white">{valor}</div>
-        </div>
+        </AuthenticatedLayout>
     );
 }

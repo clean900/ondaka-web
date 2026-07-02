@@ -157,10 +157,13 @@ Route::middleware(['auth', 'verified', '2fa'])->group(function () {
         Route::patch('/{subscricao}/preco-customizado', [AdminSubscricoesController::class, 'definirPrecoCustomizado'])->name('preco-customizado');
     });
 
-    // Super-admin: consolidação financeira no ERP Welwitschia (leitura)
-    Route::middleware('role:super-admin')
-        ->get('/admin/welwitschia', [\App\Domains\Integracao\Welwitschia\Http\WelwitschiaController::class, 'index'])
-        ->name('admin.welwitschia');
+    // Super-admin: integração ERP Welwitschia (o ONDAKA empurra clientes/faturas)
+    Route::middleware('role:super-admin')->group(function () {
+        $wc = \App\Domains\Integracao\Welwitschia\Http\WelwitschiaController::class;
+        Route::get('/admin/welwitschia', [$wc, 'index'])->name('admin.welwitschia');
+        Route::post('/admin/welwitschia/chave', [$wc, 'guardarChave'])->name('admin.welwitschia.chave');
+        Route::post('/admin/welwitschia/sincronizar', [$wc, 'sincronizar'])->name('admin.welwitschia.sincronizar');
+    });
 
     // Super-admin: configuração GLOBAL de subscrições (preço base, escalões, descontos, trial, imposto)
     Route::middleware('role:super-admin')

@@ -6,6 +6,7 @@ namespace App\Domains\Integracao\Welwitschia;
 
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\Response;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 
 /**
@@ -17,16 +18,37 @@ use Illuminate\Support\Facades\Http;
  */
 class WelwitschiaClient
 {
+    /** Chave de integração: da BD (definida no painel) com fallback ao .env. */
+    public function token(): ?string
+    {
+        $db = $this->config('welwitschia_token');
+        return filled($db) ? $db : (config('services.welwitschia.token') ?: null);
+    }
+
+    public function url(): string
+    {
+        $db = $this->config('welwitschia_url');
+        return rtrim((string) (filled($db) ? $db : config('services.welwitschia.url')), '/');
+    }
+
+    private function config(string $chave): ?string
+    {
+        try {
+            return DB::table('plataforma_config')->where('chave', $chave)->value('valor');
+        } catch (\Throwable) {
+            return null;
+        }
+    }
+
     public function configurado(): bool
     {
-        return filled(config('services.welwitschia.token'))
-            && filled(config('services.welwitschia.url'));
+        return filled($this->token()) && filled($this->url());
     }
 
     private function req(): PendingRequest
     {
-        return Http::baseUrl(rtrim((string) config('services.welwitschia.url'), '/'))
-            ->withToken((string) config('services.welwitschia.token'))
+        return Http::baseUrl($this->url())
+            ->withToken((string) $this->token())
             ->acceptJson()
             ->timeout(15)
             ->retry(2, 500, throw: false);
