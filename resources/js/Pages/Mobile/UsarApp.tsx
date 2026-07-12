@@ -1,5 +1,5 @@
 import { Head, router } from '@inertiajs/react';
-import { Smartphone, Sparkles, LogOut } from 'lucide-react';
+import { Smartphone, LogOut } from 'lucide-react';
 
 export default function UsarApp() {
     const sair = () => router.post('/logout');
@@ -14,8 +14,12 @@ export default function UsarApp() {
             >
                 <div className="max-w-md w-full text-center">
                     {/* Logo */}
-                    <div className="flex items-center justify-center gap-2 mb-8">
-                        <Sparkles className="w-5 h-5 text-cyan-400" />
+                    <div className="mb-8">
+                        <img
+                            src="/apple-touch-icon.png"
+                            alt="ONDAKA"
+                            className="w-20 h-20 rounded-2xl mx-auto mb-4 shadow-lg shadow-purple-500/20"
+                        />
                         <span
                             className="text-2xl font-bold tracking-wider bg-clip-text text-transparent"
                             style={{
