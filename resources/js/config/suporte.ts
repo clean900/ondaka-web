@@ -5,9 +5,9 @@
 
 export const SUPORTE = {
     whatsapp: {
-        numero: '+244 929 167 474',
+        numero: '+244 922 772 177',
         // formato para wa.me (sem '+', sem espaços)
-        url: 'https://wa.me/244929167474',
+        url: 'https://wa.me/244922772177',
         mensagemPreFeita: 'Olá ONDAKA! Preciso de ajuda com a plataforma.',
     },
     email: 'suporte@ondaka.ao',
