@@ -1,6 +1,6 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
-import { Wallet, Receipt, AlertCircle, CheckCircle2, Clock, XCircle, TrendingUp, FileText, CreditCard } from 'lucide-react';
+import { Wallet, Receipt, AlertCircle, CheckCircle2, Clock, XCircle, TrendingUp, FileText } from 'lucide-react';
 import { useState } from 'react';
 
 interface Item {
@@ -122,26 +122,6 @@ export default function MinhasQuotas({ quotas, lancamentos, credito_total, kpis 
                         <p className="text-xs text-zinc-500 mt-1">{saldoLiquido > 0 ? 'a pagar' : saldoLiquido < 0 ? 'a favor' : 'em dia'}</p>
                     </div>
                 </div>
-
-                {/* Botão Pagar Tudo */}
-                {totalEmAbertoNum > 0 && (
-                    <div className="mb-6 rounded-xl bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-pink-500/10 border border-purple-500/30 p-4 flex items-center justify-between">
-                        <div>
-                            <p className="text-sm font-semibold text-zinc-100">Pague tudo de uma vez</p>
-                            <p className="text-xs text-zinc-400 mt-0.5">
-                                Receba uma única referência ProxyPay para liquidar {formatarKz(kpis.total_em_aberto)}
-                            </p>
-                        </div>
-                        <button
-                            disabled
-                            title="Em desenvolvimento"
-                            className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-cyan-500 to-purple-500 text-white px-4 py-2.5 text-sm font-medium shadow-lg opacity-60 cursor-not-allowed"
-                        >
-                            <CreditCard className="h-4 w-4" />
-                            Pagar tudo (em breve)
-                        </button>
-                    </div>
-                )}
 
                 {/* Filtros */}
                 <div className="flex gap-2 mb-4 flex-wrap">

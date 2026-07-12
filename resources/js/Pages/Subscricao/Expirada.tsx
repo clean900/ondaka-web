@@ -47,6 +47,7 @@ export default function SubscricaoExpirada({ subscricao }: Props) {
 
             <div className="min-h-[70vh] flex items-center justify-center px-4">
                 <div className="max-w-lg w-full text-center">
+                    <div className="mb-6 text-lg font-extrabold tracking-[0.15em] gradient-ondaka-text">ONDAKA</div>
                     <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-red-500/15 border border-red-500/30 flex items-center justify-center">
                         <Icon className="w-8 h-8 text-red-400" />
                     </div>
@@ -70,11 +71,11 @@ export default function SubscricaoExpirada({ subscricao }: Props) {
                                 suporte@ondaka.ao
                             </a>
                             <a
-                                href="tel:+244000000000"
+                                href="tel:+244922772177"
                                 className="flex items-center gap-2 text-sm text-[#00D4FF] hover:text-[#8FE7FF] transition-colors"
                             >
                                 <Phone className="w-4 h-4" />
-                                +244 (contacto em breve)
+                                +244 922 772 177
                             </a>
                         </div>
                     </div>

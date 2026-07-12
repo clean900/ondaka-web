@@ -91,6 +91,7 @@ export default function DoisFactores({ telefoneMascarado }: Props) {
                 <div className="w-full max-w-md relative z-10">
                     {/* Logo */}
                     <div className="text-center mb-8">
+                        <div className="mb-4 text-xl font-extrabold tracking-[0.15em] gradient-ondaka-text">ONDAKA</div>
                         <div
                             className="inline-flex items-center justify-center w-16 h-16 rounded-2xl mb-5 relative animate-pulse-glow"
                             style={{

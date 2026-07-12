@@ -25,7 +25,7 @@
     "/build/assets/AuthenticatedLayout-DB0Q8XAf.css"
   ],
   "resources/js/Components/FeatureGate.tsx": [
-    "/build/assets/Dashboard-qKzdgAiM.js"
+    "/build/assets/Dashboard-LFRKbg4W.js"
   ],
   "resources/js/Components/OnboardingTour.tsx": [
     "/build/assets/AuthenticatedLayout-Dfn1r3bR.js",
@@ -104,13 +104,13 @@
     "/build/assets/VotacoesPanel-DZjgzv9q.js"
   ],
   "resources/js/Pages/Auth/DoisFactores.tsx": [
-    "/build/assets/DoisFactores-CjjPE3je.js"
+    "/build/assets/DoisFactores-bxkjGZ2T.js"
   ],
   "resources/js/Pages/Auth/Login.tsx": [
     "/build/assets/Login-CxCdBLYv.js"
   ],
   "resources/js/Pages/Auth/RecuperarPassword.tsx": [
-    "/build/assets/RecuperarPassword-DRx-lFls.js"
+    "/build/assets/RecuperarPassword-vJpKSaeS.js"
   ],
   "resources/js/Pages/Avisos/Create.tsx": [
     "/build/assets/Create-BruMuQy5.js"
@@ -137,7 +137,7 @@
     "/build/assets/Equipa-ngdEjhcB.js"
   ],
   "resources/js/Pages/Condominio/MinhasQuotas.tsx": [
-    "/build/assets/MinhasQuotas-D_JqKmz9.js"
+    "/build/assets/MinhasQuotas-DVepXH0R.js"
   ],
   "resources/js/Pages/Condominio/Regulamento.tsx": [
     "/build/assets/Regulamento-DbH6ypsr.js"
@@ -188,7 +188,7 @@
     "/build/assets/Index-CMyJjqQI.js"
   ],
   "resources/js/Pages/Dashboard.tsx": [
-    "/build/assets/Dashboard-qKzdgAiM.js"
+    "/build/assets/Dashboard-LFRKbg4W.js"
   ],
   "resources/js/Pages/Despesas/Categorias.tsx": [
     "/build/assets/Categorias-45F31gRK.js"
@@ -323,7 +323,7 @@
     "/build/assets/Show-CNVpCGUl.js"
   ],
   "resources/js/Pages/Subscricao/Expirada.tsx": [
-    "/build/assets/Expirada-Ee5oqhFp.js"
+    "/build/assets/Expirada-Bl9J5B_r.js"
   ],
   "resources/js/Pages/Subscricao/FacturaShow.tsx": [
     "/build/assets/FacturaShow-BlgGnKWK.js"

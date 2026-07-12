@@ -51,6 +51,6 @@
     </div>
   </div>
 
-  <div class="foot">Validação na portaria por leitura do QR · ondaka.ao</div>
+  <div class="foot">Validação na portaria por leitura do QR · Emitido via ONDAKA · ondaka.ao</div>
 </body>
 </html>

@@ -34,6 +34,7 @@ export default function RecuperarPassword() {
 
                 <div className="w-full max-w-md relative z-10">
                     <div className="text-center mb-8">
+                        <div className="mb-4 text-xl font-extrabold tracking-[0.15em] gradient-ondaka-text">ONDAKA</div>
                         <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl mb-5 relative animate-pulse-glow"
                             style={{ background: 'linear-gradient(135deg, #00D4FF 0%, #A855F7 60%, #EC4899 100%)' }}>
                             {fase === 'telefone' && <KeyRound className="w-7 h-7 text-white" />}

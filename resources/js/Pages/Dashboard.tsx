@@ -3,7 +3,7 @@ import FeatureGate from '@/Components/FeatureGate';
 import { Head, Link, usePage } from '@inertiajs/react';
 import {
     Building2, Users, Receipt, TrendingUp, TrendingDown, Wallet, ArrowUpRight, BarChart3,
-    AlertCircle, ChevronRight, Plus, Sparkles,
+    ChevronRight, Plus, Sparkles,
 } from 'lucide-react';
 import type { PageProps } from '@/types';
 import {
@@ -279,14 +279,6 @@ export default function Dashboard({ dados }: DashboardProps) {
                         titulo="Facturação"
                         descricao="Quotas, pagamentos, créditos"
                     />
-                    <QuickAction
-                        href="#"
-                        icon={TrendingUp}
-                        iconColor="#10B981"
-                        titulo="Relatórios"
-                        descricao="Em breve"
-                        disabled
-                    />
                     <FeatureGate slug="dashboard_bi">
                         <QuickAction
                             href="/funcionalidades/dashboard_bi"
@@ -346,24 +338,6 @@ export default function Dashboard({ dados }: DashboardProps) {
                 </div>
             )}
 
-            {/* Banner dev */}
-            <div className="mt-6 rounded-xl p-4 flex items-start gap-3"
-                style={{
-                    background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.08) 0%, rgba(168, 85, 247, 0.04) 100%)',
-                    border: '0.5px solid rgba(245, 158, 11, 0.25)',
-                }}
-            >
-                <div className="w-8 h-8 rounded-lg bg-amber-500/15 flex items-center justify-center flex-shrink-0">
-                    <AlertCircle className="w-4 h-4 text-amber-400" />
-                </div>
-                <div className="flex-1 text-sm">
-                    <div className="text-white font-medium mb-0.5">Fase 1 em desenvolvimento</div>
-                    <div className="text-white/60 text-xs leading-relaxed">
-                        Disponíveis: Condomínios, Edifícios e Imóveis.
-                        Próximos módulos: Condóminos, Facturação, ProxyPay, Comunicação, Documentos, Segurança.
-                    </div>
-                </div>
-            </div>
         </AuthenticatedLayout>
     );
 }

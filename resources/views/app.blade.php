@@ -8,7 +8,17 @@
 
     <title inertia>{{ config('app.name', 'ONDAKA') }}</title>
 
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+    <link rel="icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+    {{-- Open Graph / partilha em redes e WhatsApp --}}
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="ONDAKA">
+    <meta property="og:title" content="ONDAKA — Gestão de Condomínios">
+    <meta property="og:description" content="A plataforma de gestão de condomínios criada para Angola.">
+    <meta property="og:image" content="https://ondaka.ao/img/ondaka-og.png">
+    <meta name="twitter:card" content="summary_large_image">
 
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=inter:300,400,500,600,700,800&display=swap" rel="stylesheet" />
