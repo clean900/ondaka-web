@@ -74,6 +74,22 @@ Route::get('/apagar-conta', function () {
     return response()->file(public_path('apagar-conta.html'));
 })->name('apagar-conta');
 
+// Descarregar app — QR único no flyer aponta para /app; redireciona por plataforma
+Route::get('/app', function (\Illuminate\Http\Request $request) {
+    $ua = strtolower((string) $request->userAgent());
+    $android = 'https://play.google.com/store/apps/details?id=ao.ondaka.ondaka_app';
+    $ios = 'https://apps.apple.com/app/id6782891593';
+
+    if (str_contains($ua, 'android')) {
+        return redirect()->away($android);
+    }
+    if (str_contains($ua, 'iphone') || str_contains($ua, 'ipad') || str_contains($ua, 'ipod')) {
+        return redirect()->away($ios);
+    }
+
+    return response()->file(public_path('app.html'));
+})->name('app.download');
+
 // Passe de visitante — PDF público (o qr_token é o segredo; o condómino partilha o link)
 Route::get('/passe/{qrToken}/pdf', [\App\Domains\Visitor\Http\Controllers\Web\PassesController::class, 'pdfPublico'])
     ->name('passe.pdf');
