@@ -366,12 +366,11 @@ export default function AuthenticatedLayout({ children }: PropsWithChildren) {
                 {/* Logo + empresa */}
                 <div className="flex h-[72px] items-center justify-between px-5 border-b border-white/5">
                     <div className="flex items-center gap-3">
-                        <div
-                            className="w-9 h-9 rounded-xl flex items-center justify-center text-white font-semibold text-sm flex-shrink-0"
-                            style={{ background: 'linear-gradient(135deg, #00D4FF 0%, #A855F7 60%, #EC4899 100%)' }}
-                        >
-                            O
-                        </div>
+                        <img
+                            src="/apple-touch-icon.png"
+                            alt="ONDAKA"
+                            className="w-9 h-9 rounded-xl flex-shrink-0"
+                        />
                         <div className="min-w-0">
                             <div className="text-sm font-semibold text-white tracking-wide">ONDAKA</div>
                             <div className="text-[10px] text-white/50 truncate">{empresaNome}</div>

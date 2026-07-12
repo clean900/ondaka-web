@@ -8,9 +8,9 @@
 
     <title inertia>{{ config('app.name', 'ONDAKA') }}</title>
 
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
-    <link rel="icon" href="/favicon.ico">
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <link rel="icon" href="/favicon.ico?v=2" sizes="any">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png?v=2">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2">
 
     {{-- Open Graph / partilha em redes e WhatsApp --}}
     <meta property="og:type" content="website">
