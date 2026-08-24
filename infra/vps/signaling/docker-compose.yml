@@ -1,0 +1,20 @@
+services:
+  signaling:
+    build: .
+    container_name: signaling
+    restart: unless-stopped
+    environment:
+      - SIGNALING_SECRET=${SIGNALING_SECRET:?define no .env}
+      - PORT=8080
+    networks:
+      - web
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=web"
+      - "traefik.http.routers.signal.rule=Host(`signal.ondaka.ao`)"
+      - "traefik.http.routers.signal.entrypoints=websecure"
+      - "traefik.http.routers.signal.tls.certresolver=le"
+      - "traefik.http.services.signal.loadbalancer.server.port=8080"
+networks:
+  web:
+    external: true

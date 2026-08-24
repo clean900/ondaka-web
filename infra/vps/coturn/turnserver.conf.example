@@ -1,0 +1,16 @@
+listening-port=3478
+fingerprint
+use-auth-secret
+static-auth-secret=SUBSTITUIR_PELO_SEGREDO_REAL
+realm=ondaka.ao
+external-ip=167.86.114.64
+min-port=49160
+max-port=49200
+no-tls
+no-dtls
+no-multicast-peers
+no-cli
+total-quota=200
+stale-nonce=600
+log-file=stdout
+verbose
