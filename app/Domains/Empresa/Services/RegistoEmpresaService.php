@@ -58,6 +58,19 @@ class RegistoEmpresaService
                 empresaGestoraId: $empresa->id,
             )->afterCommit();
 
+            // 1a. Programa de Afiliados: atribuir a empresa ao afiliado do link/cookie
+            //     (falha não reverte o registo — apenas logada)
+            try {
+                app(\App\Domains\Afiliados\Services\AfiliadoService::class)
+                    ->atribuirNoRegisto($empresa, $dados['codigo_afiliado'] ?? null);
+            } catch (\Throwable $e) {
+                Log::warning('Afiliados: atribuição no registo falhou', [
+                    'empresa_id' => $empresa->id,
+                    'codigo' => $dados['codigo_afiliado'] ?? null,
+                    'erro' => $e->getMessage(),
+                ]);
+            }
+
             // 1b. Semear tipos de fracção padrão para a nova empresa
             //     (falha não reverte o registo — apenas logada)
             try {

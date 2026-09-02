@@ -39,6 +39,15 @@ Route::get('marketplace/foto/{foto}', [\App\Domains\Marketplace\Http\Controllers
 
 Route::middleware('auth:sanctum')->group(function () {
 
+    // === Programa de Afiliados (portal do afiliado no mobile) ===
+    Route::prefix('afiliado')->name('api.afiliado.')->group(function () {
+        $afc = \App\Domains\Afiliados\Http\Controllers\Api\AfiliadoApiController::class;
+        Route::get('/resumo', [$afc, 'resumo'])->name('resumo');
+        Route::get('/clientes', [$afc, 'clientes'])->name('clientes');
+        Route::get('/comissoes', [$afc, 'comissoes'])->name('comissoes');
+        Route::get('/pagamentos', [$afc, 'pagamentos'])->name('pagamentos');
+    });
+
     // === Marketplace dos Condominos (mobile) ===
     Route::prefix('nps')->name('nps.')->group(function () {
         Route::get('/estado', [NpsApiController::class, 'estado'])->name('estado');

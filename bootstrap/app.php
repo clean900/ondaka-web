@@ -36,6 +36,7 @@ return Application::configure(basePath: dirname(__DIR__))
         \App\Domains\Facturacao\Console\BackfillPagamentosCommand::class,
         \App\Domains\Financas\Console\SincronizarContasConfigCommand::class,
         \App\Domains\Manutencao\Console\AlertarManutencoesCommand::class,
+        \App\Domains\Afiliados\Console\ProcessarAfiliadosCommand::class,
     ])
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->validateCsrfTokens(except: [
@@ -43,6 +44,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'api/*',
         ]);
         $middleware->web(append: [
+            \App\Domains\Afiliados\Http\Middleware\CapturarCodigoAfiliado::class,
             ResolverEmpresaGestora::class,
             HandleInertiaRequests::class,
         ]);

@@ -221,6 +221,14 @@ class ProxyPayService
                         // Actualiza a venda no ERP Welwitschia (pagamento). Resiliente.
                         \App\Domains\Integracao\Welwitschia\FacturaWelwitschiaSync::sincronizar($facturaId);
 
+                        // Comissão do afiliado (se a empresa foi indicada). Resiliente — nunca reverte o pagamento.
+                        try {
+                            app(\App\Domains\Afiliados\Services\AfiliadoComissaoService::class)
+                                ->registarPagamentoFacturaPlataforma($facturaId);
+                        } catch (\Throwable $e) {
+                            Log::warning('Comissão de afiliado (factura plataforma) falhou: '.$e->getMessage(), ['factura_id' => $facturaId]);
+                        }
+
                         // Activar/renovar subscrição
                         $subscricao = \App\Domains\Subscription\Models\Subscricao::find($factura->subscricao_id);
                         if ($subscricao) {

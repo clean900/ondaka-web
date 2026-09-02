@@ -167,6 +167,13 @@ class OrderService
                 \Log::warning("Falha ao sincronizar ordem {$ordemFresh->numero} para Welwitschia: ".$e->getMessage());
             }
 
+            // Comissão do afiliado (se a empresa dona da ordem foi indicada). Resiliente.
+            try {
+                app(\App\Domains\Afiliados\Services\AfiliadoComissaoService::class)->registarPagamentoOrdem($ordemFresh);
+            } catch (\Throwable $e) {
+                \Log::warning("Comissão de afiliado (ordem {$ordemFresh->numero}) falhou: ".$e->getMessage());
+            }
+
             // Enviar SMS ao cliente (se tem telefone)
             try {
                 $this->enviarSmsOrdemAprovada($ordemFresh);

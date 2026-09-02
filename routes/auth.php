@@ -52,6 +52,11 @@ Route::middleware('guest')->group(function () {
             }
         }
 
+        // Afiliados sem empresa gestora → portal de afiliado
+        if (! $user->empresa_gestora_id && $user->hasRole('afiliado') && ! $user->hasRole('super-admin')) {
+            return redirect()->intended(route('afiliado.index'));
+        }
+
         return redirect()->intended(route('dashboard'));
     });
 });

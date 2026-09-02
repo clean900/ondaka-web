@@ -19,6 +19,7 @@ export interface User {
     permissions: string[];
     locale: 'pt' | 'en' | 'fr';
     estado: 'activo' | 'suspenso' | 'pendente';
+    afiliado?: { id: number; codigo: string; estado: string; nivel: string; taxa_pct: string } | null;
 }
 
 export interface Flash {

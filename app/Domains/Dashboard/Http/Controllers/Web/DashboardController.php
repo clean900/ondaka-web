@@ -24,6 +24,12 @@ class DashboardController extends Controller
             return redirect()->route('minhas-quotas');
         }
 
+        // Afiliados sem empresa gestora: o painel deles é o portal de afiliado
+        $u = $request->user();
+        if ($u && ! $u->empresa_gestora_id && $u->hasRole('afiliado') && ! $u->hasRole('super-admin')) {
+            return redirect()->route('afiliado.index');
+        }
+
         $empresa = app()->has('empresa_gestora_actual')
             ? app('empresa_gestora_actual')
             : null;

@@ -192,7 +192,23 @@ export default function AuthenticatedLayout({ children }: PropsWithChildren) {
     }, [isGestoraNps]);
     const isAdminIndependente = auth.user.empresa_gestora?.tipo_cliente === 'admin_independente';
 
-    const seccoes: MenuSection[] = [
+    // Programa de Afiliados: utilizador só-afiliado (sem empresa) vê apenas o portal de afiliado
+    const afiliado = auth.user.afiliado ?? null;
+    const isAfiliadoOnly = !isSuperAdmin && !auth.user.empresa_gestora_id && ((auth.user.roles ?? []) as string[]).includes('afiliado');
+    const seccaoAfiliado: MenuSection = {
+        titulo: 'Programa de Afiliados',
+        itens: afiliado ? [
+            { label: 'Painel de afiliado', href: '/afiliado', icon: Handshake },
+            { label: 'Clientes indicados', href: '/afiliado/clientes', icon: Building2 },
+            { label: 'Comissões', href: '/afiliado/comissoes', icon: DollarSign },
+            { label: 'Pagamentos', href: '/afiliado/pagamentos', icon: Wallet },
+            { label: 'Dados de pagamento', href: '/afiliado/dados', icon: UserCog },
+        ] : [
+            { label: 'Ganhar comissões', href: '/afiliado/aderir', icon: Handshake },
+        ],
+    };
+
+    const seccoesBase: MenuSection[] = [
         {
             titulo: 'Principal',
             itens: [
@@ -292,6 +308,7 @@ export default function AuthenticatedLayout({ children }: PropsWithChildren) {
                 { label: 'Configurar NPS', href: '/nps/configuracao', icon: Settings },
             ],
         }] : []),
+        ...(isSuperAdmin ? [] : [seccaoAfiliado]),
         {
             titulo: 'Conta',
             itens: [
@@ -313,10 +330,16 @@ export default function AuthenticatedLayout({ children }: PropsWithChildren) {
                     { label: 'Configurar NPS', href: '/admin/nps/configuracao', icon: Gauge },
                     { label: 'Admin ordens', href: '/admin/ordens', icon: Receipt },
                     { label: 'Admin SMS', href: '/admin/sms', icon: MessageSquare },
+                    { label: 'Afiliados', href: '/super-admin/afiliados', icon: Handshake },
+                    { label: 'Comissões de afiliados', href: '/super-admin/afiliados/comissoes', icon: DollarSign },
+                    { label: 'Pagamentos a afiliados', href: '/super-admin/afiliados/pagamentos', icon: Wallet },
+                    { label: 'Config afiliados', href: '/super-admin/afiliados/config', icon: Settings },
                 ] : []),
             ],
         },
     ];
+
+    const seccoes: MenuSection[] = isAfiliadoOnly ? [seccaoAfiliado] : seccoesBase;
 
     // Recolhe todos os feature_slugs únicos do menu para consultar de uma vez
     const todosSlugs = seccoes.flatMap((s) => s.itens).map((i) => i.feature_slug).filter((s): s is string => !!s);
@@ -330,7 +353,7 @@ export default function AuthenticatedLayout({ children }: PropsWithChildren) {
     const nomeCompleto = auth.user.name;
     const role = auth.user.roles?.[0] ?? '';
     const roleFormatado = role.replace(/-/g, ' ');
-    const empresaNome = auth.user.empresa_gestora?.nome ?? 'Plataforma';
+    const empresaNome = auth.user.empresa_gestora?.nome ?? (isAfiliadoOnly ? 'Programa de Afiliados' : 'Plataforma');
     const avatarGradient = gradientDeNome(nomeCompleto);
 
     const horaActual = new Date().getHours();
@@ -338,6 +361,8 @@ export default function AuthenticatedLayout({ children }: PropsWithChildren) {
 
     const estaActivo = (href: string) => {
         if (href === '/dashboard') return currentUrl === '/dashboard' || currentUrl === '/';
+        if (href === '/afiliado') return currentUrl === '/afiliado' || currentUrl.startsWith('/afiliado?');
+        if (href === '/super-admin/afiliados') return currentUrl === href || /^\/super-admin\/afiliados(\?|\/\d+)/.test(currentUrl);
         return currentUrl.startsWith(href);
     };
 

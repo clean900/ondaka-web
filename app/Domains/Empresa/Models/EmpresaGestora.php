@@ -7,6 +7,7 @@ namespace App\Domains\Empresa\Models;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -30,6 +31,8 @@ class EmpresaGestora extends Model
         'trial_termina_em' => 'datetime',
         'activa' => 'boolean',
         'configuracoes' => 'array',
+        'afiliado_atribuido_em' => 'datetime',
+        'afiliado_expira_em' => 'date',
     ];
 
     public const TIPO_EMPRESA_GESTORA = 'empresa_gestora';
@@ -56,6 +59,12 @@ class EmpresaGestora extends Model
     public function users(): HasMany
     {
         return $this->hasMany(User::class);
+    }
+
+    /** Afiliado que indicou esta empresa (Programa de Afiliados). */
+    public function afiliado(): BelongsTo
+    {
+        return $this->belongsTo(\App\Domains\Afiliados\Models\Afiliado::class, 'afiliado_id');
     }
 
     public function condominios(): HasMany

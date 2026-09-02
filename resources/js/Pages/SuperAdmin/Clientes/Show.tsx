@@ -54,8 +54,22 @@ interface Evento {
     created_at: string;
 }
 
+interface AfiliadoCliente {
+    id: number;
+    nome: string;
+    codigo: string;
+    estado: string;
+    atribuido_em: string | null;
+    origem: string | null;
+    expira_em: string | null;
+    comissoes_n: number;
+    comissoes_kz: number;
+}
+
 interface Detalhe {
     empresa: Empresa;
+    afiliado: AfiliadoCliente | null;
+    afiliados_activos: { id: number; nome: string; codigo: string }[];
     subscricao: Subscricao | null;
     facturas: Factura[];
     eventos: Evento[];
@@ -85,6 +99,9 @@ const fmtDataHora = (v: string | null) => {
 
 export default function Show({ detalhe }: Props) {
     const { empresa, subscricao, facturas, eventos, total_condominios, total_users, mrr_kz, trial_dias_restantes } = detalhe;
+    const afiliado = detalhe.afiliado ?? null;
+    const afiliadosActivos = detalhe.afiliados_activos ?? [];
+    const [afiliadoSel, setAfiliadoSel] = useState('');
 
     const [modalExtender, setModalExtender] = useState(false);
     const [modalCancelar, setModalCancelar] = useState(false);
@@ -233,6 +250,45 @@ export default function Show({ detalhe }: Props) {
                                 </div>
                             </div>
                         </div>
+                    </div>
+
+                    {/* Programa de Afiliados */}
+                    <div className="rounded-xl border border-zinc-800 bg-zinc-900 p-5">
+                        <div className="mb-3 flex items-center justify-between">
+                            <div className="text-xs uppercase tracking-wider text-zinc-500">Programa de Afiliados</div>
+                            {afiliado && <Link href={`/super-admin/afiliados/${afiliado.id}`} className="text-xs text-blue-400 hover:underline">Ver afiliado →</Link>}
+                        </div>
+                        {afiliado ? (
+                            <div className="grid gap-3 text-sm md:grid-cols-5">
+                                <div><div className="text-xs text-zinc-500">Indicado por</div><div className="font-medium text-zinc-100">{afiliado.nome}</div><div className="font-mono text-xs text-zinc-500">{afiliado.codigo} · {afiliado.estado}</div></div>
+                                <div><div className="text-xs text-zinc-500">Atribuído</div><div className="text-zinc-200">{fmtData(afiliado.atribuido_em)}</div><div className="text-xs text-zinc-500">{afiliado.origem === 'manual' ? 'manualmente' : 'via link'}</div></div>
+                                <div><div className="text-xs text-zinc-500">Indicação</div><div className="text-zinc-200">{afiliado.expira_em ? `até ${fmtData(afiliado.expira_em)}` : 'vitalícia'}</div></div>
+                                <div><div className="text-xs text-zinc-500">Comissões geradas</div><div className="text-zinc-200">{afiliado.comissoes_n} · {fmt(afiliado.comissoes_kz)} Kz</div></div>
+                                <div className="flex items-end justify-end">
+                                    <button
+                                        onClick={() => { if (confirm('Remover a atribuição deste cliente ao afiliado? As comissões já geradas mantêm-se.')) router.post(`/super-admin/afiliados/${afiliado.id}/remover-cliente`, { empresa_id: empresa.id }, { preserveScroll: true }); }}
+                                        className="rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-1.5 text-xs font-semibold text-red-300 hover:border-red-500"
+                                    >
+                                        Remover atribuição
+                                    </button>
+                                </div>
+                            </div>
+                        ) : (
+                            <div className="flex flex-col gap-3 md:flex-row md:items-center">
+                                <div className="flex-1 text-sm text-zinc-400">Este cliente não está ligado a nenhum afiliado. Se foi indicado fora do link (contacto directo, evento), atribua-o aqui — os próximos pagamentos passam a gerar comissão.</div>
+                                <select value={afiliadoSel} onChange={(e) => setAfiliadoSel(e.target.value)} className="rounded-lg border border-zinc-700 bg-zinc-950 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none md:w-72">
+                                    <option value="">Seleccionar afiliado activo…</option>
+                                    {afiliadosActivos.map((a) => <option key={a.id} value={a.id}>{a.nome} ({a.codigo})</option>)}
+                                </select>
+                                <button
+                                    disabled={!afiliadoSel}
+                                    onClick={() => router.post(`/super-admin/afiliados/${afiliadoSel}/atribuir-cliente`, { empresa_id: empresa.id, notificar: true }, { preserveScroll: true, onSuccess: () => setAfiliadoSel('') })}
+                                    className="rounded-lg bg-gradient-to-r from-blue-500 to-purple-600 px-4 py-2 text-sm font-semibold text-white shadow-lg disabled:opacity-50"
+                                >
+                                    Atribuir
+                                </button>
+                            </div>
+                        )}
                     </div>
 
                     {/* Facturas + Eventos */}

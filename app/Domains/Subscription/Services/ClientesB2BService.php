@@ -144,8 +144,41 @@ class ClientesB2BService
 
         $mrr = $this->calcularMrrCliente($subscricao?->id);
 
+        // Programa de Afiliados: quem indicou este cliente + comissões geradas
+        $afiliado = null;
+        if (! empty($empresa->afiliado_id)) {
+            $af = DB::table('afiliados')->where('id', $empresa->afiliado_id)->first();
+            if ($af) {
+                $com = DB::table('afiliado_comissoes')
+                    ->where('empresa_gestora_id', $empresaId)
+                    ->where('estado', '!=', 'anulada')
+                    ->selectRaw('COUNT(*) as n, COALESCE(SUM(valor_comissao_kz),0) as total')
+                    ->first();
+                $afiliado = [
+                    'id' => $af->id,
+                    'nome' => $af->nome,
+                    'codigo' => $af->codigo,
+                    'estado' => $af->estado,
+                    'atribuido_em' => $empresa->afiliado_atribuido_em,
+                    'origem' => $empresa->afiliado_origem,
+                    'expira_em' => $empresa->afiliado_expira_em,
+                    'comissoes_n' => (int) ($com->n ?? 0),
+                    'comissoes_kz' => (float) ($com->total ?? 0),
+                ];
+            }
+        }
+        $afiliadosActivos = DB::table('afiliados')
+            ->where('estado', 'activo')
+            ->whereNull('deleted_at')
+            ->orderBy('nome')
+            ->get(['id', 'nome', 'codigo'])
+            ->map(fn ($a) => ['id' => $a->id, 'nome' => $a->nome, 'codigo' => $a->codigo])
+            ->values()->all();
+
         return [
             'empresa' => $empresa,
+            'afiliado' => $afiliado,
+            'afiliados_activos' => $afiliadosActivos,
             'subscricao' => $subscricao,
             'facturas' => $facturas,
             'eventos' => $eventos,

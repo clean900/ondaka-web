@@ -38,6 +38,7 @@ class HandleInertiaRequests extends Middleware
                     'permissions' => $request->user()->getAllPermissions()->pluck('name'),
                     'locale' => $request->user()->locale,
                     'estado' => $request->user()->estado,
+                    'afiliado' => $this->dadosAfiliado($request),
                 ] : null,
             ],
             'subscricao' => fn () => $this->dadosSubscricao(),
@@ -55,6 +56,27 @@ class HandleInertiaRequests extends Middleware
             'locale' => app()->getLocale(),
             'locales' => ['pt', 'en', 'fr'],
         ];
+    }
+
+    /**
+     * Afiliado ligado ao utilizador (menu "Programa de Afiliados"). Leve: 1 query por request.
+     */
+    private function dadosAfiliado(Request $request): ?array
+    {
+        try {
+            $af = \App\Domains\Afiliados\Models\Afiliado::where('user_id', $request->user()->id)
+                ->first(['id', 'codigo', 'estado', 'nivel', 'taxa_actual_pct']);
+        } catch (\Throwable) {
+            return null; // tabela ainda não migrada
+        }
+
+        return $af ? [
+            'id' => $af->id,
+            'codigo' => $af->codigo,
+            'estado' => $af->estado,
+            'nivel' => $af->nivel,
+            'taxa_pct' => (string) $af->taxa_actual_pct,
+        ] : null;
     }
 
     /**

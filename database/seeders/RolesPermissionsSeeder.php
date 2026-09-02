@@ -152,6 +152,9 @@ class RolesPermissionsSeeder extends Seeder
         // prestador (sem permissões web)
         Role::firstOrCreate(['name' => 'prestador', 'guard_name' => 'web']);
 
+        // afiliado (Programa de Afiliados — portal próprio em /afiliado, sem permissões de gestão)
+        Role::firstOrCreate(['name' => 'afiliado', 'guard_name' => 'web']);
+
         $this->command->info('✓ Roles e permissões criados.');
     }
 }

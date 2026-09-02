@@ -49,6 +49,12 @@ Schedule::command('subscricoes:notificar-recuperacao-trial')
     ->withoutOverlapping()
     ->name('ondaka.recuperacao-trial');
 
+// Programa de Afiliados — aprovar comissões vencidas, recalcular níveis, resumo mensal (dia 1) — 02h30
+Schedule::command('afiliados:processar')
+    ->dailyAt('02:30')
+    ->withoutOverlapping()
+    ->name('ondaka.afiliados-processar');
+
 // Aplicar downgrades de plano agendados — 02h00 (antes do facturamento)
 Schedule::command('subscricoes:aplicar-downgrades-agendados')
     ->dailyAt('02:00')

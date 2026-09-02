@@ -15,7 +15,11 @@ const provincias = [
 type TipoCliente = "empresa_gestora" | "admin_independente";
 type TipoDocumento = "NIF" | "BI" | "PASSAPORTE";
 
-export default function Registo() {
+interface RegistoProps {
+    ref_afiliado?: { codigo: string; nome: string } | null;
+}
+
+export default function Registo({ ref_afiliado = null }: RegistoProps) {
     const [step, setStep] = useState<1 | 2 | 3>(1);
     const [showPassword, setShowPassword] = useState(false);
     const [localErrors, setLocalErrors] = useState<Record<string, string>>({});
@@ -35,6 +39,7 @@ export default function Registo() {
         user_password: "",
         user_password_confirmation: "",
         aceita_termos: false,
+        codigo_afiliado: ref_afiliado?.codigo ?? "",
     });
 
     const isEmpresa = data.tipo_cliente === "empresa_gestora";
@@ -129,6 +134,12 @@ export default function Registo() {
                                 <span className="bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">conta</span>
                             </h1>
                             <p className="text-sm text-zinc-400">30 dias de trial gratuito · Sem compromisso</p>
+                            {ref_afiliado && (
+                                <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-purple-500/30 bg-purple-500/10 px-4 py-1.5 text-xs text-purple-200">
+                                    <span>🤝</span>
+                                    <span>Indicado por <strong className="text-white">{ref_afiliado.nome}</strong> · código <strong className="text-white">{ref_afiliado.codigo}</strong></span>
+                                </div>
+                            )}
                         </div>
 
                         {/* Stepper */}

@@ -109,6 +109,12 @@ Route::get('/condominios/{condominio}/regulamento/ver', [\App\Domains\Condominio
 Route::get('/registo', [\App\Http\Controllers\RegistoController::class, 'index'])->name('registo.index');
 Route::post('/registo', [\App\Http\Controllers\RegistoController::class, 'store'])->name('registo.store');
 
+// Programa de Afiliados — página pública + candidatura
+Route::get('/afiliados', [\App\Domains\Afiliados\Http\Controllers\AfiliadoPublicoController::class, 'index'])->name('afiliados.index');
+Route::post('/afiliados/candidatar', [\App\Domains\Afiliados\Http\Controllers\AfiliadoPublicoController::class, 'candidatar'])
+    ->middleware('throttle:10,1')
+    ->name('afiliados.candidatar');
+
 // ===========================================================
 // Autenticação
 // ===========================================================
@@ -162,6 +168,44 @@ Route::middleware(['auth', 'verified', '2fa'])->group(function () {
         Route::post('/mudar-plano/preview', [SubscricaoController::class, 'previewMudancaPlano'])->name('mudar-plano.preview');
         Route::post('/mudar-plano', [SubscricaoController::class, 'mudarPlano'])->name('mudar-plano');
         Route::post('/cancelar-downgrade', [SubscricaoController::class, 'cancelarDowngrade'])->name('cancelar-downgrade');
+    });
+
+    // Portal do afiliado — qualquer utilizador autenticado pode aderir; o portal exige ser afiliado
+    Route::prefix('afiliado')->name('afiliado.')->group(function () {
+        $ap = \App\Domains\Afiliados\Http\Controllers\AfiliadoPortalController::class;
+        Route::get('/aderir', [$ap, 'aderir'])->name('aderir');
+        Route::post('/aderir', [$ap, 'aderirStore'])->name('aderir.store');
+        Route::get('/', [$ap, 'index'])->name('index');
+        Route::get('/clientes', [$ap, 'clientes'])->name('clientes');
+        Route::get('/comissoes', [$ap, 'comissoes'])->name('comissoes');
+        Route::get('/pagamentos', [$ap, 'pagamentos'])->name('pagamentos');
+        Route::get('/pagamentos/{pagamento}/comprovativo', [$ap, 'comprovativo'])->name('pagamentos.comprovativo')->whereNumber('pagamento');
+        Route::get('/dados', [$ap, 'dados'])->name('dados');
+        Route::post('/dados', [$ap, 'dadosGuardar'])->name('dados.guardar');
+    });
+
+    // Super-admin: Programa de Afiliados
+    Route::middleware('role:super-admin')->prefix('super-admin/afiliados')->name('super-admin.afiliados.')->group(function () {
+        $sa = \App\Domains\Afiliados\Http\Controllers\SuperAdminAfiliadosController::class;
+        Route::get('/', [$sa, 'index'])->name('index');
+        Route::get('/comissoes', [$sa, 'comissoes'])->name('comissoes');
+        Route::get('/comissoes/exportar', [$sa, 'exportarComissoes'])->name('comissoes.exportar');
+        Route::post('/comissoes/{comissao}/anular', [$sa, 'anularComissao'])->name('comissoes.anular')->whereNumber('comissao');
+        Route::post('/comissoes/{comissao}/aprovar', [$sa, 'aprovarComissao'])->name('comissoes.aprovar')->whereNumber('comissao');
+        Route::get('/pagamentos', [$sa, 'pagamentos'])->name('pagamentos');
+        Route::get('/pagamentos/{pagamento}/comprovativo', [$sa, 'comprovativo'])->name('pagamentos.comprovativo')->whereNumber('pagamento');
+        Route::get('/config', [$sa, 'configForm'])->name('config');
+        Route::post('/config', [$sa, 'guardarConfig'])->name('config.guardar');
+        Route::get('/{afiliado}', [$sa, 'show'])->name('show')->whereNumber('afiliado');
+        Route::post('/{afiliado}/aprovar', [$sa, 'aprovar'])->name('aprovar')->whereNumber('afiliado');
+        Route::post('/{afiliado}/recusar', [$sa, 'recusar'])->name('recusar')->whereNumber('afiliado');
+        Route::post('/{afiliado}/suspender', [$sa, 'suspender'])->name('suspender')->whereNumber('afiliado');
+        Route::post('/{afiliado}/reactivar', [$sa, 'reactivar'])->name('reactivar')->whereNumber('afiliado');
+        Route::patch('/{afiliado}/taxa', [$sa, 'taxa'])->name('taxa')->whereNumber('afiliado');
+        Route::patch('/{afiliado}/notas', [$sa, 'notas'])->name('notas')->whereNumber('afiliado');
+        Route::post('/{afiliado}/atribuir-cliente', [$sa, 'atribuirCliente'])->name('atribuir-cliente')->whereNumber('afiliado');
+        Route::post('/{afiliado}/remover-cliente', [$sa, 'removerCliente'])->name('remover-cliente')->whereNumber('afiliado');
+        Route::post('/{afiliado}/pagamentos', [$sa, 'registarPagamento'])->name('registar-pagamento')->whereNumber('afiliado');
     });
 
     // Admin subscrições (super-admin) - SEMPRE acessível

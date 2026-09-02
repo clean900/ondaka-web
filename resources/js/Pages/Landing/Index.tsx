@@ -111,6 +111,7 @@ export default function Landing({ pricing }: Props) {
                             <Link href="/catalogo" className="bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text font-semibold text-transparent transition hover:opacity-80">Catálogo</Link>
                             <Link href="/loja" className="bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text font-semibold text-transparent transition hover:opacity-80">Loja</Link>
                             <a href="#pricing" className="bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text font-semibold text-transparent transition hover:opacity-80">Preços</a>
+                            <Link href="/afiliados" className="bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text font-semibold text-transparent transition hover:opacity-80">Afiliados</Link>
                             <Link href="/login" className="bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text font-semibold text-transparent transition hover:opacity-80">Entrar</Link>
                         </nav>
                         <Link
@@ -475,6 +476,7 @@ export default function Landing({ pricing }: Props) {
                                 <Link href="/catalogo" className="hover:text-white">Catálogo</Link>
                                 <Link href="/loja" className="hover:text-white">Loja</Link>
                                 <a href="#pricing" className="hover:text-white">Preços</a>
+                                <Link href="/afiliados" className="hover:text-white">Programa de Afiliados</Link>
                                 <Link href="/login" className="hover:text-white">Entrar</Link>
                             </div>
                         </div>

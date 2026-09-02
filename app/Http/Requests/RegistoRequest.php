@@ -29,6 +29,7 @@ class RegistoRequest extends FormRequest
             'user_email' => 'required|email|max:255|unique:users,email',
             'user_password' => 'required|string|min:8|confirmed',
             'aceita_termos' => 'required|accepted',
+            'codigo_afiliado' => 'nullable|string|max:20',
         ];
     }
 
