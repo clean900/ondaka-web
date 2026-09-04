@@ -102,6 +102,13 @@ return [
     | clientes (POST /clientes). Token por filial (Authorization: Bearer).
     |--------------------------------------------------------------------------
     */
+    // Caixa de entrada ProxyPay: segredo partilhado com os sistemas que vêm
+    // buscar os pagamentos que são deles (Welwitschia, Academia, BWEFACIL).
+    // A conta ProxyPay é partilhada e só há um webhook — este servidor é a porta.
+    'proxypay_caixa' => [
+        'token' => env('PROXYPAY_CAIXA_TOKEN'),
+    ],
+
     'welwitschia' => [
         'url' => env('WELWITSCHIA_URL', 'https://welwitschia.ao/api/integration/v1'),
         'token' => env('WELWITSCHIA_TOKEN'),

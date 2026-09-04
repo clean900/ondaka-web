@@ -497,3 +497,24 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('despesas-comissao/{despesa}/aprovar', [\App\Domains\Financas\Http\Controllers\Api\DespesaComissaoApiController::class, 'aprovar']);
     Route::post('despesas-comissao/{despesa}/recusar', [\App\Domains\Financas\Http\Controllers\Api\DespesaComissaoApiController::class, 'recusar']);
 });
+
+/*
+|--------------------------------------------------------------------------
+| Caixa de entrada ProxyPay (servidor-a-servidor)
+|--------------------------------------------------------------------------
+|
+| A conta ProxyPay e partilhada e so permite UM webhook, que aponta para o
+| ONDAKA. O ONDAKA regista tudo o que a ProxyPay entrega e estas rotas sao a
+| porta por onde os outros sistemas (Welwitschia, Academia, BWEFACIL) vem
+| buscar o que e deles. Autenticacao por segredo partilhado no cabecalho
+| X-Caixa-Token; sem sessao, sem CSRF, sem utilizador.
+|
+*/
+Route::prefix('proxypay/caixa')->middleware('throttle:60,1')->group(function () {
+    Route::get('/', [\App\Domains\Payment\Http\Controllers\Api\CaixaEntradaApiController::class, 'index'])
+        ->name('api.proxypay.caixa.index');
+
+    Route::post('/{id}/reclamar', [\App\Domains\Payment\Http\Controllers\Api\CaixaEntradaApiController::class, 'reclamar'])
+        ->whereNumber('id')
+        ->name('api.proxypay.caixa.reclamar');
+});
