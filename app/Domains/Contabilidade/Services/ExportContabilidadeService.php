@@ -242,7 +242,7 @@ class ExportContabilidadeService
             . "    <TaxEntity>Global</TaxEntity>\n"
             . "    <ProductCompanyTaxID>" . $e($nif) . "</ProductCompanyTaxID>\n"
             . "    <SoftwareCertificateNumber>0</SoftwareCertificateNumber>\n"
-            . "    <ProductID>ONDAKA/Soluções Simples</ProductID>\n"
+            . "    <ProductID>ONDAKA/KAYANTEC</ProductID>\n"
             . "    <ProductVersion>1.0</ProductVersion>\n"
             . "  </Header>\n"
             . "  <MasterFiles>\n"

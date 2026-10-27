@@ -13,11 +13,11 @@ class EmpresaGestoraDemoSeeder extends Seeder
 {
     public function run(): void
     {
-        // Empresa gestora: Soluções Simples
+        // Empresa gestora: KAYANTEC
         $empresa = EmpresaGestora::firstOrCreate(
             ['slug' => 'solucoes-simples'],
             [
-                'nome' => 'Soluções Simples, Lda',
+                'nome' => 'KAYANTEC — Comércio e Prestação de Serviços, Lda',
                 'nif' => '5417890123',
                 'email_contacto' => 'geral@ondaka.ao',
                 'telefone' => '+244923000000',
@@ -47,7 +47,7 @@ class EmpresaGestoraDemoSeeder extends Seeder
             $admin->assignRole('admin-empresa');
         }
 
-        $this->command->info('✓ Empresa «Soluções Simples» criada.');
+        $this->command->info('✓ Empresa «KAYANTEC» criada.');
         $this->command->info('  Email: admin@ondaka.ao');
         $this->command->info('  Password: Ondaka@2026');
         $this->command->warn('  ⚠ ALTERAR PASSWORD APÓS PRIMEIRO LOGIN');

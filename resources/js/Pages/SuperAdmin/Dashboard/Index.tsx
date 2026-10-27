@@ -82,7 +82,7 @@ export default function Index({ dados }: Props) {
                     <h2 className="text-xl font-semibold text-zinc-100">
                         📊 Dashboard Super-Admin
                     </h2>
-                    <span className="text-xs text-zinc-500">Soluções Simples · {new Date().toLocaleDateString('pt-PT', { month: 'long', year: 'numeric' })}</span>
+                    <span className="text-xs text-zinc-500">KAYANTEC · {new Date().toLocaleDateString('pt-PT', { month: 'long', year: 'numeric' })}</span>
                 </div>
             }
         >

@@ -103,7 +103,7 @@ export default function Landing({ pricing }: Props) {
                             <img src="/img/ondaka-logo.png" alt="ONDAKA" className="h-9 w-9 rounded" />
                             <div>
                                 <div className="text-base font-bold tracking-wide">ONDAKA</div>
-                                <div className="text-[10px] text-zinc-500">Soluções Simples, Lda</div>
+                                <div className="text-[10px] text-zinc-500">KAYANTEC — Comércio e Prestação de Serviços, Lda</div>
                             </div>
                         </div>
                         <nav className="hidden gap-8 text-sm md:flex">
@@ -468,7 +468,7 @@ export default function Landing({ pricing }: Props) {
                                 <img src="/img/ondaka-logo.png" alt="ONDAKA" className="h-8 w-8 rounded" />
                                 <div>
                                     <div className="text-zinc-300">ONDAKA</div>
-                                    <div className="text-xs">© {new Date().getFullYear()} Soluções Simples, Lda · Todos os direitos reservados</div>
+                                    <div className="text-xs">© {new Date().getFullYear()} KAYANTEC — Comércio e Prestação de Serviços, Lda · Todos os direitos reservados</div>
                                 </div>
                             </div>
                             <div className="flex gap-6 text-xs">

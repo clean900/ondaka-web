@@ -24,7 +24,7 @@
             </div>
         </div>
         <div class="foot">
-            ONDAKA · Soluções Simples, Lda — relatório enviado automaticamente. Para deixar de receber, ajuste o agendamento na plataforma.
+            ONDAKA · KAYANTEC — Comércio e Prestação de Serviços, Lda — relatório enviado automaticamente. Para deixar de receber, ajuste o agendamento na plataforma.
         </div>
     </div>
 </body>

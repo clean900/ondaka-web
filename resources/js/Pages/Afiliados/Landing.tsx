@@ -216,7 +216,7 @@ export default function Landing({ config, autenticado, ja_afiliado, exemplo }: P
 
                 <footer className="border-t border-blue-900/30 py-10">
                     <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-6 text-sm text-zinc-500 md:flex-row">
-                        <div className="flex items-center gap-3"><img src="/img/ondaka-logo.png" alt="ONDAKA" className="h-8 w-8 rounded" /><div><div className="text-zinc-300">ONDAKA</div><div className="text-xs">© {new Date().getFullYear()} Soluções Simples, Lda</div></div></div>
+                        <div className="flex items-center gap-3"><img src="/img/ondaka-logo.png" alt="ONDAKA" className="h-8 w-8 rounded" /><div><div className="text-zinc-300">ONDAKA</div><div className="text-xs">© {new Date().getFullYear()} KAYANTEC — Comércio e Prestação de Serviços, Lda</div></div></div>
                         <div className="flex gap-6 text-xs"><Link href="/" className="hover:text-white">Início</Link><Link href="/catalogo" className="hover:text-white">Catálogo</Link><Link href="/loja" className="hover:text-white">Loja</Link><Link href="/termos" className="hover:text-white">Termos</Link><Link href="/privacidade" className="hover:text-white">Privacidade</Link></div>
                     </div>
                 </footer>

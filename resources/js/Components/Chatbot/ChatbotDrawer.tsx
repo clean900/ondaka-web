@@ -319,7 +319,7 @@ export default function ChatbotDrawer({ open, onClose, userName }: Props) {
                             </button>
                         </div>
                         <p className="text-xs text-zinc-600 text-center mt-2">
-                            ONDAKA · Soluções Simples
+                            ONDAKA · KAYANTEC
                         </p>
                     </form>
                 </div>

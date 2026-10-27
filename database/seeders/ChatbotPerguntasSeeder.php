@@ -822,8 +822,8 @@ class ChatbotPerguntasSeeder extends Seeder
             ],
             [
                 'pergunta' => 'Como ver facturas/recibos da minha subscrição?',
-                'resposta' => 'Em Empresa e Facturação ONDAKA. Vês todas as facturas emitidas pelo Soluções Simples (operador da plataforma). Podes descarregar PDF.',
-                'palavras_chave' => ['factura', 'recibo', 'soluções simples', 'pdf'],
+                'resposta' => 'Em Empresa e Facturação ONDAKA. Vês todas as facturas emitidas pelo KAYANTEC (operador da plataforma). Podes descarregar PDF.',
+                'palavras_chave' => ['factura', 'recibo', 'kayantec', 'pdf'],
                 'role_filter' => ['admin-empresa'],
             ],
             [
@@ -906,8 +906,8 @@ class ChatbotPerguntasSeeder extends Seeder
             ],
             [
                 'pergunta' => 'Quem desenvolveu o ONDAKA?',
-                'resposta' => 'ONDAKA é desenvolvido pela Soluções Simples, Lda. — empresa angolana focada em soluções digitais para o mercado local. Sede em Luanda.',
-                'palavras_chave' => ['soluções simples', 'empresa', 'desenvolvedor', 'quem'],
+                'resposta' => 'ONDAKA é desenvolvido pela KAYANTEC — Comércio e Prestação de Serviços, Lda. — empresa angolana focada em soluções digitais para o mercado local. Sede em Luanda.',
+                'palavras_chave' => ['kayantec', 'empresa', 'desenvolvedor', 'quem'],
                 'role_filter' => ['condomino', 'gestor', 'administrador-condominio', 'admin-empresa', 'funcionario', 'prestador'],
             ],
             [

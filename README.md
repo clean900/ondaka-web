@@ -2,7 +2,7 @@
 
 Plataforma de gestão de condomínios para o mercado angolano, em conformidade com o Decreto Presidencial 141/15 de 29 de Junho de 2015.
 
-**Empresa:** Soluções Simples, Lda
+**Empresa:** KAYANTEC — Comércio e Prestação de Serviços, Lda
 **Produto:** ONDAKA
 **Domínio produção:** https://ondaka.ao
 
@@ -101,7 +101,7 @@ app/
 
 ## Papéis (Roles)
 
-1. **super-admin** — Plataforma Soluções Simples
+1. **super-admin** — Plataforma KAYANTEC
 2. **admin-empresa** — Admin da empresa gestora
 3. **gestor** — Operação diária
 4. **administrador-condominio** — Eleito pela assembleia (DP 141/15)
@@ -123,5 +123,5 @@ app/
 
 ## Licença
 
-Proprietário. © 2026 Soluções Simples, Lda.
+Proprietário. © 2026 KAYANTEC — Comércio e Prestação de Serviços, Lda.
 Todos os direitos reservados.

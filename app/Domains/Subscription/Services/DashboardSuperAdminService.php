@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
 /**
- * Calcula KPIs do negócio Soluções Simples para o dashboard super-admin.
+ * Calcula KPIs do negócio KAYANTEC para o dashboard super-admin.
  *
  * Métricas calculadas:
  *  - MRR (Monthly Recurring Revenue): receita normalizada para mensal
