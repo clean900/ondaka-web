@@ -111,7 +111,7 @@ export default function Registo({ ref_afiliado = null }: RegistoProps) {
                             <img src="/img/ondaka-logo.png" alt="ONDAKA" className="h-9 w-9 rounded" />
                             <div>
                                 <div className="text-base font-bold tracking-wide">ONDAKA</div>
-                                <div className="text-[10px] text-zinc-500">KAYANTEC — Comércio e Prestação de Serviços, Lda</div>
+                                <div className="text-[10px] text-zinc-500">KAYANTEC - Comércio e Serviços SU LDA</div>
                             </div>
                         </Link>
                         <Link href="/login" className="text-sm text-zinc-400 hover:text-white">
@@ -240,7 +240,7 @@ export default function Registo({ ref_afiliado = null }: RegistoProps) {
                                                 type="text"
                                                 value={data.nome_empresa}
                                                 onChange={(e) => setData("nome_empresa", e.target.value)}
-                                                placeholder={isEmpresa ? "KAYANTEC — Comércio e Prestação de Serviços, Lda" : "João Silva"}
+                                                placeholder={isEmpresa ? "KAYANTEC - Comércio e Serviços SU LDA" : "João Silva"}
                                                 className="w-full rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
                                             />
                                             {(errors.nome_empresa || localErrors.nome_empresa) && <p className="mt-1 text-xs text-red-400">{errors.nome_empresa || localErrors.nome_empresa}</p>}

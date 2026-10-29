@@ -182,7 +182,7 @@ export default function Index({ features }: Props) {
                 </section>
 
                 <footer className="border-t border-white/5 mt-12 py-6 text-center text-xs text-white/40">
-                    © ONDAKA · KAYANTEC — Comércio e Prestação de Serviços, Lda · Luanda, Angola
+                    © ONDAKA · KAYANTEC - Comércio e Serviços SU LDA · Luanda, Angola
                 </footer>
             </div>
         </>

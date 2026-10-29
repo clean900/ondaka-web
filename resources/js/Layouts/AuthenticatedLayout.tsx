@@ -614,7 +614,7 @@ export default function AuthenticatedLayout({ children }: PropsWithChildren) {
                 </main>
 
                 <footer className="border-t border-white/5 py-6 text-center text-xs text-white/40">
-                    © {new Date().getFullYear()} ONDAKA · KAYANTEC — Comércio e Prestação de Serviços, Lda · Luanda, Angola · <Link href="/privacidade" className="hover:text-white/70">Privacidade</Link> · <Link href="/termos" className="hover:text-white/70">Termos</Link> · <a href="https://wa.me/244922772177" target="_blank" rel="noopener noreferrer" className="hover:text-white/70">Suporte</a>
+                    © {new Date().getFullYear()} ONDAKA · KAYANTEC - Comércio e Serviços SU LDA · Luanda, Angola · <Link href="/privacidade" className="hover:text-white/70">Privacidade</Link> · <Link href="/termos" className="hover:text-white/70">Termos</Link> · <a href="https://wa.me/244922772177" target="_blank" rel="noopener noreferrer" className="hover:text-white/70">Suporte</a>
                 </footer>
             </div>
 

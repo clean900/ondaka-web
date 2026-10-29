@@ -28,7 +28,7 @@
             </a>
         </div>
         <p style="color: #94a3b8; font-size: 12px; margin-top: 32px; padding-top: 20px; border-top: 1px solid #e2e8f0;">
-            Esta é uma mensagem automática da plataforma ONDAKA. KAYANTEC — Comércio e Prestação de Serviços, Lda.
+            Esta é uma mensagem automática da plataforma ONDAKA. KAYANTEC - Comércio e Serviços SU LDA.
         </p>
     </div>
 </body>

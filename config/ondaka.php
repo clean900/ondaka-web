@@ -5,13 +5,13 @@ declare(strict_types=1);
 return [
     /*
     |--------------------------------------------------------------------------
-    | Dados da empresa emissora (ONDAKA / KAYANTEC — Comércio e Prestação de Serviços, Lda)
+    | Dados da empresa emissora (ONDAKA / KAYANTEC - Comércio e Serviços SU LDA)
     |--------------------------------------------------------------------------
     | Aparecem nas facturas e comprovativos legais.
     | Conformes com DP 141/15 de 29 de Junho (Angola).
     */
     'emissor' => [
-        'nome' => env('ONDAKA_EMISSOR_NOME', 'KAYANTEC — Comércio e Prestação de Serviços, Lda'),
+        'nome' => env('ONDAKA_EMISSOR_NOME', 'KAYANTEC - Comércio e Serviços SU LDA'),
         'nif' => env('ONDAKA_EMISSOR_NIF', 'PLACEHOLDER_NIF_SOLUCOES_SIMPLES'),
         'morada' => env('ONDAKA_EMISSOR_MORADA', 'Luanda, Angola'),
         'provincia' => env('ONDAKA_EMISSOR_PROVINCIA', 'Luanda'),

@@ -392,7 +392,7 @@ class OrdemController extends Controller
     private function dadosBancariosOndaka(): array
     {
         return [
-            'beneficiario' => 'KAYANTEC — Comércio e Prestação de Serviços, Lda',
+            'beneficiario' => 'KAYANTEC - Comércio e Serviços SU LDA',
             'nif' => config('ondaka.nif', '5417012345'),
             'banco' => config('ondaka.banco_nome', 'Banco de Fomento Angola (BFA)'),
             'iban' => config('ondaka.iban', 'AO06 0006 0000 0000 0000 0000 0'),

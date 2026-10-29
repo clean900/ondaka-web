@@ -17,7 +17,7 @@ class EmpresaGestoraDemoSeeder extends Seeder
         $empresa = EmpresaGestora::firstOrCreate(
             ['slug' => 'solucoes-simples'],
             [
-                'nome' => 'KAYANTEC — Comércio e Prestação de Serviços, Lda',
+                'nome' => 'KAYANTEC - Comércio e Serviços SU LDA',
                 'nif' => '5417890123',
                 'email_contacto' => 'geral@ondaka.ao',
                 'telefone' => '+244923000000',

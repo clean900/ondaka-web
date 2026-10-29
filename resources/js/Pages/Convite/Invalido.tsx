@@ -54,7 +54,7 @@ export default function Invalido() {
                     </div>
 
                     <div className="text-center mt-6 text-xs text-white/40">
-                        © ONDAKA · KAYANTEC — Comércio e Prestação de Serviços, Lda
+                        © ONDAKA · KAYANTEC - Comércio e Serviços SU LDA
                     </div>
                 </div>
             </div>

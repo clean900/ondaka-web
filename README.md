@@ -2,7 +2,7 @@
 
 Plataforma de gestão de condomínios para o mercado angolano, em conformidade com o Decreto Presidencial 141/15 de 29 de Junho de 2015.
 
-**Empresa:** KAYANTEC — Comércio e Prestação de Serviços, Lda
+**Empresa:** KAYANTEC - Comércio e Serviços SU LDA
 **Produto:** ONDAKA
 **Domínio produção:** https://ondaka.ao
 
@@ -123,5 +123,5 @@ app/
 
 ## Licença
 
-Proprietário. © 2026 KAYANTEC — Comércio e Prestação de Serviços, Lda.
+Proprietário. © 2026 KAYANTEC - Comércio e Serviços SU LDA.
 Todos os direitos reservados.
