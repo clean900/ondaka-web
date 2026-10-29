@@ -1,7 +1,7 @@
 #!/bin/bash
 # ============================================================
 # ONDAKA — Script de Deploy para cPanel LiteSpeed
-# Soluções Simples © 2026
+# KAYANTEC - Comércio e Serviços SU LDA © 2026
 # ============================================================
 # Uso: ./deploy.sh
 # Deve correr na raiz do projecto no servidor
