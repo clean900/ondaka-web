@@ -10,7 +10,7 @@ return new class extends Migration
      * Pagamentos B2C — Empresa Gestora ↔ Condómino.
      *
      * Separada da tabela `pagamentos` que existe (que é B2B:
-     * Soluções Simples ↔ Empresa Gestora).
+     * KAYANTEC ↔ Empresa Gestora).
      *
      * Métodos suportados:
      * - transferencia_bancaria — condómino transfere para IBAN do condomínio,

@@ -11,7 +11,7 @@ return new class extends Migration
      *
      * Cada condomínio tem a sua própria conta ProxyPay — o dinheiro vai
      * directo para a conta bancária do condomínio, não da empresa gestora
-     * nem da Soluções Simples.
+     * nem da KAYANTEC.
      *
      * Encriptação: api_token guardado em texto cleartext por agora.
      * TODO: encriptar com Crypt::encrypt() em melhoria futura.

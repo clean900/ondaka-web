@@ -12,7 +12,7 @@ return [
     */
     'emissor' => [
         'nome' => env('ONDAKA_EMISSOR_NOME', 'KAYANTEC - Comércio e Serviços SU LDA'),
-        'nif' => env('ONDAKA_EMISSOR_NIF', 'PLACEHOLDER_NIF_SOLUCOES_SIMPLES'),
+        'nif' => env('ONDAKA_EMISSOR_NIF', '5003315525'),
         'morada' => env('ONDAKA_EMISSOR_MORADA', 'Luanda, Angola'),
         'provincia' => env('ONDAKA_EMISSOR_PROVINCIA', 'Luanda'),
         'telefone' => env('ONDAKA_EMISSOR_TELEFONE', ''),
