@@ -69,6 +69,25 @@ class WelwitschiaClient
         ], fn ($v) => $v !== null && $v !== ''));
     }
 
+    /**
+     * Regista a empresa gestora acabada de criar como lead no CRM da Welwitschia e
+     * manda-lhe as boas-vindas da ONDAKA.
+     *
+     * Separado de criarCliente() de propósito: esse também corre em lote sobre a
+     * carteira antiga (welwitschia:sync-clientes) e aí não se quer escrever a
+     * ninguém. Este só é chamado no registo. Idempotente do lado do ERP por
+     * origem_ref, por isso um retry não duplica nem reenvia nada.
+     *
+     * $dados: nome*, email, telefone, empresa, origem_ref*, notas, boas_vindas.
+     */
+    public function criarLead(array $dados): Response
+    {
+        return $this->req()->post('/leads', array_filter(
+            $dados + ['plataforma' => 'ondaka'],
+            fn ($v) => $v !== null && $v !== '',
+        ));
+    }
+
     public function listarClientes(): array
     {
         return $this->req()->get('/clientes')->json() ?? [];

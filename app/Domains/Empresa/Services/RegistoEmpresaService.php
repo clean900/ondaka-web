@@ -58,6 +58,16 @@ class RegistoEmpresaService
                 empresaGestoraId: $empresa->id,
             )->afterCommit();
 
+            // Lead no CRM da Welwitschia + boas-vindas da ONDAKA (só no registo, nunca
+            // nas ressincronizações da carteira — senão escrevia-se a clientes antigos).
+            \App\Domains\Integracao\Welwitschia\Jobs\SincronizarLeadWelwitschiaJob::dispatch(
+                nome: $empresa->nome,
+                email: $empresa->email_contacto,
+                telefone: $empresa->telefone,
+                empresaGestoraId: $empresa->id,
+                notas: 'Registo na ONDAKA · '.$empresa->tipo_cliente.' · '.$empresa->provincia.'/'.$empresa->municipio,
+            )->afterCommit();
+
             // 1a. Programa de Afiliados: atribuir a empresa ao afiliado do link/cookie
             //     (falha não reverte o registo — apenas logada)
             try {
