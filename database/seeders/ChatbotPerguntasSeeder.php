@@ -906,7 +906,7 @@ class ChatbotPerguntasSeeder extends Seeder
             ],
             [
                 'pergunta' => 'Quem desenvolveu o ONDAKA?',
-                'resposta' => 'ONDAKA é desenvolvido pela KAYANTEC - Comércio e Serviços SU LDA. — empresa angolana focada em soluções digitais para o mercado local. Sede em Luanda.',
+                'resposta' => 'ONDAKA é desenvolvido pela KAYANTEC - Comércio e Serviços, (SU) Lda. — empresa angolana focada em soluções digitais para o mercado local. Sede em Luanda.',
                 'palavras_chave' => ['kayantec', 'empresa', 'desenvolvedor', 'quem'],
                 'role_filter' => ['condomino', 'gestor', 'administrador-condominio', 'admin-empresa', 'funcionario', 'prestador'],
             ],

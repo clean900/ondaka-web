@@ -261,7 +261,7 @@ export default function Catalogo() {
                             <img src="/img/ondaka-logo.png" alt="ONDAKA" className="h-9 w-9 rounded" />
                             <div>
                                 <div className="text-base font-bold tracking-wide">ONDAKA</div>
-                                <div className="text-[10px] text-zinc-500">KAYANTEC - Comércio e Serviços SU LDA</div>
+                                <div className="text-[10px] text-zinc-500">KAYANTEC - Comércio e Serviços, (SU) Lda</div>
                             </div>
                         </Link>
                         <nav className="hidden gap-8 text-sm md:flex">
@@ -412,7 +412,7 @@ export default function Catalogo() {
                                 <img src="/img/ondaka-logo.png" alt="ONDAKA" className="h-8 w-8 rounded" />
                                 <div>
                                     <div className="text-zinc-300">ONDAKA</div>
-                                    <div className="text-xs">© {new Date().getFullYear()} KAYANTEC - Comércio e Serviços SU LDA · Todos os direitos reservados</div>
+                                    <div className="text-xs">© {new Date().getFullYear()} KAYANTEC - Comércio e Serviços, (SU) Lda · Todos os direitos reservados</div>
                                 </div>
                             </div>
                             <div className="flex gap-6 text-xs">

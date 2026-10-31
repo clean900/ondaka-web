@@ -39,7 +39,7 @@ return new class extends Migration {
             $table->string('destinatario_telefone', 30)->nullable();
 
             // Emissor (nosso — snapshot)
-            $table->string('emissor_nome', 200)->default('KAYANTEC - Comércio e Serviços SU LDA');
+            $table->string('emissor_nome', 200)->default('KAYANTEC - Comércio e Serviços, (SU) Lda');
             $table->string('emissor_nif', 20);
             $table->string('emissor_morada', 255)->nullable();
 

@@ -98,7 +98,7 @@ export default function UsarApp() {
                     </div>
 
                     <p className="text-xs text-white/40 mt-6">
-                        © ONDAKA · KAYANTEC - Comércio e Serviços SU LDA
+                        © ONDAKA · KAYANTEC - Comércio e Serviços, (SU) Lda
                     </p>
                 </div>
             </div>

@@ -179,7 +179,7 @@ export default function Aceitar({ convite }: Props) {
                     </div>
 
                     <div className="text-center mt-6 text-xs text-white/40">
-                        © ONDAKA · KAYANTEC - Comércio e Serviços SU LDA · Luanda, Angola
+                        © ONDAKA · KAYANTEC - Comércio e Serviços, (SU) Lda · Luanda, Angola
                     </div>
                 </div>
             </div>
