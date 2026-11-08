@@ -41,20 +41,30 @@ const CORES_BASE = {
   texto: '#e8eef9', texto2: '#93a4c0', texto3: '#d3dcec',
   acento: '#2dd4bf', grad1: '#3b82f6', grad2: '#8b5cf6', kicker: '#a5b4fc',
 };
-const MARCA_BASE = {
-  nome: 'ADSA',
-  sub: 'Academia Digital Security Agent',
-  logo: join('..', '..', 'infra', 'vps', 'adsa', 'assets', 'adsa-logo.png'),
-  dominio: 'adsa.academiadigital.ao',
-  caminho_base: '/app',
-  whatsapp: '+244 929 167 474',
-};
-const _m = existsSync(join(RAIZ, 'marca.json'))
-  ? JSON.parse(readFileSync(join(RAIZ, 'marca.json'), 'utf8')) : {};
+// NÃO HÁ MARCA POR OMISSÃO, de propósito. Em tempos o motor trazia a do ADSA
+// como fallback, e os tutoriais do Welwitschia saíram com o número de telefone
+// da Academia Digital — um contacto errado que foi parar ao material comercial
+// de outro produto. Sem marca.json, isto pára aqui em vez de inventar.
+if (!existsSync(join(RAIZ, 'marca.json'))) {
+  console.error('Falta marca.json em ' + RAIZ + ' — o motor não adivinha a marca.');
+  process.exit(1);
+}
+const MARCA_BASE = { caminho_base: '/', whatsapp: null, email: null };
+const _m = JSON.parse(readFileSync(join(RAIZ, 'marca.json'), 'utf8'));
+for (const campo of ['nome', 'sub', 'logo', 'dominio']) {
+  if (!_m[campo]) { console.error('marca.json sem «' + campo + '»'); process.exit(1); }
+}
 // as cores fundem-se campo a campo: um marca.json pode trocar só o acento
 const MARCA = { ...MARCA_BASE, ..._m, cores: { ...CORES_BASE, ...(_m.cores ?? {}) } };
 const C = MARCA.cores;
 const LOGO = 'assets/' + MARCA.logo.split(/[\\/]/).pop();
+// O rodapé do resumo: WhatsApp e email, os que houver.
+const contactoHtml = () => {
+  const p = [];
+  if (MARCA.whatsapp) p.push('WhatsApp <b>' + esc(MARCA.whatsapp) + '</b>');
+  if (MARCA.email) p.push('<b>' + esc(MARCA.email) + '</b>');
+  return p.length ? 'Dúvidas? ' + p.join(' · ') : '';
+};
 const marcaHtml = (px) =>
   `<div class="marca"><img class="logo" src="${LOGO}" alt="" width="${px}" height="${px}">` +
   `<span class="nome">${esc(MARCA.nome)}</span><span class="sub">${esc(MARCA.sub)}</span></div>`;
@@ -348,7 +358,7 @@ function gerar(slug) {
       <ul class="linhas">
         ${linhas}
       </ul>
-      <div class="rodape"><span>Dúvidas? WhatsApp <b>${esc(MARCA.whatsapp)}</b></span><span>${esc(MARCA.dominio)}</span></div>
+      <div class="rodape"><span>${contactoHtml()}</span><span>${esc(MARCA.dominio)}</span></div>
     </div>
   </section>`);
   tl.push(`tl.fromTo("#${id}-resumo .resumo-in", {opacity:0}, {opacity:1, duration:${T.fundir}, ease:"power2.out"}, ${rinicio});`);

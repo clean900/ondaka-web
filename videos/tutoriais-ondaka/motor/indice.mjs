@@ -71,7 +71,7 @@ const html = `<!doctype html><html lang="pt"><head>
 <div class="topo"><img src="adsa-logo.png" alt=""><div><h1>Tutoriais do ADSA</h1><p>Como usar o portal, função a função. Vídeos curtos, narrados, com a consola a sério.</p></div><a class="consola" href="/entrar">Entrar na consola →</a></div>
 <div class="grelha">${cartoes}
 </div>
-<div class="rodape">Dúvidas? WhatsApp +244 929 167 474 · adsa.academiadigital.ao</div>
+<div class="rodape">Dúvidas? WhatsApp +244 922 772 177 · comercial@ondaka.ao · ondaka.ao</div>
 </body></html>
 `;
 writeFileSync(join(FILMES, 'tutoriais.html'), html);

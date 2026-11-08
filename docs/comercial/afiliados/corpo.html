@@ -1,0 +1,286 @@
+<div class="fita" aria-hidden="true"></div>
+<div class="progresso"><div class="progresso__barra" id="barra"></div></div>
+
+<nav class="nav">
+  <div class="nav__marca">
+    <div class="nav__logo">ONDAK<span>A</span></div>
+    <div class="nav__sub">Afiliados</div>
+  </div>
+  <button class="nav__toggle" id="navToggle" aria-expanded="false" aria-controls="navLista">Índice</button>
+  <ul class="nav__lista" id="navLista"></ul>
+  <div class="nav__rodape">
+    KAYANTEC · NIF 5003315525<br>+244 922 772 177<br>ondaka.ao
+  </div>
+</nav>
+
+<main class="palco">
+
+  <!-- ═══════════════════════════════════════════════════════ 1 · ABERTURA -->
+  <section class="sec capa" id="s-abertura" data-nome="Abertura">
+    <canvas id="grade" aria-hidden="true"></canvas>
+    <div>
+      <div class="capa__kicker">Programa de afiliados · ondaka.ao</div>
+      <h1 class="capa__h1">Ganhe por cada<br>condomínio que <em>trouxer</em>.</h1>
+      <p class="capa__lead">De <b>6%</b> a <b>10%</b> sobre o valor da subscrição sem imposto, enquanto esse
+      condomínio continuar a pagar. Sem investimento, sem stock e sem ter de saber vender
+      software: basta apresentar quem precisa a quem resolve.</p>
+
+      <div class="estado" role="group" aria-label="O essencial do programa">
+        <div class="estado__c" data-cor="seguro">
+          <div class="estado__v"><span data-conta="10" data-sufixo="%">0</span></div>
+          <div class="estado__l">a comissão máxima, sobre o valor da subscrição sem imposto</div>
+        </div>
+        <div class="estado__c" data-cor="info">
+          <div class="estado__v"><span data-conta="90" data-sufixo=" dias">0</span></div>
+          <div class="estado__l">em que a indicação fica registada a seu favor</div>
+        </div>
+        <div class="estado__c" data-cor="critico">
+          <div class="estado__v">∞</div>
+          <div class="estado__l">a atribuição é vitalícia: o condomínio conta enquanto pagar</div>
+        </div>
+      </div>
+
+      <button class="cta" data-ir="#s-como">Ver como funciona
+        <span class="cta__seta">→</span></button>
+
+      <div class="capa__meta">
+        <div>Apresentado a<b>{{CLIENTE}}</b></div>
+        <div>Data<b>{{DATA}}</b></div>
+        <div>Por<b>KAYANTEC · Ondaka</b></div>
+      </div>
+    </div>
+    <div class="mapa">
+      <svg viewBox="0 0 560 400" role="img" aria-label="O percurso de uma indicação até à comissão">
+        <g id="ligacoes" stroke-linecap="round"></g>
+        <g id="nos"></g>
+      </svg>
+      <div class="mapa__legenda" id="mapaLegenda" aria-live="polite">
+        <h4>O percurso</h4>
+        <p>Toque num passo para ver o que acontece nele.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════ 2 · COMO FUNCIONA -->
+  <section class="sec sec--alt" id="s-como" data-nome="Como funciona">
+    <div class="eyebrow rev">Quatro passos, e só o primeiro é seu</div>
+    <h2 class="sec__titulo rev rev-1">Apresenta.<br>O resto <em>acontece sozinho</em>.</h2>
+    <p class="sec__lead rev rev-2">Recebe um link com o seu código. Quem o abrir fica associado a
+    si durante 90 dias. Se nesse período se tornar condomínio e pagar, a comissão é
+    calculada, fica em carência de 15 dias e passa a disponível para levantamento.</p>
+
+    <div class="palco" style="margin-top:.9rem">
+      <canvas id="animPercurso" class="palco__cv" aria-hidden="true"></canvas>
+      <div class="palco__leg">Do clique no link à comissão disponível, com a carência pelo meio</div>
+    </div>
+
+    <div class="cartoes cartoes--3" style="margin-top:2rem">
+      <div class="cartao"><span class="cartao__tag">Passo 1</span><h4>Partilha o seu link</h4>
+        <p>Por mensagem, por email ou numa conversa. O código é seu e identifica-o em qualquer
+        ponto de entrada da plataforma.</p></div>
+      <div class="cartao"><span class="cartao__tag">Passo 2</span><h4>A indicação fica registada</h4>
+        <p>Primeiro a registar, primeiro servido: a atribuição é feita uma única vez e nunca é
+        sobreposta por outro afiliado.</p></div>
+      <div class="cartao cartao--dest"><span class="cartao__tag">Passo 3</span><h4>O condomínio paga</h4>
+        <p>A comissão é calculada sobre o que foi efectivamente pago — nunca sobre o que foi
+        facturado e ficou por cobrar.</p></div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════ 3 · QUANTO SE GANHA -->
+  <section class="sec" id="s-escaloes" data-nome="Quanto se ganha">
+    <div class="eyebrow rev">A escada sobe por número de clientes pagantes</div>
+    <h2 class="sec__titulo rev rev-1">Começa nos 6%.<br>Chega aos <em>10%</em>.</h2>
+    <p class="sec__lead rev rev-2">A taxa não é negociada caso a caso: está definida em escalões,
+    é a mesma para todos os afiliados e sobe sozinha quando o trabalho o justifica.</p>
+
+    <div class="palco" style="margin-top:.9rem">
+      <canvas id="animEscada" class="palco__cv" aria-hidden="true"></canvas>
+      <div class="palco__leg">Os escalões do programa, e o degrau em que cada um entra</div>
+    </div>
+
+    <div class="soc-lista" id="escLista" style="margin-top:1.4rem"></div>
+
+    <div class="calc" style="margin-top:1.4rem">
+      <div class="calc__ctrl">
+        <div class="niveis">
+          <div class="nivel nivel--vivo">
+            <div class="nivel__id"><div class="nivel__n">Condomínios que trouxe</div>
+              <div style="font-size:.78rem;color:var(--mute)">e que estão a pagar</div></div>
+            <button class="nivel__b" type="button" data-alvo="qCli" data-passo="-1" aria-label="menos um">−</button>
+            <input class="nivel__c" id="qCli" type="number" min="0" max="500" value="6" inputmode="numeric" aria-label="Clientes">
+            <button class="nivel__b" type="button" data-alvo="qCli" data-passo="1" aria-label="mais um">+</button>
+          </div>
+          <div class="nivel nivel--vivo">
+            <div class="nivel__id"><div class="nivel__n">Cada um paga, por período</div>
+              <div style="font-size:.78rem;color:var(--mute)">um condomínio de 48 imóveis, no escalão Standard: 410.400 Kz</div></div>
+            <button class="nivel__b" type="button" data-alvo="qVal" data-passo="-50000" aria-label="menos">−</button>
+            <input class="nivel__c" id="qVal" type="number" min="0" max="99999999" value="410400" inputmode="numeric" aria-label="Valor pago por cliente">
+            <button class="nivel__b" type="button" data-alvo="qVal" data-passo="50000" aria-label="mais">+</button>
+          </div>
+        </div>
+        <p class="calc__nota" id="calcNota"></p>
+      </div>
+      <div class="calc__saida" id="calcSaida" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════ 4 · O QUE CONTA -->
+  <section class="sec sec--alt" id="s-receita" data-nome="O que conta">
+    <div class="eyebrow rev">Tudo o que o condomínio pagar</div>
+    <h2 class="sec__titulo rev rev-1">Não é só a primeira venda.<br>É <em>tudo o que vier a seguir</em>.</h2>
+    <p class="sec__lead rev rev-2">A comissão não se esgota na adesão. Enquanto o condomínio
+    continuar a pagar, continua a gerar — e a atribuição é vitalícia.</p>
+
+    <div class="palco" style="margin-top:.9rem">
+      <canvas id="animFontes" class="palco__cv" aria-hidden="true"></canvas>
+      <div class="palco__leg">As origens de receita a convergirem para a mesma comissão</div>
+    </div>
+
+    <div class="cartoes cartoes--3" style="margin-top:2rem">
+      <div class="cartao"><span class="cartao__tag">Conta</span><h4>Subscrição do condomínio</h4>
+        <p>o valor mensal por imóvel, em qualquer escalão e em qualquer periodicidade</p></div>
+      <div class="cartao"><span class="cartao__tag">Conta</span><h4>Renovações</h4>
+        <p>enquanto o condomínio continuar a pagar — a atribuição é vitalícia</p></div>
+      <div class="cartao"><span class="cartao__tag">Conta</span><h4>Funcionalidades da loja</h4>
+        <p>os módulos que a administração activar depois</p></div>
+    </div>
+
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════ 5 · AS REGRAS -->
+  <section class="sec" id="s-regras" data-nome="As regras">
+    <div class="eyebrow rev">Escritas antes de haver dinheiro em causa</div>
+    <h2 class="sec__titulo rev rev-1">As regras protegem<br>os <em>dois lados</em>.</h2>
+    <p class="sec__lead rev rev-2">Um programa de afiliados sem regras claras acaba sempre na
+    mesma discussão: de quem é o cliente. Aqui está tudo definido no sistema, e não na memória de
+    quem atende o telefone.</p>
+
+    <div class="palco palco--fina" style="margin-top:.9rem">
+      <canvas id="animCarencia" class="palco__cv" aria-hidden="true"></canvas>
+      <div class="palco__leg">A comissão em carência a tornar-se disponível ao fim de 15 dias</div>
+    </div>
+
+    <div class="duo" style="margin-top:2rem">
+      <div>
+        <h3>De quem é o cliente</h3>
+        <ul class="lista">
+          <li><b>Primeiro a registar, primeiro servido.</b> A atribuição faz-se uma só vez e nunca
+          é sobreposta por outro afiliado.</li>
+          <li><b>90 dias de memória.</b> Quem abre o seu link fica associado a si durante
+          esse período, mesmo que só decida mais tarde.</li>
+          <li><b>Três formas de atribuir:</b> pelo link com o seu código, por indicação que
+          regista com o email do contacto, ou por atribuição manual no backoffice.</li>
+          <li><b>Vitalícia.</b> Uma vez atribuído, o condomínio conta para si enquanto pagar.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Quando a comissão é sua</h3>
+        <ul class="lista">
+          <li><b>Só sobre o que foi pago.</b> Uma factura emitida e não cobrada não gera comissão.</li>
+          <li><b>15 dias de carência.</b> A comissão nasce pendente e só passa a
+          disponível no fim desse prazo — é a protecção contra estornos e devoluções.</li>
+          <li><b>Sobre o valor da subscrição sem imposto.</b> O imposto nunca entra na base de cálculo.</li>
+          <li><b>Anulação.</b> Se o pagamento for revertido, a comissão é anulada — e isso fica
+          registado, com a razão.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════ 6 · O PAINEL -->
+  <section class="sec sec--alt" id="s-painel" data-nome="O seu painel">
+    <div class="eyebrow rev">O que vê quando entra</div>
+    <h2 class="sec__titulo rev rev-1">Nada é opaco.<br>Vê <em>cada comissão</em>.</h2>
+    <p class="sec__lead rev rev-2">O afiliado tem consola própria: o seu link e os cliques que
+    gerou, os condomínios que angariou, cada comissão com o seu estado, e o histórico de
+    pagamentos recebidos.</p>
+
+    <div class="palco" style="margin-top:.9rem">
+      <canvas id="animPainel" class="palco__cv" aria-hidden="true"></canvas>
+      <div class="palco__leg">Comissões por estado, como aparecem na consola do afiliado</div>
+    </div>
+
+    <div class="cartoes cartoes--2" style="margin-top:2rem">
+      <div class="cartao"><span class="cartao__tag">O seu link</span><h4>Código e cliques</h4>
+        <p>O link pessoal, quantas vezes foi aberto e quantas dessas visitas se converteram.</p></div>
+      <div class="cartao"><span class="cartao__tag">Clientes</span><h4>Quem trouxe</h4>
+        <p>A lista dos condomínios atribuídos a si, com a data e a forma de atribuição.</p></div>
+      <div class="cartao"><span class="cartao__tag">Comissões</span><h4>Uma a uma, com o estado</h4>
+        <p>Em carência, disponível, em levantamento, paga ou anulada — com o valor e a origem.</p></div>
+      <div class="cartao"><span class="cartao__tag">Pagamentos</span><h4>O que já recebeu</h4>
+        <p>Cada levantamento pedido, aprovado e pago, com o comprovativo.</p></div>
+    </div>
+  </section>
+
+  <!-- ═════════════════════════════════════════════════════ 7 · O PAGAMENTO -->
+  <section class="sec" id="s-pagamento" data-nome="Como recebe">
+    <div class="eyebrow rev">Do saldo à conta bancária</div>
+    <h2 class="sec__titulo rev rev-1">Pede o levantamento<br>quando <em>quiser</em>.</h2>
+    <p class="sec__lead rev rev-2">As comissões disponíveis acumulam no seu saldo. A partir de
+    10.000 Kz acumulados pode pedir o levantamento; a plataforma aprova, paga e regista o
+    comprovativo.</p>
+
+    <div class="palco palco--fina" style="margin-top:.9rem">
+      <canvas id="animSaldo" class="palco__cv" aria-hidden="true"></canvas>
+      <div class="palco__leg">O saldo a acumular até ao mínimo de levantamento</div>
+    </div>
+
+    <div class="calc__det" style="margin-top:1.6rem">
+      <div class="calc__linha"><span>Mínimo para pedir levantamento</span><b>10.000 Kz</b></div>
+      <div class="calc__linha"><span>Carência antes de a comissão ficar disponível</span><b>15 dias</b></div>
+      <div class="calc__linha"><span>Retenção na fonte aplicada por defeito</span><b>0% — definida pela plataforma conforme a situação fiscal do afiliado</b></div>
+      <div class="calc__linha"><span>Validade da indicação</span><b>90 dias</b></div>
+      <div class="calc__linha"><span>Duração da atribuição</span><b>vitalícia</b></div>
+      <div class="calc__linha"><span>Candidaturas</span><b>aprovadas uma a uma, não automáticas</b></div>
+    </div>
+
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════ 8 · ADERIR -->
+  <section class="sec sec--alt fecho" id="s-fecho" data-nome="Aderir">
+    <div class="eyebrow rev">Próximo passo</div>
+    <h2 class="fecho__h rev rev-1">Não precisa de vender.<br>Precisa de <em>apresentar</em>.</h2>
+    <p class="fecho__sub rev rev-2">O programa foi feito para empresas gestoras, administradores independentes, contabilistas e mediadores imobiliários — gente que já tem a
+    confiança de quem decide e que, hoje, faz essas apresentações de graça. Candidata-se, a
+    candidatura é analisada, e recebe o seu link com o código.</p>
+
+    <div class="palco palco--prova" style="margin-top:1rem">
+      <canvas id="animCrescer" class="palco__cv" aria-hidden="true"></canvas>
+      <div class="palco__leg">O rendimento a acumular à medida que os condomínios renovam</div>
+    </div>
+
+    <div class="cartoes cartoes--3" style="margin-top:1.4rem">
+      <div class="cartao"><span class="cartao__tag">Sem custo</span><h4>Aderir não se paga</h4>
+        <p>Não há taxa de adesão, não há compra mínima e não há stock para financiar.</p></div>
+      <div class="cartao"><span class="cartao__tag">Sem exclusividade</span><h4>Continua o seu trabalho</h4>
+        <p>O programa não exige dedicação nem impede que trabalhe com o que já trabalha.</p></div>
+      <div class="cartao cartao--dest"><span class="cartao__tag">Com prova</span><h4>Vê tudo o que gerou</h4>
+        <p>Cada clique, cada condomínio, cada comissão e cada pagamento — na sua consola.</p></div>
+    </div>
+
+    <p class="fecho__nota" style="margin-top:1.4rem">O programa está construído e provado de ponta a ponta; a consola do afiliado aguarda a publicação em produção.</p>
+
+    <div class="fecho__acao">
+      <div class="contactos">
+        <div><span>Comercial</span><b>comercial@ondaka.ao</b></div>
+        <div><span>Telefone e WhatsApp</span><b>+244 922 772 177</b></div>
+        <div><span>Afiliados</span><b>afiliados@ondaka.ao</b></div>
+        <div><span>Sítio</span><b>ondaka.ao</b></div>
+      </div>
+    </div>
+    <p class="fecho__nota">Valores sem impostos. As condições do programa são as que estão em
+    vigor no sistema e podem ser revistas, com aviso prévio aos afiliados activos.</p>
+  </section>
+
+</main>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-label="Ampliação">
+  <div class="modal__corpo">
+    <div class="modal__topo">
+      <span class="modal__nome" id="modalNome"></span>
+      <button class="modal__fechar" id="modalFechar" type="button">Fechar</button>
+    </div>
+    <div id="modalCorpo"></div>
+  </div>
+</div>

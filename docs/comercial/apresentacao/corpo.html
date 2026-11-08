@@ -1,0 +1,425 @@
+<div class="fita" aria-hidden="true"></div>
+<div class="progresso"><div class="progresso__barra" id="barra"></div></div>
+
+<nav class="nav">
+  <div class="nav__marca">
+    <div class="nav__logo">ONDA<span>KA</span></div>
+    <div class="nav__sub">Gestão de condomínios</div>
+  </div>
+  <button class="nav__toggle" id="navToggle" aria-expanded="false" aria-controls="navLista">Índice</button>
+  <ul class="nav__lista" id="navLista"></ul>
+  <div class="nav__rodape">
+    KAYANTEC · NIF 5003315525<br>+244 922 772 177<br>ondaka.ao
+  </div>
+</nav>
+
+<main class="palco">
+
+  <!-- ═══════════════════════════════════════════════════════ 1 · ABERTURA -->
+  <section class="sec capa" id="s-abertura" data-nome="Abertura">
+    <canvas id="grade" aria-hidden="true"></canvas>
+    <div>
+      <div class="capa__kicker">Plataforma angolana de gestão de condomínios</div>
+      <h1 class="capa__h1">Um condomínio<br>sem <em>discussões</em> de contas.</h1>
+      <p class="capa__lead">A administração emite e cobra as Taxas de Condomínio, o condómino paga
+      pelo telemóvel e vê onde foi o dinheiro, e a portaria sabe quem entrou. Tudo no mesmo sítio,
+      construído em Angola.</p>
+
+      <div class="estado" role="group" aria-label="O que muda com o ONDAKA">
+        <div class="estado__c" data-cor="seguro">
+          <div class="estado__v"><span data-conta="1850" data-prefixo="" data-sufixo=" Kz">0</span></div>
+          <div class="estado__l">por imóvel e por mês no escalão de entrada — e desce com a dimensão do condomínio</div>
+        </div>
+        <div class="estado__c" data-cor="info">
+          <div class="estado__v"><span data-conta="0" data-sufixo=" Kz">0</span></div>
+          <div class="estado__l">é o que o condómino paga para usar a aplicação: quem subscreve é a administração</div>
+        </div>
+        <div class="estado__c" data-cor="critico">
+          <div class="estado__v"><span data-conta="14" data-sufixo=" dias">0</span></div>
+          <div class="estado__l">de utilização livre, com os dados reais do condomínio, antes de decidir</div>
+        </div>
+      </div>
+
+      <button class="cta" data-ir="#s-problema">Ver o problema que isto resolve
+        <span class="cta__seta">→</span></button>
+
+      <div class="capa__meta">
+        <div>Apresentado a<b>{{CLIENTE}}</b></div>
+        <div>Data<b>{{DATA}}</b></div>
+        <div>Por<b>KAYANTEC · ONDAKA</b></div>
+      </div>
+    </div>
+    <div class="mapa">
+      <svg viewBox="0 0 560 400" role="img" aria-label="Os três lados do ONDAKA: administração, condómino e portaria">
+        <g id="ligacoes" stroke-linecap="round"></g>
+        <g id="nos"></g>
+      </svg>
+      <div class="mapa__legenda" id="mapaLegenda" aria-live="polite">
+        <h4>Os três lados</h4>
+        <p>Toque num deles para ver o que faz e a que outros se liga.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════ 2 · O PROBLEMA -->
+  <section class="sec sec--alt" id="s-problema" data-nome="O problema">
+    <div class="tensao tensao--critico rev"><span class="pulso pulso--critico"></span>Assembleia anual · o momento em que tudo vem à tona</div>
+    <h2 class="sec__titulo rev rev-1">Ninguém discute a limpeza do prédio.<br>Discute-se sempre a <em>mesma coisa</em>.</h2>
+    <p class="sec__lead rev rev-2">Quem pagou, quem não pagou, e para onde foi o dinheiro de quem
+    pagou. Numa gestão feita em cadernos, folhas de cálculo e grupos de mensagens, nenhuma destas
+    três perguntas tem resposta que o condómino aceite sem discutir.</p>
+
+    <div class="palco palco--fina" style="margin-top:.9rem">
+      <canvas id="animCaos" class="palco__cv" aria-hidden="true"></canvas>
+      <div class="palco__leg">O que acontece a um recibo quando não há sistema: passa por cinco mãos e perde-se numa</div>
+    </div>
+
+    <div class="cartoes cartoes--3" style="margin-top:2rem">
+      <div class="cartao"><span class="cartao__tag">Cobrança</span>
+        <h4>A conta de quem deve está na cabeça de alguém</h4>
+        <p>Sem histórico por imóvel, a dívida discute-se de memória — e quem gere passa o mês a
+        responder a mensagens sobre valores que já pagou.</p></div>
+      <div class="cartao"><span class="cartao__tag">Transparência</span>
+        <h4>As despesas aparecem uma vez por ano</h4>
+        <p>Em folha impressa na assembleia, sem comprovativo ao lado de cada linha. O condómino
+        desconfia não porque haja desvio, mas porque não tem como verificar.</p></div>
+      <div class="cartao"><span class="cartao__tag">Segurança</span>
+        <h4>A portaria anota num livro</h4>
+        <p>Quem entrou, a que horas e para que fracção fica num caderno que ninguém volta a ler —
+        até ao dia em que é preciso.</p></div>
+    </div>
+
+    <p class="remate rev rev-3">O problema não é de <em>contabilidade</em>.
+    É de <em>prova</em>: cada número tem de poder ser aberto por quem o paga.</p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════ 3 · OS TRÊS LADOS -->
+  <section class="sec" id="s-lados" data-nome="Os três lados">
+    <div class="eyebrow rev">Uma plataforma, três utilizações</div>
+    <h2 class="sec__titulo rev rev-1">Quem subscreve é a administração.<br>Quem usa todos os dias são <em>todos</em>.</h2>
+    <p class="sec__lead rev rev-2">O ONDAKA não é um programa de contabilidade com um portal ao
+    lado. São três experiências desenhadas em separado, sobre os mesmos dados: a consola de quem
+    administra, a aplicação do condómino e o posto da portaria.</p>
+
+    <div class="palco" style="margin-top:.9rem">
+      <canvas id="animLados" class="palco__cv" aria-hidden="true"></canvas>
+      <div class="palco__leg">O mesmo lançamento visto pelos três lados, ao mesmo tempo</div>
+    </div>
+
+    <div class="cartoes cartoes--3" style="margin-top:2rem">
+      <div class="cartao cartao--dest"><span class="cartao__tag">Administração</span>
+        <h4>Consola de gestão</h4>
+        <p>Condomínios, edifícios, imóveis e contratos; emissão das Taxas de Condomínio; despesas e
+        lançamentos; relatórios; equipa e permissões. Na web e no telemóvel.</p></div>
+      <div class="cartao"><span class="cartao__tag">Condómino</span>
+        <h4>Aplicação própria, sem custo</h4>
+        <p>As suas taxas e o saldo, pagamento por Multicaixa, avisos, Pedidos, reservas de espaços
+        comuns, documentos do condomínio, assembleias e botão de SOS.</p></div>
+      <div class="cartao"><span class="cartao__tag">Portaria</span>
+        <h4>Posto de controlo</h4>
+        <p>Visitantes dentro agora, pré-aprovações, passes, encomendas, livro de ocorrências,
+        lista negra e escalas de turno dos funcionários.</p></div>
+    </div>
+
+    <div class="stats" style="margin-top:1.6rem">
+      <div class="stat"><div class="stat__v" data-conta="41">0</div><div class="stat__l">áreas funcionais no produto, da facturação à portaria</div></div>
+      <div class="stat"><div class="stat__v" data-conta="137">0</div><div class="stat__l">ecrãs construídos, em produção</div></div>
+      <div class="stat"><div class="stat__v" data-conta="2">0</div><div class="stat__l">aplicações móveis: Android e iPhone</div></div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════ 4 · AS TAXAS -->
+  <section class="sec sec--alt" id="s-taxas" data-nome="Taxas de Condomínio">
+    <div class="eyebrow rev">O coração da operação</div>
+    <h2 class="sec__titulo rev rev-1">Da emissão ao recibo,<br>sem ninguém <em>escrever</em> nada.</h2>
+    <p class="sec__lead rev rev-2">A taxa é calculada pela quota proporcional de cada imóvel,
+    emitida para o período, enviada por SMS e paga por Referência Multicaixa. O pagamento entra na
+    conta do condomínio e fecha a taxa sozinho.</p>
+
+    <div class="palco" style="margin-top:.9rem">
+      <canvas id="animCobranca" class="palco__cv" aria-hidden="true"></canvas>
+      <div class="palco__leg">O ciclo completo de uma taxa, do cálculo ao recibo</div>
+    </div>
+
+    <div class="duo" style="margin-top:2rem">
+      <div>
+        <h3>O que o sistema faz sem intervenção</h3>
+        <ul class="lista">
+          <li><b>Calcula pela quota proporcional</b> — cada imóvel paga a sua parte, e não uma média.</li>
+          <li><b>Emite para o período</b> e gera a referência de pagamento de cada imóvel.</li>
+          <li><b>Avisa por SMS</b> pelo Serviço SMS ONDAKA, com o valor e a referência.</li>
+          <li><b>Fecha a taxa</b> quando o pagamento entra, sem conferência manual.</li>
+          <li><b>Acumula o saldo da fracção</b> — quem paga a mais fica com crédito, e vê-o.</li>
+          <li><b>Acordos de pagamento</b> para quem precisa de regularizar em prestações.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>O que a administração deixa de fazer</h3>
+        <ul class="lista">
+          <li>Escrever recibos à mão e procurá-los seis meses depois.</li>
+          <li>Conferir transferências uma a uma contra uma lista de nomes.</li>
+          <li>Responder a «eu já paguei» sem ter como mostrar que sim ou que não.</li>
+          <li>Montar a folha de dívidas na véspera da assembleia.</li>
+        </ul>
+        <div class="stats" style="margin-top:1.2rem">
+          <div class="stat"><div class="stat__v">MCX</div><div class="stat__l">Referências Multicaixa e pagamento dentro da aplicação</div></div>
+          <div class="stat"><div class="stat__v">SMS</div><div class="stat__l">aviso de emissão, de vencimento e de pagamento recebido</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════ 5 · TRANSPARÊNCIA -->
+  <section class="sec" id="s-contas" data-nome="Contas do Condomínio">
+    <div class="tensao tensao--seguro rev"><span class="pulso pulso--seguro"></span>A funcionalidade que trava a discussão da assembleia</div>
+    <h2 class="sec__titulo rev rev-1">O condómino abre as contas<br>no <em>telemóvel</em>, quando quiser.</h2>
+    <p class="sec__lead rev rev-2">Não é um relatório enviado uma vez por ano: é o ecrã das Contas
+    do Condomínio, dentro da aplicação, com o que entrou, o que saiu e o saldo — publicado pela
+    administração quando decide publicar, e visível a quem paga.</p>
+
+    <div class="palco" style="margin-top:.9rem">
+      <canvas id="animContas" class="palco__cv" aria-hidden="true"></canvas>
+      <div class="palco__leg">Receita, despesa e saldo do período, como o condómino os vê</div>
+    </div>
+
+    <div class="cartoes cartoes--2" style="margin-top:2rem">
+      <div class="cartao"><span class="cartao__tag">Entrou</span><h4>As taxas cobradas no período</h4>
+        <p>Por imóvel e por mês, com a percentagem de cobrança efetiva — não a prevista.</p></div>
+      <div class="cartao"><span class="cartao__tag">Saiu</span><h4>As despesas por categoria</h4>
+        <p>Com o documento de suporte anexado a cada uma, aberto pelo condómino no próprio ecrã.</p></div>
+      <div class="cartao"><span class="cartao__tag">Saldo</span><h4>O que sobra, e onde está</h4>
+        <p>Por conta bancária do condomínio, com o histórico de movimentos.</p></div>
+      <div class="cartao"><span class="cartao__tag">Controlo</span><h4>Publicar é uma decisão</h4>
+        <p>A administração escolhe o que publica e quando. Até o fazer, o ecrã diz ao condómino que
+        o período ainda não foi publicado — e não um número errado.</p></div>
+    </div>
+
+    <p class="remate rev rev-3">Uma administração que publica as contas todos os meses
+    deixa de ter de as <em>defender</em> uma vez por ano.</p>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════ 6 · OS PEDIDOS -->
+  <section class="sec sec--alt" id="s-pedidos" data-nome="Pedidos e manutenção">
+    <div class="eyebrow rev">O dia a dia do edifício</div>
+    <h2 class="sec__titulo rev rev-1">O elevador parado deixa de ser<br>uma <em>mensagem</em> num grupo.</h2>
+    <p class="sec__lead rev rev-2">O condómino abre um Pedido com fotografia, a administração
+    atribui-o, o prestador resolve e o histórico fica no imóvel. Quando o mesmo problema volta pela
+    terceira vez, isso vê-se.</p>
+
+    <div class="palco palco--fina" style="margin-top:.9rem">
+      <canvas id="animPedidos" class="palco__cv" aria-hidden="true"></canvas>
+      <div class="palco__leg">Um Pedido do momento em que é aberto até ao fecho, com o responsável à vista</div>
+    </div>
+
+    <div class="duo duo--inv" style="margin-top:2rem">
+      <div>
+        <h3>Pedidos</h3>
+        <ul class="lista">
+          <li>Abertos pelo condómino na aplicação, com fotografia e categoria.</li>
+          <li>Atribuídos a uma pessoa da equipa ou a uma empresa prestadora.</li>
+          <li>Com estado, histórico e conversa — sem sair da plataforma.</li>
+          <li>Categorias definidas pela administração, à medida do edifício.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Manutenção e equipa</h3>
+        <ul class="lista">
+          <li><b>Manutenção preventiva</b> por equipamento, com calendário próprio.</li>
+          <li><b>Checklist de inspeção</b> para a ronda diária do edifício.</li>
+          <li><b>Turnos</b> dos funcionários: escala, modelos, presença e relatório.</li>
+          <li><b>Ordens de serviço</b> confirmadas por quem as executa.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════ 7 · ASSEMBLEIAS -->
+  <section class="sec" id="s-assembleias" data-nome="Assembleias">
+    <div class="eyebrow rev">A reunião que ninguém quer repetir</div>
+    <h2 class="sec__titulo rev rev-1">Convocatória, quórum, votação e acta<br>— pela <em>plataforma</em>.</h2>
+    <p class="sec__lead rev rev-2">A assembleia é convocada com ordem de trabalhos, o condómino
+    confirma presença, vota ponto por ponto — presente ou à distância — e a acta fica no
+    repositório de documentos, assinada e acessível.</p>
+
+    <div class="palco" style="margin-top:.9rem">
+      <canvas id="animAssembleia" class="palco__cv" aria-hidden="true"></canvas>
+      <div class="palco__leg">A votação a fechar-se em tempo real, com a quota proporcional a contar</div>
+    </div>
+
+    <div class="cartoes cartoes--3" style="margin-top:2rem">
+      <div class="cartao"><span class="cartao__tag">Antes</span><h4>Convocatória e ordem de trabalhos</h4>
+        <p>Enviada a todos os condóminos, com os documentos em anexo e o registo de quem a recebeu.</p></div>
+      <div class="cartao"><span class="cartao__tag">Durante</span><h4>Votação ponderada</h4>
+        <p>Cada voto pesa a quota proporcional do imóvel — a conta que gera metade das dúvidas
+        quando é feita à mão.</p></div>
+      <div class="cartao"><span class="cartao__tag">Depois</span><h4>Acta no repositório</h4>
+        <p>Com as deliberações e os resultados, acessível a quem tem direito a vê-la, sem depender
+        de quem tem o ficheiro.</p></div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════ 8 · PORTARIA -->
+  <section class="sec sec--alt" id="s-portaria" data-nome="Portaria e visitantes">
+    <div class="eyebrow rev">Quem entra, quando, e para onde</div>
+    <h2 class="sec__titulo rev rev-1">O livro da portaria passa a ser<br>uma <em>consulta</em>.</h2>
+    <p class="sec__lead rev rev-2">A portaria registra a entrada, o condómino pré-aprova a visita
+    pelo telemóvel, a encomenda fica registada com quem a entregou — e, quando é preciso saber o
+    que se passou numa noite, isso procura-se em segundos.</p>
+
+    <div class="palco" style="margin-top:.9rem">
+      <canvas id="animPortaria" class="palco__cv" aria-hidden="true"></canvas>
+      <div class="palco__leg">Entradas, saídas e quem está dentro neste momento</div>
+    </div>
+
+    <div class="duo" style="margin-top:2rem">
+      <div>
+        <h3>No posto</h3>
+        <ul class="lista">
+          <li><b>Dentro agora</b> — quem está no condomínio neste momento, e desde quando.</li>
+          <li><b>Pré-aprovações</b> feitas pelo condómino antes de a visita chegar.</li>
+          <li><b>Passes de visitante</b>, com validade e destino.</li>
+          <li><b>Encomendas</b> recebidas, com aviso ao condómino.</li>
+          <li><b>Livro de ocorrências</b> e <b>lista negra</b> de visitantes.</li>
+          <li><b>Controlo de acessos</b> por equipamento ZKTeco, quando o condomínio o tem.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>E quando corre mal</h3>
+        <p style="color:var(--ink-2)">O condómino tem um <b>botão de SOS</b> na aplicação. Accionado,
+        o alarme aparece em ecrã inteiro no posto da portaria e nos telefones da equipa de
+        segurança — não como uma notificação entre outras, mas como um alarme que tem de ser
+        atendido e fechado por alguém, com registo de quem o fez.</p>
+        <div class="stats" style="margin-top:1.2rem">
+          <div class="stat stat--critico"><div class="stat__v">SOS</div><div class="stat__l">alarme em ecrã inteiro, com atendimento registado</div></div>
+          <div class="stat"><div class="stat__v">↔</div><div class="stat__l">chamada entre o condómino e a portaria dentro da aplicação</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════ 9 · A LOJA -->
+  <section class="sec" id="s-loja" data-nome="A loja de funcionalidades">
+    <div class="eyebrow rev">O que se acrescenta quando faz sentido</div>
+    <h2 class="sec__titulo rev rev-1">A base serve a maioria.<br>O resto <em>liga-se</em> quando precisar.</h2>
+    <p class="sec__lead rev rev-2">A subscrição traz o essencial da gestão. As funcionalidades
+    abaixo ativam-se na loja da própria plataforma, por condomínio, sem renegociar contrato e sem
+    nova instalação. Toque numa categoria.</p>
+
+    <div class="chips" id="lojaChips" role="tablist" aria-label="Categorias"></div>
+    <div class="soc-lista" id="lojaLista" style="margin-top:1rem"></div>
+    <div class="muro-desc" id="lojaNota" aria-live="polite"></div>
+
+    <p class="remate rev rev-3">Nenhuma destas funcionalidades é obrigatória —
+    e é por isso que o preço de entrada é o <em>mesmo</em> para todos.</p>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════ 10 · INVESTIMENTO -->
+  <section class="sec sec--alt" id="s-investimento" data-nome="Investimento">
+    <div class="eyebrow rev">Quanto custa para o vosso condomínio</div>
+    <h2 class="sec__titulo rev rev-1">Paga-se por <em>imóvel</em>,<br>e o preço desce com a dimensão.</h2>
+    <p class="sec__lead rev rev-2">Não há escalões de licença nem módulos obrigatórios: o valor é
+    por imóvel e por mês, e o escalão aplica-se sozinho conforme o número de imóveis do
+    condomínio. Escreva o número de imóveis e veja a conta.</p>
+
+    <div class="palco palco--fina" style="margin-top:.9rem">
+      <canvas id="animEscada" class="palco__cv" aria-hidden="true"></canvas>
+      <div class="palco__leg">Os cinco escalões: quanto maior o condomínio, menor o valor por imóvel</div>
+    </div>
+
+    <div class="calc" style="margin-top:1.6rem">
+      <div class="calc__ctrl">
+        <div class="niveis">
+          <div class="nivel nivel--vivo">
+            <div class="nivel__id">
+              <div class="nivel__n">Imóveis do condomínio</div>
+              <div class="nivel__sub" style="font-size:.78rem;color:var(--mute)">frações com taxa de condomínio</div>
+            </div>
+            <button class="nivel__b" type="button" data-passo="-10" aria-label="menos dez">−</button>
+            <input class="nivel__c" id="qImoveis" type="number" min="1" max="5000" value="48" inputmode="numeric" aria-label="Número de imóveis">
+            <button class="nivel__b" type="button" data-passo="10" aria-label="mais dez">+</button>
+          </div>
+        </div>
+        <div class="opcoes" style="margin-top:1rem">
+          <label class="opcao"><input type="radio" name="per" value="mensal" id="pMensal">
+            <span class="opcao__t">Mensal</span><span class="opcao__d">sem desconto de período</span></label>
+          <label class="opcao"><input type="radio" name="per" value="semestral" id="pSemestral" checked>
+            <span class="opcao__t">Semestral</span><span class="opcao__d">−5% sobre o período</span></label>
+          <label class="opcao"><input type="radio" name="per" value="anual" id="pAnual">
+            <span class="opcao__t">Anual</span><span class="opcao__d">−15% sobre o período</span></label>
+        </div>
+        <p class="calc__nota" id="calcEscalao"></p>
+      </div>
+      <div class="calc__saida" id="calcSaida" aria-live="polite"></div>
+    </div>
+
+    <div class="cartoes cartoes--3" style="margin-top:1.8rem">
+      <div class="cartao"><span class="cartao__tag">Quem paga</span><h4>A administração</h4>
+        <p>Empresa gestora ou administrador independente. O condómino nunca paga para usar a
+        aplicação — e é isso que faz a adesão acontecer.</p></div>
+      <div class="cartao"><span class="cartao__tag">Impostos</span><h4>Acresce IVA à taxa legal</h4>
+        <p>Os valores desta página são sem impostos. A factura é emitida pela KAYANTEC, em Kwanzas.</p></div>
+      <div class="cartao"><span class="cartao__tag">Sem compromisso</span><h4>14 dias de utilização livre</h4>
+        <p>Com os dados reais do condomínio já carregados. Se não avançar, não há factura — e os
+        dados são vossos.</p></div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════ 11 · FECHO -->
+  <section class="sec sec--alt fecho" id="s-fecho" data-nome="Próximo passo">
+    <div class="eyebrow rev">Próximo passo</div>
+    <h2 class="fecho__h rev rev-1">Comece pelo condomínio<br>onde as contas <em>doem mais</em>.</h2>
+    <p class="fecho__sub rev rev-2">Não pedimos que acredite nesta apresentação. Pedimos um
+    condomínio e catorze dias. Carregamos os imóveis e os condóminos a partir da lista que já tem,
+    emitimos o primeiro período de Taxas de Condomínio e deixamos a aplicação nas mãos dos
+    condóminos. No fim, a decisão toma-se com dados reais — os vossos.</p>
+
+    <div class="palco palco--prova" style="margin-top:1rem">
+      <canvas id="animProva" class="palco__cv" aria-hidden="true"></canvas>
+      <div class="palco__leg">Os catorze dias, do carregamento da lista ao primeiro recibo pago pelo telemóvel</div>
+    </div>
+
+    <div class="passoc__cab" style="margin-top:1.6rem">O que fazemos nesses catorze dias</div>
+    <div class="cartoes cartoes--3">
+      <div class="cartao"><span class="cartao__tag">Dia 1</span><h4>Carregamos o que já existe</h4>
+        <p>Edifícios, imóveis, quota proporcional e condóminos, por importação da lista que a
+        administração já mantém. Sem digitar nada de novo.</p></div>
+      <div class="cartao"><span class="cartao__tag">Dias 2 a 4</span><h4>Emitimos e cobramos</h4>
+        <p>O primeiro período de Taxas de Condomínio, com referência Multicaixa e aviso por SMS a
+        cada condómino.</p></div>
+      <div class="cartao cartao--dest"><span class="cartao__tag">Dia 14</span><h4>Mostramos o resultado</h4>
+        <p>Quantos pagaram, em quanto tempo, quantos Pedidos foram abertos e fechados, e as contas
+        do período publicadas na aplicação.</p></div>
+    </div>
+
+    <div class="semrisco" style="margin-top:1.6rem">
+      <div class="semrisco__t">O que arrisca ao aceitar</div>
+      <div class="calc__linha"><span>O custo</span><b>Nenhum. Os catorze dias não são facturados</b></div>
+      <div class="calc__linha"><span>O trabalho da equipa</span><b>A importação é nossa; a administração só valida a lista</b></div>
+      <div class="calc__linha"><span>Os dados do condomínio</span><b>São vossos, e saem em exportação se não avançarem</b></div>
+      <div class="calc__linha"><span>Ficar preso</span><b>A subscrição é por período; não há contrato de fidelização</b></div>
+    </div>
+
+    <div class="fecho__acao">
+      <div class="contactos">
+        <div><span>Comercial</span><b>comercial@ondaka.ao</b></div>
+        <div><span>Telefone e WhatsApp</span><b>+244 922 772 177</b></div>
+        <div><span>Suporte</span><b>suporte@ondaka.ao</b></div>
+        <div><span>Sítio</span><b>ondaka.ao</b></div>
+      </div>
+    </div>
+    </div>
+    <p class="fecho__nota">Valores sem impostos, válidos no período da proposta. A aplicação do
+    condómino é gratuita e está disponível para Android e iPhone.</p>
+  </section>
+
+</main>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-label="Demonstração ampliada">
+  <div class="modal__corpo">
+    <div class="modal__topo">
+      <span class="modal__nome" id="modalNome"></span>
+      <button class="modal__fechar" id="modalFechar" type="button">Fechar</button>
+    </div>
+    <div id="modalCorpo"></div>
+  </div>
+</div>
