@@ -3,6 +3,9 @@
 # o guião de cada vídeo e o BRIEF — esse fica versionado.
 capturas/
 node_modules/
+# e o atalho: localmente o node_modules é um link para o do ADSA, e um
+# link com caminho absoluto não serve a mais ninguém
+node_modules
 .venv-voz/
 .env
 # tudo o que o motor escreve por filme (refaz-se com node motor/gerar.mjs)
