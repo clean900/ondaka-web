@@ -1,0 +1,32 @@
+{
+  "_leia-me": [
+    "Os ecrãs do ONDAKA a capturar para os tutoriais em vídeo.",
+    "",
+    "CONTA: a de homologação — empresa #10 ECG.LDA, condomínio #9 Nova York,",
+    "dados fictícios. NUNCA o condomínio piloto #1 Torres Atlântico nem a conta",
+    "de um cliente: um tutorial é material público e a gestão de um condomínio",
+    "real não é.",
+    "",
+    "AS MORADAS SAEM DO `php artisan route:list`, não de palpite. Uma morada que",
+    "não existe não dá erro visível: devolve uma página vazia, e o print sai em",
+    "branco sem ninguém dar por isso. O capturador recusa um ecrã com menos de",
+    "doze elementos, que é o sinal dessa página vazia.",
+    "",
+    "Os nomes seguem o glossário: Taxas de Condomínio (não quotas), Pedidos",
+    "(não tickets), Imóvel (não fracção)."
+  ],
+  "ecrans": [
+    { "slug": "painel",      "nome": "Painel do gestor",     "url": "/dashboard",            "esperar": "body", "espera_ms": 3000 },
+    { "slug": "taxas",       "nome": "Taxas de Condomínio",  "url": "/quotas",               "esperar": "body", "espera_ms": 2500 },
+    { "slug": "pagamentos",  "nome": "Pagamentos",           "url": "/pagamentos",           "esperar": "body", "espera_ms": 2500 },
+    { "slug": "despesas",    "nome": "Despesas",             "url": "/despesas",             "esperar": "body", "espera_ms": 2500 },
+    { "slug": "condominos",  "nome": "Condóminos",           "url": "/condominos",           "esperar": "body", "espera_ms": 2500 },
+    { "slug": "pedidos",     "nome": "Pedidos",              "url": "/tickets",              "esperar": "body", "espera_ms": 2500 },
+    { "slug": "avisos",      "nome": "Avisos",               "url": "/avisos",               "esperar": "body", "espera_ms": 2500 },
+    { "slug": "assembleias", "nome": "Assembleias",          "url": "/assembleias",          "esperar": "body", "espera_ms": 2500 },
+    { "slug": "portaria",    "nome": "Portaria e visitantes","url": "/visitantes/dashboard", "esperar": "body", "espera_ms": 3000 },
+    { "slug": "reservas",    "nome": "Reservas de espaços",  "url": "/reservas",             "esperar": "body", "espera_ms": 2500 },
+    { "slug": "relatorios",  "nome": "Relatórios",           "url": "/relatorios",           "esperar": "body", "espera_ms": 2500 },
+    { "slug": "loja",        "nome": "Loja de funcionalidades", "url": "/funcionalidades",   "esperar": "body", "espera_ms": 3000 }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "_leia-me": [
+    "A marca destes tutoriais. O motor (motor/gerar.mjs) é o mesmo do ADSA e do",
+    "Welwitschia; o que muda é este ficheiro.",
+    "",
+    "O logótipo é o ÍCONE quadrado e SEM texto (marca/ondaka-simbolo.png, cópia",
+    "de public/img/ondaka_app_icon_minimal_v3.png). O logótipo com palavras",
+    "(public/img/ondaka-logo.png) está escrito «Gestáo» e «condominio», sem os",
+    "acentos certos — enquanto não for refeito não entra em material que vai a",
+    "um cliente.",
+    "",
+    "As cores saem do próprio ícone: o azul-noite do fundo, o ciano das torres",
+    "e o roxo do traço de luz."
+  ],
+  "nome": "ONDAKA",
+  "sub": "Gestão de Condomínios",
+  "logo": "marca/ondaka-simbolo.png",
+  "dominio": "ondaka.ao",
+  "caminho_base": "/dashboard",
+  "whatsapp": "+244 929 167 474",
+  "cores": {
+    "fundo": "#040b1e",
+    "janela": "#0a1330",
+    "barra": "#101a3d",
+    "texto": "#e9eefb",
+    "texto2": "#8e9cc4",
+    "texto3": "#d4dcf0",
+    "acento": "#2bb6ef",
+    "grad1": "#2bb6ef",
+    "grad2": "#7e38dc",
+    "kicker": "#a78bfa"
+  }
+}

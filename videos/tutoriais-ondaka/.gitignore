@@ -1,0 +1,22 @@
+# Os prints e os MP4 não vão para o git: pesam, e o capturar.mjs volta a fazê-los
+# a partir do portal a sério em dois minutos. O que é fonte — o catálogo, o motor,
+# o guião de cada vídeo e o BRIEF — esse fica versionado.
+capturas/
+node_modules/
+.venv-voz/
+.env
+# tudo o que o motor escreve por filme (refaz-se com node motor/gerar.mjs)
+filmes/*/index.html
+filmes/*/assets/
+filmes/*/renders/
+filmes/*/snapshots/
+filmes/*/narracao.json
+filmes/*/narracao.txt
+filmes/*/voz/
+filmes/*/voz.json
+filmes/*/hyperframes.json
+filmes/*/package.json
+filmes/*/meta.json
+filmes/meta.json
+# estado do CLI do HyperFrames (ids de histórico, resultados de check)
+filmes/*/.hyperframes/

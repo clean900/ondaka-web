@@ -1,0 +1,13 @@
+{
+  "name": "tutoriais-ondaka",
+  "private": true,
+  "type": "module",
+  "description": "Prints da consola ONDAKA + vídeos tutoriais (um por módulo)",
+  "scripts": {
+    "capturar": "node capturar.mjs"
+  },
+  "dependencies": {
+    "hyperframes": "^0.8.15",
+    "puppeteer-core": "^24.0.0"
+  }
+}
