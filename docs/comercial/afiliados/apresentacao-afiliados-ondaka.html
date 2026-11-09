@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <title>ONDAKA — Programa de Afiliados</title>
-<meta name="description" content="Programa de afiliados do ONDAKA: ganhe 6% a 10% por cada condomínio que trouxer.">
+<meta name="description" content="Programa de afiliados do ONDAKA: ganhe comissão por cada condomínio que trouxer.">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -704,6 +704,98 @@ input[type="range"]:focus-visible { outline: 2px solid var(--sky); outline-offse
 .opcional em { color: var(--faint); font-style: normal; }
 @media (max-width: 520px) { .calc__meio--sec { padding-left: 0; border-left: 0; } }
 
+/* ===========================================================================
+   TUTORIAIS EM VÍDEO
+   Os MP4 vêm do mesmo pipeline que publica os tutoriais do portal. O leitor tem
+   de servir duas situações opostas: alguém sozinho no portátil, e um
+   apresentador a projectar com o som desligado para falar por cima. Daí a
+   legenda ficar POR BAIXO do vídeo e em corpo grande — sobreposta, taparia a
+   zona do ecrã de que se está a falar — e as velocidades estarem todas à vista,
+   em vez de escondidas num menu do navegador.
+   ========================================================================= */
+.tut {
+  border: 1px solid var(--line); border-radius: var(--r);
+  background: var(--surface); overflow: hidden; margin-top: 1rem;
+}
+.tut__topo {
+  display: flex; align-items: baseline; gap: .7rem;
+  padding: .6rem .95rem; border-bottom: 1px solid var(--line-soft); background: var(--deep);
+}
+.tut__n {
+  font-family: var(--mono); font-size: .66rem; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--void); background: var(--teal);
+  padding: .16rem .42rem; border-radius: 3px; flex: none;
+}
+.tut__nome { font-family: var(--display); font-weight: 700; font-size: 1.02rem; color: var(--ink); flex: 1; }
+.tut__dur { font-family: var(--mono); font-size: .76rem; color: var(--faint); }
+
+.tut__ecra { position: relative; background: #000; aspect-ratio: 16/9; overflow: hidden; }
+.tut__v { width: 100%; height: 100%; display: block; object-fit: contain; background: #000; }
+.tut__play {
+  position: absolute; inset: 0; border: 0; cursor: pointer; z-index: 3;
+  background: rgba(6,13,26,.3); display: grid; place-items: center; transition: opacity .25s;
+}
+.tut.is-on .tut__play { opacity: 0; pointer-events: none; }
+.tut__play span {
+  width: 68px; height: 68px; border-radius: 50%; background: var(--teal);
+  position: relative; box-shadow: 0 8px 30px rgba(0,0,0,.45);
+}
+.tut__play span::after {
+  content: ""; position: absolute; left: 55%; top: 50%; transform: translate(-50%,-50%);
+  border-left: 20px solid var(--void);
+  border-top: 12px solid transparent; border-bottom: 12px solid transparent;
+}
+.tut__erro {
+  position: absolute; inset: auto 0 0 0; z-index: 4; padding: .7rem .95rem;
+  background: rgba(10,21,36,.94); border-top: 1px solid var(--alert);
+  display: grid; gap: .2rem;
+}
+.tut__erro b { color: var(--ink); font-size: .9rem; }
+.tut__erro span, .tut__erro code { color: var(--ink-2); font-size: .82rem; font-family: var(--mono); }
+
+.tut__cc {
+  min-height: 3.2em; padding: .85rem 1rem; background: var(--deep);
+  border-top: 1px solid var(--line-soft);
+  font-size: 1.04rem; line-height: 1.5; color: var(--ink);
+}
+.tut__ctrl {
+  display: flex; align-items: center; gap: .45rem; flex-wrap: wrap;
+  padding: .6rem .85rem; border-top: 1px solid var(--line-soft);
+}
+.tut__b {
+  border: 1px solid var(--line); background: var(--raised); color: var(--ink-2);
+  border-radius: 6px; padding: .34rem .58rem; cursor: pointer;
+  font-family: var(--mono); font-size: .8rem; line-height: 1;
+  transition: border-color .2s, color .2s;
+}
+.tut__b:hover { border-color: var(--teal); color: var(--teal); }
+.tut__b--pp { min-width: 38px; }
+.tut__b--som[aria-pressed="false"] { border-color: var(--warn); color: var(--warn); }
+.tut__barra {
+  flex: 1; min-width: 80px; height: 8px; border-radius: 4px;
+  background: var(--line); position: relative; cursor: pointer;
+}
+.tut__barra:focus-visible { outline: 2px solid var(--teal); outline-offset: 3px; }
+.tut__barra__p { height: 100%; border-radius: 4px; background: var(--teal); width: 0; }
+.tut__t { font-family: var(--mono); font-size: .78rem; color: var(--faint); min-width: 36px; }
+.tut__vels { display: flex; gap: 2px; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+.tut__vel {
+  border: 0; background: var(--raised); color: var(--mute); cursor: pointer;
+  font-family: var(--mono); font-size: .74rem; padding: .34rem .42rem; line-height: 1;
+}
+.tut__vel:hover { color: var(--ink); }
+.tut__vel.is-on { background: var(--teal); color: var(--void); font-weight: 600; }
+.tut__sub { margin: 0; padding: 0 1rem .85rem; font-size: .84rem; color: var(--mute); }
+.tut__falta {
+  padding: 1.1rem; border: 1px dashed var(--line); border-radius: var(--r);
+  color: var(--faint); font-size: .86rem; font-family: var(--mono);
+}
+@media (max-width: 760px) {
+  .tut__vels { order: 10; }
+  .tut__barra { order: 9; flex-basis: 100%; }
+}
+
+
 </style>
 </head>
 <body>
@@ -753,8 +845,8 @@ input[type="range"]:focus-visible { outline: 2px solid var(--sky); outline-offse
         <span class="cta__seta">→</span></button>
 
       <div class="capa__meta">
-        <div>Apresentado a<b>Parceiro</b></div>
-        <div>Data<b>8 de novembro de 2026</b></div>
+        <div>Apresentado a<b>…</b></div>
+        <div>Data<b>9 de novembro de 2026</b></div>
         <div>Por<b>KAYANTEC · Ondaka</b></div>
       </div>
     </div>
@@ -771,7 +863,17 @@ input[type="range"]:focus-visible { outline: 2px solid var(--sky); outline-offse
   </section>
 
   <!-- ═══════════════════════════════════════════════════ 2 · COMO FUNCIONA -->
-  <section class="sec sec--alt" id="s-como" data-nome="Como funciona">
+
+<!-- ──────────────────────────────────────────── tutorial · af-programa -->
+  <section class="sec sec--alt" id="s-t-af-programa" data-nome="Tutorial · O programa, por dentro">
+    <div class="eyebrow rev">Tutorial em vídeo · ecrãs reais do programa</div>
+    <h2 class="sec__titulo rev rev-1">O programa, por dentro</h2>
+    <p class="sec__lead rev rev-2">A página pública do programa: explica, simula o que se ganha por condomínio e inscreve — tudo sem falar com ninguém.</p>
+    <div id="tut-af-programa"></div>
+    <p class="remate rev rev-3" style="font-size:1rem;margin-top:1.1rem">A seguir, o mesmo em quatro passos.</p>
+  </section>
+
+  <section class="sec" id="s-como" data-nome="Como funciona">
     <div class="eyebrow rev">Quatro passos, e só o primeiro é seu</div>
     <h2 class="sec__titulo rev rev-1">Apresenta.<br>O resto <em>acontece sozinho</em>.</h2>
     <p class="sec__lead rev rev-2">Recebe um link com o seu código. Quem o abrir fica associado a
@@ -797,7 +899,7 @@ input[type="range"]:focus-visible { outline: 2px solid var(--sky); outline-offse
   </section>
 
   <!-- ══════════════════════════════════════════════════ 3 · QUANTO SE GANHA -->
-  <section class="sec" id="s-escaloes" data-nome="Quanto se ganha">
+  <section class="sec sec--alt" id="s-escaloes" data-nome="Quanto se ganha">
     <div class="eyebrow rev">A escada sobe por número de clientes pagantes</div>
     <h2 class="sec__titulo rev rev-1">Começa nos 6%.<br>Chega aos <em>10%</em>.</h2>
     <p class="sec__lead rev rev-2">A taxa não é negociada caso a caso: está definida em escalões,
@@ -835,6 +937,16 @@ input[type="range"]:focus-visible { outline: 2px solid var(--sky); outline-offse
   </section>
 
   <!-- ═══════════════════════════════════════════════════ 4 · O QUE CONTA -->
+
+<!-- ──────────────────────────────────────────── tutorial · af-ganhos -->
+  <section class="sec" id="s-t-af-ganhos" data-nome="Tutorial · O que conta e quanto rende">
+    <div class="eyebrow rev">Tutorial em vídeo · ecrãs reais do programa</div>
+    <h2 class="sec__titulo rev rev-1">O que conta e quanto rende</h2>
+    <p class="sec__lead rev rev-2">Que condomínios foram angariados por si, como chegaram, e a conta inteira de cada comissão.</p>
+    <div id="tut-af-ganhos"></div>
+    <p class="remate rev rev-3" style="font-size:1rem;margin-top:1.1rem">A seguir, o que entra nessa conta e o que fica de fora.</p>
+  </section>
+
   <section class="sec sec--alt" id="s-receita" data-nome="O que conta">
     <div class="eyebrow rev">Tudo o que o condomínio pagar</div>
     <h2 class="sec__titulo rev rev-1">Não é só a primeira venda.<br>É <em>tudo o que vier a seguir</em>.</h2>
@@ -898,7 +1010,17 @@ input[type="range"]:focus-visible { outline: 2px solid var(--sky); outline-offse
   </section>
 
   <!-- ══════════════════════════════════════════════════════ 6 · O PAINEL -->
-  <section class="sec sec--alt" id="s-painel" data-nome="O seu painel">
+
+<!-- ──────────────────────────────────────────── tutorial · af-painel -->
+  <section class="sec sec--alt" id="s-t-af-painel" data-nome="Tutorial · O seu painel de afiliado">
+    <div class="eyebrow rev">Tutorial em vídeo · ecrãs reais do programa</div>
+    <h2 class="sec__titulo rev rev-1">O seu painel de afiliado</h2>
+    <p class="sec__lead rev rev-2">O código, o link de angariação, os números por estado e as mensagens prontas a enviar.</p>
+    <div id="tut-af-painel"></div>
+    <p class="remate rev rev-3" style="font-size:1rem;margin-top:1.1rem">A seguir, o painel visto de fora: o que lá está e porquê.</p>
+  </section>
+
+  <section class="sec" id="s-painel" data-nome="O seu painel">
     <div class="eyebrow rev">O que vê quando entra</div>
     <h2 class="sec__titulo rev rev-1">Nada é opaco.<br>Vê <em>cada comissão</em>.</h2>
     <p class="sec__lead rev rev-2">O afiliado tem consola própria: o seu link e os cliques que
@@ -923,6 +1045,16 @@ input[type="range"]:focus-visible { outline: 2px solid var(--sky); outline-offse
   </section>
 
   <!-- ═════════════════════════════════════════════════════ 7 · O PAGAMENTO -->
+
+<!-- ──────────────────────────────────────────── tutorial · af-receber -->
+  <section class="sec sec--alt" id="s-t-af-receber" data-nome="Tutorial · Como recebe o dinheiro">
+    <div class="eyebrow rev">Tutorial em vídeo · ecrãs reais do programa</div>
+    <h2 class="sec__titulo rev rev-1">Como recebe o dinheiro</h2>
+    <p class="sec__lead rev rev-2">Do saldo aprovado ao comprovativo da transferência.</p>
+    <div id="tut-af-receber"></div>
+    <p class="remate rev rev-3" style="font-size:1rem;margin-top:1.1rem">A seguir, as condições do pagamento, em letra grande.</p>
+  </section>
+
   <section class="sec" id="s-pagamento" data-nome="Como recebe">
     <div class="eyebrow rev">Do saldo à conta bancária</div>
     <h2 class="sec__titulo rev rev-1">Pede o levantamento<br>quando <em>quiser</em>.</h2>
@@ -947,7 +1079,7 @@ input[type="range"]:focus-visible { outline: 2px solid var(--sky); outline-offse
   </section>
 
   <!-- ════════════════════════════════════════════════════════ 8 · ADERIR -->
-  <section class="sec sec--alt fecho" id="s-fecho" data-nome="Aderir">
+  <section class="sec fecho sec--alt" id="s-fecho" data-nome="Aderir">
     <div class="eyebrow rev">Próximo passo</div>
     <h2 class="fecho__h rev rev-1">Não precisa de vender.<br>Precisa de <em>apresentar</em>.</h2>
     <p class="fecho__sub rev rev-2">O programa foi feito para empresas gestoras, administradores independentes, contabilistas e mediadores imobiliários — gente que já tem a
@@ -993,6 +1125,241 @@ input[type="range"]:focus-visible { outline: 2px solid var(--sky); outline-offse
     <div id="modalCorpo"></div>
   </div>
 </div>
+<script>window.__VIDEOS__ = {"videos":[]};</script>
+<script>
+/* Tutoriais em vídeo dentro da apresentação.
+   =============================================================================
+   Os vídeos NÃO são feitos aqui. São os tutoriais que o `videos/tutoriais-adsa`
+   já produz — prints reais da conta de demonstração, câmara, realces, cursor e
+   narração em pt-PT (edge-tts, Duarte), renderizados em MP4 pelo HyperFrames.
+   Este ficheiro é só o leitor que os mostra: moldura, poster, legendas e
+   controlo de velocidade.
+
+   Porquê ligar ao MP4 no servidor em vez de o embutir: sete tutoriais são perto
+   de noventa megabytes, e um HTML desse tamanho não chega a lado nenhum por
+   email. O POSTER de cada um vai embutido, de modo que a apresentação aberta
+   sem ligação mostra o primeiro ecrã do tutorial e diz onde o ver — nunca uma
+   moldura preta.
+   ========================================================================== */
+(function () {
+  "use strict";
+  var $ = function (s, r) { return (r || document).querySelector(s); };
+  var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+
+  var DADOS = window.__VIDEOS__ || { videos: [] };
+  var porSlug = {};
+  DADOS.videos.forEach(function (v) { porSlug[v.slug] = v; });
+
+  /* as velocidades que um apresentador usa de facto: devagar para explicar por
+     cima, depressa para passar à frente do que a sala já percebeu */
+  var VELOCIDADES = [0.5, 0.75, 1, 1.25, 1.5, 2];
+
+  function mmss(s) {
+    s = Math.max(0, Math.round(s || 0));
+    return Math.floor(s / 60) + ":" + ("0" + (s % 60)).slice(-2);
+  }
+
+  function montar(raiz, v) {
+    var id = "v-" + v.slug;
+    raiz.classList.add("tut");
+    raiz.innerHTML =
+      '<div class="tut__topo">' +
+        '<span class="tut__n">tutorial</span>' +
+        '<span class="tut__nome">' + v.titulo + "</span>" +
+        '<span class="tut__dur">' + mmss(v.duracao) + "</span>" +
+      "</div>" +
+      '<div class="tut__ecra">' +
+        '<video id="' + id + '" class="tut__v" preload="none" playsinline' +
+          (v.poster ? ' poster="' + v.poster + '"' : "") + ">" +
+          '<source src="' + v.url + '" type="video/mp4">' +
+        "</video>" +
+        '<button class="tut__play" id="' + id + '-play" type="button" ' +
+          'aria-label="Reproduzir o tutorial"><span></span></button>' +
+        '<div class="tut__erro" id="' + id + '-erro" hidden>' +
+          "<b>Esta cópia foi aberta sem ligação à Internet.</b>" +
+          "<span>O tutorial está em <code>" + v.url.replace("https://", "") + "</code></span>" +
+        "</div>" +
+      "</div>" +
+      '<div class="tut__cc" id="' + id + '-cc" aria-live="polite"></div>' +
+      '<div class="tut__ctrl">' +
+        '<button class="tut__b tut__b--pp" id="' + id + '-pp" type="button" aria-label="Reproduzir">▶</button>' +
+        '<button class="tut__b" id="' + id + '-rec" type="button" aria-label="Recomeçar">↺</button>' +
+        '<div class="tut__barra" id="' + id + '-barra" role="slider" tabindex="0" ' +
+          'aria-label="Posição no vídeo"><div class="tut__barra__p" id="' + id + '-prog"></div></div>' +
+        '<span class="tut__t" id="' + id + '-t">0:00</span>' +
+        '<div class="tut__vels" role="group" aria-label="Velocidade de reprodução">' +
+          VELOCIDADES.map(function (x) {
+            return '<button class="tut__vel' + (x === 1 ? " is-on" : "") + '" type="button" ' +
+              'data-v="' + x + '" aria-pressed="' + (x === 1) + '">' +
+              String(x).replace(".", ",") + "×</button>";
+          }).join("") +
+        "</div>" +
+        '<button class="tut__b tut__b--som" id="' + id + '-som" type="button" ' +
+          'aria-pressed="true" aria-label="Desligar o som">🔊 som</button>' +
+        '<button class="tut__b" id="' + id + '-cheio" type="button" aria-label="Ecrã inteiro">⛶</button>' +
+      "</div>" +
+      '<p class="tut__sub">' + v.subtitulo + "</p>";
+
+    var vid = $("#" + id), pp = $("#" + id + "-pp"), play = $("#" + id + "-play");
+    var rec = $("#" + id + "-rec"), barra = $("#" + id + "-barra");
+    var prog = $("#" + id + "-prog"), tmp = $("#" + id + "-t");
+    var som = $("#" + id + "-som"), cheio = $("#" + id + "-cheio");
+    var cc = $("#" + id + "-cc"), erro = $("#" + id + "-erro");
+
+    /* LEGENDAS. Vêm do texto que o motor de voz já tinha medido, e mostramo-las
+       NÓS por baixo do vídeo, em corpo grande, em vez de deixar o navegador
+       desenhá-las por cima: numa sala, a legenda sobreposta tapa exactamente a
+       zona do ecrã de que se está a falar. E com o som desligado — que é como o
+       apresentador fala por cima — são elas que seguram o fio. */
+    var pistas = [];
+    if (v.vtt) {
+      try {
+        var faixa = document.createElement("track");
+        faixa.kind = "metadata";
+        faixa.src = URL.createObjectURL(new Blob([v.vtt], { type: "text/vtt" }));
+        faixa.default = true;
+        vid.appendChild(faixa);
+        faixa.addEventListener("load", function () {
+          if (faixa.track) {
+            faixa.track.mode = "hidden";
+            pistas = Array.prototype.slice.call(faixa.track.cues || []);
+          }
+        });
+      } catch (e) { }
+    }
+    function legenda(t) {
+      if (!pistas.length) return;
+      for (var i = 0; i < pistas.length; i++) {
+        if (t >= pistas[i].startTime && t < pistas[i].endTime) {
+          if (cc.textContent !== pistas[i].text) cc.textContent = pistas[i].text;
+          return;
+        }
+      }
+    }
+
+    function tocar() {
+      tentou = true;
+      var p = vid.play();
+      if (p && p.catch) p.catch(function () {
+        /* o navegador recusou (política de reprodução) ou a origem não responde:
+           só neste caso é que o aviso faz sentido */
+        if (!vid.readyState) erro.hidden = false;
+      });
+    }
+    pp.addEventListener("click", function () { vid.paused ? tocar() : vid.pause(); });
+    play.addEventListener("click", tocar);
+    rec.addEventListener("click", function () { vid.currentTime = 0; tocar(); });
+    som.addEventListener("click", function () {
+      vid.muted = !vid.muted;
+      som.textContent = (vid.muted ? "🔇" : "🔊") + " som";
+      som.setAttribute("aria-pressed", String(!vid.muted));
+      som.setAttribute("aria-label", vid.muted ? "Ligar o som" : "Desligar o som");
+    });
+    cheio.addEventListener("click", function () {
+      var alvo = vid.parentNode;
+      if (document.fullscreenElement) document.exitFullscreen();
+      else if (alvo.requestFullscreen) alvo.requestFullscreen();
+      else if (vid.webkitEnterFullscreen) vid.webkitEnterFullscreen();
+    });
+
+    $$(".tut__vel", raiz).forEach(function (b) {
+      b.addEventListener("click", function () {
+        vid.playbackRate = parseFloat(b.dataset.v);
+        $$(".tut__vel", raiz).forEach(function (o) {
+          o.classList.toggle("is-on", o === b);
+          o.setAttribute("aria-pressed", String(o === b));
+        });
+      });
+    });
+
+    vid.addEventListener("play", function () {
+      pp.textContent = "⏸"; pp.setAttribute("aria-label", "Pausa");
+      raiz.classList.add("is-on");
+      /* um tutorial de cada vez: dois a falar ao mesmo tempo acaba com a reunião */
+      $$("video.tut__v").forEach(function (o) { if (o !== vid) o.pause(); });
+    });
+    vid.addEventListener("pause", function () {
+      pp.textContent = "▶"; pp.setAttribute("aria-label", "Reproduzir");
+    });
+    vid.addEventListener("ended", function () { raiz.classList.remove("is-on"); });
+    vid.addEventListener("timeupdate", function () {
+      var d = vid.duration || v.duracao || 1;
+      prog.style.width = (vid.currentTime / d * 100).toFixed(2) + "%";
+      tmp.textContent = mmss(vid.currentTime);
+      legenda(vid.currentTime);
+    });
+    /* O aviso de «sem ligação» só aparece quando o vídeo falha MESMO, e
+       desaparece a qualquer sinal de vida — um `error` disparado por um salto na
+       barra deixava o aviso em cima de um vídeo que estava a correr bem. */
+    /* O aviso de «sem ligação» só aparece depois de uma tentativa REAL de
+       reprodução falhar. Com preload="none" — que é o que evita descarregar
+       noventa megabytes ao abrir a página — nada é pedido ao servidor até
+       alguém carregar em play, e o aviso aparecia por cima do poster de um
+       vídeo que ainda nem tinha sido pedido. */
+    var tentou = false;
+    function semAviso() { erro.hidden = true; }
+    ["loadedmetadata", "loadeddata", "canplay", "playing", "timeupdate"]
+      .forEach(function (ev) { vid.addEventListener(ev, semAviso); });
+    vid.addEventListener("error", function () {
+      if (tentou && vid.readyState < 2 && !vid.currentTime) erro.hidden = false;
+    });
+
+    function irPara(ev) {
+      var r = barra.getBoundingClientRect();
+      var x = ((ev.touches ? ev.touches[0].clientX : ev.clientX) - r.left) / r.width;
+      vid.currentTime = Math.max(0, Math.min(1, x)) * (vid.duration || v.duracao || 0);
+    }
+    barra.addEventListener("click", irPara);
+    barra.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowRight") vid.currentTime += 5;
+      if (e.key === "ArrowLeft") vid.currentTime -= 5;
+    });
+
+    /* pára quando sai de vista; NÃO arranca sozinho — quem manda no arranque é
+       o apresentador, e não o scroll */
+    if (typeof IntersectionObserver === "function") {
+      new IntersectionObserver(function (es) {
+        es.forEach(function (e) { if (!e.isIntersecting && !vid.paused) vid.pause(); });
+      }, { threshold: .25 }).observe(raiz);
+    }
+  }
+
+
+  /* PODA. Um tutorial que ainda não foi produzido leva a SECÇÃO INTEIRA
+     consigo, e a apresentação lê-se como se ele nunca tivesse sido previsto.
+     Antes ficava no lugar um recado para o programador — numa apresentação que
+     vai a um cliente, isso é pior do que não ter vídeo nenhum.
+
+     Corre AQUI, ao ler o ficheiro, e não dentro de montar(): o motor monta a
+     navegação a partir das secções que encontra, e se a poda viesse depois o
+     índice lateral ficava a listar tutoriais que já não estão na página, com a
+     numeração toda a seguir trocada. Por isso o video.js entra ANTES do motor. */
+  (function podar() {
+    $$('[id^="tut-"]').forEach(function (raiz) {
+      var slug = raiz.id.replace(/^tut-/, "");
+      if (porSlug[slug]) return;
+      var sec = raiz.closest ? raiz.closest("section") : null;
+      var fora = sec || raiz;
+      if (fora.parentNode) fora.parentNode.removeChild(fora);
+      if (window.console) {
+        console.info("tutorial \u00ab" + slug + "\u00bb ainda n\u00e3o produzido \u2014 sec\u00e7\u00e3o retirada");
+      }
+    });
+  })();
+
+  window.TUTORIAL = {
+    montar: function (seletor, slug) {
+      var raiz = $(seletor);
+      if (!raiz) return;
+      var v = porSlug[slug];
+      if (!v) return;        /* já foi podada à chegada — ver podar(), acima */
+      montar(raiz, v);
+    },
+    lista: DADOS.videos
+  };
+})();
+
+</script>
 
 <script>
 /* Motor comum das apresentações do ecossistema KAYANTEC.
@@ -1742,6 +2109,23 @@ input[type="range"]:focus-visible { outline: 2px solid var(--sky); outline-offse
 
   AP.contar();
   AP.arrancar();
+})();
+
+</script>
+<script>
+/* Coloca cada tutorial na sua secção.
+   Os vídeos são os do `videos/tutoriais-ondaka`, capturados na conta de
+   afiliado de demonstração. Cada um vem ANTES do tema a que pertence:
+   vê-se o ecrã primeiro e as perguntas vêm a seguir. */
+(function () {
+  "use strict";
+  if (!window.TUTORIAL) return;
+  [
+    ["#tut-af-programa",    "af-programa"],
+    ["#tut-af-ganhos",      "af-ganhos"],
+    ["#tut-af-painel",      "af-painel"],
+    ["#tut-af-receber",     "af-receber"]
+  ].forEach(function (p) { window.TUTORIAL.montar(p[0], p[1]); });
 })();
 
 </script>

@@ -692,3 +692,95 @@ input[type="range"]:focus-visible { outline: 2px solid var(--sky); outline-offse
 .opcional b { color: var(--ink); font-weight: 600; }
 .opcional em { color: var(--faint); font-style: normal; }
 @media (max-width: 520px) { .calc__meio--sec { padding-left: 0; border-left: 0; } }
+
+/* ===========================================================================
+   TUTORIAIS EM VÍDEO
+   Os MP4 vêm do mesmo pipeline que publica os tutoriais do portal. O leitor tem
+   de servir duas situações opostas: alguém sozinho no portátil, e um
+   apresentador a projectar com o som desligado para falar por cima. Daí a
+   legenda ficar POR BAIXO do vídeo e em corpo grande — sobreposta, taparia a
+   zona do ecrã de que se está a falar — e as velocidades estarem todas à vista,
+   em vez de escondidas num menu do navegador.
+   ========================================================================= */
+.tut {
+  border: 1px solid var(--line); border-radius: var(--r);
+  background: var(--surface); overflow: hidden; margin-top: 1rem;
+}
+.tut__topo {
+  display: flex; align-items: baseline; gap: .7rem;
+  padding: .6rem .95rem; border-bottom: 1px solid var(--line-soft); background: var(--deep);
+}
+.tut__n {
+  font-family: var(--mono); font-size: .66rem; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--void); background: var(--teal);
+  padding: .16rem .42rem; border-radius: 3px; flex: none;
+}
+.tut__nome { font-family: var(--display); font-weight: 700; font-size: 1.02rem; color: var(--ink); flex: 1; }
+.tut__dur { font-family: var(--mono); font-size: .76rem; color: var(--faint); }
+
+.tut__ecra { position: relative; background: #000; aspect-ratio: 16/9; overflow: hidden; }
+.tut__v { width: 100%; height: 100%; display: block; object-fit: contain; background: #000; }
+.tut__play {
+  position: absolute; inset: 0; border: 0; cursor: pointer; z-index: 3;
+  background: rgba(6,13,26,.3); display: grid; place-items: center; transition: opacity .25s;
+}
+.tut.is-on .tut__play { opacity: 0; pointer-events: none; }
+.tut__play span {
+  width: 68px; height: 68px; border-radius: 50%; background: var(--teal);
+  position: relative; box-shadow: 0 8px 30px rgba(0,0,0,.45);
+}
+.tut__play span::after {
+  content: ""; position: absolute; left: 55%; top: 50%; transform: translate(-50%,-50%);
+  border-left: 20px solid var(--void);
+  border-top: 12px solid transparent; border-bottom: 12px solid transparent;
+}
+.tut__erro {
+  position: absolute; inset: auto 0 0 0; z-index: 4; padding: .7rem .95rem;
+  background: rgba(10,21,36,.94); border-top: 1px solid var(--alert);
+  display: grid; gap: .2rem;
+}
+.tut__erro b { color: var(--ink); font-size: .9rem; }
+.tut__erro span, .tut__erro code { color: var(--ink-2); font-size: .82rem; font-family: var(--mono); }
+
+.tut__cc {
+  min-height: 3.2em; padding: .85rem 1rem; background: var(--deep);
+  border-top: 1px solid var(--line-soft);
+  font-size: 1.04rem; line-height: 1.5; color: var(--ink);
+}
+.tut__ctrl {
+  display: flex; align-items: center; gap: .45rem; flex-wrap: wrap;
+  padding: .6rem .85rem; border-top: 1px solid var(--line-soft);
+}
+.tut__b {
+  border: 1px solid var(--line); background: var(--raised); color: var(--ink-2);
+  border-radius: 6px; padding: .34rem .58rem; cursor: pointer;
+  font-family: var(--mono); font-size: .8rem; line-height: 1;
+  transition: border-color .2s, color .2s;
+}
+.tut__b:hover { border-color: var(--teal); color: var(--teal); }
+.tut__b--pp { min-width: 38px; }
+.tut__b--som[aria-pressed="false"] { border-color: var(--warn); color: var(--warn); }
+.tut__barra {
+  flex: 1; min-width: 80px; height: 8px; border-radius: 4px;
+  background: var(--line); position: relative; cursor: pointer;
+}
+.tut__barra:focus-visible { outline: 2px solid var(--teal); outline-offset: 3px; }
+.tut__barra__p { height: 100%; border-radius: 4px; background: var(--teal); width: 0; }
+.tut__t { font-family: var(--mono); font-size: .78rem; color: var(--faint); min-width: 36px; }
+.tut__vels { display: flex; gap: 2px; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+.tut__vel {
+  border: 0; background: var(--raised); color: var(--mute); cursor: pointer;
+  font-family: var(--mono); font-size: .74rem; padding: .34rem .42rem; line-height: 1;
+}
+.tut__vel:hover { color: var(--ink); }
+.tut__vel.is-on { background: var(--teal); color: var(--void); font-weight: 600; }
+.tut__sub { margin: 0; padding: 0 1rem .85rem; font-size: .84rem; color: var(--mute); }
+.tut__falta {
+  padding: 1.1rem; border: 1px dashed var(--line); border-radius: var(--r);
+  color: var(--faint); font-size: .86rem; font-family: var(--mono);
+}
+@media (max-width: 760px) {
+  .tut__vels { order: 10; }
+  .tut__barra { order: 9; flex-basis: 100%; }
+}
+

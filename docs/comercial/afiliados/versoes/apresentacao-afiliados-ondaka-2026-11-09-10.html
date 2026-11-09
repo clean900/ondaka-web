@@ -1,0 +1,2120 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+<meta charset="utf-8">
+<title>ONDAKA — Programa de Afiliados</title>
+<meta name="description" content="Programa de afiliados do ONDAKA: ganhe comissão por cada condomínio que trouxer.">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;700;800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* ============================================================================
+   Apresentação ONDAKA — gestão de condomínios
+   Paleta da própria aplicação: ciano, púrpura e rosa sobre azul-noite
+   (resources/css do ondaka-web).
+   Dark único, deliberado: é o mundo da aplicação e o dos mockups. Todas as
+   cores são pintadas explicitamente para a página não herdar o fundo do
+   anfitrião em nenhum tema.
+   ========================================================================== */
+:root {
+  --void:    #06060F;
+  --deep:    #0A0A1A;
+  --surface: #101024;
+  --raised:  #171733;
+  --line:    #262650;
+  --line-soft: #1C1C42;
+
+  --teal:    #00D4FF;
+  --teal-dim:#0A7E99;
+  --teal-glow: rgba(0,212,255,.16);
+  --sky:     #A855F7;
+  --alert:   #EC4899;
+  --warn:    #F0A030;
+
+  --ink:     #ECECFF;
+  --ink-2:   #C2C5EC;
+  --mute:    #8C90C4;
+  --faint:   #61669F;
+
+  --display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --body:    "IBM Plex Sans", "Segoe UI", Arial, sans-serif;
+  --mono:    "IBM Plex Mono", "SF Mono", Consolas, monospace;
+
+  --nav-w:   256px;
+  --pad:     clamp(1.5rem, 3.4vw, 4rem);
+  --r:       10px;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
+
+body {
+  margin: 0;
+  background: var(--void);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 { font-family: var(--display); font-weight: 700; line-height: 1.1; margin: 0; text-wrap: balance; }
+p { margin: 0; }
+a { color: var(--teal); }
+
+/* ---------------------------------------------------------------- navegação */
+.nav {
+  position: fixed; inset: 0 auto 0 0; width: var(--nav-w); z-index: 60;
+  background: var(--deep); border-right: 1px solid var(--line);
+  display: flex; flex-direction: column; padding: 1.6rem 0 1rem;
+}
+.nav__marca { padding: 0 1.4rem 1.3rem; border-bottom: 1px solid var(--line-soft); }
+.nav__logo { font-family: var(--display); font-size: 1.15rem; font-weight: 800; letter-spacing: .18em; color: var(--ink); }
+.nav__logo span { color: var(--teal); }
+.nav__sub { font-family: var(--mono); font-size: .58rem; letter-spacing: .16em; color: var(--faint); margin-top: .35rem; text-transform: uppercase; }
+.nav__lista { list-style: none; margin: 0; padding: 1rem .7rem; overflow-y: auto; flex: 1; display: flex; flex-direction: column; gap: 2px; }
+.nav__link {
+  display: flex; align-items: center; gap: .7rem; width: 100%; text-align: left;
+  padding: .55rem .7rem; border: 0; border-radius: 7px; cursor: pointer;
+  background: transparent; color: var(--mute); font-family: var(--body); font-size: .84rem;
+  transition: background .18s, color .18s;
+}
+.nav__link:hover { background: var(--surface); color: var(--ink-2); }
+.nav__link[aria-current="true"] { background: var(--raised); color: var(--ink); }
+.nav__link[aria-current="true"] .nav__n { background: var(--teal); color: var(--void); border-color: var(--teal); }
+.nav__n {
+  font-family: var(--mono); font-size: .62rem; width: 1.35rem; height: 1.35rem; flex: 0 0 auto;
+  display: grid; place-items: center; border: 1px solid var(--line); border-radius: 5px; color: var(--faint);
+  transition: background .18s, color .18s, border-color .18s;
+}
+.nav__rodape { padding: .9rem 1.4rem 0; border-top: 1px solid var(--line-soft); font-family: var(--mono); font-size: .6rem; color: var(--faint); line-height: 1.7; }
+.nav__toggle { display: none; }
+
+/* barra de progresso */
+.progresso { position: fixed; top: 0; left: var(--nav-w); right: 0; height: 2px; background: transparent; z-index: 70; }
+.progresso__barra { height: 100%; width: 0; background: var(--teal); transition: width .15s linear; }
+
+/* ------------------------------------------------------------------- palco */
+.palco { margin-left: var(--nav-w); }
+.sec {
+  min-height: 100vh; padding: calc(var(--pad) * 1.1) var(--pad);
+  display: flex; flex-direction: column; justify-content: center;
+  border-bottom: 1px solid var(--line-soft); position: relative;
+}
+.sec--alt { background: var(--deep); }
+
+.eyebrow {
+  font-family: var(--mono); font-size: .66rem; letter-spacing: .2em; text-transform: uppercase;
+  color: var(--teal); display: flex; align-items: center; gap: .6rem; margin-bottom: 1rem;
+}
+.eyebrow::before { content: ""; width: 1.6rem; height: 1px; background: var(--teal-dim); }
+
+.sec__titulo { font-size: clamp(1.7rem, 3.1vw, 2.7rem); letter-spacing: -.02em; margin-bottom: .8rem; }
+.sec__lead { font-size: clamp(1rem, 1.25vw, 1.12rem); color: var(--ink-2); max-width: 62ch; }
+
+/* ------------------------------------------------------------------- capa */
+.capa { min-height: 100vh; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: var(--pad); align-items: center; }
+.capa__kicker { font-family: var(--mono); font-size: .68rem; letter-spacing: .22em; color: var(--teal); text-transform: uppercase; }
+.capa__h1 { font-size: clamp(2.4rem, 5.2vw, 4.4rem); font-weight: 800; letter-spacing: -.035em; margin: 1.1rem 0; }
+.capa__h1 em { font-style: normal; color: var(--teal); }
+.capa__lead { font-size: clamp(1.02rem, 1.4vw, 1.2rem); color: var(--ink-2); max-width: 46ch; }
+.capa__meta { display: flex; flex-wrap: wrap; gap: 1.6rem; margin-top: 2.4rem; font-family: var(--mono); font-size: .72rem; color: var(--faint); }
+.capa__meta b { display: block; color: var(--ink-2); font-weight: 400; font-size: .84rem; margin-top: .2rem; }
+
+/* ------------------------------------------------------- diagrama do mapa */
+.mapa { width: 100%; }
+.mapa svg { width: 100%; height: auto; display: block; overflow: visible; }
+.no { cursor: pointer; }
+.no__caixa { fill: var(--surface); stroke: var(--line); stroke-width: 1.2; transition: fill .2s, stroke .2s; }
+.no:hover .no__caixa, .no.is-on .no__caixa { fill: var(--raised); stroke: var(--teal); }
+.no__rot { font-family: var(--display); font-size: 13px; font-weight: 700; fill: var(--ink); pointer-events: none; }
+.no__sub { font-family: var(--mono); font-size: 8.5px; fill: var(--mute); letter-spacing: .09em; pointer-events: none; }
+.no.is-on .no__rot { fill: var(--teal); }
+.lig { stroke: var(--line); stroke-width: 1.2; fill: none; transition: stroke .25s, stroke-width .25s; }
+.lig.is-on { stroke: var(--teal); stroke-width: 2; }
+.mapa__legenda {
+  margin-top: 1.1rem; min-height: 4.6rem; padding: .95rem 1.1rem;
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--r);
+}
+.mapa__legenda h4 { font-size: .95rem; color: var(--teal); margin-bottom: .3rem; }
+.mapa__legenda p { font-size: .87rem; color: var(--ink-2); }
+
+/* ------------------------------------------------------------ grelha 2 col */
+.duo { display: grid; grid-template-columns: minmax(0, 0.86fr) minmax(0, 1.14fr); gap: clamp(1.5rem, 3vw, 3.2rem); align-items: center; }
+.duo--inv { grid-template-columns: minmax(0, 1.14fr) minmax(0, 0.86fr); }
+
+/* --------------------------------------------------------- moldura de ecrã */
+.ecra { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; box-shadow: 0 18px 50px rgba(0,0,0,.42); }
+.ecra__barra { display: flex; align-items: center; gap: .55rem; padding: .55rem .8rem; background: var(--deep); border-bottom: 1px solid var(--line); }
+.ecra__ponto { width: 9px; height: 9px; border-radius: 50%; background: var(--line); flex: 0 0 auto; }
+.ecra__ponto:first-child { background: #37506F; }
+.ecra__nome { font-family: var(--mono); font-size: .64rem; color: var(--mute); margin-left: .5rem; letter-spacing: .06em; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ecra__acao {
+  font-family: var(--mono); font-size: .6rem; letter-spacing: .1em; text-transform: uppercase;
+  background: transparent; border: 1px solid var(--line); color: var(--mute);
+  padding: .28rem .6rem; border-radius: 5px; cursor: pointer; transition: border-color .18s, color .18s;
+}
+.ecra__acao:hover { border-color: var(--teal); color: var(--teal); }
+.ecra__corpo { position: relative; background: #fff; }
+.ecra__corpo iframe { display: block; width: 100%; height: 100%; border: 0; }
+.ecra__espera {
+  position: absolute; inset: 0; display: grid; place-items: center; background: var(--surface);
+  font-family: var(--mono); font-size: .7rem; color: var(--faint); letter-spacing: .1em; text-transform: uppercase;
+}
+.ecra--alto .ecra__corpo { height: min(38vh, 410px); }
+.ecra--medio .ecra__corpo { height: min(48vh, 470px); }
+.ecra--movel { max-width: 340px; margin: 0 auto; }
+.ecra--movel .ecra__corpo { height: min(64vh, 640px); }
+
+/* --------------------------------------------------------------- cartões */
+.cartoes { display: grid; gap: 1rem; }
+.cartoes--3 { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+.cartoes--2 { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+.cartao { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 1.15rem 1.25rem; }
+.cartao h4 { font-size: .98rem; margin-bottom: .4rem; color: var(--ink); }
+.cartao p { font-size: .86rem; color: var(--mute); }
+.cartao__tag { font-family: var(--mono); font-size: .6rem; letter-spacing: .14em; text-transform: uppercase; color: var(--teal); display: block; margin-bottom: .45rem; }
+
+.lista { list-style: none; margin: 1.2rem 0 0; padding: 0; display: flex; flex-direction: column; gap: .75rem; }
+/* o item NÃO é flex: com flex, um <b> no início vira coluna própria e o resto
+   do texto indenta por baixo dele. Bullet absoluto mantém o texto a fluir. */
+.lista li { position: relative; padding-left: 1.4rem; font-size: .92rem; color: var(--ink-2); }
+.lista li::before { content: ""; position: absolute; left: 0; top: .52em; width: 6px; height: 6px; border-radius: 50%; background: var(--teal); }
+
+/* ------------------------------------------------------------- estatística */
+.stats { display: flex; flex-wrap: wrap; gap: 2.4rem; margin-top: 1.1rem; }
+.stat__v { font-family: var(--display); font-size: clamp(1.9rem, 3.4vw, 2.9rem); font-weight: 800; color: var(--teal); letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
+.stat__l { font-size: .8rem; color: var(--mute); max-width: 20ch; margin-top: .1rem; }
+
+/* ------------------------------------------------------------------ chips */
+.chips { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1.2rem; }
+.chip {
+  font-family: var(--mono); font-size: .68rem; letter-spacing: .06em;
+  padding: .35rem .7rem; border: 1px solid var(--line); border-radius: 999px; color: var(--ink-2); background: var(--surface);
+}
+.chip--on { border-color: var(--teal); color: var(--teal); background: var(--teal-glow); }
+
+/* --------------------------------------------------- consola ilustrada */
+.consola { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; }
+.consola__topo { display: flex; align-items: center; gap: 1rem; padding: .8rem 1rem; border-bottom: 1px solid var(--line); background: var(--deep); flex-wrap: wrap; }
+.consola__tit { font-family: var(--mono); font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; color: var(--mute); }
+.consola__corpo { padding: 1rem; }
+
+.seg { display: flex; gap: .3rem; background: var(--void); border: 1px solid var(--line); border-radius: 7px; padding: .22rem; }
+.seg button {
+  font-family: var(--mono); font-size: .68rem; letter-spacing: .06em; padding: .34rem .8rem;
+  background: transparent; border: 0; border-radius: 5px; color: var(--mute); cursor: pointer; transition: background .18s, color .18s;
+}
+.seg button[aria-pressed="true"] { background: var(--teal); color: var(--void); }
+
+.achado { display: grid; grid-template-columns: 4px 1fr auto; gap: .9rem; align-items: center; padding: .7rem .2rem; border-bottom: 1px solid var(--line-soft); }
+.achado:last-child { border-bottom: 0; }
+.achado__sev { width: 4px; height: 100%; min-height: 2.1rem; border-radius: 2px; }
+.achado__t { font-size: .88rem; color: var(--ink); }
+.achado__c { font-family: var(--mono); font-size: .68rem; color: var(--faint); margin-top: .15rem; }
+.achado__b { font-family: var(--mono); font-size: .64rem; letter-spacing: .08em; padding: .2rem .55rem; border-radius: 4px; white-space: nowrap; }
+.sev-crit { background: var(--alert); }
+.sev-med  { background: var(--warn); }
+.sev-baixa{ background: var(--sky); }
+.sev-info { background: #46607F; }
+.b-crit { background: rgba(224,103,76,.16); color: var(--alert); }
+.b-med  { background: rgba(217,160,56,.16); color: var(--warn); }
+.b-baixa{ background: rgba(79,168,232,.16); color: var(--sky); }
+.b-info { background: rgba(128,149,175,.14); color: var(--mute); }
+
+/* ------------------------------------------------- linha temporal MDR */
+.linha { display: flex; flex-direction: column; gap: 0; margin-top: 1.2rem; }
+.passo { display: grid; grid-template-columns: 5.2rem 1.6rem 1fr; gap: .9rem; align-items: start; opacity: .3; transition: opacity .4s; }
+.passo.is-on { opacity: 1; }
+.passo__t { font-family: var(--mono); font-size: .74rem; color: var(--teal); text-align: right; padding-top: .1rem; font-variant-numeric: tabular-nums; }
+.passo__eixo { display: flex; flex-direction: column; align-items: center; height: 100%; }
+.passo__bola { width: 11px; height: 11px; border-radius: 50%; background: var(--line); border: 2px solid var(--surface); flex: 0 0 auto; margin-top: .25rem; transition: background .4s, box-shadow .4s; }
+.passo.is-on .passo__bola { background: var(--teal); box-shadow: 0 0 0 4px var(--teal-glow); }
+.passo__linha { width: 1px; flex: 1; background: var(--line); min-height: 1.4rem; }
+.passo:last-child .passo__linha { display: none; }
+.passo__c { padding-bottom: 1.1rem; }
+.passo__c b { display: block; font-family: var(--display); font-size: .95rem; color: var(--ink); font-weight: 700; }
+.passo__c span { font-size: .84rem; color: var(--mute); }
+
+/* ------------------------------------------------------------ pergunta LMS */
+.quiz { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 1.3rem; }
+.quiz__p { font-size: .98rem; color: var(--ink); margin-bottom: 1rem; }
+.quiz__ops { display: flex; flex-direction: column; gap: .5rem; }
+.quiz__op {
+  text-align: left; padding: .7rem .9rem; border: 1px solid var(--line); border-radius: 7px;
+  background: var(--void); color: var(--ink-2); font-family: var(--body); font-size: .88rem; cursor: pointer;
+  transition: border-color .18s, background .18s;
+}
+.quiz__op:hover:not(:disabled) { border-color: var(--sky); }
+.quiz__op:disabled { cursor: default; }
+.quiz__op.certa { border-color: var(--teal); background: var(--teal-glow); color: var(--ink); }
+.quiz__op.errada { border-color: var(--alert); background: rgba(224,103,76,.1); }
+.quiz__exp { margin-top: 1rem; padding: .9rem 1rem; border-left: 2px solid var(--teal); background: var(--void); border-radius: 0 7px 7px 0; font-size: .86rem; color: var(--ink-2); display: none; }
+.quiz__exp.is-on { display: block; }
+
+/* --------------------------------------------------------- calculadora */
+.calc { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,.85fr); gap: 1.6rem; }
+.calc__ctrl { display: flex; flex-direction: column; gap: 1.4rem; }
+.campo label { display: flex; justify-content: space-between; align-items: baseline; font-size: .84rem; color: var(--ink-2); margin-bottom: .5rem; }
+.campo output { font-family: var(--mono); font-size: 1.05rem; color: var(--teal); font-variant-numeric: tabular-nums; }
+input[type="range"] { width: 100%; accent-color: var(--teal); height: 4px; }
+input[type="range"]:focus-visible { outline: 2px solid var(--sky); outline-offset: 4px; }
+.calc__saida { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 1.3rem; display: flex; flex-direction: column; gap: .9rem; }
+.calc__linha { display: flex; justify-content: space-between; align-items: baseline; font-size: .86rem; color: var(--mute); gap: 1rem; }
+.calc__linha b { font-family: var(--mono); color: var(--ink); font-weight: 400; font-variant-numeric: tabular-nums; }
+.calc__total { border-top: 1px solid var(--line); padding-top: .9rem; margin-top: .2rem; }
+.calc__total .calc__v { font-family: var(--display); font-size: 1.75rem; font-weight: 800; color: var(--teal); letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+.calc__nota { font-size: .74rem; color: var(--faint); }
+
+/* --------------------------------------------------------------- modal */
+.modal { position: fixed; inset: 0; z-index: 90; display: none; background: rgba(3,8,16,.9); padding: 2.2vh 2vw; }
+.modal.is-on { display: flex; flex-direction: column; }
+.modal__topo { display: flex; align-items: center; gap: 1rem; padding-bottom: .8rem; }
+.modal__nome { font-family: var(--mono); font-size: .74rem; color: var(--ink-2); letter-spacing: .08em; flex: 1; }
+.modal__fechar { font-family: var(--mono); font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; background: transparent; border: 1px solid var(--line); color: var(--ink-2); padding: .45rem .9rem; border-radius: 6px; cursor: pointer; }
+.modal__fechar:hover { border-color: var(--teal); color: var(--teal); }
+.modal__corpo { flex: 1; background: #fff; border-radius: var(--r); overflow: hidden; }
+.modal__corpo iframe { width: 100%; height: 100%; border: 0; display: block; }
+
+/* ---------------------------------------------------------------- fecho */
+.fecho { text-align: left; }
+.fecho__h { font-size: clamp(2rem, 4.4vw, 3.4rem); font-weight: 800; letter-spacing: -.03em; }
+.contactos { display: flex; flex-wrap: wrap; gap: 2.6rem; margin-top: 2.2rem; }
+.contactos div span { font-family: var(--mono); font-size: .64rem; letter-spacing: .14em; text-transform: uppercase; color: var(--faint); display: block; margin-bottom: .3rem; }
+.contactos div b { font-family: var(--display); font-size: 1.05rem; color: var(--ink); font-weight: 700; }
+
+.aviso { margin-top: 1.1rem; padding: .7rem 1rem; border: 1px dashed var(--line); border-radius: var(--r); font-size: .8rem; color: var(--mute); max-width: 70ch; }
+
+:focus-visible { outline: 2px solid var(--sky); outline-offset: 3px; border-radius: 4px; }
+
+/* --------------------------------------------------------------- ecrãs */
+@media (max-width: 1080px) {
+  .duo, .duo--inv, .capa, .calc { grid-template-columns: 1fr; }
+  .capa { padding-top: 3rem; }
+}
+@media (max-width: 860px) {
+  :root { --nav-w: 0px; }
+  .nav {
+    inset: 0 0 auto 0; width: 100%; height: auto; flex-direction: row; align-items: center;
+    border-right: 0; border-bottom: 1px solid var(--line); padding: .7rem 1rem;
+  }
+  .nav__marca { padding: 0; border: 0; flex: 1; }
+  .nav__sub, .nav__rodape { display: none; }
+  .nav__lista { position: absolute; top: 100%; left: 0; right: 0; background: var(--deep); border-bottom: 1px solid var(--line); display: none; max-height: 60vh; }
+  .nav__lista.is-on { display: flex; }
+  .nav__toggle { display: block; background: transparent; border: 1px solid var(--line); color: var(--ink-2); font-family: var(--mono); font-size: .68rem; padding: .45rem .8rem; border-radius: 6px; cursor: pointer; }
+  .palco { margin-left: 0; padding-top: 3.6rem; }
+  .progresso { left: 0; }
+  .sec { min-height: auto; padding: 3.2rem 1.3rem; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   CAMADA DE ÊNFASE — paleta semântica de segurança, movimento e destaque.
+   Acrescentada sobre a base; nada aqui altera a estrutura, só a intensidade.
+   ═════════════════════════════════════════════════════════════════════════ */
+:root {
+  --critico:   #FF5A45;
+  --critico-d: rgba(255, 90, 69, .14);
+  --aviso:     #FFB020;
+  --aviso-d:   rgba(255, 176, 32, .14);
+  --seguro:    #22D3A6;
+  --seguro-d:  rgba(34, 211, 166, .14);
+  --info:      #A855F7;
+  --info-d:    rgba(79, 168, 232, .14);
+  --brilho:    0 0 0 1px rgba(0,212,255,.35), 0 0 28px rgba(0,212,255,.20);
+}
+
+/* ------------------------------------------------- fundo vivo da abertura */
+.capa { position: relative; }
+/* o canvas e um elemento substituido: sem width/height explicitos mantem o
+   tamanho intrinseco de 300x150 e o `inset` nao o estica */
+#grade { position: absolute; left: 0; top: 0; width: 100%; height: 100%;
+         z-index: 0; opacity: .55; pointer-events: none; }
+.capa > div, .capa > .mapa { position: relative; z-index: 1; }
+
+/* --------------------------------------------------- revelação ao entrar */
+.rev { opacity: 0; transform: translateY(18px); transition: opacity .55s ease, transform .55s cubic-bezier(.2,.7,.3,1); }
+.rev.is-on { opacity: 1; transform: none; }
+.rev-1 { transition-delay: .06s; } .rev-2 { transition-delay: .13s; }
+.rev-3 { transition-delay: .2s; }  .rev-4 { transition-delay: .27s; }
+@media (prefers-reduced-motion: reduce) { .rev { opacity: 1; transform: none; } }
+
+/* ------------------------------------------------------ painel de estado */
+.estado {
+  display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 1px;
+  background: var(--line); border: 1px solid var(--line); border-radius: var(--r);
+  overflow: hidden; margin-top: 2.2rem;
+}
+.estado__c { background: var(--surface); padding: 1.05rem 1.1rem; position: relative; }
+.estado__v {
+  font-family: var(--display); font-size: clamp(1.5rem, 2.6vw, 2.1rem); font-weight: 800;
+  letter-spacing: -.03em; font-variant-numeric: tabular-nums; line-height: 1.05;
+}
+.estado__l { font-size: .74rem; color: var(--mute); margin-top: .3rem; line-height: 1.45; }
+.estado__c[data-cor="seguro"]  .estado__v { color: var(--seguro); }
+.estado__c[data-cor="info"]    .estado__v { color: var(--info); }
+.estado__c[data-cor="critico"] .estado__v { color: var(--critico); }
+
+/* pulso do ponto de estado */
+.pulso { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: .45rem; vertical-align: middle; }
+.pulso--seguro { background: var(--seguro); box-shadow: 0 0 0 0 rgba(34,211,166,.55); animation: bater 2.4s infinite; }
+.pulso--critico { background: var(--critico); box-shadow: 0 0 0 0 rgba(255,90,69,.55); animation: bater 1.5s infinite; }
+@keyframes bater {
+  0%   { box-shadow: 0 0 0 0 currentColor; }
+  70%  { box-shadow: 0 0 0 9px rgba(0,0,0,0); }
+  100% { box-shadow: 0 0 0 0 rgba(0,0,0,0); }
+}
+@media (prefers-reduced-motion: reduce) { .pulso--seguro, .pulso--critico { animation: none; } }
+
+/* --------------------------------------------------------- botão de ação */
+.cta {
+  display: inline-flex; align-items: center; gap: .6rem; margin-top: 2rem;
+  font-family: var(--display); font-size: .95rem; font-weight: 700;
+  background: var(--teal); color: #04121C; border: 0; border-radius: 8px;
+  padding: .85rem 1.5rem; cursor: pointer;
+  transition: transform .18s, box-shadow .18s, background .18s;
+}
+.cta:hover { background: var(--seguro); transform: translateY(-2px); box-shadow: 0 10px 30px rgba(34,211,166,.28); }
+.cta--fantasma { background: transparent; color: var(--ink); border: 1px solid var(--line); }
+.cta--fantasma:hover { background: transparent; border-color: var(--teal); color: var(--teal); box-shadow: none; }
+.cta__seta { transition: transform .18s; }
+.cta:hover .cta__seta { transform: translateX(3px); }
+
+/* ------------------------------------------------------- comparador 2 vias */
+.duelo { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 1.4rem; margin-top: 1.6rem; }
+.via {
+  border: 1px solid var(--line); border-radius: var(--r); overflow: hidden;
+  background: var(--surface); transition: border-color .4s, box-shadow .4s;
+}
+.via--risco.is-vivo  { border-color: rgba(255,90,69,.5);  box-shadow: 0 0 36px rgba(255,90,69,.13); }
+.via--seguro.is-vivo { border-color: rgba(34,211,166,.5); box-shadow: 0 0 36px rgba(34,211,166,.13); }
+.via__topo { display: flex; align-items: center; gap: .6rem; padding: .8rem 1.05rem; border-bottom: 1px solid var(--line); background: var(--deep); }
+.via__et { font-family: var(--mono); font-size: .66rem; letter-spacing: .14em; text-transform: uppercase; }
+.via--risco  .via__et { color: var(--critico); }
+.via--seguro .via__et { color: var(--seguro); }
+.via__corpo { padding: 1rem 1.05rem 1.2rem; }
+.evento {
+  display: grid; grid-template-columns: 4.1rem 1fr; gap: .8rem; align-items: start;
+  padding: .55rem 0; opacity: 0; transform: translateX(-8px);
+  transition: opacity .45s, transform .45s;
+}
+.evento.is-on { opacity: 1; transform: none; }
+.evento__h { font-family: var(--mono); font-size: .7rem; color: var(--faint); font-variant-numeric: tabular-nums; padding-top: .12rem; }
+.evento__t { font-size: .87rem; color: var(--ink-2); line-height: 1.5; }
+.via--risco  .evento.destaque .evento__t { color: var(--critico); font-weight: 600; }
+.via--seguro .evento.destaque .evento__t { color: var(--seguro); font-weight: 600; }
+.via__saldo {
+  margin-top: 1rem; padding-top: .9rem; border-top: 1px dashed var(--line);
+  font-family: var(--display); font-size: 1.05rem; font-weight: 700; opacity: 0; transition: opacity .5s;
+}
+.via__saldo.is-on { opacity: 1; }
+.via--risco  .via__saldo { color: var(--critico); }
+.via--seguro .via__saldo { color: var(--seguro); }
+
+/* ------------------------------------------------------- cartões com vida */
+.cartao { transition: transform .22s, border-color .22s, box-shadow .22s; }
+.cartao:hover { transform: translateY(-3px); border-color: rgba(0,212,255,.45); box-shadow: 0 14px 34px rgba(0,0,0,.3); }
+
+/* barra de gravidade com brilho */
+.achado__sev { box-shadow: 0 0 12px currentColor; }
+.sev-crit { background: var(--critico); color: rgba(255,90,69,.5); }
+.sev-med  { background: var(--aviso);   color: rgba(255,176,32,.4); }
+.sev-baixa{ background: var(--info);    color: rgba(79,168,232,.4); }
+.b-crit { background: var(--critico-d); color: var(--critico); }
+.b-med  { background: var(--aviso-d);   color: var(--aviso); }
+.b-baixa{ background: var(--info-d);    color: var(--info); }
+
+/* ecrã com brilho ao passar */
+.ecra { transition: box-shadow .3s, border-color .3s; }
+.ecra:hover { border-color: rgba(0,212,255,.4); box-shadow: 0 22px 60px rgba(0,0,0,.5), 0 0 0 1px rgba(0,212,255,.18); }
+
+/* nó do mapa com brilho quando ativo */
+.no.is-on .no__caixa { filter: drop-shadow(0 0 10px rgba(0,212,255,.45)); }
+.lig.is-on { filter: drop-shadow(0 0 6px rgba(0,212,255,.5)); }
+
+/* fita de estado da secção */
+.fita {
+  position: fixed; left: var(--nav-w); right: 0; top: 0; height: 2px; z-index: 65;
+  background: linear-gradient(90deg, var(--critico), var(--aviso), var(--seguro));
+  opacity: .25; pointer-events: none;
+}
+.progresso { z-index: 66; }
+.progresso__barra { box-shadow: 0 0 14px rgba(0,212,255,.75); }
+
+/* etiqueta de tensão */
+.tensao {
+  display: inline-flex; align-items: center; gap: .5rem; font-family: var(--mono);
+  font-size: .68rem; letter-spacing: .12em; text-transform: uppercase;
+  padding: .38rem .8rem; border-radius: 999px; margin-bottom: 1rem;
+}
+.tensao--critico { background: var(--critico-d); color: var(--critico); border: 1px solid rgba(255,90,69,.3); }
+.tensao--seguro  { background: var(--seguro-d);  color: var(--seguro);  border: 1px solid rgba(34,211,166,.3); }
+
+/* números de destaque */
+.stat__v { transition: color .3s; }
+.stat--critico .stat__v { color: var(--critico); }
+.stat--aviso   .stat__v { color: var(--aviso); }
+
+/* frase de remate */
+.remate {
+  font-family: var(--display); font-weight: 700; font-size: clamp(1.15rem, 2vw, 1.6rem);
+  line-height: 1.35; color: var(--ink); max-width: 44ch; margin-top: 1.4rem;
+}
+.remate em { font-style: normal; color: var(--teal); }
+
+@media (max-width: 860px) {
+  .estado { grid-template-columns: 1fr; }
+  .duelo { grid-template-columns: 1fr; }
+  .fita { left: 0; }
+}
+
+/* ------------------------------------------------ áreas da consola do SOC */
+.soc-grupo { margin-bottom: 1rem; }
+.soc-grupo__t {
+  font-family: var(--mono); font-size: .62rem; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--faint); margin-bottom: .5rem; display: flex; align-items: center; gap: .55rem;
+}
+.soc-grupo__t::after { content: ""; flex: 1; height: 1px; background: var(--line-soft); }
+.soc-lista { display: flex; flex-wrap: wrap; gap: .4rem; }
+.soc-item {
+  display: inline-flex; align-items: center; gap: .45rem;
+  font-family: var(--body); font-size: .78rem; color: var(--ink-2);
+  background: var(--surface); border: 1px solid var(--line); border-radius: 7px;
+  padding: .42rem .7rem; cursor: pointer; text-align: left;
+  transition: border-color .18s, color .18s, background .18s, transform .18s;
+}
+.soc-item:hover { border-color: rgba(0,212,255,.45); color: var(--ink); transform: translateY(-1px); }
+.soc-item[aria-pressed="true"] {
+  border-color: var(--teal); color: var(--ink); background: var(--teal-glow);
+  box-shadow: 0 0 18px rgba(0,212,255,.15);
+}
+.soc-item__i { font-size: .9rem; line-height: 1; }
+.soc-item__c {
+  font-family: var(--mono); font-size: .56rem; color: var(--faint); letter-spacing: .06em;
+  border-left: 1px solid var(--line); padding-left: .45rem; margin-left: .1rem;
+}
+.soc-item[aria-pressed="true"] .soc-item__c { color: var(--teal); border-color: rgba(0,212,255,.4); }
+
+/* --------------------------------------------------------- muro do SOC */
+.muro-sel { display: flex; flex-wrap: wrap; gap: .5rem; margin: 1rem 0 .7rem; }
+.muro-tab {
+  display: flex; flex-direction: column; gap: .12rem; text-align: left;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 8px;
+  padding: .6rem .85rem; cursor: pointer; min-width: 150px; flex: 1 1 150px;
+  transition: border-color .18s, background .18s, transform .18s;
+}
+.muro-tab:hover { border-color: rgba(0,212,255,.45); transform: translateY(-2px); }
+.muro-tab[aria-selected="true"] {
+  border-color: var(--teal); background: var(--teal-glow);
+  box-shadow: 0 0 22px rgba(0,212,255,.18);
+}
+.muro-tab__n {
+  font-family: var(--mono); font-size: .6rem; letter-spacing: .16em;
+  text-transform: uppercase; color: var(--faint);
+}
+.muro-tab[aria-selected="true"] .muro-tab__n { color: var(--teal); }
+.muro-tab__t { font-family: var(--display); font-size: .88rem; font-weight: 700; color: var(--ink); line-height: 1.25; }
+.muro-tab__p { font-family: var(--mono); font-size: .58rem; color: var(--faint); }
+.ecra--muro .ecra__corpo { height: min(44vh, 460px); background: #05090C; }
+.muro-desc { font-size: .88rem; color: var(--mute); margin-top: .8rem; max-width: 78ch; }
+@media (max-width: 860px) { .ecra--muro .ecra__corpo { height: 52vh; } }
+
+/* ------------------------------------------------- calculadora por passos */
+.passoc { border: 1px solid var(--line); border-radius: var(--r); padding: .85rem 1.1rem; background: var(--surface); }
+.passoc--chave { border-color: rgba(0,212,255,.35); background: linear-gradient(180deg, var(--teal-glow), var(--surface) 60%); }
+.passoc__cab { display: flex; align-items: flex-start; gap: .85rem; margin-bottom: .65rem; }
+.passoc__n {
+  flex: 0 0 auto; width: 1.7rem; height: 1.7rem; border-radius: 50%;
+  background: var(--teal); color: var(--void); font-family: var(--display);
+  font-weight: 800; font-size: .85rem; display: grid; place-items: center;
+}
+.passoc__cab > div { flex: 1; }
+.passoc__cab b { display: block; font-family: var(--display); font-size: 1rem; color: var(--ink); }
+.passoc__cab span { font-size: .82rem; color: var(--mute); }
+.passoc__v {
+  font-family: var(--display); font-size: 1.9rem; font-weight: 800; color: var(--teal);
+  line-height: 1; font-variant-numeric: tabular-nums;
+}
+/* o valor passa a escrever-se: uma frota de 5000 nao se acerta a arrastar */
+.passoc__n {
+  width: 4.4ch; background: transparent; border: 0; border-bottom: 1px dashed var(--line);
+  text-align: right; padding: 0 0 .1rem; -moz-appearance: textfield;
+}
+.passoc__n::-webkit-outer-spin-button,
+.passoc__n::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.passoc__n:focus { outline: 0; border-bottom-color: var(--teal); }
+.passoc__n:hover { border-bottom-color: var(--teal-dim); }
+.opcoes { display: grid; gap: .55rem; }
+
+/* ── repartir a frota pelos tres niveis ────────────────────────────────── */
+.niveis { display: grid; gap: .45rem; }
+.nivel { display: flex; align-items: center; gap: .9rem; padding: .55rem .75rem;
+  background: var(--void); border: 1px solid var(--line); border-radius: 8px;
+  transition: border-color .18s ease, background .18s ease; }
+.nivel:has(.nivel__c:not([value="0"])) { border-color: var(--teal-dim); }
+.nivel--vivo { border-color: var(--teal); background: linear-gradient(90deg, var(--teal-glow), var(--void) 55%); }
+.nivel__id { flex: 1; min-width: 0; display: grid; gap: .08rem; }
+.nivel__id b { font-family: var(--display); font-size: .92rem; color: var(--ink); }
+.nivel__id span { font-size: .76rem; color: var(--mute); }
+.nivel__id em { font-family: var(--mono); font-size: .68rem; color: var(--teal); font-style: normal; }
+.nivel__n { display: flex; align-items: center; gap: .3rem; flex: 0 0 auto; }
+.nivel__b { width: 1.65rem; height: 1.65rem; display: grid; place-items: center;
+  border: 1px solid var(--line); border-radius: 6px; background: var(--surface);
+  color: var(--ink-2); font-size: .95rem; line-height: 1; cursor: pointer;
+  transition: border-color .15s, color .15s; }
+.nivel__b:hover { border-color: var(--teal); color: var(--teal); }
+.nivel__c { width: 3.1rem; text-align: center; background: transparent; border: 0;
+  border-bottom: 1px dashed var(--line); color: var(--teal);
+  font-family: var(--display); font-size: 1.25rem; font-weight: 800;
+  font-variant-numeric: tabular-nums; -moz-appearance: textfield; padding: 0 0 .05rem; }
+.nivel__c::-webkit-outer-spin-button, .nivel__c::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.nivel__c:focus { outline: 0; border-bottom-color: var(--teal); }
+/* a decomposicao na coluna da direita */
+.calc__rep { margin-top: .7rem; padding-top: .6rem; border-top: 1px solid var(--line); }
+.calc__repi { display: flex; justify-content: space-between; align-items: baseline;
+  gap: .8rem; padding: .18rem 0; font-size: .8rem; }
+.calc__repi span { color: var(--mute); }
+.calc__repi span b { color: var(--ink-2); font-weight: 600; }
+.calc__repi i { font-style: normal; color: var(--faint); font-size: .72rem; }
+.calc__repi strong { font-family: var(--display); font-size: .95rem; color: var(--ink);
+  font-variant-numeric: tabular-nums; font-weight: 700; }
+.opcao {
+  display: grid; gap: .14rem; text-align: left; cursor: pointer;
+  background: var(--void); border: 1px solid var(--line); border-radius: 8px;
+  padding: .6rem .9rem; transition: border-color .18s, background .18s, transform .18s;
+}
+.opcao:hover { border-color: rgba(0,212,255,.5); transform: translateY(-1px); }
+.opcao[aria-checked="true"] { border-color: var(--teal); background: var(--teal-glow); box-shadow: 0 0 20px rgba(0,212,255,.14); }
+.opcao__t { font-family: var(--display); font-weight: 700; font-size: .95rem; color: var(--ink); }
+.opcao__d { font-size: .82rem; color: var(--mute); }
+.opcao__r {
+  font-family: var(--mono); font-size: .68rem; letter-spacing: .06em; color: var(--faint);
+  margin-top: .25rem;
+}
+.opcao[aria-checked="true"] .opcao__r { color: var(--teal); }
+.calc__ctrl { gap: .7rem; }    /* tres passos + quatro valores: cada pixel conta */
+.duocampo { display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; margin-top: .7rem; }
+@media (max-width: 520px) { .duocampo { grid-template-columns: 1fr; } }
+/* resultado */
+.calc__grande { font-family: var(--display); font-size: clamp(2rem,3.6vw,2.9rem); font-weight: 800; color: var(--teal); letter-spacing: -.03em; line-height: 1; font-variant-numeric: tabular-nums; }
+.calc__porunidade { font-size: .86rem; color: var(--ink-2); margin-top: .35rem; }
+.calc__det { margin-top: 1rem; border-top: 1px solid var(--line); padding-top: .9rem; }
+.calc__det summary { font-family: var(--mono); font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; color: var(--mute); cursor: pointer; }
+.calc__det summary:hover { color: var(--teal); }
+.calc__det[open] summary { margin-bottom: .6rem; }
+.calc__inc { display: flex; flex-direction: column; gap: .35rem; margin-top: .9rem; }
+.calc__inc span { font-size: .82rem; color: var(--ink-2); padding-left: 1.1rem; position: relative; }
+.calc__inc span::before { content: "✓"; position: absolute; left: 0; color: var(--teal); font-size: .8rem; }
+
+/* dois valores: o mês é como se decide, o ano é como se assina */
+.calc__par { display: flex; flex-wrap: wrap; gap: 1.05rem; align-items: flex-end; }
+.calc__meio { display: flex; flex-direction: column; gap: .15rem; }
+.calc__rot { font-family: var(--mono); font-size: .64rem; letter-spacing: .13em; text-transform: uppercase; color: var(--mute); }
+.calc__meio--sec { padding-left: 1.05rem; border-left: 1px solid var(--line); }
+.calc__medio { font-family: var(--display); font-size: 1.22rem; font-weight: 700; color: var(--ink); letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+/* palco das funcoes: o canvas e um elemento substituido e sem altura explicita
+   fica com os 150px intrinsecos — a altura vem daqui, nao do conteudo */
+.palco { position: relative; border: 1px solid var(--line); border-radius: var(--r);
+  background: linear-gradient(180deg, var(--deep), var(--void));
+  overflow: hidden; }
+.palco__cv { display: block; width: 100%; height: clamp(190px, 26vh, 290px); }
+/* nas secções que já têm duas colunas por baixo, o palco é uma faixa e não um painel */
+.palco--baixo .palco__cv { height: clamp(118px, 15vh, 162px); }
+.palco--fina { border-color: var(--line-soft); }
+/* a cena do fecho tem quatro marcos com nome e descricao, mais o contador:
+   numa faixa de 80px o texto encavalitava-se na linha temporal */
+.palco--prova { border-color: var(--teal-dim); }
+.palco--prova .palco__cv { height: clamp(122px, 14vh, 146px); }
+
+/* ── o fecho: a seccao que tem de fechar negocio ───────────────────────── */
+.fecho__sub { max-width: 68ch; font-size: 1rem; line-height: 1.6; color: var(--ink-2); margin: .7rem 0 0; }
+.fecho__sub b { color: var(--teal); }
+.cartao--dest { border-color: var(--teal); background: linear-gradient(180deg, var(--teal-glow), var(--surface) 65%); }
+.cartao--dest .cartao__tag { color: var(--teal); border-color: var(--teal-dim); }
+.semrisco { margin-top: .8rem; padding: .65rem 1rem; border: 1px solid var(--line);
+  border-left: 3px solid var(--teal); border-radius: var(--r); background: var(--surface); }
+.semrisco__t { font-family: var(--mono); font-size: .66rem; letter-spacing: .13em;
+  text-transform: uppercase; color: var(--mute); }
+.semrisco__t b { color: var(--teal); }
+.semrisco ul { list-style: none; margin: .5rem 0 0; padding: 0;
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: .3rem .9rem; }
+.semrisco li { position: relative; padding-left: 1.05rem; font-size: .8rem; line-height: 1.45;
+  color: var(--mute); }
+.semrisco li::before { content: "✓"; position: absolute; left: 0; color: var(--teal);
+  font-size: .78rem; font-weight: 700; }
+.fecho__acao { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; margin-top: .95rem; }
+.cta--grande { font-size: 1rem; padding: .9rem 1.6rem; }
+.fecho__nota { font-size: .8rem; color: var(--mute); }
+.palco--fina .palco__cv { height: clamp(62px, 7.8vh, 80px); }
+
+/* as tres familias de funcoes da consola */
+.fams { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: .9rem; }
+.fam { border: 1px solid var(--line); border-radius: var(--r); background: var(--surface);
+  padding: .9rem 1rem; transition: border-color .2s ease, transform .2s ease; }
+.fam:hover { border-color: var(--teal-dim); transform: translateY(-2px); }
+.fam__cab { display: flex; align-items: flex-start; gap: .7rem; padding-bottom: .6rem;
+  border-bottom: 1px solid var(--line-soft); margin-bottom: .55rem; }
+.fam__cab > div { flex: 1; }
+.fam__cab b { display: block; font-family: var(--display); font-size: .98rem; color: var(--ink); }
+.fam__cab span { font-size: .76rem; color: var(--mute); }
+.fam__ic { width: 1.5rem; height: 1.5rem; flex: 0 0 auto; display: grid; place-items: center;
+  border-radius: 6px; background: var(--teal-glow); color: var(--teal); font-size: .8rem; }
+.fam__n { font-family: var(--mono); font-size: .7rem; color: var(--teal); flex: 0 0 auto;
+  border: 1px solid var(--teal-dim); border-radius: 999px; padding: .1rem .45rem; }
+.fam__l { list-style: none; margin: 0; padding: 0; display: grid; gap: .3rem; }
+.fam__l li { font-size: .78rem; line-height: 1.42; color: var(--mute); padding-left: .85rem;
+  position: relative; }
+.fam__l li::before { content: ""; position: absolute; left: 0; top: .5em; width: 4px; height: 4px;
+  border-radius: 50%; background: var(--teal-dim); }
+.fam__l b { color: var(--ink-2); font-weight: 600; }
+.palco__leg { position: absolute; left: 0; right: 0; bottom: 0; padding: .4rem .9rem;
+  font-family: var(--mono); font-size: .64rem; letter-spacing: .09em; text-transform: uppercase;
+  color: var(--faint); text-align: right;
+  background: linear-gradient(180deg, transparent, rgba(6,13,26,.8)); }
+.calc__porunidade { margin-top: .7rem; }
+.calc__pag { margin-top: .85rem; padding-top: .7rem; border-top: 1px solid var(--line); }
+.calc__pagrot { display: block; font-family: var(--mono); font-size: .62rem; letter-spacing: .13em;
+  text-transform: uppercase; color: var(--mute); margin-bottom: .4rem; }
+.calc__pagi { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem;
+  padding: .22rem 0; }
+.calc__pagi span { font-size: .84rem; color: var(--ink-2); }
+.calc__pagi i { font-style: normal; font-size: .72rem; color: var(--faint); }
+.calc__pagi b { font-family: var(--display); font-size: 1.08rem; color: var(--ink);
+  font-variant-numeric: tabular-nums; }
+.calc__pagi:last-child b { color: var(--teal); }
+.abassoc { display: flex; flex-wrap: wrap; gap: .4rem; }
+.abassoc__b { font-family: var(--mono); font-size: .7rem; letter-spacing: .08em; text-transform: uppercase;
+  padding: .5rem .95rem; border: 1px solid var(--line); border-radius: 999px; background: transparent;
+  color: var(--mute); cursor: pointer; transition: all .18s ease; }
+.abassoc__b:hover { border-color: var(--teal-dim); color: var(--ink-2); }
+.abassoc__b.is-on { border-color: var(--teal); background: var(--teal-glow); color: var(--teal); }
+.opcional { display: flex; gap: .6rem; align-items: flex-start; padding: .5rem .8rem;
+  border: 1px solid var(--line); border-radius: 10px; cursor: pointer;
+  transition: border-color .18s ease, background .18s ease; }
+.opcional:hover { border-color: var(--teal-dim); }
+.opcional:has(input:checked) { border-color: var(--teal); background: var(--teal-glow); }
+.opcional input { margin-top: .18rem; accent-color: var(--teal); flex: 0 0 auto; width: 1rem; height: 1rem; }
+.opcional span { font-size: .84rem; line-height: 1.5; color: var(--mute); }
+.opcional b { color: var(--ink); font-weight: 600; }
+.opcional em { color: var(--faint); font-style: normal; }
+@media (max-width: 520px) { .calc__meio--sec { padding-left: 0; border-left: 0; } }
+
+/* ===========================================================================
+   TUTORIAIS EM VÍDEO
+   Os MP4 vêm do mesmo pipeline que publica os tutoriais do portal. O leitor tem
+   de servir duas situações opostas: alguém sozinho no portátil, e um
+   apresentador a projectar com o som desligado para falar por cima. Daí a
+   legenda ficar POR BAIXO do vídeo e em corpo grande — sobreposta, taparia a
+   zona do ecrã de que se está a falar — e as velocidades estarem todas à vista,
+   em vez de escondidas num menu do navegador.
+   ========================================================================= */
+.tut {
+  border: 1px solid var(--line); border-radius: var(--r);
+  background: var(--surface); overflow: hidden; margin-top: 1rem;
+}
+.tut__topo {
+  display: flex; align-items: baseline; gap: .7rem;
+  padding: .6rem .95rem; border-bottom: 1px solid var(--line-soft); background: var(--deep);
+}
+.tut__n {
+  font-family: var(--mono); font-size: .66rem; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--void); background: var(--teal);
+  padding: .16rem .42rem; border-radius: 3px; flex: none;
+}
+.tut__nome { font-family: var(--display); font-weight: 700; font-size: 1.02rem; color: var(--ink); flex: 1; }
+.tut__dur { font-family: var(--mono); font-size: .76rem; color: var(--faint); }
+
+.tut__ecra { position: relative; background: #000; aspect-ratio: 16/9; overflow: hidden; }
+.tut__v { width: 100%; height: 100%; display: block; object-fit: contain; background: #000; }
+.tut__play {
+  position: absolute; inset: 0; border: 0; cursor: pointer; z-index: 3;
+  background: rgba(6,13,26,.3); display: grid; place-items: center; transition: opacity .25s;
+}
+.tut.is-on .tut__play { opacity: 0; pointer-events: none; }
+.tut__play span {
+  width: 68px; height: 68px; border-radius: 50%; background: var(--teal);
+  position: relative; box-shadow: 0 8px 30px rgba(0,0,0,.45);
+}
+.tut__play span::after {
+  content: ""; position: absolute; left: 55%; top: 50%; transform: translate(-50%,-50%);
+  border-left: 20px solid var(--void);
+  border-top: 12px solid transparent; border-bottom: 12px solid transparent;
+}
+.tut__erro {
+  position: absolute; inset: auto 0 0 0; z-index: 4; padding: .7rem .95rem;
+  background: rgba(10,21,36,.94); border-top: 1px solid var(--alert);
+  display: grid; gap: .2rem;
+}
+.tut__erro b { color: var(--ink); font-size: .9rem; }
+.tut__erro span, .tut__erro code { color: var(--ink-2); font-size: .82rem; font-family: var(--mono); }
+
+.tut__cc {
+  min-height: 3.2em; padding: .85rem 1rem; background: var(--deep);
+  border-top: 1px solid var(--line-soft);
+  font-size: 1.04rem; line-height: 1.5; color: var(--ink);
+}
+.tut__ctrl {
+  display: flex; align-items: center; gap: .45rem; flex-wrap: wrap;
+  padding: .6rem .85rem; border-top: 1px solid var(--line-soft);
+}
+.tut__b {
+  border: 1px solid var(--line); background: var(--raised); color: var(--ink-2);
+  border-radius: 6px; padding: .34rem .58rem; cursor: pointer;
+  font-family: var(--mono); font-size: .8rem; line-height: 1;
+  transition: border-color .2s, color .2s;
+}
+.tut__b:hover { border-color: var(--teal); color: var(--teal); }
+.tut__b--pp { min-width: 38px; }
+.tut__b--som[aria-pressed="false"] { border-color: var(--warn); color: var(--warn); }
+.tut__barra {
+  flex: 1; min-width: 80px; height: 8px; border-radius: 4px;
+  background: var(--line); position: relative; cursor: pointer;
+}
+.tut__barra:focus-visible { outline: 2px solid var(--teal); outline-offset: 3px; }
+.tut__barra__p { height: 100%; border-radius: 4px; background: var(--teal); width: 0; }
+.tut__t { font-family: var(--mono); font-size: .78rem; color: var(--faint); min-width: 36px; }
+.tut__vels { display: flex; gap: 2px; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+.tut__vel {
+  border: 0; background: var(--raised); color: var(--mute); cursor: pointer;
+  font-family: var(--mono); font-size: .74rem; padding: .34rem .42rem; line-height: 1;
+}
+.tut__vel:hover { color: var(--ink); }
+.tut__vel.is-on { background: var(--teal); color: var(--void); font-weight: 600; }
+.tut__sub { margin: 0; padding: 0 1rem .85rem; font-size: .84rem; color: var(--mute); }
+.tut__falta {
+  padding: 1.1rem; border: 1px dashed var(--line); border-radius: var(--r);
+  color: var(--faint); font-size: .86rem; font-family: var(--mono);
+}
+@media (max-width: 760px) {
+  .tut__vels { order: 10; }
+  .tut__barra { order: 9; flex-basis: 100%; }
+}
+
+
+</style>
+</head>
+<body>
+<div class="fita" aria-hidden="true"></div>
+<div class="progresso"><div class="progresso__barra" id="barra"></div></div>
+
+<nav class="nav">
+  <div class="nav__marca">
+    <div class="nav__logo">ONDAK<span>A</span></div>
+    <div class="nav__sub">Afiliados</div>
+  </div>
+  <button class="nav__toggle" id="navToggle" aria-expanded="false" aria-controls="navLista">Índice</button>
+  <ul class="nav__lista" id="navLista"></ul>
+  <div class="nav__rodape">
+    KAYANTEC · NIF 5003315525<br>+244 922 772 177<br>ondaka.ao
+  </div>
+</nav>
+
+<main class="palco">
+
+  <!-- ═══════════════════════════════════════════════════════ 1 · ABERTURA -->
+  <section class="sec capa" id="s-abertura" data-nome="Abertura">
+    <canvas id="grade" aria-hidden="true"></canvas>
+    <div>
+      <div class="capa__kicker">Programa de afiliados · ondaka.ao</div>
+      <h1 class="capa__h1">Ganhe por cada<br>condomínio que <em>trouxer</em>.</h1>
+      <p class="capa__lead">De <b>6%</b> a <b>10%</b> sobre o valor da subscrição sem imposto, enquanto esse
+      condomínio continuar a pagar. Sem investimento, sem stock e sem ter de saber vender
+      software: basta apresentar quem precisa a quem resolve.</p>
+
+      <div class="estado" role="group" aria-label="O essencial do programa">
+        <div class="estado__c" data-cor="seguro">
+          <div class="estado__v"><span data-conta="10" data-sufixo="%">0</span></div>
+          <div class="estado__l">a comissão máxima, sobre o valor da subscrição sem imposto</div>
+        </div>
+        <div class="estado__c" data-cor="info">
+          <div class="estado__v"><span data-conta="90" data-sufixo=" dias">0</span></div>
+          <div class="estado__l">em que a indicação fica registada a seu favor</div>
+        </div>
+        <div class="estado__c" data-cor="critico">
+          <div class="estado__v">∞</div>
+          <div class="estado__l">a atribuição é vitalícia: o condomínio conta enquanto pagar</div>
+        </div>
+      </div>
+
+      <button class="cta" data-ir="#s-como">Ver como funciona
+        <span class="cta__seta">→</span></button>
+
+      <div class="capa__meta">
+        <div>Apresentado a<b>…</b></div>
+        <div>Data<b>9 de novembro de 2026</b></div>
+        <div>Por<b>KAYANTEC · Ondaka</b></div>
+      </div>
+    </div>
+    <div class="mapa">
+      <svg viewBox="0 0 560 400" role="img" aria-label="O percurso de uma indicação até à comissão">
+        <g id="ligacoes" stroke-linecap="round"></g>
+        <g id="nos"></g>
+      </svg>
+      <div class="mapa__legenda" id="mapaLegenda" aria-live="polite">
+        <h4>O percurso</h4>
+        <p>Toque num passo para ver o que acontece nele.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════ 2 · COMO FUNCIONA -->
+
+<!-- ──────────────────────────────────────────── tutorial · af-programa -->
+  <section class="sec sec--alt" id="s-t-af-programa" data-nome="Tutorial · O programa, por dentro">
+    <div class="eyebrow rev">Tutorial em vídeo · ecrãs reais do programa</div>
+    <h2 class="sec__titulo rev rev-1">O programa, por dentro</h2>
+    <p class="sec__lead rev rev-2">A página pública do programa: explica, simula o que se ganha por condomínio e inscreve — tudo sem falar com ninguém.</p>
+    <div id="tut-af-programa"></div>
+    <p class="remate rev rev-3" style="font-size:1rem;margin-top:1.1rem">A seguir, o mesmo em quatro passos.</p>
+  </section>
+
+  <section class="sec" id="s-como" data-nome="Como funciona">
+    <div class="eyebrow rev">Quatro passos, e só o primeiro é seu</div>
+    <h2 class="sec__titulo rev rev-1">Apresenta.<br>O resto <em>acontece sozinho</em>.</h2>
+    <p class="sec__lead rev rev-2">Recebe um link com o seu código. Quem o abrir fica associado a
+    si durante 90 dias. Se nesse período se tornar condomínio e pagar, a comissão é
+    calculada, fica em carência de 15 dias e passa a disponível para levantamento.</p>
+
+    <div class="palco" style="margin-top:.9rem">
+      <canvas id="animPercurso" class="palco__cv" aria-hidden="true"></canvas>
+      <div class="palco__leg">Do clique no link à comissão disponível, com a carência pelo meio</div>
+    </div>
+
+    <div class="cartoes cartoes--3" style="margin-top:2rem">
+      <div class="cartao"><span class="cartao__tag">Passo 1</span><h4>Partilha o seu link</h4>
+        <p>Por mensagem, por email ou numa conversa. O código é seu e identifica-o em qualquer
+        ponto de entrada da plataforma.</p></div>
+      <div class="cartao"><span class="cartao__tag">Passo 2</span><h4>A indicação fica registada</h4>
+        <p>Primeiro a registar, primeiro servido: a atribuição é feita uma única vez e nunca é
+        sobreposta por outro afiliado.</p></div>
+      <div class="cartao cartao--dest"><span class="cartao__tag">Passo 3</span><h4>O condomínio paga</h4>
+        <p>A comissão é calculada sobre o que foi efectivamente pago — nunca sobre o que foi
+        facturado e ficou por cobrar.</p></div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════ 3 · QUANTO SE GANHA -->
+  <section class="sec sec--alt" id="s-escaloes" data-nome="Quanto se ganha">
+    <div class="eyebrow rev">A escada sobe por número de clientes pagantes</div>
+    <h2 class="sec__titulo rev rev-1">Começa nos 6%.<br>Chega aos <em>10%</em>.</h2>
+    <p class="sec__lead rev rev-2">A taxa não é negociada caso a caso: está definida em escalões,
+    é a mesma para todos os afiliados e sobe sozinha quando o trabalho o justifica.</p>
+
+    <div class="palco" style="margin-top:.9rem">
+      <canvas id="animEscada" class="palco__cv" aria-hidden="true"></canvas>
+      <div class="palco__leg">Os escalões do programa, e o degrau em que cada um entra</div>
+    </div>
+
+    <div class="soc-lista" id="escLista" style="margin-top:1.4rem"></div>
+
+    <div class="calc" style="margin-top:1.4rem">
+      <div class="calc__ctrl">
+        <div class="niveis">
+          <div class="nivel nivel--vivo">
+            <div class="nivel__id"><div class="nivel__n">Condomínios que trouxe</div>
+              <div style="font-size:.78rem;color:var(--mute)">e que estão a pagar</div></div>
+            <button class="nivel__b" type="button" data-alvo="qCli" data-passo="-1" aria-label="menos um">−</button>
+            <input class="nivel__c" id="qCli" type="number" min="0" max="500" value="6" inputmode="numeric" aria-label="Clientes">
+            <button class="nivel__b" type="button" data-alvo="qCli" data-passo="1" aria-label="mais um">+</button>
+          </div>
+          <div class="nivel nivel--vivo">
+            <div class="nivel__id"><div class="nivel__n">Cada um paga, por período</div>
+              <div style="font-size:.78rem;color:var(--mute)">um condomínio de 48 imóveis, no escalão Standard: 410.400 Kz</div></div>
+            <button class="nivel__b" type="button" data-alvo="qVal" data-passo="-50000" aria-label="menos">−</button>
+            <input class="nivel__c" id="qVal" type="number" min="0" max="99999999" value="410400" inputmode="numeric" aria-label="Valor pago por cliente">
+            <button class="nivel__b" type="button" data-alvo="qVal" data-passo="50000" aria-label="mais">+</button>
+          </div>
+        </div>
+        <p class="calc__nota" id="calcNota"></p>
+      </div>
+      <div class="calc__saida" id="calcSaida" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════ 4 · O QUE CONTA -->
+
+<!-- ──────────────────────────────────────────── tutorial · af-ganhos -->
+  <section class="sec" id="s-t-af-ganhos" data-nome="Tutorial · O que conta e quanto rende">
+    <div class="eyebrow rev">Tutorial em vídeo · ecrãs reais do programa</div>
+    <h2 class="sec__titulo rev rev-1">O que conta e quanto rende</h2>
+    <p class="sec__lead rev rev-2">Que condomínios foram angariados por si, como chegaram, e a conta inteira de cada comissão.</p>
+    <div id="tut-af-ganhos"></div>
+    <p class="remate rev rev-3" style="font-size:1rem;margin-top:1.1rem">A seguir, o que entra nessa conta e o que fica de fora.</p>
+  </section>
+
+  <section class="sec sec--alt" id="s-receita" data-nome="O que conta">
+    <div class="eyebrow rev">Tudo o que o condomínio pagar</div>
+    <h2 class="sec__titulo rev rev-1">Não é só a primeira venda.<br>É <em>tudo o que vier a seguir</em>.</h2>
+    <p class="sec__lead rev rev-2">A comissão não se esgota na adesão. Enquanto o condomínio
+    continuar a pagar, continua a gerar — e a atribuição é vitalícia.</p>
+
+    <div class="palco" style="margin-top:.9rem">
+      <canvas id="animFontes" class="palco__cv" aria-hidden="true"></canvas>
+      <div class="palco__leg">As origens de receita a convergirem para a mesma comissão</div>
+    </div>
+
+    <div class="cartoes cartoes--3" style="margin-top:2rem">
+      <div class="cartao"><span class="cartao__tag">Conta</span><h4>Subscrição do condomínio</h4>
+        <p>o valor mensal por imóvel, em qualquer escalão e em qualquer periodicidade</p></div>
+      <div class="cartao"><span class="cartao__tag">Conta</span><h4>Renovações</h4>
+        <p>enquanto o condomínio continuar a pagar — a atribuição é vitalícia</p></div>
+      <div class="cartao"><span class="cartao__tag">Conta</span><h4>Funcionalidades da loja</h4>
+        <p>os módulos que a administração activar depois</p></div>
+    </div>
+
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════ 5 · AS REGRAS -->
+  <section class="sec" id="s-regras" data-nome="As regras">
+    <div class="eyebrow rev">Escritas antes de haver dinheiro em causa</div>
+    <h2 class="sec__titulo rev rev-1">As regras protegem<br>os <em>dois lados</em>.</h2>
+    <p class="sec__lead rev rev-2">Um programa de afiliados sem regras claras acaba sempre na
+    mesma discussão: de quem é o cliente. Aqui está tudo definido no sistema, e não na memória de
+    quem atende o telefone.</p>
+
+    <div class="palco palco--fina" style="margin-top:.9rem">
+      <canvas id="animCarencia" class="palco__cv" aria-hidden="true"></canvas>
+      <div class="palco__leg">A comissão em carência a tornar-se disponível ao fim de 15 dias</div>
+    </div>
+
+    <div class="duo" style="margin-top:2rem">
+      <div>
+        <h3>De quem é o cliente</h3>
+        <ul class="lista">
+          <li><b>Primeiro a registar, primeiro servido.</b> A atribuição faz-se uma só vez e nunca
+          é sobreposta por outro afiliado.</li>
+          <li><b>90 dias de memória.</b> Quem abre o seu link fica associado a si durante
+          esse período, mesmo que só decida mais tarde.</li>
+          <li><b>Três formas de atribuir:</b> pelo link com o seu código, por indicação que
+          regista com o email do contacto, ou por atribuição manual no backoffice.</li>
+          <li><b>Vitalícia.</b> Uma vez atribuído, o condomínio conta para si enquanto pagar.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Quando a comissão é sua</h3>
+        <ul class="lista">
+          <li><b>Só sobre o que foi pago.</b> Uma factura emitida e não cobrada não gera comissão.</li>
+          <li><b>15 dias de carência.</b> A comissão nasce pendente e só passa a
+          disponível no fim desse prazo — é a protecção contra estornos e devoluções.</li>
+          <li><b>Sobre o valor da subscrição sem imposto.</b> O imposto nunca entra na base de cálculo.</li>
+          <li><b>Anulação.</b> Se o pagamento for revertido, a comissão é anulada — e isso fica
+          registado, com a razão.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════ 6 · O PAINEL -->
+
+<!-- ──────────────────────────────────────────── tutorial · af-painel -->
+  <section class="sec sec--alt" id="s-t-af-painel" data-nome="Tutorial · O seu painel de afiliado">
+    <div class="eyebrow rev">Tutorial em vídeo · ecrãs reais do programa</div>
+    <h2 class="sec__titulo rev rev-1">O seu painel de afiliado</h2>
+    <p class="sec__lead rev rev-2">O código, o link de angariação, os números por estado e as mensagens prontas a enviar.</p>
+    <div id="tut-af-painel"></div>
+    <p class="remate rev rev-3" style="font-size:1rem;margin-top:1.1rem">A seguir, o painel visto de fora: o que lá está e porquê.</p>
+  </section>
+
+  <section class="sec" id="s-painel" data-nome="O seu painel">
+    <div class="eyebrow rev">O que vê quando entra</div>
+    <h2 class="sec__titulo rev rev-1">Nada é opaco.<br>Vê <em>cada comissão</em>.</h2>
+    <p class="sec__lead rev rev-2">O afiliado tem consola própria: o seu link e os cliques que
+    gerou, os condomínios que angariou, cada comissão com o seu estado, e o histórico de
+    pagamentos recebidos.</p>
+
+    <div class="palco" style="margin-top:.9rem">
+      <canvas id="animPainel" class="palco__cv" aria-hidden="true"></canvas>
+      <div class="palco__leg">Comissões por estado, como aparecem na consola do afiliado</div>
+    </div>
+
+    <div class="cartoes cartoes--2" style="margin-top:2rem">
+      <div class="cartao"><span class="cartao__tag">O seu link</span><h4>Código e cliques</h4>
+        <p>O link pessoal, quantas vezes foi aberto e quantas dessas visitas se converteram.</p></div>
+      <div class="cartao"><span class="cartao__tag">Clientes</span><h4>Quem trouxe</h4>
+        <p>A lista dos condomínios atribuídos a si, com a data e a forma de atribuição.</p></div>
+      <div class="cartao"><span class="cartao__tag">Comissões</span><h4>Uma a uma, com o estado</h4>
+        <p>Em carência, disponível, em levantamento, paga ou anulada — com o valor e a origem.</p></div>
+      <div class="cartao"><span class="cartao__tag">Pagamentos</span><h4>O que já recebeu</h4>
+        <p>Cada levantamento pedido, aprovado e pago, com o comprovativo.</p></div>
+    </div>
+  </section>
+
+  <!-- ═════════════════════════════════════════════════════ 7 · O PAGAMENTO -->
+
+<!-- ──────────────────────────────────────────── tutorial · af-receber -->
+  <section class="sec sec--alt" id="s-t-af-receber" data-nome="Tutorial · Como recebe o dinheiro">
+    <div class="eyebrow rev">Tutorial em vídeo · ecrãs reais do programa</div>
+    <h2 class="sec__titulo rev rev-1">Como recebe o dinheiro</h2>
+    <p class="sec__lead rev rev-2">Do saldo aprovado ao comprovativo da transferência.</p>
+    <div id="tut-af-receber"></div>
+    <p class="remate rev rev-3" style="font-size:1rem;margin-top:1.1rem">A seguir, as condições do pagamento, em letra grande.</p>
+  </section>
+
+  <section class="sec" id="s-pagamento" data-nome="Como recebe">
+    <div class="eyebrow rev">Do saldo à conta bancária</div>
+    <h2 class="sec__titulo rev rev-1">Pede o levantamento<br>quando <em>quiser</em>.</h2>
+    <p class="sec__lead rev rev-2">As comissões disponíveis acumulam no seu saldo. A partir de
+    10.000 Kz acumulados pode pedir o levantamento; a plataforma aprova, paga e regista o
+    comprovativo.</p>
+
+    <div class="palco palco--fina" style="margin-top:.9rem">
+      <canvas id="animSaldo" class="palco__cv" aria-hidden="true"></canvas>
+      <div class="palco__leg">O saldo a acumular até ao mínimo de levantamento</div>
+    </div>
+
+    <div class="calc__det" style="margin-top:1.6rem">
+      <div class="calc__linha"><span>Mínimo para pedir levantamento</span><b>10.000 Kz</b></div>
+      <div class="calc__linha"><span>Carência antes de a comissão ficar disponível</span><b>15 dias</b></div>
+      <div class="calc__linha"><span>Retenção na fonte aplicada por defeito</span><b>0% — definida pela plataforma conforme a situação fiscal do afiliado</b></div>
+      <div class="calc__linha"><span>Validade da indicação</span><b>90 dias</b></div>
+      <div class="calc__linha"><span>Duração da atribuição</span><b>vitalícia</b></div>
+      <div class="calc__linha"><span>Candidaturas</span><b>aprovadas uma a uma, não automáticas</b></div>
+    </div>
+
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════ 8 · ADERIR -->
+  <section class="sec fecho sec--alt" id="s-fecho" data-nome="Aderir">
+    <div class="eyebrow rev">Próximo passo</div>
+    <h2 class="fecho__h rev rev-1">Não precisa de vender.<br>Precisa de <em>apresentar</em>.</h2>
+    <p class="fecho__sub rev rev-2">O programa foi feito para empresas gestoras, administradores independentes, contabilistas e mediadores imobiliários — gente que já tem a
+    confiança de quem decide e que, hoje, faz essas apresentações de graça. Candidata-se, a
+    candidatura é analisada, e recebe o seu link com o código.</p>
+
+    <div class="palco palco--prova" style="margin-top:1rem">
+      <canvas id="animCrescer" class="palco__cv" aria-hidden="true"></canvas>
+      <div class="palco__leg">O rendimento a acumular à medida que os condomínios renovam</div>
+    </div>
+
+    <div class="cartoes cartoes--3" style="margin-top:1.4rem">
+      <div class="cartao"><span class="cartao__tag">Sem custo</span><h4>Aderir não se paga</h4>
+        <p>Não há taxa de adesão, não há compra mínima e não há stock para financiar.</p></div>
+      <div class="cartao"><span class="cartao__tag">Sem exclusividade</span><h4>Continua o seu trabalho</h4>
+        <p>O programa não exige dedicação nem impede que trabalhe com o que já trabalha.</p></div>
+      <div class="cartao cartao--dest"><span class="cartao__tag">Com prova</span><h4>Vê tudo o que gerou</h4>
+        <p>Cada clique, cada condomínio, cada comissão e cada pagamento — na sua consola.</p></div>
+    </div>
+
+    <p class="fecho__nota" style="margin-top:1.4rem">O programa está construído e provado de ponta a ponta; a consola do afiliado aguarda a publicação em produção.</p>
+
+    <div class="fecho__acao">
+      <div class="contactos">
+        <div><span>Comercial</span><b>comercial@ondaka.ao</b></div>
+        <div><span>Telefone e WhatsApp</span><b>+244 922 772 177</b></div>
+        <div><span>Afiliados</span><b>afiliados@ondaka.ao</b></div>
+        <div><span>Sítio</span><b>ondaka.ao</b></div>
+      </div>
+    </div>
+    <p class="fecho__nota">Valores sem impostos. As condições do programa são as que estão em
+    vigor no sistema e podem ser revistas, com aviso prévio aos afiliados activos.</p>
+  </section>
+
+</main>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-label="Ampliação">
+  <div class="modal__corpo">
+    <div class="modal__topo">
+      <span class="modal__nome" id="modalNome"></span>
+      <button class="modal__fechar" id="modalFechar" type="button">Fechar</button>
+    </div>
+    <div id="modalCorpo"></div>
+  </div>
+</div>
+
+<script>
+/* Motor comum das apresentações do ecossistema KAYANTEC.
+   Sem dependências. O mesmo ficheiro serve a apresentação do ONDAKA e a do
+   Welwitschia — é o motor que já corre na do ecossistema Academia Digital, com
+   os ganchos de cada produto registados de fora em vez de escritos aqui.
+
+   Expõe window.AP = { $, $$, num, reduzido, palco, MONO, gancho, contar } */
+(function () {
+  "use strict";
+  var $ = function (s, r) { return (r || document).querySelector(s); };
+  var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+  /* SEPARADOR DE MILHAR À MANEIRA DE ANGOLA: ponto, e não o espaço fino que o
+     Intl devolve hoje para pt-PT (CLDR moderno). «1 850» ao lado de «1.850» na
+     factura é a mesma plataforma a escrever o número de duas maneiras.
+     useGrouping "always" porque sem ele quatro dígitos não são agrupados —
+     7040 em vez de 7.040 — e ao lado de 15.180 nota-se. */
+  var num = (function () {
+    var f;
+    try { f = new Intl.NumberFormat("pt-PT", { useGrouping: "always" }); }
+    catch (e) { f = new Intl.NumberFormat("pt-PT"); }
+    return {
+      format: function (v) {
+        return f.format(v).replace(/[    ]/g, ".");
+      }
+    };
+  })();
+  var reduzido = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var MONO = '"IBM Plex Mono","SF Mono",Consolas,monospace';
+
+  /* ───────────────────────────────────────────────────────────── navegação */
+  var seccoes = $$(".sec");
+  var lista = $("#navLista");
+  seccoes.forEach(function (sec, i) {
+    var li = document.createElement("li");
+    var b = document.createElement("button");
+    b.className = "nav__link";
+    b.type = "button";
+    b.innerHTML = '<span class="nav__n">' + String(i + 1).padStart(2, "0") + "</span>" +
+      "<span>" + sec.dataset.nome + "</span>";
+    b.addEventListener("click", function () {
+      sec.scrollIntoView({ behavior: reduzido ? "auto" : "smooth", block: "start" });
+      lista.classList.remove("is-on");
+      $("#navToggle").setAttribute("aria-expanded", "false");
+    });
+    li.appendChild(b);
+    lista.appendChild(li);
+  });
+  var links = $$(".nav__link");
+
+  $("#navToggle").addEventListener("click", function () {
+    var on = lista.classList.toggle("is-on");
+    this.setAttribute("aria-expanded", String(on));
+  });
+
+  /* GANCHOS. Cada produto regista o que quer que corra a cada passagem do ciclo
+     de scroll — revelações, cenários, montagem de mockups. O motor não conhece
+     nenhum deles pelo nome, ao contrário da primeira versão, onde estavam
+     escritos à mão dentro de aoDeslocar() e por isso não se reaproveitavam. */
+  var ganchos = [];
+  function gancho(fn) { ganchos.push(fn); }
+
+  /* Um único ciclo ligado ao scroll trata da navegação, da barra de progresso e
+     dos ganchos. Não usamos IntersectionObserver para isto: em alguns ambientes
+     de visualização ele não dispara, e as demonstrações — que são o essencial
+     destas páginas — nunca chegariam a aparecer. */
+  var pendente = false;
+  function aoDeslocar() {
+    if (pendente) return;
+    pendente = true;
+    /* setTimeout e não requestAnimationFrame: em separadores em segundo plano o
+       rAF não corre, e a página ficaria por montar */
+    setTimeout(function () {
+      pendente = false;
+      var h = document.documentElement;
+      var topo = window.pageYOffset || h.scrollTop || document.body.scrollTop || 0;
+      var altura = window.innerHeight || h.clientHeight;
+
+      var max = Math.max(1, (h.scrollHeight || document.body.scrollHeight) - altura);
+      var barra = $("#barra");
+      if (barra) barra.style.width = Math.min(100, (topo / max) * 100).toFixed(1) + "%";
+
+      var meio = topo + altura / 2;
+      var atual = 0;
+      seccoes.forEach(function (sec, i) { if (sec.offsetTop <= meio) atual = i; });
+      links.forEach(function (l, j) { l.setAttribute("aria-current", String(j === atual)); });
+
+      ganchos.forEach(function (fn) { try { fn(topo, altura); } catch (e) { } });
+    });
+  }
+  window.addEventListener("scroll", aoDeslocar, { passive: true });
+  window.addEventListener("resize", aoDeslocar);
+  /* rede de segurança: há ambientes em que o deslocamento por código não emite
+     evento de scroll. Sem isto, as revelações nunca apareceriam. */
+  setInterval(aoDeslocar, 600);
+
+  document.addEventListener("keydown", function (e) {
+    if (e.target.matches("input, textarea")) return;
+    if (e.key !== "ArrowDown" && e.key !== "ArrowUp" && e.key !== "PageDown" && e.key !== "PageUp") return;
+    var atual = seccoes.findIndex(function (s) { return s.getBoundingClientRect().top > -window.innerHeight / 2; });
+    if (atual < 0) atual = seccoes.length - 1;
+    var alvo = (e.key === "ArrowDown" || e.key === "PageDown") ? atual : Math.max(0, atual - 2);
+    if (seccoes[alvo]) { e.preventDefault(); seccoes[alvo].scrollIntoView({ behavior: reduzido ? "auto" : "smooth" }); }
+  });
+
+  /* ─────────────────────────────────────── revelação e contadores em vista
+     IntersectionObserver e NÃO amostragem do scroll: com o scroll a correr
+     depressa — rodízio do rato, barra arrastada, teclas — as posições
+     intermédias nunca chegam a ser medidas, e elementos inteiros ficavam por
+     revelar num ecrã que o cliente dá por vazio. O observador não perde
+     entradas. O ciclo do scroll fica como rede de segurança, para os ambientes
+     onde o observador não existe ou não dispara.
+
+     A unidade de revelação é a SECÇÃO, e não o elemento: observar elemento a
+     elemento falhava com o scroll rápido e com os saltos do índice — o browser
+     não desenha os fotogramas intermédios, e o que passou a voar ficava
+     invisível. Uma secção ocupa o ecrã inteiro e é impossível não a ver; quando
+     entra, revela-se tudo o que tem dentro, com os atrasos que o CSS já define
+     em .rev-1/.rev-2/.rev-3. */
+  function revelar(el) { el.classList.add("is-on"); }
+  function acordarSeccao(sec) {
+    if (sec.dataset.acordada) return;
+    sec.dataset.acordada = "1";
+    $$(".rev", sec).forEach(revelar);
+    $$("[data-conta]", sec).forEach(animarContador);
+  }
+  if (typeof IntersectionObserver === "function") {
+    var ioSec = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) acordarSeccao(e.target); });
+    }, { rootMargin: "120px 0px 120px 0px", threshold: 0 });
+    seccoes.forEach(function (s) { ioSec.observe(s); });
+  }
+  gancho(function (topo, altura) {              /* rede de segurança */
+    seccoes.forEach(function (s) {
+      var r = s.getBoundingClientRect();
+      if (r.top < altura && r.bottom > -altura) acordarSeccao(s);
+    });
+  });
+
+  /* Contadores: data-conta="1850" sobe de 0 até ao valor quando entra em vista.
+     data-sufixo e data-prefixo acompanham; data-dec dá as decimais. */
+  function animarContador(el) {
+      if (el.dataset.contado) return;
+      el.dataset.contado = "1";
+      var fim = parseFloat(el.dataset.conta) || 0;
+      var dec = parseInt(el.dataset.dec || "0", 10);
+      var pre = el.dataset.prefixo || "", suf = el.dataset.sufixo || "";
+      var dur = reduzido ? 0 : 900;
+      var t0 = null;
+      function escrever(v) {
+        el.textContent = pre + (dec ? v.toFixed(dec).replace(".", ",") : num.format(Math.round(v))) + suf;
+      }
+      if (!dur) { escrever(fim); return; }
+      /* setTimeout e NÃO requestAnimationFrame: o rAF é suspenso em separadores
+         em segundo plano e em painéis sem foco, e o contador ficava eternamente
+         a zero — num ecrã onde o número É o argumento. Com o relógio normal, a
+         animação corre sempre e termina sempre no valor certo. */
+      t0 = Date.now();
+      (function passo() {
+        var k = Math.min(1, (Date.now() - t0) / dur);
+        escrever(fim * (1 - Math.pow(1 - k, 3)));     /* travagem cúbica */
+        if (k < 1) setTimeout(passo, 33);
+      })();
+  }
+  /* contadores fora de qualquer secção (não há nenhum hoje, mas o corpo pode
+     ganhar um bloco solto) continuam a ser apanhados pela rede do scroll */
+  function contar() {
+    $$("[data-conta]").forEach(function (el) {
+      if (!el.closest(".sec")) animarContador(el);
+    });
+  }
+
+  /* ═══════════════════════════════════════════ palcos animados das funções
+     Um motor pequeno para as demonstrações. Cada cena recebe o contexto, o
+     tamanho e o tempo, e desenha-se a si própria; o motor trata do canvas, da
+     densidade do ecrã, do observador de visibilidade (não se gasta CPU com o
+     que ninguém está a ver) e de «reduzir movimento», caso em que se pinta UM
+     fotograma a meio da ação em vez de nada.
+     Canvas e não CSS: são dezenas de objetos com física simples, e em CSS isso
+     seriam dezenas de nós no DOM a serem animados pelo compositor. */
+  function palco(cv, cena) {
+    if (!cv || !cv.getContext) return;
+    var ctx = cv.getContext("2d"), L = 0, A = 0, dpr = 1, vivo = false, est = null;
+    function medir() {
+      var r = cv.getBoundingClientRect();
+      if (!r.width) return;
+      var nl = Math.round(r.width), na = Math.round(r.height);
+      /* SÓ se reinicia quando o tamanho muda de facto. Antes, o observador de
+         visibilidade chamava medir() a cada entrada em vista e isso esvaziava o
+         que estava em voo — com o scroll a oscilar no limiar, nenhum pedido
+         chegava ao fim e os contadores ficavam eternamente a zero. */
+      if (nl === L && na === A && est) return;
+      dpr = Math.min(2, window.devicePixelRatio || 1);
+      L = nl; A = na;
+      cv.width = Math.round(L * dpr); cv.height = Math.round(A * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      est = cena.iniciar(L, A, est);
+    }
+    var t0 = (window.performance && performance.now) ? performance.now() : 0, tAnt = t0;
+    function quadro(t) {
+      var passo = Math.min(.05, (t - tAnt) / 1000); tAnt = t;
+      ctx.clearRect(0, 0, L, A);
+      cena.pintar(ctx, L, A, est, passo, (t - t0) / 1000);
+      if (vivo && !reduzido) requestAnimationFrame(quadro);
+    }
+    function arrancar() {
+      if (vivo) return;
+      vivo = true;
+      if (reduzido) {
+        /* avança a simulação sem pintar, para o fotograma parado mostrar a cena
+           a meio e não o instante zero, que é sempre um ecrã vazio */
+        for (var k = 0; k < 160; k++) cena.pintar(null, L, A, est, 1 / 60, k / 60);
+        ctx.clearRect(0, 0, L, A);
+        cena.pintar(ctx, L, A, est, 0, 2.7);
+      } else {
+        tAnt = (window.performance && performance.now) ? performance.now() : 0;
+        requestAnimationFrame(quadro);
+      }
+    }
+    medir();
+    window.addEventListener("resize", function () {
+      var antes = L + "x" + A; medir();
+      if (reduzido && vivo && antes !== L + "x" + A) { vivo = false; arrancar(); }
+    });
+    setTimeout(function () { medir(); arrancar(); }, 120);
+    if (typeof IntersectionObserver === "function") {
+      new IntersectionObserver(function (es) {
+        es.forEach(function (e) {
+          if (e.isIntersecting) { medir(); arrancar(); }
+          else vivo = false;
+        });
+      }, { threshold: .12 }).observe(cv);
+    }
+    /* cinto de segurança: em separadores em segundo plano o observador pode não
+       disparar, e a cena ficaria em branco quando se chega ao slide */
+    setTimeout(function () { if (!vivo) { medir(); arrancar(); } }, 2200);
+  }
+
+  /* ───────────────────────────────────────── moldura ampliada (mockups) */
+  var modal = $("#modal");
+  if (modal) {
+    $("#modalFechar").addEventListener("click", function () {
+      modal.classList.remove("is-on");
+      $("#modalCorpo").innerHTML = "";
+    });
+    modal.addEventListener("click", function (e) {
+      if (e.target === modal) $("#modalFechar").click();
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && modal.classList.contains("is-on")) $("#modalFechar").click();
+    });
+  }
+
+  window.AP = {
+    $: $, $$: $$, num: num, reduzido: reduzido, MONO: MONO,
+    palco: palco, gancho: gancho, contar: contar,
+    arrancar: function () { aoDeslocar(); window.addEventListener("load", aoDeslocar); }
+  };
+})();
+
+/* Apresentação — ONDAKA — Programa de Afiliados. Corre sobre motor.js.
+
+   ⚠️ A MECÂNICA E AS TAXAS SÃO AS DO CÓDIGO, não escolhas desta página:
+      database/migrations/2026_09_02_100000_create_afiliados_tables.php
+   Qualquer alteração ao programa muda primeiro lá, e só depois aqui. */
+(function () {
+  "use strict";
+  var AP = window.AP, $ = AP.$, $$ = AP.$$, palco = AP.palco, MONO = AP.MONO;
+  function kz(v) { return AP.num.format(Math.round(v)) + " Kz"; }
+
+  var ESCALOES = [
+    ["Bronze", 6, "a partir do 1.º cliente"],
+    ["Prata", 8, "a partir de 5 clientes pagantes"],
+    ["Ouro", 10, "a partir de 10 clientes pagantes"]
+  ];
+  var LIMIARES = [1, 5, 10];        /* o degrau de entrada de cada escalão */
+  var POR_CLIENTES = true; /* senão, a escada sobe pela receita acumulada */
+  var CARENCIA = 15, MINIMO = 10000, COOKIE = 90;
+
+  function taxaPara(clientes, receita) {
+    var base = POR_CLIENTES ? clientes : receita, t = ESCALOES[0][1];
+    for (var i = 0; i < LIMIARES.length; i++) if (base >= LIMIARES[i]) t = ESCALOES[i][1];
+    return t;
+  }
+
+  /* ═════════════════════════════════════════════ mapa do percurso */
+  var NOS = [
+    { id: "link", x: 90, y: 200, r: 40, rot: "Link", sub: "o seu código",
+      texto: "<h4>O seu link</h4><p>Um endereço com o seu código. Partilha-o por mensagem, por email ou numa conversa — identifica-o em qualquer ponto de entrada da plataforma.</p>" },
+    { id: "visita", x: 230, y: 110, r: 36, rot: "Visita", sub: COOKIE + " dias",
+      texto: "<h4>A visita</h4><p>Quem abre o seu link fica associado a si durante " + COOKIE + " dias, mesmo que só decida mais tarde. A atribuição é do primeiro a registar e nunca é sobreposta.</p>" },
+    { id: "cliente", x: 330, y: 280, r: 38, rot: "Cliente", sub: "atribuído",
+      texto: "<h4>O cliente</h4><p>Quando se torna cliente, fica atribuído a si de forma vitalícia: conta para a sua comissão enquanto continuar a pagar.</p>" },
+    { id: "pagamento", x: 450, y: 130, r: 36, rot: "Pagamento", sub: "só o cobrado",
+      texto: "<h4>O pagamento</h4><p>A comissão calcula-se sobre o que foi efectivamente pago, e não sobre o que foi facturado. Uma factura por cobrar não gera nada.</p>" },
+    { id: "comissao", x: 470, y: 300, r: 40, rot: "Comissão", sub: "sua",
+      texto: "<h4>A comissão</h4><p>Nasce em carência de " + CARENCIA + " dias — a protecção contra estornos — e depois passa a disponível para levantamento, a partir de " + kz(MINIMO) + " acumulados.</p>" }
+  ];
+  var LIGACOES = [["link","visita"],["visita","cliente"],["cliente","pagamento"],
+                  ["pagamento","comissao"],["link","cliente"]];
+
+  (function mapa() {
+    var gl = $("#ligacoes"), gn = $("#nos"), leg = $("#mapaLegenda");
+    if (!gl || !gn) return;
+    function porId(id) { return NOS.filter(function (n) { return n.id === id; })[0]; }
+    LIGACOES.forEach(function (pr) {
+      var a = porId(pr[0]), b = porId(pr[1]);
+      var l = document.createElementNS("http://www.w3.org/2000/svg", "line");
+      l.setAttribute("x1", a.x); l.setAttribute("y1", a.y);
+      l.setAttribute("x2", b.x); l.setAttribute("y2", b.y);
+      l.setAttribute("class", "lig"); l.dataset.de = pr[0]; l.dataset.para = pr[1];
+      gl.appendChild(l);
+    });
+    NOS.forEach(function (n) {
+      var g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+      g.setAttribute("class", "no"); g.dataset.id = n.id;
+      g.setAttribute("tabindex", "0"); g.setAttribute("role", "button");
+      g.setAttribute("aria-label", n.rot);
+      var c = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+      c.setAttribute("cx", n.x); c.setAttribute("cy", n.y); c.setAttribute("r", n.r);
+      c.setAttribute("class", "no__caixa");
+      var t = document.createElementNS("http://www.w3.org/2000/svg", "text");
+      t.setAttribute("x", n.x); t.setAttribute("y", n.y - 2);
+      t.setAttribute("class", "no__rot"); t.textContent = n.rot;
+      var s = document.createElementNS("http://www.w3.org/2000/svg", "text");
+      s.setAttribute("x", n.x); s.setAttribute("y", n.y + 14);
+      s.setAttribute("class", "no__sub"); s.textContent = n.sub;
+      g.appendChild(c); g.appendChild(t); g.appendChild(s);
+      function destacar() {
+        $$(".no").forEach(function (o) { o.classList.toggle("is-on", o.dataset.id === n.id); });
+        $$(".lig").forEach(function (l) {
+          l.classList.toggle("is-on", l.dataset.de === n.id || l.dataset.para === n.id);
+        });
+        leg.innerHTML = n.texto;
+      }
+      g.addEventListener("click", destacar);
+      g.addEventListener("focus", destacar);
+      g.addEventListener("mouseenter", destacar);
+      gn.appendChild(g);
+    });
+  })();
+
+  $$("[data-ir]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      var alvo = $(b.dataset.ir);
+      if (alvo) alvo.scrollIntoView({ behavior: AP.reduzido ? "auto" : "smooth", block: "start" });
+    });
+  });
+
+  /* ═══════════════════════════════════════════════ lista de escalões */
+  (function escaloes() {
+    var lista = $("#escLista");
+    if (!lista) return;
+    ESCALOES.forEach(function (e, i) {
+      var d = document.createElement("div");
+      d.className = "achado";
+      var topo = i === ESCALOES.length - 1;
+      d.innerHTML = '<span class="achado__sev" style="background:' +
+        (topo ? "var(--teal)" : "var(--sky)") + '"></span>' +
+        '<div><div class="achado__t" style="font-family:var(--display);font-weight:700;font-size:1.05rem">' +
+        e[1] + '%</div><div class="achado__c">' + e[2] + '</div></div>' +
+        '<span class="achado__b ' + (topo ? "b-baixa" : "b-info") + '">' +
+        (topo ? "máximo" : "escalão " + (i + 1)) + "</span>";
+      lista.appendChild(d);
+    });
+  })();
+
+  /* ═══════════════════════════════════════════════════ calculadora */
+  (function calc() {
+    var cli = $("#qCli"), val = $("#qVal");
+    if (!cli || !val) return;
+    var saida = $("#calcSaida"), nota = $("#calcNota");
+
+    function calcular() {
+      var n = Math.max(0, Math.min(500, Math.round(+cli.value || 0)));
+      var v = Math.max(0, Math.round(+val.value || 0));
+      var receita = n * v;
+      var taxa = taxaPara(n, receita);
+      var com = receita * taxa / 100;
+
+      nota.innerHTML = POR_CLIENTES
+        ? "Com <b>" + n + (n === 1 ? " cliente" : " clientes") + " a pagar</b>, a taxa é de <b>" +
+          taxa + "%</b>. " + (n < 5 ? "A partir de 5 clientes sobe para 8%." :
+                              n < 10 ? "A partir de 10 clientes sobe para 10%." :
+                                       "Está no escalão máximo.")
+        : "Com <b>" + kz(receita) + "</b> de receita gerada, a taxa é de <b>" + taxa + "%</b>. " +
+          (taxa < 10 ? "A escada sobe à medida que a receita acumulada cresce." :
+                       "Está no escalão máximo.");
+
+      saida.innerHTML = "";
+      var g = document.createElement("div");
+      g.className = "calc__grande";
+      g.innerHTML = '<div class="calc__rot">A sua comissão, por período</div>' +
+        '<div class="calc__total">' + kz(com) + "</div>" +
+        '<div class="calc__porunidade">' + taxa + "% sobre " + kz(receita) +
+        " · " + kz(com / Math.max(1, n)) + " por cliente</div>";
+      saida.appendChild(g);
+
+      var det = document.createElement("div");
+      det.className = "calc__det";
+      [[n + (n === 1 ? " cliente" : " clientes") + " × " + kz(v), kz(receita)],
+       ["Escalão aplicado", taxa + "%"],
+       ["Comissão do período", kz(com)],
+       ["Se todos renovarem quatro vezes", kz(com * 4)],
+       ["Base de cálculo", "sobre o valor da subscrição sem imposto"],
+       ["Carência antes de ficar disponível", CARENCIA + " dias"],
+       ["Mínimo para levantar", kz(MINIMO)]
+      ].forEach(function (l) {
+        var d = document.createElement("div");
+        d.className = "calc__linha";
+        d.innerHTML = "<span>" + l[0] + "</span><b>" + l[1] + "</b>";
+        det.appendChild(d);
+      });
+      saida.appendChild(det);
+    }
+
+    $$(".nivel__b[data-alvo]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var c = $("#" + b.dataset.alvo);
+        c.value = Math.max(0, (+c.value || 0) + (+b.dataset.passo));
+        calcular();
+      });
+    });
+    [cli, val].forEach(function (c) {
+      c.addEventListener("input", calcular); c.addEventListener("blur", calcular);
+    });
+    calcular();
+  })();
+
+  /* ═════════════════════════════════════════════════════ cenas animadas */
+  var C = (function () {
+    var s = getComputedStyle(document.documentElement);
+    function v(n, f) { return (s.getPropertyValue(n) || f).trim(); }
+    return { teal: v("--teal", "#17B3A3"), sky: v("--sky", "#4FA8E8"),
+             alert: v("--alert", "#E0674C"), warn: v("--warn", "#D9A038"),
+             line: v("--line", "#1D3350"), mute: v("--mute", "#8095AF"),
+             raised: v("--raised", "#142842") };
+  })();
+  function rgba(hex, a) {
+    var h = hex.replace("#", "");
+    if (h.length === 3) h = h[0]+h[0]+h[1]+h[1]+h[2]+h[2];
+    return "rgba(" + parseInt(h.slice(0,2),16) + "," + parseInt(h.slice(2,4),16) + "," +
+      parseInt(h.slice(4,6),16) + "," + a + ")";
+  }
+  function rot(ctx, t, x, y, cor, tam) {
+    ctx.font = "600 " + (tam || 9) + "px " + MONO;
+    ctx.fillStyle = cor; ctx.textAlign = "left"; ctx.fillText(t, x, y);
+  }
+  function caixa(ctx, x, y, l, a, r, pr, tr) {
+    ctx.beginPath();
+    if (ctx.roundRect) ctx.roundRect(x, y, l, a, r); else ctx.rect(x, y, l, a);
+    if (pr) { ctx.fillStyle = pr; ctx.fill(); }
+    if (tr) { ctx.strokeStyle = tr; ctx.lineWidth = 1; ctx.stroke(); }
+  }
+
+  /* ── capa: a rede de indicações a propagar-se ──────────────────────── */
+  palco($("#grade"), {
+    iniciar: function (L, A) {
+      var ns = [];
+      for (var i = 0; i < 46; i++)
+        ns.push({ x: Math.random()*L, y: Math.random()*A,
+                  vx: (Math.random()-.5)*8, vy: (Math.random()-.5)*8,
+                  r: 1+Math.random()*1.8, on: Math.random() < .22 });
+      return { ns: ns, acc: 0 };
+    },
+    pintar: function (ctx, L, A, e, dt, t) {
+      e.acc += dt;
+      if (e.acc > .5) { e.acc = 0; e.ns[Math.floor(Math.random()*e.ns.length)].on = true; }
+      e.ns.forEach(function (n) {
+        n.x += n.vx*dt; n.y += n.vy*dt;
+        if (n.x < 0 || n.x > L) n.vx *= -1;
+        if (n.y < 0 || n.y > A) n.vy *= -1;
+      });
+      if (!ctx) return;
+      for (var i = 0; i < e.ns.length; i++)
+        for (var j = i+1; j < e.ns.length; j++) {
+          var a = e.ns[i], b = e.ns[j], d = Math.hypot(a.x-b.x, a.y-b.y);
+          if (d > 118) continue;
+          ctx.strokeStyle = rgba((a.on && b.on) ? C.teal : C.line, (1-d/118)*.13);
+          ctx.lineWidth = 1;
+          ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
+        }
+      e.ns.forEach(function (n) {
+        ctx.beginPath(); ctx.arc(n.x, n.y, n.r + (n.on?1.4:0), 0, Math.PI*2);
+        ctx.fillStyle = rgba(n.on ? C.teal : C.mute, n.on ? .62 : .22); ctx.fill();
+      });
+    }
+  });
+
+  /* ── 02 · o percurso, do clique à comissão ─────────────────────────── */
+  palco($("#animPercurso"), {
+    iniciar: function (L, A) { return { bs: [], acc: 0, pagas: 0, perdidas: 0 }; },
+    pintar: function (ctx, L, A, e, dt, t) {
+      var passos = ["link", "visita", "cliente", "pagamento", "comissão"];
+      var px = L / passos.length, y = A * .46;
+      e.acc += dt;
+      if (e.acc > .42) {
+        e.acc = 0;
+        /* nem toda a visita se torna cliente — mostrar o contrário seria vender
+           uma taxa de conversão que ninguém garante */
+        e.bs.push({ p: 0, vivo: true, converte: Math.random() < .55 });
+      }
+      e.bs.forEach(function (b) {
+        if (!b.vivo) { b.cai = (b.cai||0) + dt; return; }
+        b.p += dt * .3;
+        if (!b.converte && b.p > .42) { b.vivo = false; e.perdidas++; }
+        if (b.p >= 1 && !b.f) { b.f = true; e.pagas++; }
+      });
+      e.bs = e.bs.filter(function (b) { return b.p < 1.16 && (b.cai||0) < 1.4; });
+      if (!ctx) return;
+      ctx.strokeStyle = rgba(C.line, .9); ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.moveTo(px*.5, y); ctx.lineTo(L-px*.5, y); ctx.stroke();
+      passos.forEach(function (s, i) {
+        var x = px * (i + .5);
+        var on = e.bs.some(function (b) { return b.vivo && Math.abs(b.p*(passos.length-1)-i) < .5; });
+        ctx.beginPath(); ctx.arc(x, y, on ? 9 : 6, 0, Math.PI*2);
+        ctx.fillStyle = on ? rgba(C.teal,.95) : rgba(C.line,1); ctx.fill();
+        ctx.font = "600 9px " + MONO; ctx.fillStyle = on ? C.teal : C.mute;
+        ctx.textAlign = "center"; ctx.fillText(s, x, y + 26);
+      });
+      e.bs.forEach(function (b) {
+        var x = px*.5 + (L-px) * Math.min(1, b.p);
+        var yy = y - 26 + (b.vivo ? 0 : (b.cai||0) * 50);
+        ctx.globalAlpha = b.vivo ? (b.p > 1 ? Math.max(0,1.16-b.p)*6 : 1)
+                                 : Math.max(0, 1 - (b.cai||0)/1.4);
+        caixa(ctx, x-8, yy, 16, 12, 2, rgba(b.vivo ? C.sky : C.alert, .9), null);
+        ctx.globalAlpha = 1;
+      });
+      ctx.textAlign = "left";
+      rot(ctx, "comissões geradas  " + e.pagas, 14, 14, rgba(C.teal,.95), 11);
+      rot(ctx, "visitas que não converteram  " + e.perdidas, 14, A-9, rgba(C.mute,.9));
+    }
+  });
+
+  /* ── 03 · a escada dos escalões ────────────────────────────────────── */
+  palco($("#animEscada"), {
+    iniciar: function (L, A) { return { k: 0, i: 0, acc: 0 }; },
+    pintar: function (ctx, L, A, e, dt, t) {
+      e.acc += dt;
+      if (e.acc > .55 && e.i < ESCALOES.length) { e.acc = 0; e.i++; }
+      e.k += (e.i - e.k) * dt * 3;
+      if (!ctx) return;
+      var pad = 30, base = A - 30, alt = base - 34, lg = (L - pad*2) / ESCALOES.length;
+      var max = ESCALOES[ESCALOES.length-1][1];
+      ESCALOES.forEach(function (es, i) {
+        var vis = Math.max(0, Math.min(1, e.k - i));
+        if (vis <= 0) return;
+        var h = (es[1] / max) * alt * vis, x = pad + lg*i;
+        var topo = i === ESCALOES.length - 1;
+        var cor = topo ? C.teal : C.sky;
+        caixa(ctx, x+6, base-h, lg-12, h, 4, rgba(cor,.28), rgba(cor,.9));
+        if (vis > .7) {
+          ctx.font = "700 13px " + MONO; ctx.fillStyle = rgba(cor,.95); ctx.textAlign = "center";
+          ctx.fillText(es[1] + "%", x + lg/2, base - h - 9);
+        }
+        ctx.font = "600 8px " + MONO; ctx.fillStyle = C.mute; ctx.textAlign = "center";
+        ctx.fillText(es[0], x + lg/2, base + 14);
+      });
+      ctx.textAlign = "left";
+      rot(ctx, POR_CLIENTES ? "a escada sobe com o número de clientes a pagar"
+                            : "a escada sobe com a receita que já gerou",
+          14, 14, rgba(C.mute,.9));
+    }
+  });
+
+  /* ── 04 · as origens de receita a convergirem ──────────────────────── */
+  palco($("#animFontes"), {
+    iniciar: function (L, A) {
+      return { fs: [], acc: 0, total: 0, n: 3 };
+    },
+    pintar: function (ctx, L, A, e, dt, t) {
+      var cx = L * .78, cy = A * .5;
+      e.acc += dt;
+      if (e.acc > .3) {
+        e.acc = 0;
+        e.fs.push({ i: Math.floor(Math.random()*e.n), p: 0 });
+      }
+      e.fs.forEach(function (f) {
+        f.p += dt * .75;
+        if (f.p >= 1 && !f.f) { f.f = true; e.total++; }
+      });
+      e.fs = e.fs.filter(function (f) { return f.p < 1.2; });
+      if (!ctx) return;
+      var y0 = 26, dy = (A - 52) / Math.max(1, e.n - 1);
+      for (var i = 0; i < e.n; i++) {
+        var y = y0 + dy*i;
+        ctx.strokeStyle = rgba(C.line,.8); ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.moveTo(46, y); ctx.lineTo(cx, cy); ctx.stroke();
+        ctx.beginPath(); ctx.arc(46, y, 4, 0, Math.PI*2);
+        ctx.fillStyle = rgba(C.sky,.8); ctx.fill();
+      }
+      e.fs.forEach(function (f) {
+        var y = y0 + dy*f.i, k = Math.min(1, f.p);
+        var x = 46 + (cx-46)*k, yy = y + (cy-y)*k;
+        ctx.globalAlpha = f.p > 1 ? Math.max(0,1.2-f.p)*5 : 1;
+        ctx.beginPath(); ctx.arc(x, yy, 3.4, 0, Math.PI*2);
+        ctx.fillStyle = rgba(C.teal,.95); ctx.fill();
+        ctx.globalAlpha = 1;
+      });
+      var pul = 22 + Math.sin(t*2.4)*2;
+      ctx.beginPath(); ctx.arc(cx, cy, pul+6, 0, Math.PI*2);
+      ctx.strokeStyle = rgba(C.teal,.2); ctx.lineWidth = 1; ctx.stroke();
+      ctx.beginPath(); ctx.arc(cx, cy, pul, 0, Math.PI*2);
+      ctx.fillStyle = rgba(C.teal,.95); ctx.fill();
+      ctx.font = "700 9px " + MONO; ctx.fillStyle = "#06060F"; ctx.textAlign = "center";
+      ctx.fillText("VOCÊ", cx, cy+3);
+      ctx.textAlign = "left";
+      rot(ctx, "pagamentos comissionados  " + e.total, 14, A-9, rgba(C.teal,.95), 11);
+    }
+  });
+
+  /* ── 05 · a carência: pendente até disponível ──────────────────────── */
+  palco($("#animCarencia"), {
+    iniciar: function (L, A) { return { cs: [], acc: 0, disp: 0 }; },
+    pintar: function (ctx, L, A, e, dt, t) {
+      e.acc += dt;
+      if (e.acc > .6 && e.cs.length < 9) { e.acc = 0; e.cs.push({ d: 0 }); }
+      e.cs.forEach(function (c) {
+        c.d += dt * (CARENCIA / 3.2);
+        if (c.d >= CARENCIA && !c.f) { c.f = true; e.disp++; }
+      });
+      e.cs = e.cs.filter(function (c) { return c.d < CARENCIA * 1.5; });
+      if (!ctx) return;
+      var pad = 36, lg = L - pad*2, y = A*.44, ba = 16;
+      caixa(ctx, pad, y, lg, ba, 3, rgba(C.line,.5), rgba(C.line,1));
+      ctx.font = "600 9px " + MONO; ctx.fillStyle = C.mute; ctx.textAlign = "left";
+      ctx.fillText("comissão criada", pad, y - 9);
+      ctx.textAlign = "right";
+      ctx.fillStyle = rgba(C.teal,.95);
+      ctx.fillText("disponível ao fim de " + CARENCIA + " dias", pad+lg, y - 9);
+      e.cs.forEach(function (c, i) {
+        var k = Math.min(1, c.d / CARENCIA);
+        var x = pad + lg*k;
+        ctx.beginPath(); ctx.arc(x, y + ba/2, 5, 0, Math.PI*2);
+        ctx.fillStyle = rgba(k >= 1 ? C.teal : C.warn, .92); ctx.fill();
+      });
+      ctx.textAlign = "left";
+      rot(ctx, "a carência existe para proteger de estornos e devoluções",
+          pad, A-10, rgba(C.mute,.9));
+      ctx.textAlign = "right";
+      rot(ctx, "disponíveis  " + e.disp, pad+lg, A-10, rgba(C.teal,.95), 11);
+      ctx.textAlign = "left";
+    }
+  });
+
+  /* ── 06 · comissões por estado ─────────────────────────────────────── */
+  palco($("#animPainel"), {
+    iniciar: function (L, A) {
+      return { est: [["em carência",0,"warn"],["disponível",0,"teal"],
+                     ["em levantamento",0,"sky"],["paga",0,"teal"]], acc: 0 };
+    },
+    pintar: function (ctx, L, A, e, dt, t) {
+      e.acc += dt;
+      if (e.acc > .36) {
+        e.acc = 0;
+        /* o fluxo real: nasce em carência e vai descendo pelos estados */
+        if (e.est[3][1] > 14) e.est.forEach(function (x) { x[1] = 0; });
+        else if (e.est[2][1] > 2) { e.est[2][1]--; e.est[3][1]++; }
+        else if (e.est[1][1] > 3) { e.est[1][1]--; e.est[2][1]++; }
+        else if (e.est[0][1] > 2) { e.est[0][1]--; e.est[1][1]++; }
+        else e.est[0][1]++;
+      }
+      if (!ctx) return;
+      var pad = 30, lg = (L - pad*2) / 4, base = A - 30, alt = base - 34;
+      var max = Math.max(5, Math.max.apply(null, e.est.map(function (x) { return x[1]; })));
+      e.est.forEach(function (x, i) {
+        var h = (x[1] / max) * alt, px = pad + lg*i;
+        var cor = x[2] === "warn" ? C.warn : x[2] === "sky" ? C.sky : C.teal;
+        caixa(ctx, px+8, base-h, lg-16, h, 4, rgba(cor,.3), rgba(cor,.9));
+        ctx.font = "700 12px " + MONO; ctx.fillStyle = rgba(cor,.95); ctx.textAlign = "center";
+        if (h > 14) ctx.fillText(String(x[1]), px+lg/2, base-h-8);
+        ctx.font = "600 8px " + MONO; ctx.fillStyle = C.mute;
+        ctx.fillText(x[0], px+lg/2, base+14);
+      });
+      ctx.textAlign = "left";
+      rot(ctx, "cada comissão tem estado, valor e origem — e vê-se uma a uma",
+          14, 14, rgba(C.mute,.9));
+    }
+  });
+
+  /* ── 07 · o saldo a acumular até ao mínimo ─────────────────────────── */
+  palco($("#animSaldo"), {
+    iniciar: function (L, A) { return { saldo: 0, acc: 0, levant: 0 }; },
+    pintar: function (ctx, L, A, e, dt, t) {
+      e.acc += dt;
+      if (e.acc > .42) {
+        e.acc = 0;
+        e.saldo += MINIMO * (.12 + Math.random()*.2);
+        if (e.saldo >= MINIMO) { e.levant++; e.saldo = 0; }
+      }
+      if (!ctx) return;
+      var pad = 36, lg = L - pad*2, y = A*.42, ba = 26;
+      caixa(ctx, pad, y, lg, ba, 4, rgba(C.line,.5), rgba(C.line,1));
+      var k = Math.min(1, e.saldo / MINIMO);
+      caixa(ctx, pad, y, lg*k, ba, 4, rgba(k >= .999 ? C.teal : C.sky, .8), null);
+      ctx.font = "600 9px " + MONO; ctx.fillStyle = C.mute; ctx.textAlign = "left";
+      ctx.fillText("saldo disponível", pad, y - 9);
+      ctx.textAlign = "right";
+      ctx.fillStyle = rgba(C.teal,.95);
+      ctx.fillText("mínimo " + kz(MINIMO), pad+lg, y - 9);
+      ctx.textAlign = "left";
+      ctx.font = "700 15px " + MONO; ctx.fillStyle = rgba(C.sky,.95);
+      ctx.fillText(kz(e.saldo), pad, y + ba + 24);
+      ctx.textAlign = "right";
+      rot(ctx, "levantamentos feitos  " + e.levant, pad+lg, y + ba + 24, rgba(C.teal,.95), 11);
+      ctx.textAlign = "left";
+      rot(ctx, "pede-se quando quiser, a partir do mínimo acumulado",
+          pad, A-10, rgba(C.mute,.9));
+    }
+  });
+
+  /* ── FECHO · o rendimento a acumular com as renovações ─────────────── */
+  palco($("#animCrescer"), {
+    iniciar: function (L, A) {
+      return { ms: [], i: 0, acc: 0, clientes: 0 };
+    },
+    pintar: function (ctx, L, A, e, dt, t) {
+      e.acc += dt;
+      if (e.acc > .42) {
+        e.acc = 0; e.i++;
+        if (e.i % 2 === 1) e.clientes++;
+        e.ms.push({ v: e.clientes, k: 0 });
+        if (e.ms.length > 14) { e.ms.shift(); }
+        if (e.i > 26) { e.i = 0; e.clientes = 0; e.ms = []; }
+      }
+      e.ms.forEach(function (m) { m.k = Math.min(1, m.k + dt*3); });
+      if (!ctx) return;
+      var pad = 32, base = A - 28, alt = base - 30, lg = (L - pad*2) / 14;
+      var max = Math.max(3, e.clientes);
+      var acum = 0;
+      e.ms.forEach(function (m, i) {
+        acum += m.v;
+        var h = (m.v / max) * alt * m.k, x = pad + lg*i;
+        caixa(ctx, x+3, base-h, lg-7, h, 2, rgba(C.teal,.34), rgba(C.teal,.85));
+      });
+      ctx.font = "600 9px " + MONO; ctx.fillStyle = C.mute; ctx.textAlign = "left";
+      ctx.fillText("cada barra é um período; a altura é o que esse período rendeu", pad, 16);
+      ctx.font = "700 13px " + MONO; ctx.fillStyle = rgba(C.teal,.95);
+      ctx.fillText(e.clientes + (e.clientes === 1 ? " cliente activo" : " clientes activos"),
+                   pad, base + 20);
+      ctx.textAlign = "right";
+      rot(ctx, "o rendimento não é por venda — é por cliente que continua a pagar",
+          L - pad, base + 20, rgba(C.mute,.9));
+      ctx.textAlign = "left";
+    }
+  });
+
+  AP.contar();
+  AP.arrancar();
+})();
+
+</script>
+<script>window.__VIDEOS__ = {"videos":[]};</script>
+<script>
+/* Tutoriais em vídeo dentro da apresentação.
+   =============================================================================
+   Os vídeos NÃO são feitos aqui. São os tutoriais que o `videos/tutoriais-adsa`
+   já produz — prints reais da conta de demonstração, câmara, realces, cursor e
+   narração em pt-PT (edge-tts, Duarte), renderizados em MP4 pelo HyperFrames.
+   Este ficheiro é só o leitor que os mostra: moldura, poster, legendas e
+   controlo de velocidade.
+
+   Porquê ligar ao MP4 no servidor em vez de o embutir: sete tutoriais são perto
+   de noventa megabytes, e um HTML desse tamanho não chega a lado nenhum por
+   email. O POSTER de cada um vai embutido, de modo que a apresentação aberta
+   sem ligação mostra o primeiro ecrã do tutorial e diz onde o ver — nunca uma
+   moldura preta.
+   ========================================================================== */
+(function () {
+  "use strict";
+  var $ = function (s, r) { return (r || document).querySelector(s); };
+  var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+
+  var DADOS = window.__VIDEOS__ || { videos: [] };
+  var porSlug = {};
+  DADOS.videos.forEach(function (v) { porSlug[v.slug] = v; });
+
+  /* as velocidades que um apresentador usa de facto: devagar para explicar por
+     cima, depressa para passar à frente do que a sala já percebeu */
+  var VELOCIDADES = [0.5, 0.75, 1, 1.25, 1.5, 2];
+
+  function mmss(s) {
+    s = Math.max(0, Math.round(s || 0));
+    return Math.floor(s / 60) + ":" + ("0" + (s % 60)).slice(-2);
+  }
+
+  function montar(raiz, v) {
+    var id = "v-" + v.slug;
+    raiz.classList.add("tut");
+    raiz.innerHTML =
+      '<div class="tut__topo">' +
+        '<span class="tut__n">tutorial</span>' +
+        '<span class="tut__nome">' + v.titulo + "</span>" +
+        '<span class="tut__dur">' + mmss(v.duracao) + "</span>" +
+      "</div>" +
+      '<div class="tut__ecra">' +
+        '<video id="' + id + '" class="tut__v" preload="none" playsinline' +
+          (v.poster ? ' poster="' + v.poster + '"' : "") + ">" +
+          '<source src="' + v.url + '" type="video/mp4">' +
+        "</video>" +
+        '<button class="tut__play" id="' + id + '-play" type="button" ' +
+          'aria-label="Reproduzir o tutorial"><span></span></button>' +
+        '<div class="tut__erro" id="' + id + '-erro" hidden>' +
+          "<b>Esta cópia foi aberta sem ligação à Internet.</b>" +
+          "<span>O tutorial está em <code>" + v.url.replace("https://", "") + "</code></span>" +
+        "</div>" +
+      "</div>" +
+      '<div class="tut__cc" id="' + id + '-cc" aria-live="polite"></div>' +
+      '<div class="tut__ctrl">' +
+        '<button class="tut__b tut__b--pp" id="' + id + '-pp" type="button" aria-label="Reproduzir">▶</button>' +
+        '<button class="tut__b" id="' + id + '-rec" type="button" aria-label="Recomeçar">↺</button>' +
+        '<div class="tut__barra" id="' + id + '-barra" role="slider" tabindex="0" ' +
+          'aria-label="Posição no vídeo"><div class="tut__barra__p" id="' + id + '-prog"></div></div>' +
+        '<span class="tut__t" id="' + id + '-t">0:00</span>' +
+        '<div class="tut__vels" role="group" aria-label="Velocidade de reprodução">' +
+          VELOCIDADES.map(function (x) {
+            return '<button class="tut__vel' + (x === 1 ? " is-on" : "") + '" type="button" ' +
+              'data-v="' + x + '" aria-pressed="' + (x === 1) + '">' +
+              String(x).replace(".", ",") + "×</button>";
+          }).join("") +
+        "</div>" +
+        '<button class="tut__b tut__b--som" id="' + id + '-som" type="button" ' +
+          'aria-pressed="true" aria-label="Desligar o som">🔊 som</button>' +
+        '<button class="tut__b" id="' + id + '-cheio" type="button" aria-label="Ecrã inteiro">⛶</button>' +
+      "</div>" +
+      '<p class="tut__sub">' + v.subtitulo + "</p>";
+
+    var vid = $("#" + id), pp = $("#" + id + "-pp"), play = $("#" + id + "-play");
+    var rec = $("#" + id + "-rec"), barra = $("#" + id + "-barra");
+    var prog = $("#" + id + "-prog"), tmp = $("#" + id + "-t");
+    var som = $("#" + id + "-som"), cheio = $("#" + id + "-cheio");
+    var cc = $("#" + id + "-cc"), erro = $("#" + id + "-erro");
+
+    /* LEGENDAS. Vêm do texto que o motor de voz já tinha medido, e mostramo-las
+       NÓS por baixo do vídeo, em corpo grande, em vez de deixar o navegador
+       desenhá-las por cima: numa sala, a legenda sobreposta tapa exactamente a
+       zona do ecrã de que se está a falar. E com o som desligado — que é como o
+       apresentador fala por cima — são elas que seguram o fio. */
+    var pistas = [];
+    if (v.vtt) {
+      try {
+        var faixa = document.createElement("track");
+        faixa.kind = "metadata";
+        faixa.src = URL.createObjectURL(new Blob([v.vtt], { type: "text/vtt" }));
+        faixa.default = true;
+        vid.appendChild(faixa);
+        faixa.addEventListener("load", function () {
+          if (faixa.track) {
+            faixa.track.mode = "hidden";
+            pistas = Array.prototype.slice.call(faixa.track.cues || []);
+          }
+        });
+      } catch (e) { }
+    }
+    function legenda(t) {
+      if (!pistas.length) return;
+      for (var i = 0; i < pistas.length; i++) {
+        if (t >= pistas[i].startTime && t < pistas[i].endTime) {
+          if (cc.textContent !== pistas[i].text) cc.textContent = pistas[i].text;
+          return;
+        }
+      }
+    }
+
+    function tocar() {
+      tentou = true;
+      var p = vid.play();
+      if (p && p.catch) p.catch(function () {
+        /* o navegador recusou (política de reprodução) ou a origem não responde:
+           só neste caso é que o aviso faz sentido */
+        if (!vid.readyState) erro.hidden = false;
+      });
+    }
+    pp.addEventListener("click", function () { vid.paused ? tocar() : vid.pause(); });
+    play.addEventListener("click", tocar);
+    rec.addEventListener("click", function () { vid.currentTime = 0; tocar(); });
+    som.addEventListener("click", function () {
+      vid.muted = !vid.muted;
+      som.textContent = (vid.muted ? "🔇" : "🔊") + " som";
+      som.setAttribute("aria-pressed", String(!vid.muted));
+      som.setAttribute("aria-label", vid.muted ? "Ligar o som" : "Desligar o som");
+    });
+    cheio.addEventListener("click", function () {
+      var alvo = vid.parentNode;
+      if (document.fullscreenElement) document.exitFullscreen();
+      else if (alvo.requestFullscreen) alvo.requestFullscreen();
+      else if (vid.webkitEnterFullscreen) vid.webkitEnterFullscreen();
+    });
+
+    $$(".tut__vel", raiz).forEach(function (b) {
+      b.addEventListener("click", function () {
+        vid.playbackRate = parseFloat(b.dataset.v);
+        $$(".tut__vel", raiz).forEach(function (o) {
+          o.classList.toggle("is-on", o === b);
+          o.setAttribute("aria-pressed", String(o === b));
+        });
+      });
+    });
+
+    vid.addEventListener("play", function () {
+      pp.textContent = "⏸"; pp.setAttribute("aria-label", "Pausa");
+      raiz.classList.add("is-on");
+      /* um tutorial de cada vez: dois a falar ao mesmo tempo acaba com a reunião */
+      $$("video.tut__v").forEach(function (o) { if (o !== vid) o.pause(); });
+    });
+    vid.addEventListener("pause", function () {
+      pp.textContent = "▶"; pp.setAttribute("aria-label", "Reproduzir");
+    });
+    vid.addEventListener("ended", function () { raiz.classList.remove("is-on"); });
+    vid.addEventListener("timeupdate", function () {
+      var d = vid.duration || v.duracao || 1;
+      prog.style.width = (vid.currentTime / d * 100).toFixed(2) + "%";
+      tmp.textContent = mmss(vid.currentTime);
+      legenda(vid.currentTime);
+    });
+    /* O aviso de «sem ligação» só aparece quando o vídeo falha MESMO, e
+       desaparece a qualquer sinal de vida — um `error` disparado por um salto na
+       barra deixava o aviso em cima de um vídeo que estava a correr bem. */
+    /* O aviso de «sem ligação» só aparece depois de uma tentativa REAL de
+       reprodução falhar. Com preload="none" — que é o que evita descarregar
+       noventa megabytes ao abrir a página — nada é pedido ao servidor até
+       alguém carregar em play, e o aviso aparecia por cima do poster de um
+       vídeo que ainda nem tinha sido pedido. */
+    var tentou = false;
+    function semAviso() { erro.hidden = true; }
+    ["loadedmetadata", "loadeddata", "canplay", "playing", "timeupdate"]
+      .forEach(function (ev) { vid.addEventListener(ev, semAviso); });
+    vid.addEventListener("error", function () {
+      if (tentou && vid.readyState < 2 && !vid.currentTime) erro.hidden = false;
+    });
+
+    function irPara(ev) {
+      var r = barra.getBoundingClientRect();
+      var x = ((ev.touches ? ev.touches[0].clientX : ev.clientX) - r.left) / r.width;
+      vid.currentTime = Math.max(0, Math.min(1, x)) * (vid.duration || v.duracao || 0);
+    }
+    barra.addEventListener("click", irPara);
+    barra.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowRight") vid.currentTime += 5;
+      if (e.key === "ArrowLeft") vid.currentTime -= 5;
+    });
+
+    /* pára quando sai de vista; NÃO arranca sozinho — quem manda no arranque é
+       o apresentador, e não o scroll */
+    if (typeof IntersectionObserver === "function") {
+      new IntersectionObserver(function (es) {
+        es.forEach(function (e) { if (!e.isIntersecting && !vid.paused) vid.pause(); });
+      }, { threshold: .25 }).observe(raiz);
+    }
+  }
+
+  window.TUTORIAL = {
+    montar: function (seletor, slug) {
+      var raiz = $(seletor);
+      if (!raiz) return;
+      var v = porSlug[slug];
+      if (!v) {
+        /* Tutorial ainda não produzido: a SECÇÃO INTEIRA sai da página, e a
+           apresentação lê-se como se ele nunca tivesse sido previsto. Antes
+           ficava aqui um recado para o programador — numa apresentação que vai
+           a um cliente, isso é pior do que não ter vídeo nenhum. */
+        var sec = raiz.closest ? raiz.closest("section") : null;
+        if (sec && sec.parentNode) sec.parentNode.removeChild(sec);
+        else raiz.parentNode.removeChild(raiz);
+        if (window.console) console.info("tutorial «" + slug + "» ainda não produzido — secção retirada");
+        return;
+      }
+      montar(raiz, v);
+    },
+    lista: DADOS.videos
+  };
+})();
+
+</script>
+<script>
+/* Coloca cada tutorial na sua secção.
+   Os vídeos são os do `videos/tutoriais-ondaka`, capturados na conta de
+   afiliado de demonstração. Cada um vem ANTES do tema a que pertence:
+   vê-se o ecrã primeiro e as perguntas vêm a seguir. */
+(function () {
+  "use strict";
+  if (!window.TUTORIAL) return;
+  [
+    ["#tut-af-programa",    "af-programa"],
+    ["#tut-af-ganhos",      "af-ganhos"],
+    ["#tut-af-painel",      "af-painel"],
+    ["#tut-af-receber",     "af-receber"]
+  ].forEach(function (p) { window.TUTORIAL.montar(p[0], p[1]); });
+})();
+
+</script>
+</body>
+</html>
