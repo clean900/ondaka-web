@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /api/
+Disallow: /ficheiros/
+Disallow: /passe/
+
+Sitemap: https://ondaka.ao/sitemap.xml
