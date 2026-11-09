@@ -51,15 +51,19 @@ Route::get('/', function () {
     if (auth()->check()) {
         return redirect()->route('dashboard');
     }
-    // Visitantes → landing page pública
-    return app(\App\Http\Controllers\LandingController::class)->index();
-})->name('landing');
+    // Visitantes → landing page pública (Blade: o texto vem no HTML do servidor)
+    return app()->call([app(\App\Http\Controllers\LandingController::class), 'index']);
+})->middleware(\App\Http\Middleware\PaginaPublicaBlade::class)->name('landing');
 
-Route::get('/catalogo', [\App\Http\Controllers\CatalogoController::class, 'index'])->name('catalogo');
+Route::get('/catalogo', [\App\Http\Controllers\CatalogoController::class, 'index'])
+    ->middleware(\App\Http\Middleware\PaginaPublicaBlade::class)
+    ->name('catalogo');
 
 // Loja pública de add-ons (data-driven da tabela features). A rota faltava →
 // o link "Loja" no nav da landing dava 404.
-Route::get('/loja', [\App\Http\Controllers\LojaController::class, 'index'])->name('loja');
+Route::get('/loja', [\App\Http\Controllers\LojaController::class, 'index'])
+    ->middleware(\App\Http\Middleware\PaginaPublicaBlade::class)
+    ->name('loja');
 
 // Páginas legais (HTML estático em public/)
 Route::get('/privacidade', function () {

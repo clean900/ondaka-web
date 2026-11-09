@@ -22,6 +22,18 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Contactos públicos (site ondaka.ao)
+    |--------------------------------------------------------------------------
+    | Os mesmos que estão publicados nos Termos e na Política de Privacidade.
+    */
+    'contactos' => [
+        'email' => 'comercial@ondaka.ao',
+        'whatsapp' => '+244 922 772 177',
+        'morada' => 'Urbanização Boa Vida, Centro de Escritórios, Luanda, Angola',
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Dados bancários (apresentados ao cliente para pagamento)
     |--------------------------------------------------------------------------
     */
