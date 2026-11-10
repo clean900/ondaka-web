@@ -7,10 +7,18 @@ namespace App\Providers;
 use App\Domains\Integracao\Sms\Adapters\TelcoSmsAdapter;
 use App\Domains\Integracao\Sms\Contracts\SmsProviderInterface;
 use App\Domains\Integracao\TelcoSms\TelcoSmsService;
+use App\Domains\Integracao\WhatsApp\WhatsAppChannel;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\ServiceProvider;
 
 class IntegracoesServiceProvider extends ServiceProvider
 {
+    public function boot(): void
+    {
+        // Canal de notificação 'whatsapp' (Meta Cloud API).
+        Notification::extend('whatsapp', fn ($app) => $app->make(WhatsAppChannel::class));
+    }
+
     public function register(): void
     {
         // Binding legado (mantido por compatibilidade)

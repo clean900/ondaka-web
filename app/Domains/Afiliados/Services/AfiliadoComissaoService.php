@@ -7,6 +7,7 @@ namespace App\Domains\Afiliados\Services;
 use App\Domains\Afiliados\Models\Afiliado;
 use App\Domains\Afiliados\Models\AfiliadoComissao;
 use App\Domains\Afiliados\Models\AfiliadoPagamento;
+use App\Domains\Afiliados\Notifications\AfiliadoComissaoAprovadaNotification;
 use App\Domains\Afiliados\Notifications\AfiliadoComissaoCreditadaNotification;
 use App\Domains\Afiliados\Notifications\AfiliadoPagamentoEfectuadoNotification;
 use App\Domains\Condominio\Models\Condominio;
@@ -224,6 +225,13 @@ class AfiliadoComissaoService
             'aprovada_em' => now(),
             'meta_json' => $meta,
         ]);
+
+        try {
+            $c->loadMissing('afiliado.user');
+            $c->afiliado?->user?->notify(new AfiliadoComissaoAprovadaNotification($c));
+        } catch (\Throwable $e) {
+            Log::warning('Afiliados: notificação de comissão aprovada falhou: '.$e->getMessage());
+        }
     }
 
     /** Cron diário: comissões cuja carência terminou passam a aprovadas. */

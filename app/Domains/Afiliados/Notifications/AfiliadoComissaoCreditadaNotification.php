@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Domains\Afiliados\Notifications;
 
+use App\Domains\Afiliados\Models\Afiliado;
 use App\Domains\Afiliados\Models\AfiliadoComissao;
+use App\Domains\Integracao\WhatsApp\Concerns\NotificaAfiliadoPorWhatsApp;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
@@ -12,13 +14,33 @@ use Illuminate\Notifications\Notification;
 /** Afiliado: uma comissão foi creditada (cliente pagou). */
 class AfiliadoComissaoCreditadaNotification extends Notification
 {
+    use NotificaAfiliadoPorWhatsApp;
     use Queueable;
 
     public function __construct(public AfiliadoComissao $comissao) {}
 
     public function via(object $notifiable): array
     {
-        return ['database', 'mail'];
+        return $this->comWhatsapp(['database', 'mail']);
+    }
+
+    protected function afiliadoAlvo(): ?Afiliado
+    {
+        return $this->comissao->afiliado;
+    }
+
+    /** Template Meta `afiliado_comissao_nova`: {{1}} valor · {{2}} cliente. */
+    public function toWhatsapp(object $notifiable): array
+    {
+        $this->comissao->loadMissing('empresa');
+
+        return [
+            'template' => (string) config('services.whatsapp.templates.comissao_nova', 'afiliado_comissao_nova'),
+            'parametros' => [
+                $this->valor(),
+                $this->comissao->empresa?->nome ?? 'Um cliente',
+            ],
+        ];
     }
 
     private function valor(): string

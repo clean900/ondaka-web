@@ -116,6 +116,33 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | WhatsApp (Meta Cloud API) — notificações a afiliados
+    |--------------------------------------------------------------------------
+    | As notificações são iniciadas pela empresa; fora da janela de 24h a Meta
+    | só entrega TEMPLATES aprovados, por isso há um template por evento (ver
+    | 'templates'). Fica inactivo enquanto WHATSAPP_ENABLED / WHATSAPP_TOKEN /
+    | WHATSAPP_PHONE_NUMBER_ID não estiverem definidos — nesse caso as
+    | notificações saem só por email/sino e nada quebra.
+    */
+    'whatsapp' => [
+        'enabled' => env('WHATSAPP_ENABLED', false),
+        'token' => env('WHATSAPP_TOKEN'),
+        'phone_number_id' => env('WHATSAPP_PHONE_NUMBER_ID'),
+        'api_version' => env('WHATSAPP_API_VERSION', 'v21.0'),
+        'template_idioma' => env('WHATSAPP_TEMPLATE_IDIOMA', 'pt_PT'),
+        'default_country' => env('WHATSAPP_DEFAULT_COUNTRY', '244'),
+        'timeout' => (int) env('WHATSAPP_TIMEOUT', 15),
+        // Nome de cada template aprovado na Meta (um por evento do afiliado).
+        'templates' => [
+            'candidatura_aprovada' => env('WHATSAPP_TPL_CANDIDATURA', 'afiliado_candidatura_aprovada'),
+            'comissao_nova' => env('WHATSAPP_TPL_COMISSAO_NOVA', 'afiliado_comissao_nova'),
+            'comissao_aprovada' => env('WHATSAPP_TPL_COMISSAO_APROVADA', 'afiliado_comissao_aprovada'),
+            'pagamento' => env('WHATSAPP_TPL_PAGAMENTO', 'afiliado_pagamento'),
+        ],
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Chamadas de voz WebRTC (coturn + signaling no VPS)
     |--------------------------------------------------------------------------
     */
