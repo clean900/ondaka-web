@@ -65,7 +65,7 @@ export default function Index({ afiliados, resumo, filtros }: Props) {
                                     <Link key={t.id} href={`/super-admin/afiliados/${t.id}`} className="flex items-center gap-3 px-5 py-3 hover:bg-white/[0.03]">
                                         <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white/5 text-xs font-bold text-white/60">{i + 1}</span>
                                         <div className="min-w-0 flex-1"><div className="truncate text-sm font-medium text-white">{t.nome}</div><div className="text-xs text-white/40">{t.codigo} · {t.clientes} cliente(s)</div></div>
-                                        <NivelBadge nivel={t.nivel} />
+                                        <NivelBadge taxa={t.taxa_pct} />
                                         <span className="font-mono text-sm text-emerald-300">{fmtKz(t.total_kz, 0)}</span>
                                     </Link>
                                 ))}

@@ -12,6 +12,7 @@ use App\Domains\Afiliados\Notifications\AfiliadoPagamentoEfectuadoNotification;
 use App\Domains\Condominio\Models\Condominio;
 use App\Domains\Empresa\Models\EmpresaGestora;
 use App\Domains\Payment\Models\OrdemCompra;
+use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -143,31 +144,47 @@ class AfiliadoComissaoService
             return null;
         }
 
-        $taxa = $this->afiliados->taxaEfectiva($af);
+        // Escalão por VOLUME de receita (12 meses), já a contar com o próprio pagamento.
+        // A subida de escalão aplica-se a esta comissão e às seguintes (nunca retroactivo).
+        $volumeComAtual = $this->afiliados->volume12m($af, $valorBase);
+        $escalao = $this->config->escalaoPorVolume($volumeComAtual);
+        $taxa = $af->taxa_manual_pct !== null
+            ? number_format((float) $af->taxa_manual_pct, 2, '.', '')
+            : $escalao['taxa_pct'];
         $valorComissao = bcdiv(bcmul($valorBase, $taxa, 4), '100', 2);
         $carencia = max(0, $this->config->int('afiliado_carencia_dias'));
         $agora = now();
         $aprovada = $carencia === 0;
 
-        $c = AfiliadoComissao::create([
-            'afiliado_id' => $af->id,
-            'empresa_gestora_id' => $empresa->id,
-            'origem_type' => $origemType,
-            'origem_id' => $origemId,
-            'origem_numero' => $origemNumero,
-            'descricao' => Str::limit($descricao, 250, ''),
-            'valor_pago_total_kz' => $this->dec($valorTotal),
-            'valor_imposto_kz' => $this->dec($valorImposto),
-            'valor_base_kz' => $valorBase,
-            'taxa_pct' => $taxa,
-            'valor_comissao_kz' => $valorComissao,
-            'nivel' => $af->nivel,
-            'estado' => $aprovada ? AfiliadoComissao::ESTADO_APROVADA : AfiliadoComissao::ESTADO_PENDENTE,
-            'pago_pelo_cliente_em' => $pagoEm ?? $agora,
-            'disponivel_em' => $agora->copy()->addDays($carencia)->toDateString(),
-            'aprovada_em' => $aprovada ? $agora : null,
-            'meta_json' => $meta + ['cliente' => $empresa->nome],
-        ]);
+        try {
+            $c = AfiliadoComissao::create([
+                'afiliado_id' => $af->id,
+                'empresa_gestora_id' => $empresa->id,
+                'origem_type' => $origemType,
+                'origem_id' => $origemId,
+                'origem_numero' => $origemNumero,
+                'descricao' => Str::limit($descricao, 250, ''),
+                'valor_pago_total_kz' => $this->dec($valorTotal),
+                'valor_imposto_kz' => $this->dec($valorImposto),
+                'valor_base_kz' => $valorBase,
+                'taxa_pct' => $taxa,
+                'valor_comissao_kz' => $valorComissao,
+                'nivel' => $af->taxa_manual_pct !== null ? $af->nivel : $escalao['codigo'],
+                'estado' => $aprovada ? AfiliadoComissao::ESTADO_APROVADA : AfiliadoComissao::ESTADO_PENDENTE,
+                'pago_pelo_cliente_em' => $pagoEm ?? $agora,
+                'disponivel_em' => $agora->copy()->addDays($carencia)->toDateString(),
+                'aprovada_em' => $aprovada ? $agora : null,
+                'meta_json' => $meta + ['cliente' => $empresa->nome],
+            ]);
+        } catch (UniqueConstraintViolationException $e) {
+            // Corrida entre webhooks/hooks para a mesma origem: o índice único (origem_type, origem_id)
+            // garante idempotência — a primeira venceu, esta é ignorada.
+            Log::info('Comissão de afiliado já registada (corrida idempotente)', [
+                'origem' => $origemType.'#'.$origemId,
+            ]);
+
+            return null;
+        }
 
         Log::info('Comissão de afiliado registada', [
             'comissao_id' => $c->id, 'afiliado_id' => $af->id, 'empresa_id' => $empresa->id,

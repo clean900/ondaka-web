@@ -54,16 +54,25 @@ export function EstadoAfiliadoBadge({ estado }: { estado: EstadoAfiliado }) {
     return <span className={cn(cls, estado === 'recusado' && 'bg-white/5 text-white/50 border border-white/10')}>{label}</span>;
 }
 
-export function NivelBadge({ nivel, taxa }: { nivel: Nivel | null | undefined; taxa?: string | number }) {
-    const map: Record<Nivel, [string, string]> = {
-        bronze: ['bg-amber-700/20 text-amber-300 border-amber-600/40', 'Bronze'],
-        prata: ['bg-zinc-300/15 text-zinc-100 border-zinc-300/40', 'Prata'],
-        ouro: ['bg-yellow-400/20 text-yellow-300 border-yellow-400/50', 'Ouro'],
-    };
-    const [cls, label] = map[(nivel ?? 'bronze') as Nivel] ?? map.bronze;
+/** Cor do escalão em função da taxa (6% base → 10% topo). */
+export function escalaoCls(taxa: string | number | null | undefined): string {
+    const t = Number(taxa ?? 0);
+    if (t >= 10) return 'bg-yellow-400/20 text-yellow-300 border-yellow-400/50';
+    if (t >= 9) return 'bg-cyan-400/15 text-cyan-200 border-cyan-400/40';
+    if (t >= 8) return 'bg-zinc-300/15 text-zinc-100 border-zinc-300/40';
+    if (t >= 7) return 'bg-purple-400/15 text-purple-200 border-purple-400/40';
+    return 'bg-amber-700/20 text-amber-300 border-amber-600/40';
+}
+
+/**
+ * Distintivo do escalão de comissão. Mostra a taxa (%) — o eixo passou a ser o volume
+ * de receita (12 meses), por isso não há medalhas. `label` adiciona o limiar do escalão.
+ */
+export function NivelBadge({ taxa, label }: { nivel?: Nivel | null; taxa?: string | number; label?: string }) {
     return (
-        <span className={cn('inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-semibold', cls)}>
-            {label}{taxa !== undefined && <span className="opacity-80">· {fmtPct(taxa)}</span>}
+        <span className={cn('inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-semibold', escalaoCls(taxa))}>
+            {taxa !== undefined ? fmtPct(taxa) : (label ?? '—')}
+            {taxa !== undefined && label && <span className="opacity-70">· {label}</span>}
         </span>
     );
 }
@@ -317,24 +326,26 @@ export function BarrasMensais({ serie, altura = 140 }: { serie: SerieMes[]; altu
 }
 
 /* ============================================================
-   Progresso de nível
+   Progresso de escalão (por volume de receita, 12 meses)
    ============================================================ */
 
-export function ProgressoNivel({ clientes, nivel, proximo }: { clientes: number; nivel: Nivel; proximo: { label: string; min_clientes: number; faltam: number; taxa_pct: string } | null }) {
+export function ProgressoNivel({ volume, taxa, proximo }: { volume: string | number; taxa?: string | number; proximo: { label: string; min_volume_kz: string; faltam_kz: string; taxa_pct: string } | null }) {
+    const vol = Number(volume) || 0;
     if (!proximo) {
-        return <div className="text-sm text-yellow-300">Nível máximo atingido · {clientes} cliente(s) pagante(s)</div>;
+        return <div className="text-sm text-yellow-300">Escalão máximo atingido · {fmtKz(vol, 0)} de volume (12 meses)</div>;
     }
-    const pct = Math.min(100, Math.round((clientes / proximo.min_clientes) * 100));
+    const alvo = Number(proximo.min_volume_kz) || 1;
+    const pct = Math.min(100, Math.round((vol / alvo) * 100));
     return (
         <div>
-            <div className="mb-1.5 flex items-center justify-between text-xs text-white/60">
-                <span><NivelBadge nivel={nivel} /></span>
-                <span>Faltam <strong className="text-white">{proximo.faltam}</strong> cliente(s) pagante(s) para <strong className="text-white">{proximo.label}</strong> ({fmtPct(proximo.taxa_pct)})</span>
+            <div className="mb-1.5 flex items-center justify-between gap-2 text-xs text-white/60">
+                <span><NivelBadge taxa={taxa} /></span>
+                <span className="text-right">Faltam <strong className="text-white">{fmtKz(proximo.faltam_kz, 0)}</strong> de volume para <strong className="text-white">{fmtPct(proximo.taxa_pct)}</strong> ({proximo.label})</span>
             </div>
             <div className="h-2.5 w-full overflow-hidden rounded-full bg-white/10">
                 <div className="h-full rounded-full bg-gradient-to-r from-cyan-400 to-purple-500" style={{ width: `${pct}%` }} />
             </div>
-            <div className="mt-1 text-[11px] text-white/40">{clientes} de {proximo.min_clientes} clientes pagantes</div>
+            <div className="mt-1 text-[11px] text-white/40">{fmtKz(vol, 0)} de {fmtKz(alvo, 0)} · volume de receita dos últimos 12 meses</div>
         </div>
     );
 }

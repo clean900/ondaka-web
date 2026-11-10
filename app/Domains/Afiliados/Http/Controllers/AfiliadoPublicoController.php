@@ -44,8 +44,8 @@ class AfiliadoPublicoController extends Controller
         $meses = 12;
         $base = round($preco * $imoveis * $meses, 2);
         $comissoes = [];
-        foreach ($this->config->niveis() as $n) {
-            $comissoes[$n['nivel']] = number_format(round($base * ((float) $n['taxa_pct']) / 100, 2), 2, '.', '');
+        foreach ($this->config->escaloes() as $e) {
+            $comissoes[$e['codigo']] = number_format(round($base * ((float) $e['taxa_pct']) / 100, 2), 2, '.', '');
         }
 
         return [

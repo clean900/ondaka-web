@@ -76,8 +76,8 @@ export default function Show({ afiliado, resumo, clientes, comissoes, comissoes_
                 <div className="grid grid-cols-2 gap-4 md:grid-cols-4 xl:grid-cols-7">
                     <StatCard label="Cliques" valor={fmtNum(resumo.cliques)} icon={MousePointerClick} tom="neutro" />
                     <StatCard label="Registos" valor={fmtNum(resumo.registos)} icon={Building2} tom="ciano" sub={`${resumo.registos_mes} este mês`} />
-                    <StatCard label="Clientes pagantes" valor={fmtNum(resumo.clientes_pagantes)} icon={Users} tom="roxo" sub={`${resumo.clientes_activos} activos`} />
-                    <StatCard label="Base gerada" valor={fmtKz(resumo.base_gerada_kz, 0)} icon={Building2} tom="neutro" sub="sem imposto" />
+                    <StatCard label="Volume (12 meses)" valor={fmtKz(resumo.volume_12m_kz, 0)} icon={Users} tom="roxo" sub={`${resumo.clientes_pagantes} cliente(s) pagante(s)`} />
+                    <StatCard label="Base gerada" valor={fmtKz(resumo.base_gerada_kz, 0)} icon={Building2} tom="neutro" sub="total, sem imposto" />
                     <StatCard label="Em carência" valor={fmtKz(resumo.pendente_kz, 0)} icon={Clock} tom="amber" sub={`${resumo.pendente_n}`} />
                     <StatCard label="Aprovado a pagar" valor={fmtKz(resumo.aprovada_kz, 0)} icon={CheckCircle2} tom={resumo.atinge_minimo ? 'verde' : 'ciano'} sub={resumo.atinge_minimo ? '≥ mínimo' : `mínimo ${fmtKz(resumo.pagamento_minimo_kz, 0)}`} />
                     <StatCard label="Pago (líquido)" valor={fmtKz(resumo.total_pago_liquido_kz, 0)} icon={Wallet} tom="verde" sub={`${pagamentos.length} pagamento(s)`} />
@@ -108,7 +108,7 @@ export default function Show({ afiliado, resumo, clientes, comissoes, comissoes_
                             <L k="Banco" v={afiliado.banco ?? '—'} />
                             <L k="Titular" v={afiliado.titular_conta ?? '—'} />
                             <L k="Último pagamento" v={resumo.ultimo_pagamento ? `${resumo.ultimo_pagamento.numero} · ${fmtKz(resumo.ultimo_pagamento.valor_liquido_kz)} · ${fmtData(resumo.ultimo_pagamento.pago_em)}` : '—'} />
-                            <div className="pt-3"><ProgressoNivel clientes={resumo.clientes_pagantes} nivel={resumo.nivel} proximo={resumo.proximo_nivel} /></div>
+                            <div className="pt-3"><ProgressoNivel volume={resumo.volume_12m_kz} taxa={resumo.taxa_pct} proximo={resumo.proximo_nivel} /></div>
                         </div>
                     </Seccao>
 
@@ -223,7 +223,7 @@ export default function Show({ afiliado, resumo, clientes, comissoes, comissoes_
 
             <Modal aberto={modal === 'taxa'} onClose={() => setModal(null)} titulo="Taxa de comissão">
                 <form onSubmit={(e) => { e.preventDefault(); fTaxa.patch(`${base}/taxa`, { preserveScroll: true, onSuccess: () => setModal(null) }); }} className="space-y-3">
-                    <div className="rounded-lg bg-white/[0.03] p-3 text-sm text-white/70">Nível automático actual: <NivelBadge nivel={resumo.nivel} /> com {resumo.clientes_pagantes} cliente(s) pagante(s) → {fmtPct(config.niveis.find((n) => n.nivel === resumo.nivel)?.taxa_pct ?? 0)}. Uma taxa manual substitui o nível (deixe vazio para voltar ao automático).</div>
+                    <div className="rounded-lg bg-white/[0.03] p-3 text-sm text-white/70">Escalão automático actual: <NivelBadge taxa={config.escaloes.find((n) => n.codigo === resumo.nivel)?.taxa_pct ?? resumo.taxa_pct} /> com {fmtKz(resumo.volume_12m_kz, 0)} de volume (12 meses). Uma taxa manual substitui o escalão (deixe vazio para voltar ao automático).</div>
                     <div><label className="mb-1 block text-xs text-white/60">Taxa manual (%)</label><input type="number" step="0.5" min={0} max={100} className="input" value={fTaxa.data.taxa_manual_pct} onChange={(e) => fTaxa.setData('taxa_manual_pct', e.target.value)} placeholder="Ex.: 12" />{fTaxa.errors.taxa_manual_pct && <div className="mt-1 text-xs text-red-400">{fTaxa.errors.taxa_manual_pct}</div>}</div>
                     <div className="flex justify-end gap-2"><button type="button" onClick={() => setModal(null)} className="btn-ghost">Cancelar</button><button type="submit" disabled={fTaxa.processing} className="btn-primary">Guardar</button></div>
                 </form>

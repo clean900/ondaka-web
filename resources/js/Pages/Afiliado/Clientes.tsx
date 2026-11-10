@@ -22,8 +22,8 @@ export default function Clientes({ afiliado, resumo, clientes }: Props) {
                 <div className="grid grid-cols-2 gap-4 md:grid-cols-5">
                     <StatCard label="Registos" valor={fmtNum(resumo.registos)} icon={Building2} tom="ciano" sub={`${resumo.registos_mes} este mês`} />
                     <StatCard label="Subscrição activa" valor={fmtNum(resumo.clientes_activos)} icon={CheckCircle2} tom="verde" />
-                    <StatCard label="Já pagaram" valor={fmtNum(resumo.clientes_pagantes)} icon={Users} tom="roxo" sub="contam para o nível" />
-                    <StatCard label="Base gerada (s/ imposto)" valor={fmtKz(resumo.base_gerada_kz, 0)} icon={TrendingUp} tom="neutro" />
+                    <StatCard label="Já pagaram" valor={fmtNum(resumo.clientes_pagantes)} icon={Users} tom="roxo" sub="clientes com comissão gerada" />
+                    <StatCard label="Volume (12 meses)" valor={fmtKz(resumo.volume_12m_kz, 0)} icon={TrendingUp} tom="neutro" sub="define o escalão de comissão" />
                     <StatCard label="Comissão gerada" valor={fmtKz(resumo.total_gerado_kz, 0)} icon={Wallet} tom="verde" />
                 </div>
 

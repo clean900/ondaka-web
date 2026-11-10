@@ -22,7 +22,7 @@ export default function Landing({ config, autenticado, ja_afiliado, exemplo }: P
         { q: 'Durante quanto tempo recebo?', a: config.duracao_meses > 0 ? `Durante ${config.duracao_meses} meses após o registo do cliente.` : 'Enquanto o cliente for cliente da ONDAKA — a indicação é vitalícia.' },
         { q: 'Como é que o cliente fica ligado a mim?', a: `Ao abrir o seu link, o código fica memorizado no browser durante ${config.cookie_dias} dias. Se o cliente se registar nesse período, fica atribuído a si. Também pode indicar o seu código directamente no registo.` },
         { q: 'Quando e como sou pago?', a: `Cada comissão tem ${config.carencia_dias} dias de carência (protecção contra estornos) e passa depois a aprovada. Quando o total aprovado atinge ${fmtKz(config.pagamento_minimo_kz, 0)}, a ONDAKA paga por transferência bancária para o seu IBAN e disponibiliza o comprovativo no seu painel.` },
-        { q: 'Como subo de nível?', a: `O nível depende do número de clientes indicados que já pagaram pelo menos uma vez: ${config.niveis.map((n) => `${n.label} ${fmtPct(n.taxa_pct)} (${n.max_clientes === null ? n.min_clientes + '+' : n.min_clientes === 0 ? 'até ' + n.max_clientes : n.min_clientes + '–' + n.max_clientes} clientes)`).join(', ')}. A subida é automática e aplica-se às comissões seguintes.` },
+        { q: 'Como subo de escalão?', a: `A taxa depende do seu volume de receita dos últimos 12 meses (o valor sem imposto de tudo o que os seus clientes pagam à ONDAKA): ${config.escaloes.map((n) => `${fmtPct(n.taxa_pct)} ${n.label.toLowerCase()}`).join('; ')}. A subida é automática e aplica-se às comissões seguintes.` },
         { q: 'Posso indicar a minha própria empresa?', a: 'Não. Auto-indicações e clientes já registados na ONDAKA não geram comissão. Uma empresa gestora que já é cliente pode, no entanto, aderir ao programa e indicar outras.' },
     ];
     const [faqAberta, setFaqAberta] = useState<number | null>(0);
@@ -78,16 +78,16 @@ export default function Landing({ config, autenticado, ja_afiliado, exemplo }: P
                                 <Row k={`${exemplo.imoveis} imóveis × ${fmtKz(exemplo.preco_imovel_mes, 0)}/mês × ${exemplo.meses} meses`} v={<span className="font-mono">{fmtKz(exemplo.base_kz, 0)}</span>} />
                                 <div className="text-xs text-zinc-500">valor sem imposto, sem descontos de período</div>
                             </div>
-                            <div className="mt-5 grid grid-cols-3 gap-3">
-                                {config.niveis.map((n) => (
-                                    <div key={n.nivel} className="rounded-xl border border-zinc-800 bg-black/30 p-3 text-center">
-                                        <NivelBadge nivel={n.nivel} />
-                                        <div className="mt-2 text-xs text-zinc-500">{fmtPct(n.taxa_pct)}</div>
-                                        <div className="mt-1 text-lg font-bold text-emerald-300">{fmtKz(exemplo.comissoes[n.nivel], 0)}</div>
+                            <div className="mt-5 space-y-2">
+                                {config.escaloes.map((n) => (
+                                    <div key={n.codigo} className="flex items-center justify-between gap-2 rounded-lg border border-zinc-800 bg-black/30 px-3 py-2">
+                                        <span className="min-w-0 flex-1 truncate text-xs text-zinc-400">{n.label}</span>
+                                        <span className="text-xs font-semibold text-zinc-300">{fmtPct(n.taxa_pct)}</span>
+                                        <span className="w-28 text-right text-sm font-bold text-emerald-300">{fmtKz(exemplo.comissoes[n.codigo], 0)}</span>
                                     </div>
                                 ))}
                             </div>
-                            <div className="mt-4 text-xs text-zinc-500">A sua comissão por esse cliente, num ano. Add-ons e pacotes SMS que o cliente compre somam-se.</div>
+                            <div className="mt-4 text-xs text-zinc-500">A sua comissão por esse cliente, num ano, conforme o escalão de volume. Add-ons e pacotes SMS que o cliente compre somam-se.</div>
                         </div>
                     </div>
                 </section>
@@ -109,21 +109,20 @@ export default function Landing({ config, autenticado, ja_afiliado, exemplo }: P
                 <section id="niveis" className="border-t border-blue-900/30 py-16">
                     <div className="mx-auto max-w-7xl px-6">
                         <h2 className="text-3xl font-bold">Comissões que sobem consigo</h2>
-                        <p className="mt-2 text-zinc-400">O nível depende de quantos clientes indicados já pagaram pelo menos uma vez. Sobe automaticamente.</p>
-                        <div className="mt-8 grid gap-6 md:grid-cols-3">
-                            {config.niveis.map((n) => (
-                                <div key={n.nivel} className={`rounded-2xl border p-6 ${n.nivel === 'ouro' ? 'border-yellow-400/40 bg-gradient-to-br from-yellow-500/10 to-transparent' : n.nivel === 'prata' ? 'border-zinc-400/30 bg-zinc-900/60' : 'border-amber-700/40 bg-zinc-900/60'}`}>
-                                    <NivelBadge nivel={n.nivel} />
-                                    <div className="mt-4 text-5xl font-bold">{fmtPct(n.taxa_pct)}</div>
-                                    <div className="mt-2 text-sm text-zinc-400">{n.max_clientes === null ? `${n.min_clientes} ou mais clientes pagantes` : n.min_clientes === 0 ? `Até ${n.max_clientes} clientes pagantes` : `${n.min_clientes} a ${n.max_clientes} clientes pagantes`}</div>
-                                    <ul className="mt-4 space-y-1.5 text-sm text-zinc-300">
-                                        <li className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-emerald-400" /> Subscrições</li>
-                                        <li className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-emerald-400" /> Add-ons da loja</li>
-                                        <li className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-emerald-400" /> Pacotes de SMS</li>
-                                    </ul>
-                                </div>
-                            ))}
+                        <p className="mt-2 text-zinc-400">A taxa cresce com o seu volume de receita dos últimos 12 meses — o valor sem imposto de tudo o que os seus clientes pagam à ONDAKA. Sobe automaticamente e aplica-se às comissões seguintes.</p>
+                        <div className="mt-8 grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+                            {config.escaloes.map((n, i) => {
+                                const topo = i === config.escaloes.length - 1;
+                                return (
+                                    <div key={n.codigo} className={`rounded-2xl border p-5 ${topo ? 'border-yellow-400/40 bg-gradient-to-br from-yellow-500/10 to-transparent' : 'border-zinc-800 bg-zinc-900/60'}`}>
+                                        <NivelBadge taxa={n.taxa_pct} />
+                                        <div className="mt-4 text-4xl font-bold">{fmtPct(n.taxa_pct)}</div>
+                                        <div className="mt-2 text-sm text-zinc-400">{n.label}</div>
+                                    </div>
+                                );
+                            })}
                         </div>
+                        <p className="mt-6 text-sm text-zinc-400">Em todos os escalões, a comissão aplica-se a subscrições, add-ons da loja e pacotes de SMS:</p>
                         <div className="mt-8 grid gap-4 md:grid-cols-3">
                             <Conta icon={Receipt} t="Subscrição da plataforma" d="Mensal, semestral ou anual, por imóvel gerido." />
                             <Conta icon={Smartphone} t="Add-ons" d="Marketplace, reservas, portaria, BI, domínio próprio, etc." />

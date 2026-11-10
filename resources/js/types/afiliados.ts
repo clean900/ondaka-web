@@ -1,18 +1,19 @@
 export type EstadoAfiliado = 'pendente' | 'activo' | 'suspenso' | 'recusado';
 export type EstadoComissao = 'pendente' | 'aprovada' | 'paga' | 'anulada';
-export type Nivel = 'bronze' | 'prata' | 'ouro';
+/** Código do escalão (e1…e5) ou legado (bronze/prata/ouro) em registos antigos. */
+export type Nivel = string;
 
-export interface NivelConfig {
-    nivel: Nivel;
+export interface EscalaoConfig {
+    codigo: string;
     label: string;
     taxa_pct: string;
-    min_clientes: number;
-    max_clientes: number | null;
+    min_volume_kz: string;
+    max_volume_kz: string | null;
 }
 
 export interface ConfigAfiliados {
     programa_activo: boolean;
-    niveis: NivelConfig[];
+    escaloes: EscalaoConfig[];
     carencia_dias: number;
     pagamento_minimo_kz: string;
     cookie_dias: number;
@@ -56,11 +57,11 @@ export interface Afiliado {
 }
 
 export interface ProximoNivel {
-    nivel: Nivel;
+    codigo: string;
     label: string;
     taxa_pct: string;
-    min_clientes: number;
-    faltam: number;
+    min_volume_kz: string;
+    faltam_kz: string;
 }
 
 export interface SerieMes {
@@ -76,6 +77,7 @@ export interface ResumoAfiliado {
     registos_mes: number;
     clientes_activos: number;
     clientes_pagantes: number;
+    volume_12m_kz: string;
     nivel: Nivel;
     nivel_label: string;
     taxa_pct: string;
@@ -221,7 +223,7 @@ export interface ResumoGlobal {
     afiliados_a_pagar: number;
     afiliados_a_pagar_kz: string;
     pagamento_minimo_kz: string;
-    top: { id: number; nome: string; codigo: string; nivel: Nivel; total_kz: string; clientes: number }[];
+    top: { id: number; nome: string; codigo: string; nivel: Nivel; taxa_pct: string; total_kz: string; clientes: number }[];
     serie_12m: SerieMes[];
 }
 

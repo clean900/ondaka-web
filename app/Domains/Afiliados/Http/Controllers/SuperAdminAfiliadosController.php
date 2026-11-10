@@ -345,11 +345,15 @@ class SuperAdminAfiliadosController extends Controller
     {
         $dados = $request->validate([
             'afiliado_programa_activo' => 'required|boolean',
-            'afiliado_taxa_base_pct' => 'required|numeric|min:0|max:100',
-            'afiliado_taxa_prata_pct' => 'required|numeric|min:0|max:100',
-            'afiliado_taxa_ouro_pct' => 'required|numeric|min:0|max:100',
-            'afiliado_nivel_prata_clientes' => 'required|integer|min:1|max:10000',
-            'afiliado_nivel_ouro_clientes' => 'required|integer|min:1|max:10000|gte:afiliado_nivel_prata_clientes',
+            'afiliado_taxa_e1_pct' => 'required|numeric|min:0|max:100',
+            'afiliado_taxa_e2_pct' => 'required|numeric|min:0|max:100',
+            'afiliado_vol_e2_kz' => 'required|numeric|min:0',
+            'afiliado_taxa_e3_pct' => 'required|numeric|min:0|max:100',
+            'afiliado_vol_e3_kz' => 'required|numeric|min:0|gte:afiliado_vol_e2_kz',
+            'afiliado_taxa_e4_pct' => 'required|numeric|min:0|max:100',
+            'afiliado_vol_e4_kz' => 'required|numeric|min:0|gte:afiliado_vol_e3_kz',
+            'afiliado_taxa_e5_pct' => 'required|numeric|min:0|max:100',
+            'afiliado_vol_e5_kz' => 'required|numeric|min:0|gte:afiliado_vol_e4_kz',
             'afiliado_carencia_dias' => 'required|integer|min:0|max:365',
             'afiliado_pagamento_minimo_kz' => 'required|numeric|min:0',
             'afiliado_cookie_dias' => 'required|integer|min:1|max:730',
@@ -357,7 +361,9 @@ class SuperAdminAfiliadosController extends Controller
             'afiliado_retencao_pct' => 'required|numeric|min:0|max:100',
             'afiliado_aprovacao_automatica' => 'required|boolean',
         ], [
-            'afiliado_nivel_ouro_clientes.gte' => 'O nível Ouro exige pelo menos tantos clientes como o Prata.',
+            'afiliado_vol_e3_kz.gte' => 'O volume do 3.º escalão deve ser maior ou igual ao do 2.º.',
+            'afiliado_vol_e4_kz.gte' => 'O volume do 4.º escalão deve ser maior ou igual ao do 3.º.',
+            'afiliado_vol_e5_kz.gte' => 'O volume do 5.º escalão deve ser maior ou igual ao do 4.º.',
         ]);
 
         $this->config->guardar($dados);

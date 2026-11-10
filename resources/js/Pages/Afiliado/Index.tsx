@@ -62,7 +62,7 @@ export default function Index({ afiliado, resumo, config, ultimas_comissoes, cli
                 <div className="grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-6">
                     <StatCard label="Cliques no link" valor={fmtNum(resumo.cliques)} icon={MousePointerClick} tom="neutro" sub="1 por visitante/dia" />
                     <StatCard label="Registos" valor={fmtNum(resumo.registos)} icon={Building2} tom="ciano" sub={`${resumo.registos_mes} este mês`} />
-                    <StatCard label="Clientes pagantes" valor={fmtNum(resumo.clientes_pagantes)} icon={Users} tom="roxo" sub={`${resumo.clientes_activos} com subscrição activa`} />
+                    <StatCard label="Volume (12 meses)" valor={fmtKz(resumo.volume_12m_kz, 0)} icon={TrendingUp} tom="roxo" sub="define o seu escalão de comissão" />
                     <StatCard label="Em carência" valor={fmtKz(resumo.pendente_kz, 0)} icon={Clock} tom="amber" sub={`${resumo.pendente_n} comissão(ões) · ${resumo.carencia_dias} dias`} />
                     <StatCard label="Aprovado (a pagar)" valor={fmtKz(resumo.aprovada_kz, 0)} icon={CheckCircle2} tom="verde" sub={resumo.atinge_minimo ? 'Atinge o mínimo de pagamento' : `Mínimo: ${fmtKz(resumo.pagamento_minimo_kz, 0)}`} />
                     <StatCard label="Já pago" valor={fmtKz(resumo.paga_kz, 0)} icon={Wallet} tom="verde" sub={resumo.ultimo_pagamento ? `Último: ${fmtData(resumo.ultimo_pagamento.pago_em)}` : 'Sem pagamentos ainda'} />
@@ -92,22 +92,21 @@ export default function Index({ afiliado, resumo, config, ultimas_comissoes, cli
                         </div>
                     </Seccao>
 
-                    <Seccao titulo={<span className="flex items-center gap-2"><TrendingUp className="h-4 w-4 text-purple-300" /> Nível e taxa de comissão</span>}>
+                    <Seccao titulo={<span className="flex items-center gap-2"><TrendingUp className="h-4 w-4 text-purple-300" /> Escalão e taxa de comissão</span>}>
                         <div className="space-y-4 p-5">
-                            <ProgressoNivel clientes={resumo.clientes_pagantes} nivel={resumo.nivel} proximo={resumo.proximo_nivel} />
+                            <ProgressoNivel volume={resumo.volume_12m_kz} taxa={resumo.taxa_pct} proximo={resumo.proximo_nivel} />
                             <table className="w-full text-sm">
-                                <thead><tr className="border-b border-white/10 text-[11px] uppercase tracking-wider text-white/40"><th className="py-1.5 text-left">Nível</th><th className="py-1.5 text-left">Clientes pagantes</th><th className="py-1.5 text-right">Comissão</th></tr></thead>
+                                <thead><tr className="border-b border-white/10 text-[11px] uppercase tracking-wider text-white/40"><th className="py-1.5 text-left">Volume de receita (12 meses)</th><th className="py-1.5 text-right">Comissão</th></tr></thead>
                                 <tbody>
-                                    {config.niveis.map((n) => (
-                                        <tr key={n.nivel} className={n.nivel === resumo.nivel ? 'bg-white/[0.04]' : ''}>
-                                            <td className="py-2"><NivelBadge nivel={n.nivel} /></td>
-                                            <td className="py-2 text-white/70">{n.max_clientes === null ? `${n.min_clientes}+` : n.min_clientes === 0 ? `até ${n.max_clientes}` : `${n.min_clientes} a ${n.max_clientes}`}</td>
+                                    {config.escaloes.map((n) => (
+                                        <tr key={n.codigo} className={n.codigo === resumo.nivel ? 'bg-white/[0.04]' : ''}>
+                                            <td className="py-2 text-white/70">{n.label}</td>
                                             <td className="py-2 text-right font-semibold text-white">{fmtPct(n.taxa_pct)}</td>
                                         </tr>
                                     ))}
                                 </tbody>
                             </table>
-                            <p className="text-xs text-white/50">A comissão aplica-se a <strong className="text-white/80">todos os pagamentos</strong> dos seus clientes à ONDAKA (subscrição, add-ons, pacotes SMS), sobre o valor <strong className="text-white/80">sem imposto</strong>.</p>
+                            <p className="text-xs text-white/50">A taxa sobe com o <strong className="text-white/80">volume de receita dos últimos 12 meses</strong> e aplica-se às comissões seguintes. A comissão incide sobre <strong className="text-white/80">todos os pagamentos</strong> dos seus clientes à ONDAKA (subscrição, add-ons, pacotes SMS), sobre o valor <strong className="text-white/80">sem imposto</strong>.</p>
                         </div>
                     </Seccao>
 

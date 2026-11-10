@@ -64,8 +64,9 @@ class AfiliadoEstatisticasService
             'registos_mes' => $registosMes,
             'clientes_activos' => $activos,
             'clientes_pagantes' => $this->afiliados->clientesPagantes($af),
+            'volume_12m_kz' => $this->afiliados->volume12m($af),
             'nivel' => $af->nivel,
-            'nivel_label' => $af->nivel_label,
+            'nivel_label' => $this->config->rotuloEscalao($af->nivel),
             'taxa_pct' => $this->dec($af->taxa_actual_pct),
             'taxa_manual' => $af->taxa_manual_pct !== null,
             'proximo_nivel' => $this->afiliados->proximoNivel($af),
@@ -298,7 +299,7 @@ class AfiliadoEstatisticasService
         $mesInicio = now()->startOfMonth();
 
         $top = Afiliado::query()
-            ->select('afiliados.id', 'afiliados.nome', 'afiliados.codigo', 'afiliados.nivel')
+            ->select('afiliados.id', 'afiliados.nome', 'afiliados.codigo', 'afiliados.nivel', 'afiliados.taxa_actual_pct')
             ->selectSub(
                 AfiliadoComissao::selectRaw('COALESCE(SUM(valor_comissao_kz),0)')->whereColumn('afiliado_id', 'afiliados.id')->where('estado', '!=', 'anulada'),
                 'total_kz',
@@ -313,6 +314,7 @@ class AfiliadoEstatisticasService
             ->get()
             ->map(fn ($a) => [
                 'id' => $a->id, 'nome' => $a->nome, 'codigo' => $a->codigo, 'nivel' => $a->nivel,
+                'taxa_pct' => $this->dec($a->taxa_actual_pct),
                 'total_kz' => $this->dec($a->total_kz), 'clientes' => (int) $a->clientes,
             ])->all();
 
@@ -401,7 +403,7 @@ class AfiliadoEstatisticasService
             'estado' => $af->estado,
             'estado_label' => $af->estado_label,
             'nivel' => $af->nivel,
-            'nivel_label' => $af->nivel_label,
+            'nivel_label' => $this->config->rotuloEscalao($af->nivel),
             'taxa_actual_pct' => $this->dec($af->taxa_actual_pct),
             'taxa_manual_pct' => $af->taxa_manual_pct !== null ? $this->dec($af->taxa_manual_pct) : null,
             'iban' => $af->iban,

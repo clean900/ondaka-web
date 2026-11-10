@@ -9,7 +9,7 @@
     "/build/assets/AuthenticatedLayout-DB0Q8XAf.css"
   ],
   "resources/js/Components/Afiliados/ui.tsx": [
-    "/build/assets/ui-BNWuS-9O.js"
+    "/build/assets/ui-DXFnJoGj.js"
   ],
   "resources/js/Components/AprendaUsar.tsx": [
     "/build/assets/AuthenticatedLayout-Dl6-5GZa.js",
@@ -92,25 +92,25 @@
     "/build/assets/Show-D1-ulxnu.js"
   ],
   "resources/js/Pages/Afiliado/Aderir.tsx": [
-    "/build/assets/Aderir-B5RrtKWf.js"
+    "/build/assets/Aderir-B9p9f62m.js"
   ],
   "resources/js/Pages/Afiliado/Clientes.tsx": [
-    "/build/assets/Clientes-CD5JxE-g.js"
+    "/build/assets/Clientes-E9Yqo3Wo.js"
   ],
   "resources/js/Pages/Afiliado/Comissoes.tsx": [
-    "/build/assets/Comissoes-CBJEJ9Bl.js"
+    "/build/assets/Comissoes-BiIrURc9.js"
   ],
   "resources/js/Pages/Afiliado/Dados.tsx": [
-    "/build/assets/Dados-DgTeN5UX.js"
+    "/build/assets/Dados-C9hOEdvK.js"
   ],
   "resources/js/Pages/Afiliado/Index.tsx": [
-    "/build/assets/Index-C7m01gPw.js"
+    "/build/assets/Index-CJ_8_6gQ.js"
   ],
   "resources/js/Pages/Afiliado/Pagamentos.tsx": [
-    "/build/assets/Pagamentos-CMcWLQG_.js"
+    "/build/assets/Pagamentos-DDmnDY6o.js"
   ],
   "resources/js/Pages/Afiliados/Landing.tsx": [
-    "/build/assets/Landing-iUt4gGb7.js"
+    "/build/assets/Landing-DmvxB6n2.js"
   ],
   "resources/js/Pages/Assembleias/Entrar.tsx": [
     "/build/assets/Entrar-DMAkX9q5.js"
@@ -350,19 +350,19 @@
     "/build/assets/Index-WTT7g8C6.js"
   ],
   "resources/js/Pages/SuperAdmin/Afiliados/Comissoes.tsx": [
-    "/build/assets/Comissoes-DpkO_Lol.js"
+    "/build/assets/Comissoes-BZBI6BbQ.js"
   ],
   "resources/js/Pages/SuperAdmin/Afiliados/Config.tsx": [
-    "/build/assets/Config-Cc1I95pH.js"
+    "/build/assets/Config-CxN9Bh3R.js"
   ],
   "resources/js/Pages/SuperAdmin/Afiliados/Index.tsx": [
-    "/build/assets/Index-C_yJTo26.js"
+    "/build/assets/Index-QI_89dAK.js"
   ],
   "resources/js/Pages/SuperAdmin/Afiliados/Pagamentos.tsx": [
-    "/build/assets/Pagamentos-C8Jb8Vet.js"
+    "/build/assets/Pagamentos-DrLCN6nr.js"
   ],
   "resources/js/Pages/SuperAdmin/Afiliados/Show.tsx": [
-    "/build/assets/Show-X0XWT6A5.js"
+    "/build/assets/Show-DxOBamR8.js"
   ],
   "resources/js/Pages/SuperAdmin/Clientes/Index.tsx": [
     "/build/assets/Index-CSavtMqy.js"

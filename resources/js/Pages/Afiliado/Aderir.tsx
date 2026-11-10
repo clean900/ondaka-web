@@ -42,13 +42,13 @@ export default function Aderir({ config, empresa, user }: Props) {
                             <Passo icon={Wallet} n="3" titulo="Recebe a comissão" texto={`Sobre o valor sem imposto de cada pagamento. Após ${config.carencia_dias} dias de carência fica aprovada; a ONDAKA paga por transferência a partir de ${fmtKz(config.pagamento_minimo_kz, 0)}.`} />
                         </div>
 
-                        <Seccao titulo="Níveis de comissão — sobem automaticamente com os clientes pagantes">
-                            <div className="grid gap-0 divide-y divide-white/5 md:grid-cols-3 md:divide-x md:divide-y-0">
-                                {config.niveis.map((n) => (
-                                    <div key={n.nivel} className="p-5">
-                                        <NivelBadge nivel={n.nivel} />
-                                        <div className="mt-3 text-3xl font-bold text-white">{fmtPct(n.taxa_pct)}</div>
-                                        <div className="mt-1 text-xs text-white/50">{n.max_clientes === null ? `${n.min_clientes} ou mais clientes pagantes` : n.min_clientes === 0 ? `até ${n.max_clientes} clientes pagantes` : `${n.min_clientes} a ${n.max_clientes} clientes pagantes`}</div>
+                        <Seccao titulo="Escalões de comissão — sobem com o volume de receita (12 meses)">
+                            <div className="grid grid-cols-2 gap-3 p-5 sm:grid-cols-3 lg:grid-cols-5">
+                                {config.escaloes.map((n) => (
+                                    <div key={n.codigo} className="rounded-xl border border-white/10 bg-white/[0.02] p-4">
+                                        <NivelBadge taxa={n.taxa_pct} />
+                                        <div className="mt-3 text-2xl font-bold text-white">{fmtPct(n.taxa_pct)}</div>
+                                        <div className="mt-1 text-xs text-white/50">{n.label}</div>
                                     </div>
                                 ))}
                             </div>

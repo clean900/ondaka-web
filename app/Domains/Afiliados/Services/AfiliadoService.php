@@ -120,7 +120,7 @@ class AfiliadoService
     protected function criarAfiliado(User $user, array $d, ?int $empresaId): Afiliado
     {
         $auto = $this->config->bool('afiliado_aprovacao_automatica');
-        $nivel = Afiliado::NIVEL_BRONZE;
+        $base = $this->config->escaloes()[0]; // escalão base (desde o 1.º Kz)
 
         $af = Afiliado::create([
             'user_id' => $user->id,
@@ -132,8 +132,8 @@ class AfiliadoService
             'nif' => $d['nif'] ?? null,
             'empresa_gestora_id' => $empresaId,
             'estado' => $auto ? Afiliado::ESTADO_ACTIVO : Afiliado::ESTADO_PENDENTE,
-            'nivel' => $nivel,
-            'taxa_actual_pct' => $this->config->taxaPorNivel($nivel),
+            'nivel' => $base['codigo'],
+            'taxa_actual_pct' => $base['taxa_pct'],
             'iban' => $d['iban'] ?? null,
             'banco' => $d['banco'] ?? null,
             'titular_conta' => $d['titular_conta'] ?? null,
@@ -225,10 +225,10 @@ class AfiliadoService
     }
 
     // -----------------------------------------------------------------
-    // Níveis / taxa
+    // Escalões / taxa (por volume de receita dos últimos 12 meses)
     // -----------------------------------------------------------------
 
-    /** Nº de clientes distintos que já geraram pelo menos uma comissão (não anulada). */
+    /** Nº de clientes distintos que já geraram pelo menos uma comissão (não anulada). Informativo. */
     public function clientesPagantes(Afiliado $af): int
     {
         return (int) AfiliadoComissao::where('afiliado_id', $af->id)
@@ -237,47 +237,60 @@ class AfiliadoService
             ->count('empresa_gestora_id');
     }
 
+    /**
+     * Volume de receita do afiliado nos últimos 12 meses: soma do valor líquido (base
+     * sem imposto) das comissões NÃO anuladas cuja data de pagamento na origem seja
+     * >= hoje − 12 meses. `$extra` permite incluir já o próprio pagamento a registar.
+     */
+    public function volume12m(Afiliado $af, string $extra = '0'): string
+    {
+        $desde = now()->subMonths(12);
+        $soma = AfiliadoComissao::where('afiliado_id', $af->id)
+            ->naoAnuladas()
+            ->where('pago_pelo_cliente_em', '>=', $desde)
+            ->sum('valor_base_kz');
+
+        return bcadd($this->dec($soma), $this->dec($extra), 2);
+    }
+
     public function taxaEfectiva(Afiliado $af): string
     {
         if ($af->taxa_manual_pct !== null) {
             return number_format((float) $af->taxa_manual_pct, 2, '.', '');
         }
 
-        return $this->config->taxaPorNivel($this->config->nivelPorClientes($this->clientesPagantes($af)));
+        return $this->config->taxaPorVolume($this->volume12m($af));
     }
 
     public function recalcularNivel(Afiliado $af): Afiliado
     {
-        $n = $this->clientesPagantes($af);
-        $nivel = $this->config->nivelPorClientes($n);
+        $escalao = $this->config->escalaoPorVolume($this->volume12m($af));
         $taxa = $af->taxa_manual_pct !== null
             ? number_format((float) $af->taxa_manual_pct, 2, '.', '')
-            : $this->config->taxaPorNivel($nivel);
+            : $escalao['taxa_pct'];
 
-        if ($af->nivel !== $nivel || (string) $af->taxa_actual_pct !== $taxa) {
-            $af->forceFill(['nivel' => $nivel, 'taxa_actual_pct' => $taxa])->save();
+        if ($af->nivel !== $escalao['codigo'] || (string) $af->taxa_actual_pct !== $taxa) {
+            $af->forceFill(['nivel' => $escalao['codigo'], 'taxa_actual_pct' => $taxa])->save();
         }
 
         return $af;
     }
 
-    /** Próximo nível a atingir (null se já está no topo). */
+    /** Próximo escalão a atingir (null se já está no topo). */
     public function proximoNivel(Afiliado $af): ?array
     {
-        $n = $this->clientesPagantes($af);
-        foreach ($this->config->niveis() as $nivel) {
-            if ($nivel['min_clientes'] > $n) {
-                return [
-                    'nivel' => $nivel['nivel'],
-                    'label' => $nivel['label'],
-                    'taxa_pct' => $nivel['taxa_pct'],
-                    'min_clientes' => $nivel['min_clientes'],
-                    'faltam' => $nivel['min_clientes'] - $n,
-                ];
-            }
+        return $this->config->proximoEscalao($this->volume12m($af));
+    }
+
+    /** Normaliza um valor monetário para string com 2 casas (bcmath). */
+    protected function dec(mixed $v): string
+    {
+        $s = str_replace([',', ' '], ['.', ''], trim((string) ($v ?? '0')));
+        if ($s === '' || ! is_numeric($s)) {
+            $s = '0';
         }
 
-        return null;
+        return bcadd($s, '0', 2);
     }
 
     // -----------------------------------------------------------------
