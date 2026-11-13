@@ -12,6 +12,7 @@ escrever por cima, com data e hora no nome. O ficheiro principal é sempre o
 mesmo; o arquivo é só história, para se poder abrir a de ontem ao lado da de hoje.
 """
 import argparse
+import json
 import os
 import shutil
 import time
@@ -65,6 +66,16 @@ def main():
     corpo = corpo.replace("{{CLIENTE}}", args.cliente).replace("{{DATA}}", data)
 
     css = ler("estilo.css")
+    # TUTORIAIS EM VÍDEO. O videos.json traz, por tutorial, o poster embutido, as
+    # legendas e a duração — produzido por preparar-videos.py a partir dos MP4 do
+    # videos/tutoriais-ondaka. O MP4 em si fica no servidor: seis tutoriais
+    # são cinquenta megabytes, e um HTML desse tamanho não chega a lado nenhum.
+    leitor = ler("video.js")
+    guioes = ler("video-guioes.js")
+    fvid = os.path.join(BASE, "videos.json")
+    dados_video = ler("videos.json") if os.path.exists(fvid) else '{"videos":[]}'
+    n_vid = len(json.loads(dados_video).get("videos", []))
+    print("  tutoriais: %d, com poster e legendas" % n_vid)
     js = ler("motor.js") + "\n" + ler("logica.js")
 
     for alvo, inteiro in ((SAIDA, True), (SAIDA_ART, False)):
@@ -79,9 +90,18 @@ def main():
         if inteiro:
             pecas.append("</head>\n<body>\n")
         pecas.append(corpo)
+        # ORDEM: primeiro os dados dos vídeos e o leitor, só depois o motor.
+        # O leitor PODA, ao ser lido, as secções dos tutoriais que ainda não
+        # existem; se corresse depois, o motor já tinha montado a navegação com
+        # elas lá dentro e o índice lateral ficava a apontar para o vazio.
+        pecas.append("<script>window.__VIDEOS__ = %s;</script>\n" % dados_video)
+        pecas.append("<script>\n" + leitor + "\n</script>\n")
         pecas.append("\n<script>\n")
         pecas.append(js)
         pecas.append("\n</script>\n")
+        # o mapa tutorial→secção fica para o fim: precisa do TUTORIAL definido
+        # e das secções já podadas
+        pecas.append("<script>\n" + guioes + "\n</script>\n")
         if inteiro:
             pecas.append("</body>\n</html>\n")
         html = "".join(pecas)

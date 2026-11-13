@@ -1,0 +1,42 @@
+{
+  "numero": 3,
+  "titulo": "Pagamentos",
+  "subtitulo": "Do comprovativo que o condómino envia à confirmação do gestor",
+  "resumo": [
+    "Cada pagamento tem referência própria e o condómino que o fez",
+    "Os estados separam o que está pendente, em revisão e confirmado",
+    "A pesquisa é por referência ou por condómino",
+    "Confirmar um pagamento abate-o na taxa correspondente"
+  ],
+  "cenas": [
+    {
+      "ecra": "pagamentos",
+      "passos": [
+        {
+          "titulo": "Os pagamentos",
+          "texto": "O condómino paga e envia o comprovativo pela aplicação. Chega aqui, à espera de confirmação.",
+          "dur": 9
+        },
+        {
+          "titulo": "O que está à espera",
+          "texto": "Pendentes e em revisão. É a fila de trabalho do gestor — e o número diz quanto falta ver.",
+          "foco": [620, 410, 1230, 230],
+          "dur": 10
+        },
+        {
+          "titulo": "Encontrar um pagamento",
+          "texto": "Por referência ou por condómino. Quando alguém liga a dizer que já pagou, a resposta está a um campo de distância.",
+          "foco": [660, 700, 2400, 100],
+          "cursor": { "texto": "Pesquisar por referência" },
+          "dur": 11
+        },
+        {
+          "titulo": "Cada linha",
+          "texto": "A referência, o estado, quem pagou e de que condomínio é. Confirmado ou pendente, lê-se de relance.",
+          "foco": [642, 860, 2430, 630],
+          "dur": 10
+        }
+      ]
+    }
+  ]
+}

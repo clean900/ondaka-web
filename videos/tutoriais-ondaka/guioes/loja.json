@@ -1,0 +1,42 @@
+{
+  "numero": 6,
+  "titulo": "A loja de funcionalidades",
+  "subtitulo": "A plataforma cresce com o condomínio, não antes dele",
+  "resumo": [
+    "As funcionalidades ligam-se uma a uma, quando fazem falta",
+    "Estão arrumadas por tema: comunicação, gestão, segurança, pagamentos",
+    "Cada cartão diz o que faz e se já está activo",
+    "O que não se liga não aparece no menu"
+  ],
+  "cenas": [
+    {
+      "ecra": "loja",
+      "passos": [
+        {
+          "titulo": "A loja",
+          "texto": "O ONDAKA não se vende em pacotes fechados. Liga-se o que o condomínio usa, e o resto fica fora do caminho.",
+          "dur": 10
+        },
+        {
+          "titulo": "O que já está ligado",
+          "texto": "«As minhas funcionalidades» conta as que esta empresa tem activas. É o tamanho actual da plataforma dela.",
+          "foco": { "texto": "As minhas funcionalidades" },
+          "cursor": { "texto": "As minhas funcionalidades" },
+          "dur": 10
+        },
+        {
+          "titulo": "Por tema",
+          "texto": "Comunicação, gestão avançada, segurança, pagamentos e personalização. Cada separador diz quantas traz.",
+          "foco": [820, 620, 1600, 120],
+          "dur": 10
+        },
+        {
+          "titulo": "Cada funcionalidade",
+          "texto": "O cartão diz o que faz, e a etiqueta «activa» diz se já está ligada. Serviço de SMS, remetente personalizado, pacotes extra — liga-se o que se usa.",
+          "foco": [700, 840, 2320, 560],
+          "dur": 12
+        }
+      ]
+    }
+  ]
+}

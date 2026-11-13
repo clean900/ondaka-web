@@ -114,6 +114,10 @@ function carregarMapa(ecra) {
 }
 function procurar(mapa, ref, ecra) {
   if (Array.isArray(ref)) return { x: ref[0], y: ref[1], w: ref[2], h: ref[3] };
+  // `caixa` é o rectângulo escrito à mão, para o que o mapa não apanha — um
+  // endereço dentro de uma caixa que não é <input>, por exemplo. Serve também
+  // ao `tapar`, que precisa de levar o texto de substituição ao lado.
+  if (ref.caixa) return { x: ref.caixa[0], y: ref.caixa[1], w: ref.caixa[2], h: ref.caixa[3] };
   if (ref.sel) {
     const e = mapa.find(m => m.sel === ref.sel) || mapa.find(m => m.sel.startsWith(ref.sel));
     if (!e) throw new Error(`em ${ecra}: não encontrei o selector «${ref.sel}» no mapa`);

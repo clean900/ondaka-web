@@ -103,6 +103,32 @@ async function mapear(page) {
   }, ESCALA);
 }
 
+// O GUIA DE BOAS-VINDAS (driver.js) abre por cima de tudo e escurece o resto
+// do ecrã — os doze primeiros prints saíram todos assim. Fecha-se a cada
+// página, e não só depois de entrar: ele volta a abrir em ecrãs que ainda não
+// foram vistos, e um «PASSO 1 DE 34» num tutorial comercial é o contrário do
+// que se quer mostrar.
+async function fecharGuia(page) {
+  for (let i = 0; i < 3; i++) {
+    const fechou = await page.evaluate(() => {
+      const x = document.querySelector('.driver-popover-close-btn, button.driver-popover-close-btn');
+      if (x) { x.click(); return true; }
+      return false;
+    }).catch(() => false);
+    if (!fechou) break;
+    await dorme(400);
+  }
+  // cinto de segurança: a tecla Escape fecha-o também, e apanha variantes
+  await page.keyboard.press('Escape').catch(() => {});
+  await dorme(250);
+  // e limpa o que resta da sobreposição, se o fecho deixou a máscara
+  await page.evaluate(() => {
+    document.querySelectorAll('.driver-overlay, .driver-popover, svg.driver-overlay')
+      .forEach(e => e.remove());
+    document.documentElement.classList.remove('driver-active', 'driver-fade');
+  }).catch(() => {});
+}
+
 async function principal() {
   const env = ambiente();
   const base = env.ONDAKA_BASE.replace(/\/$/, '');
@@ -140,6 +166,7 @@ async function principal() {
     process.exit(2);
   }
   console.log(`  sessão aberta → ${page.url().replace(base, '')}`);
+  await fecharGuia(page);
 
   // O banner de cookies tapa o canto do ecrã e intercepta cliques. Escolhe-se
   // sempre «rejeitar»: é o que respeita quem vê, e é o que sai nos prints.
@@ -162,6 +189,7 @@ async function principal() {
       // As páginas Inertia montam em React: sem esta pausa apanha-se o
       // esqueleto de carregamento em vez do ecrã com dados.
       await dorme(e.espera_ms || 2000);
+      await fecharGuia(page);
       await page.evaluate(() => window.scrollTo(0, 0));
 
       await page.screenshot({ path: join(DESTINO, `${e.slug}.png`) });

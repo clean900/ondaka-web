@@ -1,0 +1,48 @@
+{
+  "numero": 5,
+  "titulo": "Avisos",
+  "subtitulo": "Comunicar com o condomínio sem depender de papel na parede",
+  "resumo": [
+    "O aviso nasce em rascunho, agenda-se, publica-se e arquiva-se",
+    "A categoria distingue um aviso geral de uma convocatória ou de uma urgência",
+    "Publica-se para um condomínio ou para todos",
+    "Chega à aplicação do condómino, com anexo quando é preciso"
+  ],
+  "cenas": [
+    {
+      "ecra": "avisos",
+      "passos": [
+        {
+          "titulo": "Avisos",
+          "texto": "Uma reunião de condóminos, uma manutenção programada. O que antes era uma folha colada no elevador chega agora ao telemóvel de cada um.",
+          "dur": 12
+        },
+        {
+          "titulo": "O estado do aviso",
+          "texto": "Rascunho enquanto se escreve, agendado para sair à hora certa, publicado quando saiu, arquivado quando deixou de interessar.",
+          "foco": [660, 548, 500, 105],
+          "dur": 11
+        },
+        {
+          "titulo": "Que tipo de aviso",
+          "texto": "Geral, manutenção, reunião, urgente, evento. Não é arrumação: é o que decide o destaque que o condómino vê na aplicação.",
+          "foco": [1140, 548, 500, 105],
+          "dur": 11
+        },
+        {
+          "titulo": "Para quem",
+          "texto": "Um condomínio ou todos. Quem gere onze não escreve o mesmo aviso onze vezes.",
+          "foco": [1615, 548, 500, 105],
+          "dur": 9
+        },
+        {
+          "titulo": "Escrever um",
+          "texto": "Novo aviso abre o editor — título, categoria, condomínio, anexo se houver. E sai quando se mandar, ou à hora marcada.",
+          "foco": { "texto": "Novo aviso" },
+          "cursor": { "texto": "Novo aviso" },
+          "dur": 10
+        }
+      ]
+    }
+  ]
+}

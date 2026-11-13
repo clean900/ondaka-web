@@ -1,0 +1,49 @@
+{
+  "numero": 2,
+  "titulo": "Taxas de Condomínio",
+  "subtitulo": "Geração mensal automática, com o estado de cada taxa à vista",
+  "resumo": [
+    "As taxas geram-se sozinhas todos os meses, e também à mão quando é preciso",
+    "Cada taxa diz a que imóvel pertence, de que mês é e quando vence",
+    "Os contadores separam abertas, parciais e pagas",
+    "Os filtros cruzam condomínio, estado, ano e mês"
+  ],
+  "cenas": [
+    {
+      "ecra": "taxas",
+      "passos": [
+        {
+          "titulo": "Taxas de Condomínio",
+          "texto": "O subtítulo diz tudo: geração mensal automática mais manual. Ninguém escreve uma taxa de cada vez.",
+          "foco": [620, 250, 1200, 120],
+          "dur": 9
+        },
+        {
+          "titulo": "Os contadores",
+          "texto": "Total, abertas, parciais, pagas e as do mês actual. As parciais são as que foram pagas só em parte — e existem, por isso têm contador próprio.",
+          "foco": [620, 400, 2460, 230],
+          "dur": 12
+        },
+        {
+          "titulo": "Gerar as do mês",
+          "texto": "Um botão para gerar as taxas do mês em todos os condomínios de uma vez.",
+          "foco": { "texto": "Gerar Taxas" },
+          "cursor": { "texto": "Gerar Taxas" },
+          "dur": 8
+        },
+        {
+          "titulo": "Encontrar o que interessa",
+          "texto": "Condomínio, estado, ano e mês, cruzados. Para ver só as abertas de um condomínio num mês, são quatro escolhas e um botão.",
+          "foco": [660, 700, 2400, 100],
+          "dur": 11
+        },
+        {
+          "titulo": "Cada taxa",
+          "texto": "O mês, o estado, o condomínio, o imóvel, a data de vencimento e o valor. Tudo numa linha, sem abrir nada.",
+          "foco": [642, 860, 2430, 480],
+          "dur": 10
+        }
+      ]
+    }
+  ]
+}

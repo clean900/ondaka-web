@@ -1,0 +1,47 @@
+{
+  "numero": 4,
+  "titulo": "Pedidos",
+  "subtitulo": "O que o condómino reporta, acompanhado até estar resolvido",
+  "resumo": [
+    "O condómino abre o pedido pela aplicação e acompanha o estado",
+    "Cada pedido tem estado, prioridade e categoria",
+    "Os filtros cruzam os três, mais a pesquisa por título",
+    "Nada se perde num grupo de WhatsApp: fica tudo com dono e com estado"
+  ],
+  "cenas": [
+    {
+      "ecra": "pedidos",
+      "passos": [
+        {
+          "titulo": "Pedidos de intervenção",
+          "texto": "Uma infiltração na garagem, uma lâmpada fundida no hall. O condómino abre o pedido pela aplicação e passa a ver o estado — em vez de perguntar no grupo.",
+          "dur": 12
+        },
+        {
+          "titulo": "O ciclo",
+          "texto": "Aberto, em análise, em curso, resolvido, fechado. Cada pedido está sempre num destes cinco, e nunca em nenhum.",
+          "foco": [660, 850, 500, 105],
+          "dur": 10
+        },
+        {
+          "titulo": "O que é urgente",
+          "texto": "Baixa, média, alta e urgente. A prioridade é do gestor, não de quem abre — para a fila ser a dele.",
+          "foco": [1140, 850, 500, 105],
+          "dur": 10
+        },
+        {
+          "titulo": "De que é que se trata",
+          "texto": "Manutenção, limpeza, segurança, ruído, água. A categoria é o que permite ver, ao fim do ano, onde é que o condomínio gasta o tempo.",
+          "foco": [1615, 850, 500, 105],
+          "dur": 11
+        },
+        {
+          "titulo": "Cada pedido",
+          "texto": "O título, se é de uma área particular ou comum, a prioridade e a descrição. Abre-se para responder, atribuir e fechar.",
+          "foco": [642, 1000, 2430, 460],
+          "dur": 10
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "numero": 1,
+  "titulo": "O painel do gestor",
+  "subtitulo": "Quantos condomínios, quantos imóveis e quanto falta cobrar — num ecrã",
+  "resumo": [
+    "Os cartões do topo dizem quantos condomínios e imóveis estão sob gestão",
+    "O pendente mostra o valor em dívida e quantas facturas o compõem",
+    "O saldo em conta soma todas as contas bancárias dos condomínios",
+    "A actividade recente junta pagamentos, avisos e pedidos no mesmo sítio"
+  ],
+  "cenas": [
+    {
+      "ecra": "painel",
+      "imagem": "inteiro",
+      "passos": [
+        {
+          "titulo": "A primeira coisa que se vê",
+          "texto": "Quem administra condomínios não administra um — administra muitos. O ONDAKA abre com todos ao mesmo tempo.",
+          "dur": 9
+        },
+        {
+          "titulo": "O que está sob gestão",
+          "texto": "Condomínios activos e imóveis geridos. É a dimensão da carteira, sem abrir relatório nenhum.",
+          "foco": [576, 440, 1700, 335],
+          "dur": 9
+        },
+        {
+          "titulo": "O que falta cobrar",
+          "texto": "O pendente não é só um valor: diz quantas facturas o compõem e quantos imóveis estão em dívida. É por aí que se decide a quem ligar primeiro.",
+          "foco": [2300, 440, 840, 335],
+          "dur": 12
+        },
+        {
+          "titulo": "O dinheiro que existe",
+          "texto": "O saldo em conta soma as contas bancárias de todos os condomínios. Cada condomínio tem o seu dinheiro separado, e aqui vê-se o conjunto.",
+          "foco": [2300, 800, 840, 335],
+          "dur": 11
+        },
+        {
+          "titulo": "O que aconteceu",
+          "texto": "Pagamentos confirmados, avisos publicados, pedidos abertos. A actividade recente junta tudo por ordem de chegada, em vez de obrigar a passar por três ecrãs.",
+          "foco": [2290, 1190, 850, 830],
+          "dur": 12
+        },
+        {
+          "titulo": "As contas, por condomínio",
+          "texto": "Em baixo, cada conta bancária com o condomínio a que pertence e o saldo. O total fecha em baixo — é a prova de que nada anda misturado.",
+          "foco": [576, 2420, 2560, 1200],
+          "dur": 11
+        }
+      ]
+    }
+  ]
+}

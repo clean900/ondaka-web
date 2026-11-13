@@ -1,0 +1,83 @@
+<!doctype html><html lang="pt"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tutoriais — ADSA</title>
+<meta name="description" content="Como usar o portal ADSA, função a função: vídeos curtos, narrados, com prints reais da consola.">
+<style>
+:root{--bg:#0a1120;--panel:#111c32;--ink:#e8eef9;--muted:#93a4c0;--line:rgba(255,255,255,.1);--g1:#3b82f6;--g2:#8b5cf6;--teal:#2dd4bf}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Inter,sans-serif}
+.topo{padding:32px 24px 8px;display:flex;align-items:center;gap:16px}
+.topo img{width:64px;height:64px}
+.topo h1{margin:0;font-size:26px}.topo p{margin:4px 0 0;color:var(--muted)}
+/* O ECRÃ TODO: sem coluna centrada estreita (regra do Bráulio, repetida mais do que uma vez).
+   Só a margem de 24px; em ecrãs largos entram 4–5 cartões por linha. */
+.grelha{padding:16px 24px 60px;display:grid;grid-template-columns:repeat(auto-fill,minmax(400px,1fr));gap:20px}
+.cartao{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px 18px 16px}
+/* quem chega do portal por «▶ Tutorial» aterra no cartão certo, realçado */
+.cartao{scroll-margin-top:16px}.cartao:target{border-color:var(--teal);box-shadow:0 0 0 3px rgba(45,212,191,.25)}
+.topo .consola{margin-left:auto;color:#a5b4fc;text-decoration:none;border:1px solid var(--line);border-radius:10px;padding:9px 14px;font-size:14px;white-space:nowrap}
+.cartao .num{font-family:ui-monospace,monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--teal)}
+.cartao h2{margin:6px 0 4px;font-size:20px;line-height:1.2}.cartao .sub{margin:0 0 12px;color:var(--muted);font-size:14px}
+.cartao video{width:100%;aspect-ratio:16/9;border-radius:10px;background:#000;display:block}
+.cartao .desc{display:inline-block;margin:10px 0 4px;color:#a5b4fc;text-decoration:none;font-size:14px}
+.cartao ul{margin:8px 0 0;padding-left:18px;color:var(--muted);font-size:13.5px}.cartao li{margin:3px 0}
+.cartao.breve{opacity:.55}.breve-aviso{border:1px dashed var(--line);border-radius:10px;padding:40px;text-align:center;color:var(--muted)}
+.rodape{padding:0 24px 40px;color:var(--muted);font-size:13px}
+</style></head><body>
+<div class="topo"><img src="adsa-logo.png" alt=""><div><h1>Tutoriais do ADSA</h1><p>Como usar o portal, função a função. Vídeos curtos, narrados, com a consola a sério.</p></div><a class="consola" href="/entrar">Entrar na consola →</a></div>
+<div class="grelha">
+    <article class="cartao" id="visao-geral">
+      <div class="num">Tutorial 01 · 1:31</div>
+      <h2>O painel do gestor</h2>
+      <p class="sub">Quantos condomínios, quantos imóveis e quanto falta cobrar — num ecrã</p>
+      <video controls preload="metadata" playsinline poster="visao-geral.jpg" src="visao-geral.mp4"></video>
+      <a class="desc" href="visao-geral.mp4" download>⭳ Descarregar</a>
+      <ul><li>Os cartões do topo dizem quantos condomínios e imóveis estão sob gestão</li><li>O pendente mostra o valor em dívida e quantas facturas o compõem</li><li>O saldo em conta soma todas as contas bancárias dos condomínios</li><li>A actividade recente junta pagamentos, avisos e pedidos no mesmo sítio</li></ul>
+    </article>
+
+    <article class="cartao" id="taxas">
+      <div class="num">Tutorial 02 · 1:18</div>
+      <h2>Taxas de Condomínio</h2>
+      <p class="sub">Geração mensal automática, com o estado de cada taxa à vista</p>
+      <video controls preload="metadata" playsinline poster="taxas.jpg" src="taxas.mp4"></video>
+      <a class="desc" href="taxas.mp4" download>⭳ Descarregar</a>
+      <ul><li>As taxas geram-se sozinhas todos os meses, e também à mão quando é preciso</li><li>Cada taxa diz a que imóvel pertence, de que mês é e quando vence</li><li>Os contadores separam abertas, parciais e pagas</li><li>Os filtros cruzam condomínio, estado, ano e mês</li></ul>
+    </article>
+
+    <article class="cartao" id="pagamentos">
+      <div class="num">Tutorial 03 · 1:01</div>
+      <h2>Pagamentos</h2>
+      <p class="sub">Do comprovativo que o condómino envia à confirmação do gestor</p>
+      <video controls preload="metadata" playsinline poster="pagamentos.jpg" src="pagamentos.mp4"></video>
+      <a class="desc" href="pagamentos.mp4" download>⭳ Descarregar</a>
+      <ul><li>Cada pagamento tem referência própria e o condómino que o fez</li><li>Os estados separam o que está pendente, em revisão e confirmado</li><li>A pesquisa é por referência ou por condómino</li><li>Confirmar um pagamento abate-o na taxa correspondente</li></ul>
+    </article>
+
+    <article class="cartao" id="pedidos">
+      <div class="num">Tutorial 04 · 1:19</div>
+      <h2>Pedidos</h2>
+      <p class="sub">O que o condómino reporta, acompanhado até estar resolvido</p>
+      <video controls preload="metadata" playsinline poster="pedidos.jpg" src="pedidos.mp4"></video>
+      <a class="desc" href="pedidos.mp4" download>⭳ Descarregar</a>
+      <ul><li>O condómino abre o pedido pela aplicação e acompanha o estado</li><li>Cada pedido tem estado, prioridade e categoria</li><li>Os filtros cruzam os três, mais a pesquisa por título</li><li>Nada se perde num grupo de WhatsApp: fica tudo com dono e com estado</li></ul>
+    </article>
+
+    <article class="cartao" id="avisos">
+      <div class="num">Tutorial 05 · 1:16</div>
+      <h2>Avisos</h2>
+      <p class="sub">Comunicar com o condomínio sem depender de papel na parede</p>
+      <video controls preload="metadata" playsinline poster="avisos.jpg" src="avisos.mp4"></video>
+      <a class="desc" href="avisos.mp4" download>⭳ Descarregar</a>
+      <ul><li>O aviso nasce em rascunho, agenda-se, publica-se e arquiva-se</li><li>A categoria distingue um aviso geral de uma convocatória ou de uma urgência</li><li>Publica-se para um condomínio ou para todos</li><li>Chega à aplicação do condómino, com anexo quando é preciso</li></ul>
+    </article>
+
+    <article class="cartao" id="loja">
+      <div class="num">Tutorial 06 · 1:08</div>
+      <h2>A loja de funcionalidades</h2>
+      <p class="sub">A plataforma cresce com o condomínio, não antes dele</p>
+      <video controls preload="metadata" playsinline poster="loja.jpg" src="loja.mp4"></video>
+      <a class="desc" href="loja.mp4" download>⭳ Descarregar</a>
+      <ul><li>As funcionalidades ligam-se uma a uma, quando fazem falta</li><li>Estão arrumadas por tema: comunicação, gestão, segurança, pagamentos</li><li>Cada cartão diz o que faz e se já está activo</li><li>O que não se liga não aparece no menu</li></ul>
+    </article>
+</div>
+<div class="rodape">Dúvidas? WhatsApp +244 922 772 177 · comercial@ondaka.ao · ondaka.ao</div>
+</body></html>
