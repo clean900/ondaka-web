@@ -37,6 +37,10 @@ class AfiliadoApiController extends Controller
             // Os mesmos textos que o portal web mostra — o telefone é onde o
             // afiliado tem o WhatsApp, por isso é onde eles fazem mais falta.
             'materiais' => $this->service->materiais($af),
+            // A apresentação comercial do programa. Vai o endereço, não o
+            // documento: são 220 KB de HTML com vídeo lá dentro, e quem decide
+            // quando os carregar é o telefone de quem está a ver.
+            'apresentacao_url' => (string) config('ondaka.afiliados.apresentacao_url'),
         ]);
     }
 
