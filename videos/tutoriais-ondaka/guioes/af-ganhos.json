@@ -1,0 +1,60 @@
+{
+  "numero": 8,
+  "titulo": "O que conta e quanto rende",
+  "subtitulo": "Os clientes que são seus, e a conta de cada comissão",
+  "resumo": [
+    "Cada cliente indicado fica ligado ao afiliado — por link ou por atribuição",
+    "A comissão incide sobre o valor SEM imposto, não sobre o total pago",
+    "Subscrição, add-ons e pacotes de SMS contam todos",
+    "Uma linha por pagamento, com a conta à vista"
+  ],
+  "cenas": [
+    {
+      "ecra": "af-clientes",
+      "passos": [
+        {
+          "titulo": "Os clientes que são seus",
+          "texto": "Cada empresa gestora ou administrador que se registe pelo seu link fica ligado a si. A ONDAKA também pode atribuir-lhe um cliente à mão.",
+          "dur": 11
+        },
+        {
+          "titulo": "O que o resumo diz",
+          "texto": "Quantos se registaram, quantos têm subscrição activa, quantos já pagaram, e o volume que isso soma nos últimos doze meses.",
+          "foco": [620, 530, 2470, 260],
+          "dur": 11
+        },
+        {
+          "titulo": "Cliente a cliente",
+          "texto": "Localização, data de registo, origem, número de imóveis, quanto já pagaram e quanto isso lhe rendeu. A origem diz se veio do link ou da ONDAKA.",
+          "foco": [620, 900, 2630, 870],
+          "cursor": { "texto": "DEMO · Horizonte Gestão de Condomínios" },
+          "dur": 13
+        }
+      ]
+    },
+    {
+      "ecra": "af-comissoes",
+      "passos": [
+        {
+          "titulo": "Uma linha por pagamento",
+          "texto": "Cada pagamento do cliente gera uma linha. Não é só a subscrição: pacotes de SMS e add-ons da loja contam na mesma.",
+          "foco": [620, 1010, 2670, 1200],
+          "dur": 11
+        },
+        {
+          "titulo": "A conta, coluna a coluna",
+          "texto": "O que o cliente pagou, o imposto que lá vinha, a base sem imposto, a taxa do seu escalão e a comissão. A comissão incide sobre a base, nunca sobre o imposto.",
+          "foco": [1900, 1100, 1400, 700],
+          "dur": 14
+        },
+        {
+          "titulo": "Filtrar",
+          "texto": "Por estado, por origem, por datas, ou à procura de um cliente. Útil quando os clientes começam a ser muitos.",
+          "foco": [620, 820, 2470, 170],
+          "cursor": { "texto": "Filtrar" },
+          "dur": 10
+        }
+      ]
+    }
+  ]
+}

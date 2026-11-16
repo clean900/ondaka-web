@@ -1,0 +1,60 @@
+{
+  "numero": 10,
+  "titulo": "Como recebe o dinheiro",
+  "subtitulo": "Do saldo aprovado ao comprovativo da transferência",
+  "resumo": [
+    "Em carência 15 dias, depois aprovada, depois paga",
+    "Mínimo de 10 000 Kz acumulados para entrar no lote de pagamento",
+    "Cada pagamento agrupa comissões e guarda o comprovativo",
+    "Sem IBAN não há transferência — os dados preenchem-se uma vez"
+  ],
+  "cenas": [
+    {
+      "ecra": "af-comissoes",
+      "passos": [
+        {
+          "titulo": "Três estados",
+          "texto": "Uma comissão nasce em carência quinze dias — é a protecção contra estornos. Passa a aprovada, e só depois é paga.",
+          "foco": [620, 530, 2470, 260],
+          "dur": 12
+        },
+        {
+          "titulo": "Na própria linha",
+          "texto": "A etiqueta do fim diz onde está cada uma. Nada muda de estado sem ficar registado na linha.",
+          "foco": [2700, 1150, 600, 1060],
+          "dur": 10
+        }
+      ]
+    },
+    {
+      "ecra": "af-pagamentos",
+      "passos": [
+        {
+          "titulo": "O pagamento",
+          "texto": "Quando o aprovado chega aos dez mil kwanzas, entra no lote seguinte. Cada pagamento agrupa as comissões que pagou.",
+          "foco": [620, 530, 2470, 300],
+          "dur": 12
+        },
+        {
+          "titulo": "A prova",
+          "texto": "Número, data, quantas comissões levou, bruto, retenção e líquido, o método e a referência bancária. O comprovativo fica aqui para descarregar.",
+          "foco": [620, 880, 2470, 500],
+          "cursor": { "texto": "AFP/DEMO/0001" },
+          "dur": 14
+        }
+      ]
+    },
+    {
+      "ecra": "af-dados",
+      "passos": [
+        {
+          "titulo": "Sem IBAN não há transferência",
+          "texto": "IBAN, banco e titular da conta preenchem-se uma vez. O NIF é o que permite emitir o recibo da comissão.",
+          "foco": [1480, 650, 740, 900],
+          "cursor": { "texto": "Guardar dados" },
+          "dur": 12
+        }
+      ]
+    }
+  ]
+}

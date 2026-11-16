@@ -1,0 +1,70 @@
+{
+  "numero": 9,
+  "titulo": "O seu painel de afiliado",
+  "subtitulo": "O código, o link, os números e os textos prontos a enviar",
+  "resumo": [
+    "Seis números em cima: cliques, registos, volume e as comissões por estado",
+    "O link de indicação copia-se ou envia-se por WhatsApp",
+    "O escalão mostra quanto falta para a taxa seguinte",
+    "Mensagens prontas para WhatsApp, email e SMS"
+  ],
+  "cenas": [
+    {
+      "ecra": "af-painel",
+      "passos": [
+        {
+          "titulo": "O painel",
+          "texto": "Entrar na ONDAKA como afiliado abre isto: o estado do programa num ecrã só.",
+          "dur": 7
+        },
+        {
+          "titulo": "Os seis números",
+          "texto": "Cliques no link, registos que daí vieram, volume dos últimos doze meses, e as comissões em carência, aprovadas e já pagas.",
+          "foco": [620, 540, 2470, 355],
+          "dur": 12
+        },
+        {
+          "titulo": "O seu link",
+          "texto": "O link de indicação copia-se num clique ou segue por WhatsApp. Quem clicar fica memorizado noventa dias — e quem preferir pode escrever só o código no registo.",
+          "foco": { "texto": "O seu link de indicação" },
+          "cursor": { "texto": "Partilhar no WhatsApp" },
+          "dur": 14
+        },
+        {
+          "titulo": "O seu escalão",
+          "texto": "A taxa de hoje, quanto falta de volume para a seguinte, e a tabela inteira dos escalões. Aqui, 8% — e faltam um milhão e duzentos e cinquenta mil kwanzas para os 9%.",
+          "foco": { "texto": "Escalão e taxa de comissão" },
+          "dur": 14
+        }
+      ]
+    },
+    {
+      "ecra": "af-painel",
+      "imagem": "inteiro",
+      "passos": [
+        {
+          "titulo": "Os textos prontos",
+          "texto": "Mensagem de WhatsApp, email e SMS já escritos, com o seu link lá dentro. Abrir, copiar, enviar.",
+          "foco": { "texto": "Materiais de divulgação" },
+          "dur": 10
+        },
+        {
+          "titulo": "O que já rendeu",
+          "texto": "O gráfico dos últimos doze meses, as últimas comissões e os clientes mais recentes — sem sair do painel.",
+          "foco": [620, 1950, 2470, 1630],
+          "dur": 10
+        }
+      ]
+    },
+    {
+      "ecra": "af-apresentacao",
+      "passos": [
+        {
+          "titulo": "A apresentação, à mão",
+          "texto": "E o separador «Apresentação» traz a apresentação comercial do programa dentro do painel, para mostrar a quem quiser trazer.",
+          "dur": 11
+        }
+      ]
+    }
+  ]
+}
