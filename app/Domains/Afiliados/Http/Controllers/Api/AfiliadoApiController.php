@@ -34,6 +34,9 @@ class AfiliadoApiController extends Controller
             'afiliado' => $this->stats->serializarAfiliado($af),
             'resumo' => $this->stats->resumoAfiliado($af),
             'config' => $this->config->publico(),
+            // Os mesmos textos que o portal web mostra — o telefone é onde o
+            // afiliado tem o WhatsApp, por isso é onde eles fazem mais falta.
+            'materiais' => $this->service->materiais($af),
         ]);
     }
 

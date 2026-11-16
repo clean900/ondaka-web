@@ -72,6 +72,10 @@ class AuthController extends Controller
                 'empresa_gestora_id' => $user->empresa_gestora_id,
                 'roles'              => $user->roles->pluck('name'),
                 'e_membro_comissao'  => \App\Domains\Condominio\Models\ComissaoMembro::where('user_id', $user->id)->exists(),
+                // O programa de afiliados na app só aparece a quem já é afiliado.
+                // A adesão continua a fazer-se na web (/afiliado/aderir), por isso
+                // não basta ter a role: é preciso ter mesmo a ficha de afiliado.
+                'e_afiliado'         => \App\Domains\Afiliados\Models\Afiliado::where('user_id', $user->id)->exists(),
                 'locale'             => $user->locale ?? 'pt_AO',
             ],
         ], 200);
@@ -107,6 +111,7 @@ class AuthController extends Controller
             'estado'             => $user->estado,
             'roles'              => $user->roles->pluck('name'),
             'e_membro_comissao'  => \App\Domains\Condominio\Models\ComissaoMembro::where('user_id', $user->id)->exists(),
+            'e_afiliado'         => \App\Domains\Afiliados\Models\Afiliado::where('user_id', $user->id)->exists(),
             'locale'             => $user->locale ?? 'pt_AO',
             'condominio_nome'    => $condominioNome,
         ]);

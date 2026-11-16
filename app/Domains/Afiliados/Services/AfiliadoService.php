@@ -282,6 +282,33 @@ class AfiliadoService
         return $this->config->proximoEscalao($this->volume12m($af));
     }
 
+    /**
+     * Materiais de divulgação prontos a enviar: link, mensagem de WhatsApp,
+     * email e SMS, já com o código do afiliado lá dentro.
+     *
+     * Vive aqui, e não no controlador do portal, porque a app móvel mostra os
+     * mesmos textos: duplicá-los em Dart era garantir que um dia divergiam do
+     * que a web diz.
+     */
+    public function materiais(Afiliado $af): array
+    {
+        $link = $af->linkReferencia();
+        $whatsapp = "Olá! Conhece a ONDAKA? É a plataforma angolana de gestão de condomínios: taxas de condomínio, pedidos, avisos, assembleias, portaria e app para condóminos. Tem 30 dias grátis para experimentar. Registe-se aqui: {$link}";
+        $assunto = 'ONDAKA — gestão de condomínios com 30 dias grátis';
+        $emailCorpo = "Bom dia,\n\nQuero apresentar-lhe a ONDAKA (ondaka.ao), uma plataforma angolana para gestão de condomínios: cobrança de taxas com Multicaixa, pedidos de intervenção, avisos e SMS, assembleias, controlo de visitantes e app móvel para os condóminos.\n\nTem 30 dias de trial gratuito, sem compromisso. Pode registar-se directamente aqui:\n{$link}\n\nFico ao dispor para qualquer esclarecimento.\n\nCumprimentos";
+
+        return [
+            'link' => $link,
+            'codigo' => $af->codigo,
+            'whatsapp' => $whatsapp,
+            'whatsapp_url' => 'https://wa.me/?text='.rawurlencode($whatsapp),
+            'email_assunto' => $assunto,
+            'email_corpo' => $emailCorpo,
+            'email_url' => 'mailto:?subject='.rawurlencode($assunto).'&body='.rawurlencode($emailCorpo),
+            'sms' => "ONDAKA: gestao de condominios em Angola, 30 dias gratis. Registe-se: {$link}",
+        ];
+    }
+
     /** Normaliza um valor monetário para string com 2 casas (bcmath). */
     protected function dec(mixed $v): string
     {

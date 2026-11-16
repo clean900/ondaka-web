@@ -113,22 +113,10 @@ class AfiliadoPortalController extends Controller
         ]);
     }
 
+    /** Os textos prontos a enviar — ver AfiliadoService::materiais(). */
     protected function materiais(Afiliado $af): array
     {
-        $link = $af->linkReferencia();
-        $whatsapp = "Olá! Conhece a ONDAKA? É a plataforma angolana de gestão de condomínios: taxas de condomínio, pedidos, avisos, assembleias, portaria e app para condóminos. Tem 30 dias grátis para experimentar. Registe-se aqui: {$link}";
-        $emailCorpo = "Bom dia,\n\nQuero apresentar-lhe a ONDAKA (ondaka.ao), uma plataforma angolana para gestão de condomínios: cobrança de taxas com Multicaixa, pedidos de intervenção, avisos e SMS, assembleias, controlo de visitantes e app móvel para os condóminos.\n\nTem 30 dias de trial gratuito, sem compromisso. Pode registar-se directamente aqui:\n{$link}\n\nFico ao dispor para qualquer esclarecimento.\n\nCumprimentos";
-
-        return [
-            'link' => $link,
-            'codigo' => $af->codigo,
-            'whatsapp' => $whatsapp,
-            'whatsapp_url' => 'https://wa.me/?text='.rawurlencode($whatsapp),
-            'email_assunto' => 'ONDAKA — gestão de condomínios com 30 dias grátis',
-            'email_corpo' => $emailCorpo,
-            'email_url' => 'mailto:?subject='.rawurlencode('ONDAKA — gestão de condomínios com 30 dias grátis').'&body='.rawurlencode($emailCorpo),
-            'sms' => "ONDAKA: gestao de condominios em Angola, 30 dias gratis. Registe-se: {$link}",
-        ];
+        return $this->service->materiais($af);
     }
 
     public function clientes(Request $request): Response|RedirectResponse
