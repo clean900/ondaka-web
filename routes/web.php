@@ -184,6 +184,7 @@ Route::middleware(['auth', 'verified', '2fa'])->group(function () {
         Route::get('/comissoes', [$ap, 'comissoes'])->name('comissoes');
         Route::get('/pagamentos', [$ap, 'pagamentos'])->name('pagamentos');
         Route::get('/pagamentos/{pagamento}/comprovativo', [$ap, 'comprovativo'])->name('pagamentos.comprovativo')->whereNumber('pagamento');
+        Route::get('/apresentacao', [$ap, 'apresentacao'])->name('apresentacao');
         Route::get('/dados', [$ap, 'dados'])->name('dados');
         Route::post('/dados', [$ap, 'dadosGuardar'])->name('dados.guardar');
     });

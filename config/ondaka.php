@@ -48,6 +48,25 @@ return [
     | Facturação
     |--------------------------------------------------------------------------
     */
+    /*
+    |--------------------------------------------------------------------------
+    | Programa de Afiliados — apresentação e tutoriais
+    |--------------------------------------------------------------------------
+    | A apresentação comercial do programa é um documento autónomo (o que o
+    | docs/comercial/afiliados/construir.py produz) e vive no servidor dos
+    | tutoriais, ao lado dos vídeos que ela toca. O painel do afiliado mostra-a
+    | numa moldura, para o afiliado a poder mostrar sem sair do sítio.
+    |
+    | O endereço sslip.io funciona sem mexer em DNS; tutoriais.ondaka.ao é o
+    | destino, e quando o registo A existir basta mudar esta variável.
+    */
+    'afiliados' => [
+        'apresentacao_url' => env(
+            'AFILIADOS_APRESENTACAO_URL',
+            'https://tutoriais.167.86.114.64.sslip.io/ondaka/apresentacao-afiliados.html'
+        ),
+    ],
+
     'factura' => [
         'serie' => env('ONDAKA_FACTURA_SERIE', date('Y')), // "2026"
         'taxa_iva' => 14.00,

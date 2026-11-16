@@ -214,6 +214,31 @@ class AfiliadoPortalController extends Controller
         ]);
     }
 
+    /**
+     * A apresentação do programa, DENTRO do painel — para o afiliado a mostrar
+     * a quem está a tentar trazer, sem sair do sítio nem andar à procura de um
+     * ficheiro no email.
+     *
+     * Porquê uma moldura e não a apresentação reescrita aqui: ela é um
+     * documento autónomo, com estilo próprio, navegação própria e os quatro
+     * tutoriais em vídeo lá dentro. Trazê-la para React punha dois estilos a
+     * brigar e obrigava a repetir o trabalho de cada vez que a apresentação
+     * mudasse. Assim há um só original — o que o construir.py produz.
+     */
+    public function apresentacao(Request $request): Response|RedirectResponse
+    {
+        $af = $this->resolver($request);
+        if ($af instanceof RedirectResponse) {
+            return $af;
+        }
+
+        return Inertia::render('Afiliado/Apresentacao', [
+            'afiliado' => $this->stats->serializarAfiliado($af),
+            'config' => $this->config->publico(),
+            'url' => (string) config('ondaka.afiliados.apresentacao_url'),
+        ]);
+    }
+
     public function dados(Request $request): Response|RedirectResponse
     {
         $af = $this->resolver($request);

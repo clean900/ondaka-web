@@ -13,7 +13,13 @@
     "doze elementos, que é o sinal dessa página vazia.",
     "",
     "Os nomes seguem o glossário: Taxas de Condomínio (não quotas), Pedidos",
-    "(não tickets), Imóvel (não fracção)."
+    "(não tickets), Imóvel (não fracção).",
+    "",
+    "CAMPO `conta`: qual das contas de demonstração abre o ecrã —",
+    "  gestor    (por omissão) empresa #10 ECG.LDA, condomínio #9 Nova York",
+    "  afiliado  conta DEMO-ONDAKA do `php artisan afiliado:demonstracao`",
+    "  publico   nenhuma; a página é aberta a todos",
+    "Cada conta leva uma sessão separada, por isso a ordem aqui não importa."
   ],
   "ecrans": [
     { "slug": "painel",      "nome": "Painel do gestor",     "url": "/dashboard",            "esperar": "body", "espera_ms": 3000 },
@@ -27,6 +33,14 @@
     { "slug": "portaria",    "nome": "Portaria e visitantes","url": "/visitantes/dashboard", "esperar": "body", "espera_ms": 3000 },
     { "slug": "reservas",    "nome": "Reservas de espaços",  "url": "/reservas",             "esperar": "body", "espera_ms": 2500 },
     { "slug": "relatorios",  "nome": "Relatórios",           "url": "/relatorios",           "esperar": "body", "espera_ms": 2500 },
-    { "slug": "loja",        "nome": "Loja de funcionalidades", "url": "/funcionalidades",   "esperar": "body", "espera_ms": 3000 }
+    { "slug": "loja",        "nome": "Loja de funcionalidades", "url": "/funcionalidades",   "esperar": "body", "espera_ms": 3000 },
+
+    { "slug": "af-publico",    "nome": "Programa de Afiliados (página pública)", "url": "/afiliados",            "conta": "publico",  "esperar": "body", "espera_ms": 3000 },
+    { "slug": "af-painel",     "nome": "Painel do afiliado",                     "url": "/afiliado",             "conta": "afiliado", "esperar": "body", "espera_ms": 3000 },
+    { "slug": "af-clientes",   "nome": "Clientes indicados",                     "url": "/afiliado/clientes",    "conta": "afiliado", "esperar": "body", "espera_ms": 2500 },
+    { "slug": "af-comissoes",  "nome": "Comissões",                              "url": "/afiliado/comissoes",   "conta": "afiliado", "esperar": "body", "espera_ms": 2500 },
+    { "slug": "af-pagamentos", "nome": "Pagamentos ao afiliado",                 "url": "/afiliado/pagamentos",  "conta": "afiliado", "esperar": "body", "espera_ms": 2500 },
+    { "slug": "af-dados",      "nome": "Dados de pagamento",                     "url": "/afiliado/dados",       "conta": "afiliado", "esperar": "body", "espera_ms": 2500 },
+    { "slug": "af-apresentacao","nome": "Apresentação do programa (no painel)",  "url": "/afiliado/apresentacao","conta": "afiliado", "esperar": "body", "espera_ms": 4000 }
   ]
 }

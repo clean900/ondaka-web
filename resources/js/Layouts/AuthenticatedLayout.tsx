@@ -6,6 +6,7 @@ import {
     FileText, Shield, Menu, X, LogOut, Bell, Settings, Search, CreditCard, Ticket, DollarSign, GraduationCap, Map, MessageCircle, Megaphone,
     Sparkles, Package, DoorOpen, Wallet, Clock, Tag, Briefcase, FileBarChart, Calendar, LifeBuoy, Siren, Lock,
     Flag, ShoppingBag, Gauge, ChartBar, ClipboardList, CalendarCheck, Handshake, Cog, Wrench, Upload, Calculator, FileBarChart,
+    Presentation,
 } from 'lucide-react';
 import type { PageProps } from '@/types';
 import { cn, iniciais, gradientDeNome } from '@/lib/utils';
@@ -203,6 +204,7 @@ export default function AuthenticatedLayout({ children }: PropsWithChildren) {
             { label: 'Comissões', href: '/afiliado/comissoes', icon: DollarSign },
             { label: 'Pagamentos', href: '/afiliado/pagamentos', icon: Wallet },
             { label: 'Dados de pagamento', href: '/afiliado/dados', icon: UserCog },
+            { label: 'Apresentação', href: '/afiliado/apresentacao', icon: Presentation },
         ] : [
             { label: 'Ganhar comissões', href: '/afiliado/aderir', icon: Handshake },
         ],

@@ -22,6 +22,13 @@ class Afiliado extends Model
     public const ESTADO_SUSPENSO = 'suspenso';
     public const ESTADO_RECUSADO = 'recusado';
 
+    /**
+     * Código da conta de afiliado de demonstração (php artisan afiliado:demonstracao).
+     * Existe para mostrar o programa e capturar os tutoriais; fica de fora do
+     * resumo mensal de comissões a pagar, porque não há nada a pagar.
+     */
+    public const CODIGO_DEMONSTRACAO = 'DEMO-ONDAKA';
+
     public const NIVEL_BRONZE = 'bronze';
     public const NIVEL_PRATA = 'prata';
     public const NIVEL_OURO = 'ouro';

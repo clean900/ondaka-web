@@ -67,7 +67,11 @@ class ProcessarAfiliadosCommand extends Command
             return;
         }
 
-        $afs = Afiliado::whereIn('id', $rows->pluck('afiliado_id'))->get()->keyBy('id');
+        // A conta de demonstração tem comissões fictícias aprovadas: não entra
+        // no resumo, para ninguém receber um aviso de dinheiro a pagar que não existe.
+        $afs = Afiliado::whereIn('id', $rows->pluck('afiliado_id'))
+            ->where('codigo', '!=', Afiliado::CODIGO_DEMONSTRACAO)
+            ->get()->keyBy('id');
         $linhas = [];
         $total = '0.00';
         foreach ($rows as $r) {

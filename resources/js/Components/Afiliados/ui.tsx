@@ -210,6 +210,7 @@ export function PortalNav({ activo }: { activo: string }) {
                 { href: '/afiliado/comissoes', label: 'Comissões' },
                 { href: '/afiliado/pagamentos', label: 'Pagamentos' },
                 { href: '/afiliado/dados', label: 'Dados de pagamento' },
+                { href: '/afiliado/apresentacao', label: 'Apresentação' },
             ]}
         />
     );

@@ -7,10 +7,21 @@
 // que já não existe, e quem o segue conclui que o produto está avariado. Isto
 // volta a correr em dois minutos e devolve o parque de prints inteiro.
 //
-// A CONTA É A DE HOMOLOGAÇÃO: empresa #10 ECG.LDA, condomínio #9 Nova York,
-// dados fictícios. NUNCA o condomínio piloto #1 Torres Atlântico nem a conta
-// de um cliente — um tutorial é material público e a gestão de um condomínio
-// real não é. Credenciais em ~/.config/ondaka-demo.env.
+// AS CONTAS SÃO DE DEMONSTRAÇÃO. NUNCA o condomínio piloto #1 Torres
+// Atlântico nem a conta de um cliente — um tutorial é material público e a
+// gestão de um condomínio real não é. Cada ecrã diz em `conta` qual usa
+// (ecrans.json); credenciais em ~/.config/ondaka-demo.env:
+//
+//   gestor    empresa #10 ECG.LDA, condomínio #9 Nova York (homologação)
+//             ONDAKA_DEMO_EMAIL / ONDAKA_DEMO_PW
+//   afiliado  conta do programa de afiliados criada por
+//             `php artisan afiliado:demonstracao` — código DEMO-ONDAKA
+//             ONDAKA_AF_EMAIL / ONDAKA_AF_PW
+//   publico   sem sessão nenhuma (páginas abertas, como a /afiliados)
+//
+// Cada conta leva uma SESSÃO SEPARADA (contexto próprio do Chrome): entrar
+// com a segunda na mesma sessão deitava fora a primeira, e os ecrãs do gestor
+// saíam com a sessão do afiliado.
 //
 // AS MORADAS SAEM DO `php artisan route:list`, nunca de palpite: a consola
 // devolve uma página vazia para uma morada que não existe, sem erro nenhum, e
@@ -33,11 +44,25 @@ import puppeteer from 'puppeteer-core';
 const AQUI = dirname(fileURLToPath(import.meta.url));
 const DESTINO = join(AQUI, 'capturas');
 const LARGURA = 1600, ALTURA = 900, ESCALA = 2;
-const CONTA = 'empresa #10 ECG.LDA · condomínio #9 Nova York (homologação)';
+
+// As contas que os ecrãs podem pedir em `conta`. `publico` não entra em sítio
+// nenhum. A ordem aqui é a ordem por que as sessões são abertas.
+const CONTAS = {
+  gestor: {
+    rotulo: 'empresa #10 ECG.LDA · condomínio #9 Nova York (homologação)',
+    email: 'ONDAKA_DEMO_EMAIL', senha: 'ONDAKA_DEMO_PW',
+  },
+  afiliado: {
+    rotulo: 'afiliado de demonstração DEMO-ONDAKA (php artisan afiliado:demonstracao)',
+    email: 'ONDAKA_AF_EMAIL', senha: 'ONDAKA_AF_PW',
+  },
+  publico: { rotulo: 'sem sessão (páginas abertas)', email: null, senha: null },
+};
+const CONTA_PADRAO = 'gestor';
 
 const dorme = (ms) => new Promise(r => setTimeout(r, ms));
 
-function ambiente() {
+function ambiente(contas = [CONTA_PADRAO]) {
   const f = join(homedir(), '.config', 'ondaka-demo.env');
   const env = { ...process.env };
   if (existsSync(f)) {
@@ -46,7 +71,16 @@ function ambiente() {
       if (m) env[m[1]] ??= m[2].trim();
     }
   }
-  for (const k of ['ONDAKA_BASE', 'ONDAKA_DEMO_EMAIL', 'ONDAKA_DEMO_PW']) {
+  // SÓ as credenciais das contas que esta corrida precisa: exigir as do
+  // afiliado para capturar o painel do gestor travava o trabalho de hoje por
+  // causa de uma conta que ainda não existe.
+  const exigidas = ['ONDAKA_BASE'];
+  for (const c of contas) {
+    const d = CONTAS[c];
+    if (!d) { console.error(`Conta desconhecida em ecrans.json: ${c}`); process.exit(1); }
+    if (d.email) exigidas.push(d.email, d.senha);
+  }
+  for (const k of [...new Set(exigidas)]) {
     if (!env[k]) { console.error(`Falta ${k} em ~/.config/ondaka-demo.env`); process.exit(1); }
   }
   return env;
@@ -129,47 +163,51 @@ async function fecharGuia(page) {
   }).catch(() => {});
 }
 
-async function principal() {
-  const env = ambiente();
-  const base = env.ONDAKA_BASE.replace(/\/$/, '');
-  const cat = JSON.parse(readFileSync(join(AQUI, 'ecrans.json'), 'utf8'));
-  const pedidos = process.argv.slice(2);
-  const ecrans = pedidos.length ? cat.ecrans.filter(e => pedidos.includes(e.slug)) : cat.ecrans;
-  if (!ecrans.length) { console.error('Nenhum ecrã corresponde.'); process.exit(1); }
-
-  mkdirSync(DESTINO, { recursive: true });
-  const navegador = await puppeteer.launch({
-    executablePath: chrome(),
-    headless: 'new',
-    defaultViewport: { width: LARGURA, height: ALTURA, deviceScaleFactor: ESCALA },
-    args: ['--no-sandbox', '--font-render-hinting=none', '--force-color-profile=srgb'],
-  });
-  const page = await navegador.newPage();
+// Entrar com uma das contas. Devolve a página já com sessão aberta; `publico`
+// devolve a página sem entrar em sítio nenhum.
+async function entrar(navegador, base, conta, env) {
+  // CONTEXTO PRÓPRIO por conta: as cookies de sessão de uma não pisam as da
+  // outra, e a ordem dos ecrãs em ecrans.json deixa de importar.
+  const ctx = await navegador.createBrowserContext();
+  const page = await ctx.newPage();
   page.setDefaultTimeout(30000);
+  const d = CONTAS[conta];
 
-  // --- entrar --------------------------------------------------------------
-  console.log(`  a entrar em ${base} …`);
+  if (!d.email) {
+    console.log(`  ${conta}: sem sessão (${d.rotulo})`);
+    return { ctx, page };
+  }
+
+  console.log(`  a entrar em ${base} como ${conta} …`);
   await page.goto(base + '/login', { waitUntil: 'networkidle2' });
   // O ecrã de entrada é Inertia/React: os campos só existem depois de montar.
   await page.waitForSelector('input[type=email], #email', { timeout: 20000 });
-  await page.type('input[type=email], #email', env.ONDAKA_DEMO_EMAIL, { delay: 12 });
-  await page.type('input[type=password], #password', env.ONDAKA_DEMO_PW, { delay: 12 });
+  await page.type('input[type=email], #email', env[d.email], { delay: 12 });
+  await page.type('input[type=password], #password', env[d.senha], { delay: 12 });
   await Promise.all([
     page.keyboard.press('Enter'),
     page.waitForNavigation({ waitUntil: 'networkidle2', timeout: 30000 }).catch(() => {}),
   ]);
   await dorme(3000);
   if (/\/login/.test(page.url())) {
-    console.error('  ! a sessão não abriu — continua em /login. Confere as credenciais.');
-    await page.screenshot({ path: join(DESTINO, '_falha-login.png') });
-    await navegador.close();
-    process.exit(2);
+    console.error(`  ! a sessão de ${conta} não abriu — continua em /login. Confere as credenciais.`);
+    await page.screenshot({ path: join(DESTINO, `_falha-login-${conta}.png`) });
+    throw new Error(`login falhou (${conta})`);
+  }
+  // Uma conta sem email verificado fica presa aqui, e os prints saíam todos
+  // do ecrã de verificação em vez do painel.
+  if (/\/verify-email/.test(page.url())) {
+    throw new Error(`a conta ${conta} está presa na verificação de email (/verify-email)`);
   }
   console.log(`  sessão aberta → ${page.url().replace(base, '')}`);
   await fecharGuia(page);
+  await rejeitarCookies(page);
+  return { ctx, page };
+}
 
-  // O banner de cookies tapa o canto do ecrã e intercepta cliques. Escolhe-se
-  // sempre «rejeitar»: é o que respeita quem vê, e é o que sai nos prints.
+// O banner de cookies tapa o canto do ecrã e intercepta cliques. Escolhe-se
+// sempre «rejeitar»: é o que respeita quem vê, e é o que sai nos prints.
+async function rejeitarCookies(page) {
   const fechou = await page.evaluate(() => {
     const b = Array.from(document.querySelectorAll('button'))
       .find(x => /^(rejeitar|recusar|reject|decline)/i.test((x.innerText || '').trim()));
@@ -178,48 +216,91 @@ async function principal() {
   }).catch(() => null);
   if (fechou) console.log(`  banner de cookies: ${fechou}`);
   await dorme(600);
+}
 
-  // --- capturar ------------------------------------------------------------
-  const registos = [], falhas = [];
+async function principal() {
+  const cat = JSON.parse(readFileSync(join(AQUI, 'ecrans.json'), 'utf8'));
+  const pedidos = process.argv.slice(2);
+  const ecrans = pedidos.length ? cat.ecrans.filter(e => pedidos.includes(e.slug)) : cat.ecrans;
+  if (!ecrans.length) { console.error('Nenhum ecrã corresponde.'); process.exit(1); }
+
+  // Agrupar por conta: uma sessão por conta, não uma por ecrã.
+  const grupos = new Map();
   for (const e of ecrans) {
-    try {
-      await page.goto(base + e.url, { waitUntil: 'networkidle2', timeout: 30000 });
-      if (/\/login/.test(page.url())) throw new Error('a sessão caiu');
-      if (e.esperar) await page.waitForSelector(e.esperar, { timeout: 15000 });
-      // As páginas Inertia montam em React: sem esta pausa apanha-se o
-      // esqueleto de carregamento em vez do ecrã com dados.
-      await dorme(e.espera_ms || 2000);
-      await fecharGuia(page);
-      await page.evaluate(() => window.scrollTo(0, 0));
-
-      await page.screenshot({ path: join(DESTINO, `${e.slug}.png`) });
-      await page.screenshot({ path: join(DESTINO, `${e.slug}-inteiro.png`), fullPage: true });
-      const mapa = await mapear(page);
-
-      // GUARDA CONTRA PÁGINA EM BRANCO. Uma morada que não existe não dá erro:
-      // devolve o invólucro do ERP sem conteúdo, e o print sai vazio sem
-      // ninguém dar por isso. Um ecrã a sério traz dezenas de elementos.
-      if (mapa.length < 12) {
-        for (const f of [`${e.slug}.png`, `${e.slug}-inteiro.png`]) {
-          try { unlinkSync(join(DESTINO, f)); } catch (x) { }
-        }
-        throw new Error(`página em branco (${mapa.length} elementos) — morada errada?`);
-      }
-      writeFileSync(join(DESTINO, `${e.slug}.mapa.json`), JSON.stringify(mapa));
-      const alturaTotal = await page.evaluate(() => document.body.scrollHeight);
-
-      registos.push({
-        slug: e.slug, titulo: e.nome, grupo: e.grupo ?? null, url: e.url,
-        ficheiro: `capturas/${e.slug}.png`, inteiro: `capturas/${e.slug}-inteiro.png`,
-        largura: LARGURA * ESCALA, altura: ALTURA * ESCALA,
-        altura_total: alturaTotal * ESCALA, nota: e.nota ?? null,
-      });
-      console.log(`  ✓ ${e.slug.padEnd(16)} ${e.nome.padEnd(26)} ${mapa.length} elementos`);
-    } catch (err) {
-      falhas.push(`${e.slug}: ${err.message}`);
-      console.log(`  ✗ ${e.slug.padEnd(16)} ${err.message}`);
-    }
+    const c = e.conta ?? CONTA_PADRAO;
+    if (!grupos.has(c)) grupos.set(c, []);
+    grupos.get(c).push(e);
   }
+
+  const env = ambiente([...grupos.keys()]);
+  const base = env.ONDAKA_BASE.replace(/\/$/, '');
+
+  mkdirSync(DESTINO, { recursive: true });
+  const navegador = await puppeteer.launch({
+    executablePath: chrome(),
+    headless: 'new',
+    defaultViewport: { width: LARGURA, height: ALTURA, deviceScaleFactor: ESCALA },
+    args: ['--no-sandbox', '--font-render-hinting=none', '--force-color-profile=srgb'],
+  });
+
+  const registos = [], falhas = [];
+
+  for (const [conta, lista] of grupos) {
+    let sessao;
+    try {
+      sessao = await entrar(navegador, base, conta, env);
+    } catch (err) {
+      // Uma conta que não abre não arrasta as outras: os ecrãs dela ficam a
+      // faltar, os restantes são capturados, e no fim diz-se o que falhou.
+      for (const e of lista) falhas.push(`${e.slug}: ${err.message}`);
+      console.log(`  ✗ conta ${conta}: ${err.message} — ${lista.length} ecrã(s) por capturar`);
+      continue;
+    }
+    const { ctx, page } = sessao;
+
+    for (const e of lista) {
+      try {
+        await page.goto(base + e.url, { waitUntil: 'networkidle2', timeout: 30000 });
+        if (CONTAS[conta].email && /\/login/.test(page.url())) throw new Error('a sessão caiu');
+        if (e.esperar) await page.waitForSelector(e.esperar, { timeout: 15000 });
+        // As páginas Inertia montam em React: sem esta pausa apanha-se o
+        // esqueleto de carregamento em vez do ecrã com dados.
+        await dorme(e.espera_ms || 2000);
+        await fecharGuia(page);
+        await page.evaluate(() => window.scrollTo(0, 0));
+
+        await page.screenshot({ path: join(DESTINO, `${e.slug}.png`) });
+        await page.screenshot({ path: join(DESTINO, `${e.slug}-inteiro.png`), fullPage: true });
+        const mapa = await mapear(page);
+
+        // GUARDA CONTRA PÁGINA EM BRANCO. Uma morada que não existe não dá
+        // erro: devolve o invólucro do ERP sem conteúdo, e o print sai vazio
+        // sem ninguém dar por isso. Um ecrã a sério traz dezenas de elementos.
+        if (mapa.length < 12) {
+          for (const f of [`${e.slug}.png`, `${e.slug}-inteiro.png`]) {
+            try { unlinkSync(join(DESTINO, f)); } catch (x) { }
+          }
+          throw new Error(`página em branco (${mapa.length} elementos) — morada errada?`);
+        }
+        writeFileSync(join(DESTINO, `${e.slug}.mapa.json`), JSON.stringify(mapa));
+        const alturaTotal = await page.evaluate(() => document.body.scrollHeight);
+
+        registos.push({
+          slug: e.slug, titulo: e.nome, grupo: e.grupo ?? null, url: e.url,
+          conta,
+          ficheiro: `capturas/${e.slug}.png`, inteiro: `capturas/${e.slug}-inteiro.png`,
+          largura: LARGURA * ESCALA, altura: ALTURA * ESCALA,
+          altura_total: alturaTotal * ESCALA, nota: e.nota ?? null,
+        });
+        console.log(`  ✓ ${e.slug.padEnd(16)} ${e.nome.padEnd(26)} ${mapa.length} elementos`);
+      } catch (err) {
+        falhas.push(`${e.slug}: ${err.message}`);
+        console.log(`  ✗ ${e.slug.padEnd(16)} ${err.message}`);
+      }
+    }
+    await ctx.close().catch(() => {});
+  }
+
   await navegador.close();
 
   // O índice é o que o motor dos vídeos lê: sem ele, cada composição teria de
@@ -229,8 +310,10 @@ async function principal() {
     ? JSON.parse(readFileSync(join(DESTINO, 'indice.json'), 'utf8')) : { ecrans: [] };
   const juntos = new Map((antigo.ecrans ?? []).map(x => [x.slug, x]));
   for (const r of registos) juntos.set(r.slug, r);
+  const contasUsadas = Object.fromEntries([...grupos.keys()].map(c => [c, CONTAS[c].rotulo]));
   writeFileSync(join(DESTINO, 'indice.json'),
-    JSON.stringify({ capturado_em: new Date().toISOString(), base, conta: CONTA,
+    JSON.stringify({ capturado_em: new Date().toISOString(), base,
+                     contas: { ...(antigo.contas ?? {}), ...contasUsadas },
                      ecrans: [...juntos.values()] }, null, 2) + '\n');
 
   console.log(`\n  ${registos.length}/${ecrans.length} ecrãs capturados em capturas/`);
