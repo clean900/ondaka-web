@@ -51,6 +51,12 @@ export default function AuthenticatedLayout({ children }: PropsWithChildren) {
         } catch {}
         return { PRINCIPAL: true };
     });
+    // Primeira visita (ainda sem preferência guardada): abrir a secção onde o
+    // utilizador está. Sem isto, quem não tem a secção «Principal» — um
+    // afiliado sem empresa, por exemplo — entra e vê o menu inteiro fechado.
+    const semPreferencia = useRef<boolean>(
+        typeof window === 'undefined' ? false : !localStorage.getItem('ondaka.sidebar.seccoes')
+    );
 
     useEffect(() => {
         try {
@@ -342,6 +348,14 @@ export default function AuthenticatedLayout({ children }: PropsWithChildren) {
     ];
 
     const seccoes: MenuSection[] = isAfiliadoOnly ? [seccaoAfiliado] : seccoesBase;
+
+    useEffect(() => {
+        if (!semPreferencia.current) return;
+        semPreferencia.current = false;
+        const actual = seccoes.find((s) => s.itens.some((i) => currentUrl.startsWith(i.href)));
+        if (actual) setSeccoesAbertas((prev) => ({ ...prev, [actual.titulo]: true }));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     // Recolhe todos os feature_slugs únicos do menu para consultar de uma vez
     const todosSlugs = seccoes.flatMap((s) => s.itens).map((i) => i.feature_slug).filter((s): s is string => !!s);

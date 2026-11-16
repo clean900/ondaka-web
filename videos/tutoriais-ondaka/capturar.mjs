@@ -174,7 +174,7 @@ async function entrar(navegador, base, conta, env) {
   const d = CONTAS[conta];
 
   if (!d.email) {
-    console.log(`  ${conta}: sem sessão (${d.rotulo})`);
+    console.log(`  ${conta}: ${d.rotulo}`);
     return { ctx, page };
   }
 

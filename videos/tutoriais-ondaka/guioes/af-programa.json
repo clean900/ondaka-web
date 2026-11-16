@@ -1,0 +1,66 @@
+{
+  "numero": 7,
+  "titulo": "O programa, por dentro",
+  "subtitulo": "A página que explica, simula e inscreve — sem falar com ninguém",
+  "resumo": [
+    "6% a 10% de tudo o que o cliente indicado pagar à ONDAKA",
+    "A conta de um cliente com 50 imóveis, feita à frente de quem lê",
+    "Escalões por volume: a taxa sobe com o que já se angariou",
+    "A candidatura é o formulário no fim da própria página"
+  ],
+  "cenas": [
+    {
+      "ecra": "af-publico",
+      "passos": [
+        {
+          "titulo": "ondaka.ao/afiliados",
+          "texto": "O programa de afiliados está explicado numa página aberta a todos.",
+          "dur": 7
+        },
+        {
+          "titulo": "O que se ganha",
+          "texto": "Entre 6% e 10% de tudo o que o cliente indicado pagar à ONDAKA. Não é só a primeira factura: é enquanto ele for cliente.",
+          "foco": { "texto": "Indique gestoras de condomínio" },
+          "dur": 11
+        },
+        {
+          "titulo": "A conta, feita à frente",
+          "texto": "Um cliente com 50 imóveis paga 300 mil kwanzas num ano. A página mostra o que isso dá em cada escalão.",
+          "foco": [1620, 430, 1230, 920],
+          "dur": 10
+        }
+      ]
+    },
+    {
+      "ecra": "af-publico",
+      "imagem": "inteiro",
+      "passos": [
+        {
+          "titulo": "Como funciona",
+          "texto": "Candidatar-se, receber o link, indicar gestoras de condomínio, receber a comissão de cada pagamento delas.",
+          "foco": [340, 1740, 2520, 920],
+          "dur": 9
+        },
+        {
+          "titulo": "Os escalões",
+          "texto": "A taxa sobe com o volume que o afiliado trouxe nos últimos doze meses: dos 6% desde o primeiro kwanza até aos 10%.",
+          "foco": [340, 2660, 2520, 1120],
+          "dur": 10
+        },
+        {
+          "titulo": "As regras, à vista",
+          "texto": "O que conta, quando prescreve, o que acontece se o cliente deixar de pagar. Está escrito antes de alguém se inscrever.",
+          "foco": [340, 3770, 2520, 1080],
+          "dur": 10
+        },
+        {
+          "titulo": "A candidatura",
+          "texto": "Particular ou empresa, nome, email e telefone. Aprovada a candidatura, o código de afiliado fica activo.",
+          "foco": [340, 5850, 2520, 1320],
+          "cursor": { "texto": "Enviar candidatura" },
+          "dur": 10
+        }
+      ]
+    }
+  ]
+}
