@@ -1,6 +1,6 @@
 import { Head, Link, useForm } from '@inertiajs/react';
 import { useState } from 'react';
-import { Handshake, Link2, Building2, Wallet, ShieldCheck, Clock, ArrowRight, CheckCircle2, Eye, EyeOff, ChevronDown, Smartphone, MessageSquare, Receipt } from 'lucide-react';
+import { Handshake, Link2, Building2, Wallet, ShieldCheck, Clock, ArrowRight, CheckCircle2, Eye, EyeOff, ChevronDown, Smartphone, MessageSquare, Receipt, Presentation } from 'lucide-react';
 import { fmtKz, fmtPct, NivelBadge } from '@/Components/Afiliados/ui';
 import type { ConfigAfiliados } from '@/types/afiliados';
 
@@ -9,9 +9,10 @@ interface Props {
     autenticado: boolean;
     ja_afiliado: boolean;
     exemplo: { preco_imovel_mes: string; imoveis: number; meses: number; base_kz: string; comissoes: Record<string, string> };
+    apresentacao_url?: string;
 }
 
-export default function Landing({ config, autenticado, ja_afiliado, exemplo }: Props) {
+export default function Landing({ config, autenticado, ja_afiliado, exemplo, apresentacao_url }: Props) {
     const [showPassword, setShowPassword] = useState(false);
     const { data, setData, post, processing, errors } = useForm({
         nome: '', tipo: 'particular', nif: '', email: '', telefone: '', como_divulga: '', password: '', password_confirmation: '', aceita_termos: false,
@@ -32,7 +33,7 @@ export default function Landing({ config, autenticado, ja_afiliado, exemplo }: P
             <Head title="Programa de Afiliados · ONDAKA" />
             <div className="min-h-screen bg-[#0a0a1a] text-zinc-100" style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif' }}>
                 <header className="sticky top-0 z-50 border-b border-blue-900/30 bg-[#0a0a1a]/90 backdrop-blur-md">
-                    <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3">
+                    <div className="flex w-full items-center justify-between px-6 py-3 lg:px-12">
                         <Link href="/" className="flex items-center gap-3">
                             <img src="/img/ondaka-logo.png" alt="ONDAKA" className="h-9 w-9 rounded" />
                             <div><div className="text-base font-bold tracking-wide">ONDAKA</div><div className="text-[10px] text-zinc-500">Programa de Afiliados</div></div>
@@ -55,7 +56,7 @@ export default function Landing({ config, autenticado, ja_afiliado, exemplo }: P
                     <div className="absolute inset-0 bg-gradient-to-br from-blue-900/30 via-transparent to-purple-900/30" />
                     <div className="absolute left-0 top-1/4 h-96 w-96 rounded-full bg-blue-500/10 blur-[120px]" />
                     <div className="absolute right-0 bottom-0 h-96 w-96 rounded-full bg-purple-500/10 blur-[120px]" />
-                    <div className="relative mx-auto grid max-w-7xl gap-10 px-6 py-16 md:grid-cols-2 md:items-center md:py-24">
+                    <div className="relative grid w-full gap-10 px-6 py-16 md:grid-cols-2 md:items-center md:py-24 lg:px-12">
                         <div>
                             <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-purple-500/30 bg-purple-500/10 px-3 py-1 text-xs text-purple-200"><Handshake className="h-3.5 w-3.5" /> Programa de Afiliados ONDAKA</div>
                             <h1 className="text-4xl font-bold leading-tight md:text-5xl">Indique gestoras de condomínio. <span className="bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">Ganhe {fmtPct(config.taxa_min_pct)} a {fmtPct(config.taxa_max_pct)}</span> de tudo o que pagarem.</h1>
@@ -63,6 +64,11 @@ export default function Landing({ config, autenticado, ja_afiliado, exemplo }: P
                             <div className="mt-8 flex flex-wrap gap-3">
                                 <a href={ja_afiliado ? '/afiliado' : autenticado ? '/afiliado/aderir' : '#candidatura'} className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-blue-500 to-purple-600 px-6 py-3 font-semibold text-white shadow-lg shadow-blue-500/30 hover:from-blue-400 hover:to-purple-500">{ja_afiliado ? 'Abrir o meu painel' : 'Candidatar-me agora'} <ArrowRight className="h-4 w-4" /></a>
                                 <a href="#como" className="inline-flex items-center gap-2 rounded-lg border border-zinc-700 px-6 py-3 font-semibold text-zinc-200 hover:border-zinc-500">Ver como funciona</a>
+                                {apresentacao_url && (
+                                    <a href={apresentacao_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-lg border border-purple-500/40 bg-purple-500/10 px-6 py-3 font-semibold text-purple-200 hover:border-purple-400">
+                                        <Presentation className="h-4 w-4" /> Ver a apresentação
+                                    </a>
+                                )}
                             </div>
                             <div className="mt-8 grid grid-cols-3 gap-4 text-sm">
                                 <Kpi v={`${fmtPct(config.taxa_min_pct)}–${fmtPct(config.taxa_max_pct)}`} l="comissão por pagamento" />
@@ -94,7 +100,7 @@ export default function Landing({ config, autenticado, ja_afiliado, exemplo }: P
 
                 {/* COMO FUNCIONA */}
                 <section id="como" className="border-t border-blue-900/30 py-16">
-                    <div className="mx-auto max-w-7xl px-6">
+                    <div className="w-full px-6 lg:px-12">
                         <h2 className="text-3xl font-bold">Como funciona</h2>
                         <p className="mt-2 text-zinc-400">Três passos. Sem custos, sem quotas mínimas.</p>
                         <div className="mt-8 grid gap-6 md:grid-cols-3">
@@ -107,7 +113,7 @@ export default function Landing({ config, autenticado, ja_afiliado, exemplo }: P
 
                 {/* NÍVEIS */}
                 <section id="niveis" className="border-t border-blue-900/30 py-16">
-                    <div className="mx-auto max-w-7xl px-6">
+                    <div className="w-full px-6 lg:px-12">
                         <h2 className="text-3xl font-bold">Comissões que sobem consigo</h2>
                         <p className="mt-2 text-zinc-400">A taxa cresce com o seu volume de receita dos últimos 12 meses — o valor sem imposto de tudo o que os seus clientes pagam à ONDAKA. Sobe automaticamente e aplica-se às comissões seguintes.</p>
                         <div className="mt-8 grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
@@ -133,7 +139,7 @@ export default function Landing({ config, autenticado, ja_afiliado, exemplo }: P
 
                 {/* REGRAS */}
                 <section id="regras" className="border-t border-blue-900/30 py-16">
-                    <div className="mx-auto max-w-7xl px-6">
+                    <div className="w-full px-6 lg:px-12">
                         <h2 className="text-3xl font-bold">Regras do programa</h2>
                         <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                             <Regra icon={ShieldCheck} t="Base sem imposto" d="A comissão calcula-se sobre o valor sem IVA/IPC de cada pagamento efectivamente recebido pela ONDAKA." />
@@ -148,7 +154,7 @@ export default function Landing({ config, autenticado, ja_afiliado, exemplo }: P
 
                 {/* FAQ */}
                 <section id="faq" className="border-t border-blue-900/30 py-16">
-                    <div className="mx-auto max-w-7xl px-6">
+                    <div className="w-full px-6 lg:px-12">
                         <h2 className="text-3xl font-bold">Perguntas frequentes</h2>
                         <div className="mt-8 grid gap-3 md:grid-cols-2">
                             {faqs.map((f, i) => (
@@ -163,7 +169,7 @@ export default function Landing({ config, autenticado, ja_afiliado, exemplo }: P
 
                 {/* CANDIDATURA */}
                 <section id="candidatura" className="border-t border-blue-900/30 py-16">
-                    <div className="mx-auto grid max-w-7xl gap-10 px-6 md:grid-cols-2 md:items-start">
+                    <div className="grid w-full gap-10 px-6 md:grid-cols-2 md:items-start lg:px-12">
                         <div>
                             <h2 className="text-3xl font-bold">{ja_afiliado ? 'Já é afiliado' : autenticado ? 'Já tem conta ONDAKA' : 'Candidatura'}</h2>
                             <p className="mt-3 text-zinc-400">
@@ -214,7 +220,7 @@ export default function Landing({ config, autenticado, ja_afiliado, exemplo }: P
                 </section>
 
                 <footer className="border-t border-blue-900/30 py-10">
-                    <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-6 text-sm text-zinc-500 md:flex-row">
+                    <div className="flex w-full flex-col items-center justify-between gap-4 px-6 text-sm text-zinc-500 md:flex-row lg:px-12">
                         <div className="flex items-center gap-3"><img src="/img/ondaka-logo.png" alt="ONDAKA" className="h-8 w-8 rounded" /><div><div className="text-zinc-300">ONDAKA</div><div className="text-xs">© {new Date().getFullYear()} KAYANTEC - Comércio e Serviços, (SU) Lda</div></div></div>
                         <div className="flex gap-6 text-xs"><Link href="/" className="hover:text-white">Início</Link><Link href="/catalogo" className="hover:text-white">Catálogo</Link><Link href="/loja" className="hover:text-white">Loja</Link><Link href="/termos" className="hover:text-white">Termos</Link><Link href="/privacidade" className="hover:text-white">Privacidade</Link></div>
                     </div>

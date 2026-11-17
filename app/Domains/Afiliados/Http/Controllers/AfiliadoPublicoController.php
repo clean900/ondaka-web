@@ -33,6 +33,9 @@ class AfiliadoPublicoController extends Controller
             'autenticado' => (bool) $user,
             'ja_afiliado' => (bool) $this->service->doUser($user),
             'exemplo' => $this->exemplo(),
+            // A apresentação comercial do programa, para quem quer ver tudo
+            // antes de se candidatar. Mesmo documento do painel e da app.
+            'apresentacao_url' => (string) config('ondaka.afiliados.apresentacao_url'),
         ]);
     }
 
