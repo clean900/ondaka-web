@@ -21,14 +21,14 @@ class PerfilPasswordController extends Controller
     public function show(Request $request): Response
     {
         return Inertia::render('Perfil/Password', [
-            'forcar_troca' => (bool) $request->user()->forcar_troca_password,
+            'forcar_troca' => (bool) $request->user()->must_change_password,
         ]);
     }
 
     public function update(Request $request): RedirectResponse
     {
         $user = $request->user();
-        $forcarTroca = (bool) $user->forcar_troca_password;
+        $forcarTroca = (bool) $user->must_change_password;
 
         $regras = [
             'password' => 'required|string|min:8|confirmed',
@@ -50,7 +50,7 @@ class PerfilPasswordController extends Controller
 
         $user->update([
             'password' => Hash::make($request->input('password')),
-            'forcar_troca_password' => false,
+            'must_change_password' => false,
         ]);
 
         return redirect()->route('dashboard')->with('success', 'Password alterada com sucesso.');
