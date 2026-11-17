@@ -316,7 +316,10 @@ export default function AuthenticatedLayout({ children }: PropsWithChildren) {
                 { label: 'Configurar NPS', href: '/nps/configuracao', icon: Settings },
             ],
         }] : []),
-        ...(isSuperAdmin ? [] : [seccaoAfiliado]),
+        // Programa de Afiliados é uma conta/portal autónomo (entrada pela página pública /afiliados).
+        // No painel do condomínio só aparece se o utilizador JÁ for afiliado (conta híbrida) — nunca
+        // o convite "Ganhar comissões", que empurrava cada gestor/condómino a aderir dentro da conta.
+        ...(isSuperAdmin || !afiliado ? [] : [seccaoAfiliado]),
         {
             titulo: 'Conta',
             itens: [
