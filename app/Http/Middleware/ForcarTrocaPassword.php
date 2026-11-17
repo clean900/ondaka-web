@@ -18,7 +18,7 @@ class ForcarTrocaPassword
     {
         $user = $request->user();
 
-        if (! $user || empty($user->forcar_troca_password)) {
+        if (! $user || empty($user->must_change_password)) {
             return $next($request);
         }
 

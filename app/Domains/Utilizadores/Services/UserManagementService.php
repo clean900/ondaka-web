@@ -140,7 +140,7 @@ class UserManagementService
                 'email' => $dados['email'],
                 'telefone' => $dados['telefone'] ?? null,
                 'password' => Hash::make($dados['password']),
-                'forcar_troca_password' => $dados['forcar_troca_password'] ?? false,
+                'must_change_password' => $dados['forcar_troca_password'] ?? false,
                 'empresa_gestora_id' => $dados['empresa_gestora_id'] ?? null,
                 'condominio_activo_id' => $dados['condominio_id'] ?? null,
                 'estado' => 'activo',
@@ -162,7 +162,7 @@ class UserManagementService
     {
         $user->update([
             'password' => Hash::make($novaPassword),
-            'forcar_troca_password' => $forcarTroca,
+            'must_change_password' => $forcarTroca,
         ]);
     }
 
