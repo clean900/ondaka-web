@@ -34,9 +34,19 @@ interface Empresa {
     nif: string | null;
 }
 
+interface Banco {
+    beneficiario: string;
+    nif: string;
+    banco: string;
+    iban: string;
+    moeda: string;
+    email_comprovativo: string;
+}
+
 interface Props {
     factura: Factura;
     empresa: Empresa | null;
+    banco: Banco;
 }
 
 const fmt = (v: number) =>
@@ -48,34 +58,12 @@ const fmtData = (v: string) => {
     return d.toLocaleDateString('pt-PT');
 };
 
-export default function FacturaShow({ factura, empresa }: Props) {
-    const [gerarRefLoading, setGerarRefLoading] = useState(false);
-    const [refGerada, setRefGerada] = useState<string | null>(null);
-
-    const gerarReferenciaPagamento = async () => {
-        setGerarRefLoading(true);
+export default function FacturaShow({ factura, empresa, banco }: Props) {
+    const copiar = (texto: string) => {
         try {
-            const csrf = (document.querySelector('meta[name="csrf-token"]') as HTMLMetaElement)?.content || '';
-            const r = await fetch(`/subscricao/facturas/${factura.id}/gerar-referencia`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Accept: 'application/json',
-                    'X-CSRF-TOKEN': csrf,
-                },
-                credentials: 'same-origin',
-            });
-            const data = await r.json();
-            if (r.ok && data.success) {
-                setRefGerada(data.referencia || 'OK');
-                window.location.reload();
-            } else {
-                alert(data.message || 'Erro ao gerar referência.');
-            }
-        } catch (err) {
-            alert('Erro de ligação.');
-        } finally {
-            setGerarRefLoading(false);
+            navigator.clipboard?.writeText(texto);
+        } catch {
+            /* clipboard indisponível — ignora */
         }
     };
 
@@ -223,77 +211,64 @@ export default function FacturaShow({ factura, empresa }: Props) {
                         </div>
                     </div>
 
-                    {/* Pagar */}
+                    {/* Pagar por transferência bancária (KayanTec) */}
                     {factura.estado === 'pendente' && (
                         <div className="rounded-xl border border-cyan-500/30 bg-cyan-500/5 p-6">
                             <h3 className="mb-3 flex items-center gap-2 text-base font-medium text-cyan-300">
                                 <CreditCard className="h-5 w-5" />
-                                Pagar via Multicaixa Express
+                                Pagar por transferência bancária
                             </h3>
 
-                            {!factura.tem_referencia_pagamento && (
-                                <>
-                                    <p className="mb-4 text-sm text-zinc-300">
-                                        Gere uma referência de pagamento ProxyPay para pagar via Multicaixa Express,
-                                        ATM ou homebanking.
-                                    </p>
-                                    <button
-                                        onClick={gerarReferenciaPagamento}
-                                        disabled={gerarRefLoading}
-                                        className="flex w-full items-center justify-center gap-2 rounded-lg bg-cyan-600 px-4 py-3 text-sm font-medium text-white hover:bg-cyan-500 disabled:opacity-50"
-                                    >
-                                        <CreditCard className="h-4 w-4" />
-                                        {gerarRefLoading ? 'A gerar referência...' : 'Gerar referência de pagamento'}
-                                    </button>
-                                </>
-                            )}
+                            <p className="mb-4 text-sm text-zinc-300">
+                                Faça uma transferência no valor de{' '}
+                                <span className="font-semibold text-white">{fmt(factura.valor_total_kz)} Kz</span>{' '}
+                                para a conta abaixo e envie o comprovativo, indicando o número da factura{' '}
+                                <span className="font-mono text-white">{factura.numero}</span>.
+                            </p>
 
-                            {factura.tem_referencia_pagamento && factura.referencia_dados && (
-                                <div className="space-y-3">
-                                    <div className="rounded-lg border border-cyan-500/40 bg-gradient-to-br from-cyan-500/15 to-blue-500/10 p-5">
-                                        <div className="flex items-center gap-2 text-cyan-300">
-                                            <CheckCircle2 className="h-5 w-5" />
-                                            <span className="font-semibold">Referência ProxyPay gerada</span>
-                                        </div>
+                            <div className="rounded-lg border border-cyan-500/40 bg-gradient-to-br from-cyan-500/10 to-blue-500/5 p-5">
+                                <DadoBanco label="Beneficiário" valor={banco.beneficiario} />
+                                <DadoBanco label="NIF" valor={banco.nif} onCopiar={() => copiar(banco.nif)} />
+                                <DadoBanco label="Banco" valor={banco.banco} />
+                                <DadoBanco label="IBAN" valor={banco.iban} mono onCopiar={() => copiar(banco.iban.replace(/\s/g, ''))} />
+                                <DadoBanco label="Moeda" valor={banco.moeda} />
+                            </div>
 
-                                        <div className="mt-4 grid grid-cols-2 gap-4">
-                                            <div>
-                                                <div className="text-xs uppercase tracking-wider text-cyan-400/70">Entidade</div>
-                                                <div className="mt-1 font-mono text-2xl font-bold text-white">
-                                                    {factura.referencia_dados.entity_id}
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <div className="text-xs uppercase tracking-wider text-cyan-400/70">Referência</div>
-                                                <div className="mt-1 font-mono text-2xl font-bold text-white">
-                                                    {factura.referencia_dados.reference_id}
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div className="mt-4 border-t border-cyan-500/20 pt-3 text-xs text-zinc-400">
-                                            Válida até {fmtData(factura.referencia_dados.expira_em)}
-                                        </div>
-                                    </div>
-
-                                    <div className="rounded-lg border border-zinc-700 bg-zinc-900/50 p-4 text-sm">
-                                        <p className="font-medium text-zinc-200">Como pagar:</p>
-                                        <ul className="mt-2 space-y-1.5 text-zinc-400">
-                                            <li>• Multicaixa Express: Pagamentos &rarr; Pagamento de serviços &rarr; Outros &rarr; Insira entidade e referência</li>
-                                            <li>• ATM: Insira o cartão &rarr; Pagamentos &rarr; Pagamento de serviços</li>
-                                            <li>• Homebanking: Procure "Pagamento de Serviços" no seu banco</li>
-                                        </ul>
-                                        <p className="mt-3 text-xs text-zinc-500">
-                                            Após o pagamento, a factura será marcada como paga automaticamente em alguns minutos.
-                                        </p>
-                                    </div>
-                                </div>
-                            )}
+                            <div className="mt-3 rounded-lg border border-zinc-700 bg-zinc-900/50 p-4 text-sm">
+                                <p className="font-medium text-zinc-200">Depois de transferir:</p>
+                                <ul className="mt-2 space-y-1.5 text-zinc-400">
+                                    <li>• Envie o comprovativo para <span className="text-cyan-300">{banco.email_comprovativo}</span></li>
+                                    <li>• Indique o número da factura: <span className="font-mono text-zinc-200">{factura.numero}</span></li>
+                                </ul>
+                                <p className="mt-3 text-xs text-zinc-500">
+                                    Após confirmarmos a transferência, a factura é marcada como paga.
+                                </p>
+                            </div>
                         </div>
                     )}
                 </div>
             </div>
         </AuthenticatedLayout>
+    );
+}
+
+function DadoBanco({ label, valor, mono, onCopiar }: { label: string; valor: string; mono?: boolean; onCopiar?: () => void }) {
+    return (
+        <div className="flex items-center justify-between border-b border-cyan-500/10 py-2 last:border-0">
+            <span className="text-xs uppercase tracking-wider text-cyan-400/70">{label}</span>
+            <div className="flex items-center gap-2">
+                <span className={`text-sm font-semibold text-white ${mono ? 'font-mono' : ''}`}>{valor}</span>
+                {onCopiar && (
+                    <button
+                        onClick={onCopiar}
+                        className="rounded border border-cyan-500/30 px-2 py-0.5 text-[11px] text-cyan-300 hover:bg-cyan-500/10"
+                        title="Copiar"
+                    >
+                        Copiar
+                    </button>
+                )}
+            </div>
+        </div>
     );
 }
 

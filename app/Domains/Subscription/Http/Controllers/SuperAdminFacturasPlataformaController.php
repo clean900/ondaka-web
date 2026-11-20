@@ -180,4 +180,63 @@ class SuperAdminFacturasPlataformaController extends Controller
             'message' => "Factura {$factura->numero} anulada.",
         ]);
     }
+
+    /**
+     * Marca MANUALMENTE uma factura como paga (confirmação de transferência bancária
+     * KayanTec). Substitui a confirmação automática que antes vinha do ProxyPay.
+     */
+    public function marcarPaga(Request $request, int $id): JsonResponse
+    {
+        $factura = DB::table('plataforma_facturas')->where('id', $id)->first();
+        if (! $factura) {
+            return response()->json(['success' => false, 'message' => 'Factura não encontrada.'], 404);
+        }
+
+        if ($factura->estado === 'paga') {
+            return response()->json(['success' => false, 'message' => 'Esta factura já está paga.'], 422);
+        }
+
+        if ($factura->estado === 'anulada') {
+            return response()->json(['success' => false, 'message' => 'Não pode marcar como paga uma factura anulada.'], 422);
+        }
+
+        $agora = now();
+
+        DB::transaction(function () use ($factura, $request, $agora) {
+            DB::table('plataforma_facturas')
+                ->where('id', $factura->id)
+                ->update([
+                    'estado' => 'paga',
+                    'data_pagamento' => $agora,
+                    'updated_at' => $agora,
+                ]);
+
+            DB::table('plataforma_subscricao_eventos')->insert([
+                'subscricao_id' => $factura->subscricao_id,
+                'tipo' => 'factura_emitida',
+                'descricao' => "Factura {$factura->numero} marcada como PAGA (transferência bancária) pelo super-admin",
+                'meta_json' => json_encode([
+                    'factura_id' => $factura->id,
+                    'numero' => $factura->numero,
+                    'valor_total_kz' => (float) $factura->valor_total_kz,
+                    'metodo' => 'transferencia_bancaria',
+                ]),
+                'user_id' => $request->user()?->id,
+                'created_at' => $agora,
+            ]);
+        });
+
+        // Paridade com o antigo fluxo ProxyPay: comissão do afiliado (resiliente).
+        try {
+            app(\App\Domains\Afiliados\Services\AfiliadoComissaoService::class)
+                ->registarPagamentoFacturaPlataforma((int) $factura->id);
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::warning('Comissão de afiliado (factura plataforma, pagamento manual) falhou: '.$e->getMessage(), ['factura_id' => $factura->id]);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => "Factura {$factura->numero} marcada como paga.",
+        ]);
+    }
 }

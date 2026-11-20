@@ -127,6 +127,31 @@ export default function Index({ facturas, stats, empresas, welwitschia_configura
         }
     };
 
+    const marcarPaga = async (factura: Factura) => {
+        if (!confirm(`Marcar a factura ${factura.numero} como PAGA (transferência bancária confirmada)?`)) return;
+        try {
+            const csrf = (document.querySelector('meta[name="csrf-token"]') as HTMLMetaElement)?.content || '';
+            const r = await fetch(`/super-admin/facturas-plataforma/${factura.id}/marcar-paga`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Accept: 'application/json',
+                    'X-CSRF-TOKEN': csrf,
+                },
+                credentials: 'same-origin',
+            });
+            const data = await r.json();
+            if (r.ok && data.success) {
+                alert(data.message);
+                router.reload();
+            } else {
+                alert(data.message || 'Erro ao marcar como paga.');
+            }
+        } catch (err) {
+            alert('Erro de ligação.');
+        }
+    };
+
     const enviarWelwitschia = async (factura: Factura) => {
         if (!confirm(`Enviar a factura ${factura.numero} para a Welwitschia?`)) return;
         setAEnviar(factura.id);
@@ -300,6 +325,15 @@ export default function Index({ facturas, stats, empresas, welwitschia_configura
                                                             title="Enviar esta factura para o ERP Welwitschia"
                                                         >
                                                             {aEnviar === f.id ? 'A enviar…' : 'Enviar p/ Welwitschia'}
+                                                        </button>
+                                                    )}
+                                                    {f.estado === 'pendente' && (
+                                                        <button
+                                                            onClick={() => marcarPaga(f)}
+                                                            className="text-xs text-emerald-400 hover:text-emerald-300"
+                                                            title="Confirmar transferência bancária e marcar como paga"
+                                                        >
+                                                            Marcar paga
                                                         </button>
                                                     )}
                                                     {f.estado === 'pendente' && (

@@ -277,24 +277,13 @@ class SubscricaoController extends Controller
             return response()->json(['success' => false, 'message' => 'Factura não encontrada.'], 404);
         }
 
-        try {
-            $service = app(\App\Domains\Payment\Services\ProxyPayService::class);
-            $resultado = $service->criarReferenciaParaFacturaPlataforma($factura->id);
-
-            return response()->json([
-                'success' => true,
-                'referencia' => $resultado['reference_id'],
-                'entity_id' => $resultado['entity_id'],
-                'amount' => $resultado['amount'],
-                'expira_em' => $resultado['expira_em'],
-                'message' => 'Referência gerada com sucesso.',
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => $e->getMessage(),
-            ], 422);
-        }
+        // O pagamento das subscrições da plataforma passou a ser por TRANSFERÊNCIA
+        // BANCÁRIA para a KayanTec. Já não se geram referências ProxyPay aqui.
+        return response()->json([
+            'success' => false,
+            'metodo' => 'transferencia',
+            'message' => 'O pagamento é por transferência bancária para a KayanTec. Veja os dados na factura e envie o comprovativo.',
+        ], 422);
     }
 
     /**
@@ -334,17 +323,22 @@ class SubscricaoController extends Controller
                 return response()->json(['success' => false, 'message' => 'Nao foi possivel gerar a factura.'], 422);
             }
 
-            $service = app(\App\Domains\Payment\Services\ProxyPayService::class);
-            $ref = $service->criarReferenciaParaFacturaPlataforma($factura->id);
-
+            // Pagamento por TRANSFERÊNCIA BANCÁRIA para a KayanTec (sem ProxyPay).
+            // Emitimos a factura e devolvemos os dados bancários para o cliente pagar.
             return response()->json([
                 'success' => true,
                 'factura_id' => $factura->id,
                 'numero' => $factura->numero,
-                'referencia' => $ref['reference_id'],
-                'entity_id' => $ref['entity_id'],
-                'amount' => $ref['amount'],
-                'expira_em' => $ref['expira_em'],
+                'metodo' => 'transferencia',
+                'banco' => [
+                    'beneficiario' => config('ondaka.emissor.nome'),
+                    'nif' => config('ondaka.emissor.nif'),
+                    'banco' => config('ondaka.banco.nome'),
+                    'iban' => config('ondaka.banco.iban'),
+                    'moeda' => config('ondaka.banco.moeda'),
+                    'email_comprovativo' => config('ondaka.contactos.email'),
+                ],
+                'message' => 'Factura emitida. Pague por transferência bancária para a KayanTec e envie o comprovativo.',
             ]);
         } catch (\Throwable $e) {
             return response()->json(['success' => false, 'message' => $e->getMessage()], 422);
@@ -396,6 +390,16 @@ class SubscricaoController extends Controller
                 'referencia_dados' => $factura->proxypay_referencia_id ? \App\Domains\Payment\Models\PagamentoReferencia::find($factura->proxypay_referencia_id)?->only(['reference_id', 'entity_id', 'amount', 'status', 'expira_em']) : null,
             ],
             'empresa' => $empresa?->only(['id', 'nome', 'slug', 'nif']),
+            // Pagamento das subscrições da plataforma passou a ser por TRANSFERÊNCIA
+            // BANCÁRIA para a KayanTec (deixou de usar ProxyPay/Multicaixa).
+            'banco' => [
+                'beneficiario' => config('ondaka.emissor.nome'),
+                'nif' => config('ondaka.emissor.nif'),
+                'banco' => config('ondaka.banco.nome'),
+                'iban' => config('ondaka.banco.iban'),
+                'moeda' => config('ondaka.banco.moeda'),
+                'email_comprovativo' => config('ondaka.contactos.email'),
+            ],
         ]);
     }
 

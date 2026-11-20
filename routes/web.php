@@ -378,6 +378,7 @@ Route::middleware(['auth', 'verified', '2fa'])->group(function () {
         ->group(function () {
             Route::get('/', [SuperAdminFacturasPlataformaController::class, 'index'])->name('index');
             Route::post('/{id}/anular', [SuperAdminFacturasPlataformaController::class, 'anular'])->name('anular')->whereNumber('id');
+            Route::post('/{id}/marcar-paga', [SuperAdminFacturasPlataformaController::class, 'marcarPaga'])->name('marcar-paga')->whereNumber('id');
             Route::post('/{id}/enviar-welwitschia', [SuperAdminFacturasPlataformaController::class, 'enviarWelwitschia'])->name('enviar-welwitschia')->whereNumber('id');
         });
 
