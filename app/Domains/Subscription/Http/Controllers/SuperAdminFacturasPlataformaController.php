@@ -100,11 +100,41 @@ class SuperAdminFacturasPlataformaController extends Controller
             'facturas' => $facturas,
             'stats' => $stats,
             'empresas' => $empresas,
+            // Só mostra o botão "Enviar p/ Welwitschia" quando a integração está ligada.
+            'welwitschia_configurado' => app(\App\Domains\Integracao\Welwitschia\WelwitschiaClient::class)->configurado(),
             'filtros' => [
                 'estado' => $estado,
                 'empresa_id' => $empresaId,
                 'busca' => $busca,
             ],
+        ]);
+    }
+
+    /**
+     * Envio MANUAL de uma factura para o ERP Welwitschia (venda).
+     * Substitui o antigo envio automático na emissão/pagamento.
+     */
+    public function enviarWelwitschia(int $id): JsonResponse
+    {
+        $factura = DB::table('plataforma_facturas')->where('id', $id)->first();
+        if (! $factura) {
+            return response()->json(['success' => false, 'message' => 'Factura não encontrada.'], 404);
+        }
+
+        if ($factura->estado === 'anulada') {
+            return response()->json(['success' => false, 'message' => 'Não pode enviar uma factura anulada.'], 422);
+        }
+
+        if (! app(\App\Domains\Integracao\Welwitschia\WelwitschiaClient::class)->configurado()) {
+            return response()->json(['success' => false, 'message' => 'Integração Welwitschia não configurada. Configure a chave primeiro.'], 422);
+        }
+
+        // Despacha o sync (em fila, idempotente e resiliente do lado da API).
+        \App\Domains\Integracao\Welwitschia\FacturaWelwitschiaSync::sincronizar((int) $factura->id);
+
+        return response()->json([
+            'success' => true,
+            'message' => "Factura {$factura->numero} enviada para a Welwitschia.",
         ]);
     }
 

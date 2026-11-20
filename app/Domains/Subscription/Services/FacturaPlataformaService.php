@@ -131,8 +131,9 @@ class FacturaPlataformaService
 
         Log::info("Factura plataforma emitida: {$numero} para subscrição {$subscricao->id}");
 
-        // Empurra a factura para o ERP Welwitschia (venda). Em fila e resiliente.
-        \App\Domains\Integracao\Welwitschia\FacturaWelwitschiaSync::sincronizar((int) $facturaId);
+        // NOTA: o envio da factura para o ERP Welwitschia já NÃO é automático.
+        // Passou a ser manual, pelo botão "Enviar p/ Welwitschia" no painel
+        // super-admin de Facturas Plataforma (SuperAdminFacturasPlataformaController::enviarWelwitschia).
 
         // Notificação Email + SMS para o admin-empresa
         try {

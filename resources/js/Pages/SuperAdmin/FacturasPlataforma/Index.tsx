@@ -65,6 +65,7 @@ interface Props {
     facturas: PaginatedFacturas;
     stats: Stats;
     empresas: Empresa[];
+    welwitschia_configurado: boolean;
     filtros: {
         estado: string | null;
         empresa_id: string | null;
@@ -80,10 +81,11 @@ const fmtData = (v: string) => {
     return new Date(v).toLocaleDateString('pt-PT');
 };
 
-export default function Index({ facturas, stats, empresas, filtros }: Props) {
+export default function Index({ facturas, stats, empresas, welwitschia_configurado, filtros }: Props) {
     const [busca, setBusca] = useState(filtros.busca || '');
     const [estado, setEstado] = useState(filtros.estado || '');
     const [empresaId, setEmpresaId] = useState(filtros.empresa_id || '');
+    const [aEnviar, setAEnviar] = useState<number | null>(null);
 
     const aplicarFiltros = (overrides: Partial<{ busca: string; estado: string; empresa_id: string }> = {}) => {
         const params: any = {
@@ -122,6 +124,33 @@ export default function Index({ facturas, stats, empresas, filtros }: Props) {
             }
         } catch (err) {
             alert('Erro de ligação.');
+        }
+    };
+
+    const enviarWelwitschia = async (factura: Factura) => {
+        if (!confirm(`Enviar a factura ${factura.numero} para a Welwitschia?`)) return;
+        setAEnviar(factura.id);
+        try {
+            const csrf = (document.querySelector('meta[name="csrf-token"]') as HTMLMetaElement)?.content || '';
+            const r = await fetch(`/super-admin/facturas-plataforma/${factura.id}/enviar-welwitschia`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Accept: 'application/json',
+                    'X-CSRF-TOKEN': csrf,
+                },
+                credentials: 'same-origin',
+            });
+            const data = await r.json();
+            if (r.ok && data.success) {
+                alert(data.message);
+            } else {
+                alert(data.message || 'Erro ao enviar.');
+            }
+        } catch (err) {
+            alert('Erro de ligação.');
+        } finally {
+            setAEnviar(null);
         }
     };
 
@@ -262,14 +291,26 @@ export default function Index({ facturas, stats, empresas, filtros }: Props) {
                                                 {fmtData(f.data_vencimento)}
                                             </td>
                                             <td className="px-4 py-3 text-right">
-                                                {f.estado === 'pendente' && (
-                                                    <button
-                                                        onClick={() => anularFactura(f)}
-                                                        className="text-xs text-red-400 hover:text-red-300"
-                                                    >
-                                                        Anular
-                                                    </button>
-                                                )}
+                                                <div className="flex items-center justify-end gap-3">
+                                                    {welwitschia_configurado && f.estado !== 'anulada' && (
+                                                        <button
+                                                            onClick={() => enviarWelwitschia(f)}
+                                                            disabled={aEnviar === f.id}
+                                                            className="text-xs text-cyan-400 hover:text-cyan-300 disabled:opacity-50"
+                                                            title="Enviar esta factura para o ERP Welwitschia"
+                                                        >
+                                                            {aEnviar === f.id ? 'A enviar…' : 'Enviar p/ Welwitschia'}
+                                                        </button>
+                                                    )}
+                                                    {f.estado === 'pendente' && (
+                                                        <button
+                                                            onClick={() => anularFactura(f)}
+                                                            className="text-xs text-red-400 hover:text-red-300"
+                                                        >
+                                                            Anular
+                                                        </button>
+                                                    )}
+                                                </div>
                                             </td>
                                         </tr>
                                     ))}

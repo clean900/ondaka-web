@@ -218,8 +218,9 @@ class ProxyPayService
                                 'updated_at' => $agora,
                             ]);
 
-                        // Actualiza a venda no ERP Welwitschia (pagamento). Resiliente.
-                        \App\Domains\Integracao\Welwitschia\FacturaWelwitschiaSync::sincronizar($facturaId);
+                        // NOTA: o envio da factura para o ERP Welwitschia já NÃO é automático.
+                        // Passou a ser manual, pelo botão "Enviar p/ Welwitschia" no painel
+                        // super-admin de Facturas Plataforma (SuperAdminFacturasPlataformaController::enviarWelwitschia).
 
                         // Comissão do afiliado (se a empresa foi indicada). Resiliente — nunca reverte o pagamento.
                         try {
