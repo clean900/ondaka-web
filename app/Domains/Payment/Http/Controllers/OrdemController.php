@@ -391,12 +391,15 @@ class OrdemController extends Controller
      */
     private function dadosBancariosOndaka(): array
     {
+        $banco = config('ondaka.banco', []);
+
         return [
-            'beneficiario' => 'KAYANTEC - Comércio e Serviços, (SU) Lda',
-            'nif' => config('ondaka.nif', '5417012345'),
-            'banco' => config('ondaka.banco_nome', 'Banco de Fomento Angola (BFA)'),
-            'iban' => config('ondaka.iban', 'AO06 0006 0000 0000 0000 0000 0'),
-            'moeda' => 'AOA',
+            'beneficiario' => $banco['titular'] ?? 'KAYANTEC - Comércio e Serviços, (SU) Lda',
+            'nif' => $banco['nif'] ?? '5003315525',
+            'banco' => $banco['nome'] ?? 'Banco Angolano de Investimentos (BAI)',
+            'iban' => $banco['iban'] ?? 'AO06 0040 0000 4040 0546 1015 2',
+            'numero_conta' => $banco['numero_conta'] ?? '340400546.10.001',
+            'moeda' => $banco['moeda'] ?? 'AOA',
             'observacao' => 'Por favor indicar o número da ordem (ex: ORD-2026-000001) na descrição da transferência.',
         ];
     }
