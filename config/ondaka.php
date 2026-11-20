@@ -78,4 +78,17 @@ return [
         // Moeda para impressão
         'moeda_simbolo' => 'Kz',
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Pagamento das subscrições da plataforma
+    |--------------------------------------------------------------------------
+    | ProxyPay das SUBSCRIÇÕES (não dos condóminos) está DESLIGADO enquanto a
+    | conta ProxyPay é da Soluções Simples. Religa-se pondo esta variável a true
+    | no .env assim que a KayanTec tiver entidade (PROXYPAY_ENTITY_ID) e chave
+    | (PROXYPAY_API_KEY) próprias. Desligado => cliente paga por transferência BAI.
+    */
+    'pagamento' => [
+        'proxypay_subscricoes' => (bool) env('ONDAKA_PROXYPAY_SUBSCRICOES', false),
+    ],
 ];
