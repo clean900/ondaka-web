@@ -39,6 +39,7 @@ interface Banco {
     nif: string;
     banco: string;
     iban: string;
+    numero_conta: string;
     moeda: string;
     email_comprovativo: string;
 }
@@ -230,6 +231,7 @@ export default function FacturaShow({ factura, empresa, banco }: Props) {
                                 <DadoBanco label="Beneficiário" valor={banco.beneficiario} />
                                 <DadoBanco label="NIF" valor={banco.nif} onCopiar={() => copiar(banco.nif)} />
                                 <DadoBanco label="Banco" valor={banco.banco} />
+                                <DadoBanco label="Nº de conta" valor={banco.numero_conta} mono onCopiar={() => copiar(banco.numero_conta)} />
                                 <DadoBanco label="IBAN" valor={banco.iban} mono onCopiar={() => copiar(banco.iban.replace(/\s/g, ''))} />
                                 <DadoBanco label="Moeda" valor={banco.moeda} />
                             </div>

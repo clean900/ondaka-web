@@ -35,11 +35,15 @@ return [
     /*
     |--------------------------------------------------------------------------
     | Dados bancários (apresentados ao cliente para pagamento)
+    | Conta ÚNICA de recebimento: KayanTec @ BAI (só esta deve estar activa).
     |--------------------------------------------------------------------------
     */
     'banco' => [
-        'nome' => env('ONDAKA_BANCO_NOME', 'Banco de Fomento Angola (BFA)'),
-        'iban' => env('ONDAKA_IBAN', 'AO06 0006 0000 0000 0000 0000 0'),
+        'nome' => env('ONDAKA_BANCO_NOME', 'Banco Angolano de Investimentos (BAI)'),
+        'titular' => env('ONDAKA_BANCO_TITULAR', 'KAYANTEC - Comércio e Serviços, (SU) Lda'),
+        'nif' => env('ONDAKA_BANCO_NIF', '5003315525'),
+        'iban' => env('ONDAKA_IBAN', 'AO06 0040 0000 4040 0546 1015 2'),
+        'numero_conta' => env('ONDAKA_BANCO_CONTA', '340400546.10.001'),
         'moeda' => 'AOA',
     ],
 

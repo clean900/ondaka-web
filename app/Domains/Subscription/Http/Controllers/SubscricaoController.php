@@ -393,10 +393,11 @@ class SubscricaoController extends Controller
             // Pagamento das subscrições da plataforma passou a ser por TRANSFERÊNCIA
             // BANCÁRIA para a KayanTec (deixou de usar ProxyPay/Multicaixa).
             'banco' => [
-                'beneficiario' => config('ondaka.emissor.nome'),
-                'nif' => config('ondaka.emissor.nif'),
+                'beneficiario' => config('ondaka.banco.titular'),
+                'nif' => config('ondaka.banco.nif'),
                 'banco' => config('ondaka.banco.nome'),
                 'iban' => config('ondaka.banco.iban'),
+                'numero_conta' => config('ondaka.banco.numero_conta'),
                 'moeda' => config('ondaka.banco.moeda'),
                 'email_comprovativo' => config('ondaka.contactos.email'),
             ],
