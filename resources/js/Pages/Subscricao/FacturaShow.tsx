@@ -48,6 +48,7 @@ interface Props {
     factura: Factura;
     empresa: Empresa | null;
     banco: Banco;
+    banco_activo: boolean;
     proxypay_activo: boolean;
 }
 
@@ -60,7 +61,7 @@ const fmtData = (v: string) => {
     return d.toLocaleDateString('pt-PT');
 };
 
-export default function FacturaShow({ factura, empresa, banco, proxypay_activo }: Props) {
+export default function FacturaShow({ factura, empresa, banco, banco_activo, proxypay_activo }: Props) {
     const [gerarRefLoading, setGerarRefLoading] = useState(false);
 
     const copiar = (texto: string) => {
@@ -247,7 +248,23 @@ export default function FacturaShow({ factura, empresa, banco, proxypay_activo }
                     )}
 
                     {/* Pagar por transferência bancária (KayanTec) — ProxyPay desligado */}
-                    {factura.estado === 'pendente' && !proxypay_activo && (
+                    {/* Sem IBAN configurado não se publica um painel meio vazio: o cliente
+                        fala connosco em vez de copiar um IBAN em branco. */}
+                    {factura.estado === 'pendente' && !proxypay_activo && !banco_activo && (
+                        <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-6">
+                            <h3 className="mb-2 flex items-center gap-2 text-base font-medium text-amber-300">
+                                <CreditCard className="h-5 w-5" />
+                                Pagar por transferência bancária
+                            </h3>
+                            <p className="text-sm text-zinc-300">
+                                Peça-nos os dados da conta antes de transferir:{' '}
+                                <span className="text-amber-200">{banco.email_comprovativo || 'geral@ondaka.ao'}</span>.
+                                Não publicamos um IBAN que não esteja confirmado.
+                            </p>
+                        </div>
+                    )}
+
+                    {factura.estado === 'pendente' && !proxypay_activo && banco_activo && (
                         <div className="rounded-xl border border-cyan-500/30 bg-cyan-500/5 p-6">
                             <h3 className="mb-3 flex items-center gap-2 text-base font-medium text-cyan-300">
                                 <CreditCard className="h-5 w-5" />

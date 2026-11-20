@@ -100,7 +100,7 @@ class SuperAdminFacturasPlataformaController extends Controller
             'facturas' => $facturas,
             'stats' => $stats,
             'empresas' => $empresas,
-            // Só mostra o botão "Enviar p/ Welwitschia" quando a integração está ligada.
+            // Só mostra o botão "Gerar factura na Welwitschia" quando a integração está ligada.
             'welwitschia_configurado' => app(\App\Domains\Integracao\Welwitschia\WelwitschiaClient::class)->configurado(),
             'filtros' => [
                 'estado' => $estado,
@@ -111,7 +111,9 @@ class SuperAdminFacturasPlataformaController extends Controller
     }
 
     /**
-     * Envio MANUAL de uma factura para o ERP Welwitschia (venda).
+     * Gera a factura FISCAL na Welwitschia (única plataforma certificada AGT;
+     * emitida pela KayanTec). O ONDAKA empurra a factura interna; a Welwitschia
+     * emite o documento legal. Manual, idempotente por invoice_number.
      * Substitui o antigo envio automático na emissão/pagamento.
      */
     public function enviarWelwitschia(int $id): JsonResponse
@@ -134,7 +136,7 @@ class SuperAdminFacturasPlataformaController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => "Factura {$factura->numero} enviada para a Welwitschia.",
+            'message' => "Factura {$factura->numero} enviada à Welwitschia para emissão (certificada AGT, emitida pela KayanTec).",
         ]);
     }
 

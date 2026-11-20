@@ -153,7 +153,7 @@ export default function Index({ facturas, stats, empresas, welwitschia_configura
     };
 
     const enviarWelwitschia = async (factura: Factura) => {
-        if (!confirm(`Enviar a factura ${factura.numero} para a Welwitschia?`)) return;
+        if (!confirm(`Gerar a factura ${factura.numero} na Welwitschia (plataforma certificada AGT, emitida pela KayanTec)?`)) return;
         setAEnviar(factura.id);
         try {
             const csrf = (document.querySelector('meta[name="csrf-token"]') as HTMLMetaElement)?.content || '';
@@ -322,9 +322,9 @@ export default function Index({ facturas, stats, empresas, welwitschia_configura
                                                             onClick={() => enviarWelwitschia(f)}
                                                             disabled={aEnviar === f.id}
                                                             className="text-xs text-cyan-400 hover:text-cyan-300 disabled:opacity-50"
-                                                            title="Enviar esta factura para o ERP Welwitschia"
+                                                            title="Gerar a factura fiscal na Welwitschia (certificada AGT, emitida pela KayanTec)"
                                                         >
-                                                            {aEnviar === f.id ? 'A enviar…' : 'Enviar p/ Welwitschia'}
+                                                            {aEnviar === f.id ? 'A gerar…' : 'Gerar factura na Welwitschia'}
                                                         </button>
                                                     )}
                                                     {f.estado === 'pendente' && (

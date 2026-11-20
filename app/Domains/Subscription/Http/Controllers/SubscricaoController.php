@@ -353,15 +353,8 @@ class SubscricaoController extends Controller
                     'factura_id' => $factura->id,
                     'numero' => $factura->numero,
                     'metodo' => 'transferencia',
-                    'banco' => [
-                        'beneficiario' => config('ondaka.banco.titular'),
-                        'nif' => config('ondaka.banco.nif'),
-                        'banco' => config('ondaka.banco.nome'),
-                        'iban' => config('ondaka.banco.iban'),
-                        'numero_conta' => config('ondaka.banco.numero_conta'),
-                        'moeda' => config('ondaka.banco.moeda'),
-                        'email_comprovativo' => config('ondaka.contactos.email'),
-                    ],
+                    'banco' => \App\Support\DadosBancarios::dados(),
+                    'banco_activo' => \App\Support\DadosBancarios::activo(),
                     'message' => 'Factura emitida. Pague por transferência bancária para a KayanTec e envie o comprovativo.',
                 ]);
             }
@@ -432,15 +425,10 @@ class SubscricaoController extends Controller
             // ProxyPay das subscrições DESLIGADO => mostra transferência KayanTec.
             // Quando religar (ONDAKA_PROXYPAY_SUBSCRICOES=true) volta o Multicaixa.
             'proxypay_activo' => (bool) config('ondaka.pagamento.proxypay_subscricoes'),
-            'banco' => [
-                'beneficiario' => config('ondaka.banco.titular'),
-                'nif' => config('ondaka.banco.nif'),
-                'banco' => config('ondaka.banco.nome'),
-                'iban' => config('ondaka.banco.iban'),
-                'numero_conta' => config('ondaka.banco.numero_conta'),
-                'moeda' => config('ondaka.banco.moeda'),
-                'email_comprovativo' => config('ondaka.contactos.email'),
-            ],
+            'banco' => \App\Support\DadosBancarios::dados(),
+            // Sem IBAN confirmado não se mostra painel nenhum: ONDAKA_IBAN= vazio
+            // no .env dava um painel com o IBAN em branco e um «Copiar» que não copia.
+            'banco_activo' => \App\Support\DadosBancarios::activo(),
         ]);
     }
 

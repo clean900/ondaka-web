@@ -391,15 +391,11 @@ class OrdemController extends Controller
      */
     private function dadosBancariosOndaka(): array
     {
-        $banco = config('ondaka.banco', []);
-
-        return [
-            'beneficiario' => $banco['titular'] ?? 'KAYANTEC - Comércio e Serviços, (SU) Lda',
-            'nif' => $banco['nif'] ?? '5003315525',
-            'banco' => $banco['nome'] ?? 'Banco Angolano de Investimentos (BAI)',
-            'iban' => $banco['iban'] ?? 'AO06 0040 0000 4040 0546 1015 2',
-            'numero_conta' => $banco['numero_conta'] ?? '340400546.10.001',
-            'moeda' => $banco['moeda'] ?? 'AOA',
+        // O IBAN vem só do \App\Support\DadosBancarios: estava aqui escrito à
+        // mão como rede de segurança do config, e uma segunda cópia do IBAN é
+        // como se transfere para uma conta velha. O `??` também não protegia
+        // nada: ONDAKA_IBAN= vazio no .env devolve '' e não null.
+        return \App\Support\DadosBancarios::dados() + [
             'observacao' => 'Por favor indicar o número da ordem (ex: ORD-2026-000001) na descrição da transferência.',
         ];
     }

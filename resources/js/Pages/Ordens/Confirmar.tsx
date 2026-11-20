@@ -160,7 +160,14 @@ export default function OrdensConfirmar({ feature, pacote, resumo, dados_bancari
                                 <strong className="text-zinc-200">{resumo.prazo_pagamento_dias} dias</strong> para
                                 completar o pagamento.
                             </p>
-                            <dl className="grid grid-cols-2 gap-4 text-sm">
+                            {/* Sem IBAN configurado o painel não se mostra meio vazio. */}
+                            {!dados_bancarios.iban && (
+                                <div className="p-3 rounded-lg bg-amber-500/5 border border-amber-500/20 text-xs text-amber-200">
+                                    <Info className="h-3 w-3 inline mr-1" />
+                                    Peça-nos os dados da conta antes de transferir. Não publicamos um IBAN que não esteja confirmado.
+                                </div>
+                            )}
+                            <dl className={`grid grid-cols-2 gap-4 text-sm${dados_bancarios.iban ? '' : ' hidden'}`}>
                                 <div>
                                     <dt className="text-zinc-500 text-xs uppercase tracking-wide">Beneficiário</dt>
                                     <dd className="text-zinc-200 mt-1">{dados_bancarios.beneficiario}</dd>
